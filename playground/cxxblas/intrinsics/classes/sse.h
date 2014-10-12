@@ -58,13 +58,13 @@ public:
 
     __m128 get(void) const                   {return v;}
 
-    void fill(float a)                       { v = _mm_load1_ps(&a);}
-    void load(const float *a)                { v = _mm_load_ps(a);}
-    void loadu(const float *a)               { v = _mm_loadu_ps(a);}
-    void setZero()                           { v = _mm_setzero_ps();}
-    void store(float *a)                     { _mm_store_ps(a, v); }
-    void storeu(float *a)                    { _mm_storeu_ps(a, v); }
-    void stream(float *a)                    { _mm_stream_ps(a, v); }
+    void fill(float a)                       { v = mm_load1_ps_(&a);}
+    void load(const float *a)                { v = mm_load_ps_(a);}
+    void loadu(const float *a)               { v = mm_loadu_ps_(a);}
+    void setZero()                           { v = mm_setzero_ps_();}
+    void store(float *a)                     { mm_store_ps_(a, v); }
+    void storeu(float *a)                    { mm_storeu_ps_(a, v); }
+    void stream(float *a)                    { mm_stream_ps_(a, v); }
 
 private:
     __m128                                   v;
@@ -92,13 +92,13 @@ public:
 
     __m128d get(void) const                  {return v;}
 
-    void fill(double a)                      { v = _mm_load1_pd(&a);}
-    void load(const double *a)               { v = _mm_load_pd(a);}
-    void loadu(const double *a)              { v = _mm_loadu_pd(a);}
-    void setZero()                           { v = _mm_setzero_pd();}
-    void store(double *a)                    { _mm_store_pd(a, v); }
-    void storeu(double *a)                   { _mm_storeu_pd(a, v); }
-    void stream(double *a)                   { _mm_stream_pd(a, v); }
+    void fill(double a)                      { v = mm_load1_pd_(&a);}
+    void load(const double *a)               { v = mm_load_pd_(a);}
+    void loadu(const double *a)              { v = mm_loadu_pd_(a);}
+    void setZero()                           { v = mm_setzero_pd_();}
+    void store(double *a)                    { mm_store_pd_(a, v); }
+    void storeu(double *a)                   { mm_storeu_pd_(a, v); }
+    void stream(double *a)                   { mm_stream_pd_(a, v); }
 private:
     __m128d                                  v;
 
@@ -123,13 +123,13 @@ public:
 
     __m128 get(void) const                   {return v;}
 
-    void fill(float a)                       { v = _mm_load1_ps(&a); }
-    void load(const std::complex<float> *a)  { v = _mm_load_ps(reinterpret_cast<const float* >(a));}
-    void loadu(const std::complex<float> *a) { v = _mm_loadu_ps(reinterpret_cast<const float* >(a));}
-    void setZero()                           { v = _mm_setzero_ps();}
-    void store(std::complex<float> *a)       { _mm_store_ps(reinterpret_cast<float*>(a), v); }
-    void storeu(std::complex<float> *a)      { _mm_storeu_ps(reinterpret_cast<float*>(a), v); }
-    void stream(std::complex<float> *a)      { _mm_stream_ps(reinterpret_cast<float*>(a), v); }
+    void fill(float a)                       { v = mm_load1_ps_(&a); }
+    void load(const std::complex<float> *a)  { v = mm_load_ps_(reinterpret_cast<const float* >(a));}
+    void loadu(const std::complex<float> *a) { v = mm_loadu_ps_(reinterpret_cast<const float* >(a));}
+    void setZero()                           { v = mm_setzero_ps_();}
+    void store(std::complex<float> *a)       { mm_store_ps_(reinterpret_cast<float*>(a), v); }
+    void storeu(std::complex<float> *a)      { mm_storeu_ps_(reinterpret_cast<float*>(a), v); }
+    void stream(std::complex<float> *a)      { mm_stream_ps_(reinterpret_cast<float*>(a), v); }
 private:
     __m128                                   v;
 
@@ -155,13 +155,13 @@ public:
 
     __m128d get(void) const                  {return v;}
 
-    void fill(double a)                      { v = _mm_load1_pd(&a); }
-    void load(const std::complex<double> *a) { v = _mm_load_pd(reinterpret_cast<const double* >(a));}
-    void loadu(const std::complex<double> *a){ v = _mm_loadu_pd(reinterpret_cast<const double* >(a));}
-    void setZero()                           { v = _mm_setzero_pd();}
-    void store(std::complex<double> *a)      { _mm_store_pd(reinterpret_cast<double*>(a), v); }
-    void storeu(std::complex<double> *a)     { _mm_storeu_pd(reinterpret_cast<double*>(a), v); }
-    void stream(std::complex<double> *a)     { _mm_stream_pd(reinterpret_cast<double* >(a), v); }
+    void fill(double a)                      { v = mm_load1_pd_(&a); }
+    void load(const std::complex<double> *a) { v = mm_load_pd_(reinterpret_cast<const double* >(a));}
+    void loadu(const std::complex<double> *a){ v = mm_loadu_pd_(reinterpret_cast<const double* >(a));}
+    void setZero()                           { v = mm_setzero_pd_();}
+    void store(std::complex<double> *a)      { mm_store_pd_(reinterpret_cast<double*>(a), v); }
+    void storeu(std::complex<double> *a)     { mm_storeu_pd_(reinterpret_cast<double*>(a), v); }
+    void stream(std::complex<double> *a)     { mm_stream_pd_(reinterpret_cast<double* >(a), v); }
 private:
     __m128d                                  v;
 

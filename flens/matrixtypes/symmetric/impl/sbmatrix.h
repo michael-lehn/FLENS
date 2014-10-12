@@ -244,15 +244,15 @@ class SbMatrix
         upLo();
 
     private:
-        Engine       _engine;
-        StorageUpLo  _upLo;
+        Engine       engine_;
+        StorageUpLo  upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsSbMatrix
 //
-struct _SbMatrixChecker
+struct SbMatrixChecker_
 {
 
     struct Two {
@@ -261,7 +261,7 @@ struct _SbMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -272,7 +272,7 @@ template <typename T>
 struct IsSbMatrix
 {
     static T var;
-    static const bool value = sizeof(_SbMatrixChecker::check(var))==1;
+    static const bool value = sizeof(SbMatrixChecker_::check(var))==1;
 };
 
 //

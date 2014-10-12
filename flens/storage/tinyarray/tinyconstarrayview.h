@@ -62,7 +62,7 @@ class TinyConstArrayView
         data() const;
 
     private:
-        const ElementType *_data;
+        const ElementType *data_;
 };
 
 } // namespace flens

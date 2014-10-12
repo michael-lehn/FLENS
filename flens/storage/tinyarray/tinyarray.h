@@ -73,7 +73,7 @@ class TinyArray
         fill(const ElementType &value = ElementType(0));
 
     private:
-        ElementType _data[n];
+        ElementType data_[n];
 };
 
 } // namespace flens

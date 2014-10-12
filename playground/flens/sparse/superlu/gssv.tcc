@@ -40,64 +40,64 @@ namespace flens { namespace superlu {
 template <typename T>
 typename RestrictTo<IsSame<float, T>::value, int >::Type
 gssv(superlu_options_t  *options,
-     SuperMatrix        *_A,
+     SuperMatrix        *A_,
      int                *pc,
      int                *pr,
-     SuperMatrix        *_L,
-     SuperMatrix        *_U,
-     SuperMatrix        *_B,
+     SuperMatrix        *L_,
+     SuperMatrix        *U_,
+     SuperMatrix        *B_,
      SuperLUStat_t      *stat)
 {
     int info;
-    superlu_float::sgssv(options, _A, pc, pr, _L, _U, _B, stat, &info);
+    superlu_float::sgssv(options, A_, pc, pr, L_, U_, B_, stat, &info);
     return info;
 }
 
 template <typename T>
 typename RestrictTo<IsSame<double, T>::value, int >::Type
 gssv(superlu_options_t  *options,
-     SuperMatrix        *_A,
+     SuperMatrix        *A_,
      int                *pc,
      int                *pr,
-     SuperMatrix        *_L,
-     SuperMatrix        *_U,
-     SuperMatrix        *_B,
+     SuperMatrix        *L_,
+     SuperMatrix        *U_,
+     SuperMatrix        *B_,
      SuperLUStat_t      *stat)
 {
     int info;
-    superlu_double::dgssv(options, _A, pc, pr, _L, _U, _B, stat, &info);
+    superlu_double::dgssv(options, A_, pc, pr, L_, U_, B_, stat, &info);
     return info;
 }
 
 template <typename T>
 typename RestrictTo<IsSame<std::complex<float>, T>::value, int >::Type
 gssv(superlu_options_t  *options,
-     SuperMatrix        *_A,
+     SuperMatrix        *A_,
      int                *pc,
      int                *pr,
-     SuperMatrix        *_L,
-     SuperMatrix        *_U,
-     SuperMatrix        *_B,
+     SuperMatrix        *L_,
+     SuperMatrix        *U_,
+     SuperMatrix        *B_,
      SuperLUStat_t      *stat)
 {
     int info;
-    superlu_complex_float::cgssv(options, _A, pc, pr, _L, _U, _B, stat, &info);
+    superlu_complex_float::cgssv(options, A_, pc, pr, L_, U_, B_, stat, &info);
     return info;
 }
 
 template <typename T>
 typename RestrictTo<IsSame<std::complex<double>, T>::value, int >::Type
 gssv(superlu_options_t  *options,
-     SuperMatrix        *_A,
+     SuperMatrix        *A_,
      int                *pc,
      int                *pr,
-     SuperMatrix        *_L,
-     SuperMatrix        *_U,
-     SuperMatrix        *_B,
+     SuperMatrix        *L_,
+     SuperMatrix        *U_,
+     SuperMatrix        *B_,
      SuperLUStat_t      *stat)
 {
     int info;
-    superlu_complex_double::zgssv(options, _A, pc, pr, _L, _U, _B, stat, &info);
+    superlu_complex_double::zgssv(options, A_, pc, pr, L_, U_, B_, stat, &info);
     return info;
 }
 

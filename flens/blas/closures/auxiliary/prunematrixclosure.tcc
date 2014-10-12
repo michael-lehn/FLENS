@@ -71,8 +71,8 @@ struct PruneMatrixClosure<MatrixClosure<OpMult, ScalarValue<L>, R> >
 {
     typedef MatrixClosure<OpMult, ScalarValue<L>, R>  MC;
 
-    typedef typename PruneMatrixClosure<R>::ScalingFactor  _ScalingFactor;
-    typedef typename Promotion<L, _ScalingFactor>::Type    ScalingFactor;
+    typedef typename PruneMatrixClosure<R>::ScalingFactor  ScalingFactor_;
+    typedef typename Promotion<L, ScalingFactor_>::Type    ScalingFactor;
     typedef typename PruneMatrixClosure<R>::Remainder      Remainder;
 
     template <typename ALPHA>

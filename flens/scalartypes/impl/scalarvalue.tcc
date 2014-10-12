@@ -39,7 +39,7 @@ namespace flens {
 
 template <typename T>
 ScalarValue<T>::ScalarValue(const ElementType &value)
-    : _value(value)
+    : value_(value)
 {
 }
 
@@ -47,7 +47,7 @@ template <typename T>
 const typename ScalarValue<T>::ElementType &
 ScalarValue<T>::value() const
 {
-    return _value;
+    return value_;
 }
 
 } // namespace flens

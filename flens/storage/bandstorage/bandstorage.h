@@ -257,22 +257,22 @@ class BandStorage
     private:
 
         void
-        _setIndexBase(IndexType firstIndex);
+        setIndexBase_(IndexType firstIndex);
 
         void
-        _raw_allocate();
+        raw_allocate_();
 
         void
-        _allocate(const ElementType &value = ElementType());
+        allocate_(const ElementType &value = ElementType());
 
         void
-        _release();
+        release_();
 
-        ElementType  *_data;
-        Allocator    _allocator;
-        IndexType    _numRows, _numCols;
-        IndexType    _numSubDiags, _numSuperDiags;
-        IndexType    _firstIndex;
+        ElementType  *data_;
+        Allocator    allocator_;
+        IndexType    numRows_, numCols_;
+        IndexType    numSubDiags_, numSuperDiags_;
+        IndexType    firstIndex_;
 };
 
 } // namespace flens

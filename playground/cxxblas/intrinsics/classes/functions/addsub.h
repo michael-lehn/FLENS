@@ -39,19 +39,19 @@
 
 //--- Addsub
 Intrinsics<float, IntrinsicsLevel::SSE>
-inline _intrinsic_addsub(const Intrinsics<float, IntrinsicsLevel::SSE> &x,
+inline intrinsic_addsub_(const Intrinsics<float, IntrinsicsLevel::SSE> &x,
                          const Intrinsics<float, IntrinsicsLevel::SSE> &y);
 
 Intrinsics<double, IntrinsicsLevel::SSE>
-inline _intrinsic_addsub(const Intrinsics<double, IntrinsicsLevel::SSE> &x,
+inline intrinsic_addsub_(const Intrinsics<double, IntrinsicsLevel::SSE> &x,
                          const Intrinsics<double, IntrinsicsLevel::SSE> &y);
 
 Intrinsics<std::complex<float>, IntrinsicsLevel::SSE>
-inline _intrinsic_addsub(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x,
+inline intrinsic_addsub_(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x,
                          const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &y);
 
 Intrinsics<std::complex<double>, IntrinsicsLevel::SSE>
-inline _intrinsic_addsub(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x,
+inline intrinsic_addsub_(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x,
                         const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &y);
 
 #endif // HAVE_SSE
@@ -62,19 +62,19 @@ inline _intrinsic_addsub(const Intrinsics<std::complex<double>, IntrinsicsLevel:
 
 //--- Addsub
 Intrinsics<float, IntrinsicsLevel::AVX>
-inline _intrinsic_addsub(const Intrinsics<float, IntrinsicsLevel::AVX> &x,
+inline intrinsic_addsub_(const Intrinsics<float, IntrinsicsLevel::AVX> &x,
                          const Intrinsics<float, IntrinsicsLevel::AVX> &y);
 
 Intrinsics<double, IntrinsicsLevel::AVX>
-inline _intrinsic_addsub(const Intrinsics<double, IntrinsicsLevel::AVX> &x,
+inline intrinsic_addsub_(const Intrinsics<double, IntrinsicsLevel::AVX> &x,
                          const Intrinsics<double, IntrinsicsLevel::AVX> &y);
 
 Intrinsics<std::complex<float>, IntrinsicsLevel::AVX>
-inline _intrinsic_addsub(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x,
+inline intrinsic_addsub_(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x,
                          const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &y);
 
 Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>
-inline _intrinsic_addsub(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x,
+inline intrinsic_addsub_(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x,
                          const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &y);
 
 #endif // HAVE_AVX

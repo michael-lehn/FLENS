@@ -106,16 +106,16 @@ mm_strassen(Transpose        transposeA,
 //  we compute the matrix-matrix product and afterwards copy the result into C.
 //
     if (DEBUGCLOSURE::identical(A, C) || DEBUGCLOSURE::identical(B, C)) {
-        typename MatrixC::NoView _C;
-        FLENS_BLASLOG_TMP_ADD(_C);
+        typename MatrixC::NoView C_;
+        FLENS_BLASLOG_TMP_ADD(C_);
 
         if (beta!=BETA(0)) {
-            _C = C;
+            C_ = C;
         }
-        mm(transposeA, transposeB, alpha, A, B, beta, _C);
-        C = _C;
+        mm(transposeA, transposeB, alpha, A, B, beta, C_);
+        C = C_;
 
-        FLENS_BLASLOG_TMP_REMOVE(_C, C);
+        FLENS_BLASLOG_TMP_REMOVE(C_, C);
         return;
     }
 #   endif

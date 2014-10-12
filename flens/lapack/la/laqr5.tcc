@@ -533,19 +533,19 @@ laqr5_impl(bool                      wantT,
 //
                 const IndexType k1 = max(IndexType(1), kTop-inCol);
                 const IndexType nu  = (kdu-max(IndexType(0), ndCol-kBot)) -k1+1;
-                const IndexType _nu = (kdu-max(IndexType(0), ndCol-kBot));
+                const IndexType nu_ = (kdu-max(IndexType(0), ndCol-kBot));
 //
 //              ==== Horizontal Multiply ====
 //
                 for (IndexType jCol=min(ndCol,kBot)+1; jCol<=jBot; jCol+=nh) {
                     const IndexType jLen = min(nh, jBot-jCol+1);
 
-                    auto _U     = U(_(k1, _nu), _(k1, _nu));
-                    auto _H     = H(_(inCol+k1,inCol+_nu),_(jCol,jCol+jLen-1));
-                    auto _WH    = WH(_(1,nu),_(1,jLen));
+                    auto U_     = U(_(k1, nu_), _(k1, nu_));
+                    auto H_     = H(_(inCol+k1,inCol+nu_),_(jCol,jCol+jLen-1));
+                    auto WH_    = WH(_(1,nu),_(1,jLen));
 
-                    blas::mm(ConjTrans, NoTrans, One, _U, _H, Zero, _WH);
-                    _H = _WH;
+                    blas::mm(ConjTrans, NoTrans, One, U_, H_, Zero, WH_);
+                    H_ = WH_;
                 }
 //
 //              ==== Vertical multiply ====
@@ -553,12 +553,12 @@ laqr5_impl(bool                      wantT,
                 for (IndexType jRow=jTop; jRow<=max(kTop,inCol)-1; jRow+=nv) {
                     const IndexType jLen = min(nv, max(kTop,inCol)-jRow);
 
-                    auto _H     = H(_(jRow,jRow+jLen-1),_(inCol+k1,inCol+_nu));
-                    auto _U     = U(_(k1,_nu),_(k1,_nu));
-                    auto _WV    = WV(_(1,jLen),_(1,nu));
+                    auto H_     = H(_(jRow,jRow+jLen-1),_(inCol+k1,inCol+nu_));
+                    auto U_     = U(_(k1,nu_),_(k1,nu_));
+                    auto WV_    = WV(_(1,jLen),_(1,nu));
 
-                    blas::mm(NoTrans, NoTrans, One, _H, _U, Zero, _WV);
-                    _H = _WV;
+                    blas::mm(NoTrans, NoTrans, One, H_, U_, Zero, WV_);
+                    H_ = WV_;
                 }
 //
 //              ==== Z multiply (also vertical) ====
@@ -567,12 +567,12 @@ laqr5_impl(bool                      wantT,
                     for (IndexType jRow=iLoZ; jRow<=iHiZ; jRow+=nv) {
                         const IndexType jLen = min(nv, iHiZ-jRow+1);
 
-                        auto _Z  = Z(_(jRow,jRow+jLen-1),_(inCol+k1,inCol+_nu));
-                        auto _U  = U(_(k1,_nu),_(k1,_nu));
-                        auto _WV = WV(_(1,jLen),_(1,nu));
+                        auto Z_  = Z(_(jRow,jRow+jLen-1),_(inCol+k1,inCol+nu_));
+                        auto U_  = U(_(k1,nu_),_(k1,nu_));
+                        auto WV_ = WV(_(1,jLen),_(1,nu));
 
-                        blas::mm(NoTrans, NoTrans, One, _Z, _U, Zero, _WV);
-                        _Z = _WV;
+                        blas::mm(NoTrans, NoTrans, One, Z_, U_, Zero, WV_);
+                        Z_ = WV_;
                     }
                 }
             } else {
@@ -1215,19 +1215,19 @@ laqr5_impl(bool                      wantT,
 //
                 const IndexType k1 = max(IndexType(1), kTop-inCol);
                 const IndexType nu  = (kdu-max(IndexType(0), ndCol-kBot)) -k1+1;
-                const IndexType _nu = (kdu-max(IndexType(0), ndCol-kBot));
+                const IndexType nu_ = (kdu-max(IndexType(0), ndCol-kBot));
 //
 //              ==== Horizontal Multiply ====
 //
                 for (IndexType jCol=min(ndCol,kBot)+1; jCol<=jBot; jCol+=nh) {
                     const IndexType jLen = min(nh, jBot-jCol+1);
 
-                    auto _U     = U(_(k1, _nu), _(k1, _nu));
-                    auto _H     = H(_(inCol+k1,inCol+_nu),_(jCol,jCol+jLen-1));
-                    auto _WH    = WH(_(1,nu),_(1,jLen));
+                    auto U_     = U(_(k1, nu_), _(k1, nu_));
+                    auto H_     = H(_(inCol+k1,inCol+nu_),_(jCol,jCol+jLen-1));
+                    auto WH_    = WH(_(1,nu),_(1,jLen));
 
-                    blas::mm(ConjTrans, NoTrans, One, _U, _H, Zero, _WH);
-                    _H = _WH;
+                    blas::mm(ConjTrans, NoTrans, One, U_, H_, Zero, WH_);
+                    H_ = WH_;
                 }
 //
 //              ==== Vertical multiply ====
@@ -1235,12 +1235,12 @@ laqr5_impl(bool                      wantT,
                 for (IndexType jRow=jTop; jRow<=max(kTop,inCol)-1; jRow+=nv) {
                     const IndexType jLen = min(nv, max(kTop,inCol)-jRow);
 
-                    auto _H     = H(_(jRow,jRow+jLen-1),_(inCol+k1,inCol+_nu));
-                    auto _U     = U(_(k1,_nu),_(k1,_nu));
-                    auto _WV    = WV(_(1,jLen),_(1,nu));
+                    auto H_     = H(_(jRow,jRow+jLen-1),_(inCol+k1,inCol+nu_));
+                    auto U_     = U(_(k1,nu_),_(k1,nu_));
+                    auto WV_    = WV(_(1,jLen),_(1,nu));
 
-                    blas::mm(NoTrans, NoTrans, One, _H, _U, Zero, _WV);
-                    _H = _WV;
+                    blas::mm(NoTrans, NoTrans, One, H_, U_, Zero, WV_);
+                    H_ = WV_;
                 }
 //
 //              ==== Z multiply (also vertical) ====
@@ -1249,12 +1249,12 @@ laqr5_impl(bool                      wantT,
                     for (IndexType jRow=iLoZ; jRow<=iHiZ; jRow+=nv) {
                         const IndexType jLen = min(nv, iHiZ-jRow+1);
 
-                        auto _Z  = Z(_(jRow,jRow+jLen-1),_(inCol+k1,inCol+_nu));
-                        auto _U  = U(_(k1,_nu),_(k1,_nu));
-                        auto _WV = WV(_(1,jLen),_(1,nu));
+                        auto Z_  = Z(_(jRow,jRow+jLen-1),_(inCol+k1,inCol+nu_));
+                        auto U_  = U(_(k1,nu_),_(k1,nu_));
+                        auto WV_ = WV(_(1,jLen),_(1,nu));
 
-                        blas::mm(NoTrans, NoTrans, One, _Z, _U, Zero, _WV);
-                        _Z = _WV;
+                        blas::mm(NoTrans, NoTrans, One, Z_, U_, Zero, WV_);
+                        Z_ = WV_;
                     }
                 }
             } else {

@@ -993,10 +993,10 @@ lahqr(bool              wantT,
     typename MatrixH::NoView        H_org    = H;
     typename MatrixZ::NoView        Z_org    = Z;
 
-    typename MatrixH::NoView        _H       = H;
-    typename VectorWR::NoView       _wr      = wr;
-    typename VectorWI::NoView       _wi      = wi;
-    typename MatrixZ::NoView        _Z       = Z;
+    typename MatrixH::NoView        H_       = H;
+    typename VectorWR::NoView       wr_      = wr;
+    typename VectorWI::NoView       wi_      = wi;
+    typename MatrixZ::NoView        Z_       = Z;
 #   endif
 
 //
@@ -1009,37 +1009,37 @@ lahqr(bool              wantT,
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    IndexType _info = external::lahqr_impl(wantT, wantZ, iLo,  iHi,
-                                           _H, _wr, _wi, iLoZ, iHiZ, _Z);
+    IndexType info_ = external::lahqr_impl(wantT, wantZ, iLo,  iHi,
+                                           H_, wr_, wi_, iLoZ, iHiZ, Z_);
 
     bool failed = false;
-    if (! isIdentical(H, _H, " H", "_H")) {
+    if (! isIdentical(H, H_, " H", "H_")) {
         std::cerr << "CXXLAPACK:  H = " << H << std::endl;
-        std::cerr << "F77LAPACK: _H = " << _H << std::endl;
+        std::cerr << "F77LAPACK: H_ = " << H_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(wr, _wr, " wr", "_wr")) {
+    if (! isIdentical(wr, wr_, " wr", "wr_")) {
         std::cerr << "CXXLAPACK:  wr = " << wr << std::endl;
-        std::cerr << "F77LAPACK: _wr = " << _wr << std::endl;
+        std::cerr << "F77LAPACK: wr_ = " << wr_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(wi, _wi, " wi", "_wi")) {
+    if (! isIdentical(wi, wi_, " wi", "wi_")) {
         std::cerr << "CXXLAPACK:  wi = " << wi << std::endl;
-        std::cerr << "F77LAPACK: _wi = " << _wi << std::endl;
+        std::cerr << "F77LAPACK: wi_ = " << wi_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(Z, _Z, " Z", "_Z")) {
+    if (! isIdentical(Z, Z_, " Z", "Z_")) {
         std::cerr << "CXXLAPACK:  Z = " << Z << std::endl;
-        std::cerr << "F77LAPACK: _Z = " << _Z << std::endl;
+        std::cerr << "F77LAPACK: Z_ = " << Z_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 
@@ -1120,9 +1120,9 @@ lahqr(bool              wantT,
     typename MatrixH::NoView        H_org    = H;
     typename MatrixZ::NoView        Z_org    = Z;
 
-    typename MatrixH::NoView        _H       = H;
-    typename VectorW::NoView        _w       = w;
-    typename MatrixZ::NoView        _Z       = Z;
+    typename MatrixH::NoView        H_       = H;
+    typename VectorW::NoView        w_       = w;
+    typename MatrixZ::NoView        Z_       = Z;
 #   endif
 
 //
@@ -1135,31 +1135,31 @@ lahqr(bool              wantT,
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    IndexType _info = external::lahqr_impl(wantT, wantZ, iLo,  iHi,
-                                           _H, _w, iLoZ, iHiZ, _Z);
+    IndexType info_ = external::lahqr_impl(wantT, wantZ, iLo,  iHi,
+                                           H_, w_, iLoZ, iHiZ, Z_);
 
     bool failed = false;
-    if (! isIdentical(H, _H, " H", "_H")) {
+    if (! isIdentical(H, H_, " H", "H_")) {
         std::cerr << "CXXLAPACK:  H = " << H << std::endl;
-        std::cerr << "F77LAPACK: _H = " << _H << std::endl;
+        std::cerr << "F77LAPACK: H_ = " << H_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(w, _w, " w", "_w")) {
+    if (! isIdentical(w, w_, " w", "w_")) {
         std::cerr << "CXXLAPACK:  w = " << w << std::endl;
-        std::cerr << "F77LAPACK: _w = " << _w << std::endl;
+        std::cerr << "F77LAPACK: w_ = " << w_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(Z, _Z, " Z", "_Z")) {
+    if (! isIdentical(Z, Z_, " Z", "Z_")) {
         std::cerr << "CXXLAPACK:  Z = " << Z << std::endl;
-        std::cerr << "F77LAPACK: _Z = " << _Z << std::endl;
+        std::cerr << "F77LAPACK: Z_ = " << Z_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

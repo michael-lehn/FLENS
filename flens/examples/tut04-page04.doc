@@ -123,7 +123,7 @@ Compile and Run
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  g++ -Wall -std=c++11 -I../..                                        +++|
+  |  g++ -Wall -DWITH_MPFR -std=c++11 -I../..                            +++|
   |       -o mpfr-real-lapack-geev mpfr-real-lapack-geev.cc              +++|
   |       -lmpfr -lgmp                                                      |
   |  ./mpfr-real-lapack-geev                                                |

@@ -63,17 +63,17 @@ enum IntrinsicsLevel {
 #   ifndef INTRINSIC_NAME
 #       define INTRINSIC_NAME        "AVX"
 #   endif
-#   ifndef _mm256_moveldup_pd
-#       define _mm256_moveldup_pd(a) _mm256_permute_pd(a, 0)
+#   ifndef mm256_moveldup_pd_
+#       define mm256_moveldup_pd_(a) mm256_permute_pd_(a, 0)
 #   endif
-#   ifndef _mm256_movehdup_pd
-#       define _mm256_movehdup_pd(a) _mm256_permute_pd(a, 15)
+#   ifndef mm256_movehdup_pd_
+#       define mm256_movehdup_pd_(a) mm256_permute_pd_(a, 15)
 #   endif
-#   ifndef _mm256_load1_ps
-#       define _mm256_load1_ps(x) _mm256_set_ps(*x, *x, *x, *x, *x, *x, *x, *x)
+#   ifndef mm256_load1_ps_
+#       define mm256_load1_ps_(x) mm256_set_ps_(*x, *x, *x, *x, *x, *x, *x, *x)
 #   endif
-#   ifndef _mm256_load1_pd
-#       define _mm256_load1_pd(x) _mm256_set_pd(*x, *x, *x, *x)
+#   ifndef mm256_load1_pd_
+#       define mm256_load1_pd_(x) mm256_set_pd_(*x, *x, *x, *x)
 #   endif
 
 #endif
@@ -102,17 +102,17 @@ enum IntrinsicsLevel {
 #   ifndef INTRINSIC_NAME
 #       define INTRINSIC_NAME        "SSE"
 #   endif
-#   ifndef _mm_moveldup_pd
-#       define _mm_moveldup_pd(a) _mm_permute_pd(a, 0)
+#   ifndef mm_moveldup_pd_
+#       define mm_moveldup_pd_(a) mm_permute_pd_(a, 0)
 #   endif
-#   ifndef _mm_movehdup_pd
-#       define _mm_movehdup_pd(a) _mm_permute_pd(a, 3)
+#   ifndef mm_movehdup_pd_
+#       define mm_movehdup_pd_(a) mm_permute_pd_(a, 3)
 #   endif
-#   ifndef _mm_permute_ps
-#       define _mm_permute_ps(a,b) _mm_shuffle_ps(a,a,b)
+#   ifndef mm_permute_ps_
+#       define mm_permute_ps_(a,b) mm_shuffle_ps_(a,a,b)
 #   endif
-#   ifndef _mm_permute_pd
-#       define _mm_permute_pd(a,b) _mm_shuffle_pd(a,a,b)
+#   ifndef mm_permute_pd_
+#       define mm_permute_pd_(a,b) mm_shuffle_pd_(a,a,b)
 #   endif
 #endif
 

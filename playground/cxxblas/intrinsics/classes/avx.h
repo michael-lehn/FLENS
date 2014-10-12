@@ -58,13 +58,13 @@ public:
 
     __m256 get(void) const                   {return v;}
 
-    void fill(float a)                       { v = _mm256_broadcast_ss(&a); }
-    void load(const float *a)                { v = _mm256_load_ps(a);  }
-    void loadu(const float *a)               { v = _mm256_loadu_ps(a);  }
-    void setZero()                           { v = _mm256_setzero_ps(); }
-    void store(float *a)                     { _mm256_store_ps(a, v);  }
-    void storeu(float *a)                    { _mm256_storeu_ps(a, v);  }
-    void stream(float *a)                    { _mm256_stream_ps(a, v); }
+    void fill(float a)                       { v = mm256_broadcast_ss_(&a); }
+    void load(const float *a)                { v = mm256_load_ps_(a);  }
+    void loadu(const float *a)               { v = mm256_loadu_ps_(a);  }
+    void setZero()                           { v = mm256_setzero_ps_(); }
+    void store(float *a)                     { mm256_store_ps_(a, v);  }
+    void storeu(float *a)                    { mm256_storeu_ps_(a, v);  }
+    void stream(float *a)                    { mm256_stream_ps_(a, v); }
 
 private:
     __m256                                   v;
@@ -92,13 +92,13 @@ public:
 
     __m256d get(void) const                  {return v;}
 
-    void fill(double a)                      { v = _mm256_broadcast_sd(&a); }
-    void load(const double *a)               { v = _mm256_load_pd(a);  }
-    void loadu(const double *a)              { v = _mm256_loadu_pd(a);  }
-    void setZero()                           { v = _mm256_setzero_pd(); }
-    void store(double *a)                    { _mm256_store_pd(a, v);  }
-    void storeu(double *a)                   { _mm256_storeu_pd(a, v);  }
-    void stream(double *a)                   { _mm256_stream_pd(a, v); }
+    void fill(double a)                      { v = mm256_broadcast_sd_(&a); }
+    void load(const double *a)               { v = mm256_load_pd_(a);  }
+    void loadu(const double *a)              { v = mm256_loadu_pd_(a);  }
+    void setZero()                           { v = mm256_setzero_pd_(); }
+    void store(double *a)                    { mm256_store_pd_(a, v);  }
+    void storeu(double *a)                   { mm256_storeu_pd_(a, v);  }
+    void stream(double *a)                   { mm256_stream_pd_(a, v); }
 
 private:
     __m256d                                  v;
@@ -124,13 +124,13 @@ public:
 
     __m256 get(void) const                   {return v;}
 
-    void fill(float a)                       { v = _mm256_broadcast_ss(&a); }
-    void load(const std::complex<float> *a)  { v = _mm256_load_ps(reinterpret_cast<const float* >(a));}
-    void loadu(const std::complex<float> *a) { v = _mm256_loadu_ps(reinterpret_cast<const float* >(a));}
-    void setZero()                           { v = _mm256_setzero_ps();}
-    void store(std::complex<float> *a)       { _mm256_store_ps(reinterpret_cast<float* >(a), v); }
-    void storeu(std::complex<float> *a)      { _mm256_storeu_ps(reinterpret_cast<float* >(a), v); }
-    void stream(std::complex<float> *a)      { _mm256_stream_ps(reinterpret_cast<float *>(a), v); }
+    void fill(float a)                       { v = mm256_broadcast_ss_(&a); }
+    void load(const std::complex<float> *a)  { v = mm256_load_ps_(reinterpret_cast<const float* >(a));}
+    void loadu(const std::complex<float> *a) { v = mm256_loadu_ps_(reinterpret_cast<const float* >(a));}
+    void setZero()                           { v = mm256_setzero_ps_();}
+    void store(std::complex<float> *a)       { mm256_store_ps_(reinterpret_cast<float* >(a), v); }
+    void storeu(std::complex<float> *a)      { mm256_storeu_ps_(reinterpret_cast<float* >(a), v); }
+    void stream(std::complex<float> *a)      { mm256_stream_ps_(reinterpret_cast<float *>(a), v); }
 
 private:
     __m256                                   v;
@@ -157,13 +157,13 @@ public:
 
     __m256d get(void) const                  {return v;}
 
-    void fill(double a)                      { v = _mm256_broadcast_sd(&a); }
-    void load(const std::complex<double> *a) { v = _mm256_load_pd(reinterpret_cast<const double* >(a));}
-    void loadu(const std::complex<double> *a){ v = _mm256_loadu_pd(reinterpret_cast<const double* >(a));}
-    void setZero()                           { v = _mm256_setzero_pd();}
-    void store(std::complex<double> *a)      { _mm256_storeu_pd(reinterpret_cast<double* >(a), v);}
-    void storeu(std::complex<double> *a)     { _mm256_storeu_pd(reinterpret_cast<double* >(a), v);}
-    void stream(std::complex<double> *a)     { _mm256_stream_pd(reinterpret_cast<double* >(a), v); }
+    void fill(double a)                      { v = mm256_broadcast_sd_(&a); }
+    void load(const std::complex<double> *a) { v = mm256_load_pd_(reinterpret_cast<const double* >(a));}
+    void loadu(const std::complex<double> *a){ v = mm256_loadu_pd_(reinterpret_cast<const double* >(a));}
+    void setZero()                           { v = mm256_setzero_pd_();}
+    void store(std::complex<double> *a)      { mm256_storeu_pd_(reinterpret_cast<double* >(a), v);}
+    void storeu(std::complex<double> *a)     { mm256_storeu_pd_(reinterpret_cast<double* >(a), v);}
+    void stream(std::complex<double> *a)     { mm256_stream_pd_(reinterpret_cast<double* >(a), v); }
 private:
     __m256d                                  v;
 

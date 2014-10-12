@@ -25,25 +25,25 @@ dgssv(GeCCSMatrix<MA>  &A,
     ASSERT(pc.length()==A.numCols());
     superlu_options_t   options;
     SuperLUStat_t       stat;
-    SuperMatrix         _A, _L, _U, _B;
-    dCreate_CompCol_Matrix(&_A,
+    SuperMatrix         A_, L_, U_, B_;
+    dCreate_CompCol_Matrix(&A_,
                            A.numRows(), A.numCols(), A.engine().numNonZeros(),
                            A.engine().values().data(),
                            A.engine().rows().data(),
                            A.engine().cols().data(),
                            SLU_NC, SLU_D, SLU_GE);
-    dCreate_Dense_Matrix(&_B,
+    dCreate_Dense_Matrix(&B_,
                          b.length(), 1, b.data(), b.length(),
                          SLU_DN, SLU_D, SLU_GE);
     set_default_options(&options);
     options.ColPerm = NATURAL;
     StatInit(&stat);
     int info;
-    dgssv(&options, &_A, pc.data(), pr.data(), &_L, &_U, &_B, &stat, &info);
-    Destroy_SuperMatrix_Store(&_A);
-    Destroy_SuperMatrix_Store(&_B);
-    Destroy_SuperNode_Matrix(&_L);
-    Destroy_CompCol_Matrix(&_U);
+    dgssv(&options, &A_, pc.data(), pr.data(), &L_, &U_, &B_, &stat, &info);
+    Destroy_SuperMatrix_Store(&A_);
+    Destroy_SuperMatrix_Store(&B_);
+    Destroy_SuperNode_Matrix(&L_);
+    Destroy_CompCol_Matrix(&U_);
     StatFree(&stat);
     return info;
 }

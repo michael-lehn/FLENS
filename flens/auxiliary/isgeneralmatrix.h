@@ -38,7 +38,7 @@
 
 namespace flens {
 
-struct _GeneralMatrixChecker
+struct GeneralMatrixChecker_
 {
 
     struct Two
@@ -48,7 +48,7 @@ struct _GeneralMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -59,7 +59,7 @@ template <typename T>
 struct IsGeneralMatrix
 {
     static T var;
-    static const bool value = sizeof(_GeneralMatrixChecker::check(var))==1;
+    static const bool value = sizeof(GeneralMatrixChecker_::check(var))==1;
 };
 
 } // namespace flens

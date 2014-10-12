@@ -44,29 +44,29 @@ namespace flens {
 
 template <typename T, typename I, typename A>
 Array<T, I, A>::Array()
-    : _data(0), _length(0), _firstIndex(1)
+    : data_(0), length_(0), firstIndex_(1)
 {
 }
 
 template <typename T, typename I, typename A>
 Array<T, I, A>::Array(IndexType length, IndexType firstIndex,
                       const ElementType &value, const Allocator &allocator)
-    : _data(0), _allocator(allocator), _length(length), _firstIndex(firstIndex)
+    : data_(0), allocator_(allocator), length_(length), firstIndex_(firstIndex)
 {
-    ASSERT(_length>=0);
+    ASSERT(length_>=0);
 
-    _allocate(value);
+    allocate_(value);
 }
 
 template <typename T, typename I, typename A>
 Array<T, I, A>::Array(const Array &rhs)
-    : _data(0), _allocator(rhs.allocator()),
-      _length(rhs.length()), _firstIndex(rhs.firstIndex())
+    : data_(0), allocator_(rhs.allocator()),
+      length_(rhs.length()), firstIndex_(rhs.firstIndex())
 {
-    ASSERT(_length>=0);
+    ASSERT(length_>=0);
 
     if (length()>0) {
-        _allocate();
+        allocate_();
         cxxblas::copy(length(), rhs.data(), rhs.stride(), data(), stride());
     }
 }
@@ -74,11 +74,11 @@ Array<T, I, A>::Array(const Array &rhs)
 template <typename T, typename I, typename A>
 template <typename RHS>
 Array<T, I, A>::Array(const RHS &rhs)
-    : _data(0), _allocator(rhs.allocator()),
-      _length(rhs.length()), _firstIndex(rhs.firstIndex())
+    : data_(0), allocator_(rhs.allocator()),
+      length_(rhs.length()), firstIndex_(rhs.firstIndex())
 {
     if (length()>0) {
-        _allocate();
+        allocate_();
         cxxblas::copy(length(), rhs.data(), rhs.stride(), data(), stride());
     }
 }
@@ -86,7 +86,7 @@ Array<T, I, A>::Array(const RHS &rhs)
 template <typename T, typename I, typename A>
 Array<T, I, A>::~Array()
 {
-    _release();
+    release_();
 }
 
 //-- operators -----------------------------------------------------------------
@@ -97,7 +97,7 @@ Array<T, I, A>::operator()(IndexType index) const
 {
     ASSERT(index>=firstIndex());
     ASSERT(index<=lastIndex());
-    return _data[index-_firstIndex];
+    return data_[index-firstIndex_];
 }
 
 template <typename T, typename I, typename A>
@@ -106,28 +106,28 @@ Array<T, I, A>::operator()(IndexType index)
 {
     ASSERT(index>=firstIndex());
     ASSERT(index<=lastIndex());
-    return _data[index-_firstIndex];
+    return data_[index-firstIndex_];
 }
 
 template <typename T, typename I, typename A>
 typename Array<T, I, A>::IndexType
 Array<T, I, A>::firstIndex() const
 {
-    return _firstIndex;
+    return firstIndex_;
 }
 
 template <typename T, typename I, typename A>
 typename Array<T, I, A>::IndexType
 Array<T, I, A>::lastIndex() const
 {
-    return _firstIndex+_length-IndexType(1);
+    return firstIndex_+length_-IndexType(1);
 }
 
 template <typename T, typename I, typename A>
 typename Array<T, I, A>::IndexType
 Array<T, I, A>::length() const
 {
-    return _length;
+    return length_;
 }
 
 template <typename T, typename I, typename A>
@@ -141,21 +141,21 @@ template <typename T, typename I, typename A>
 const typename Array<T, I, A>::ElementType *
 Array<T, I, A>::data() const
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, typename I, typename A>
 typename Array<T, I, A>::ElementType *
 Array<T, I, A>::data()
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, typename I, typename A>
 const typename Array<T, I, A>::Allocator &
 Array<T, I, A>::allocator() const
 {
-    return _allocator;
+    return allocator_;
 }
 
 template <typename T, typename I, typename A>
@@ -163,11 +163,11 @@ bool
 Array<T, I, A>::resize(IndexType length, IndexType firstIndex,
                        const ElementType &value)
 {
-    if (length!=_length) {
-        _release();
-        _length = length;
-        _firstIndex = firstIndex;
-        _allocate(value);
+    if (length!=length_) {
+        release_();
+        length_ = length;
+        firstIndex_ = firstIndex;
+        allocate_(value);
         return true;
     }
     changeIndexBase(firstIndex);
@@ -194,7 +194,7 @@ template <typename T, typename I, typename A>
 void
 Array<T, I, A>::changeIndexBase(IndexType firstIndex)
 {
-    _firstIndex = firstIndex;
+    firstIndex_ = firstIndex;
 }
 
 template <typename T, typename I, typename A>
@@ -249,40 +249,40 @@ Array<T, I, A>::view(IndexType from, IndexType to,
 
 template <typename T, typename I, typename A>
 void
-Array<T, I, A>::_raw_allocate()
+Array<T, I, A>::raw_allocate_()
 {
-    ASSERT(!_data);
+    ASSERT(!data_);
     ASSERT(length()>=0);
 
     if (length()>0) {
-        _data = _allocator.allocate(_length);
-        ASSERT(_data);
+        data_ = allocator_.allocate(length_);
+        ASSERT(data_);
     }
 }
 
 template <typename T, typename I, typename A>
 void
-Array<T, I, A>::_allocate(const ElementType &value)
+Array<T, I, A>::allocate_(const ElementType &value)
 {
-    _raw_allocate();
+    raw_allocate_();
     for (IndexType i=0; i<length(); ++i) {
-        _allocator.construct(_data+i, value);
+        allocator_.construct(data_+i, value);
     }
 }
 
 template <typename T, typename I, typename A>
 void
-Array<T, I, A>::_release()
+Array<T, I, A>::release_()
 {
-    if (_data) {
+    if (data_) {
         ASSERT(length()>0);
         for (IndexType i=0; i<length(); ++i) {
-            _allocator.destroy(_data+i);
+            allocator_.destroy(data_+i);
         }
-        _allocator.deallocate(data(), _length);
-        _data = 0;
+        allocator_.deallocate(data(), length_);
+        data_ = 0;
     }
-    ASSERT(_data==0);
+    ASSERT(data_==0);
 }
 
 //-- Array specific functions --------------------------------------------------

@@ -59,10 +59,10 @@ axpy(IndexType n, const std::complex<float> &alpha,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_caxpy [extension]");
 
-    float *_y = reinterpret_cast<float *>(y);
+    float *y_ = reinterpret_cast<float *>(y);
 
-    cblas_saxpy(n, std::real(alpha), x, incX, _y,   2*incY);
-    cblas_saxpy(n, std::imag(alpha), x, incX, _y+1, 2*incY);
+    cblas_saxpy(n, std::real(alpha), x, incX, y_,   2*incY);
+    cblas_saxpy(n, std::imag(alpha), x, incX, y_+1, 2*incY);
 }
 
 template <typename IndexType>
@@ -84,10 +84,10 @@ axpy(IndexType n, const std::complex<double> &alpha,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zaxpy [extension]");
 
-    double *_y = reinterpret_cast<double *>(y);
+    double *y_ = reinterpret_cast<double *>(y);
 
-    cblas_daxpy(n, std::real(alpha), x, incX, _y,   2*incY);
-    cblas_daxpy(n, std::imag(alpha), x, incX, _y+1, 2*incY);
+    cblas_daxpy(n, std::real(alpha), x, incX, y_,   2*incY);
+    cblas_daxpy(n, std::imag(alpha), x, incX, y_+1, 2*incY);
 }
 
 #endif

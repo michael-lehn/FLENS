@@ -93,8 +93,8 @@ tf2_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //      Row and column range of trailing submatrix A(j+1:M, j+1:N)
 //
-        const auto _rows = _(j+1, m);
-        const auto _cols = _(j+1, n);
+        const auto rows_ = _(j+1, m);
+        const auto cols_ = _(j+1, n);
 //
 //      Find pivot and test for singularity.
 //
@@ -112,7 +112,7 @@ tf2_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
             if (j<m) {
                 if (abs(A(j,j))>=safeMin) {
-                    blas::scal(One/A(j, j), A(_rows,j));
+                    blas::scal(One/A(j, j), A(rows_,j));
                 } else {
                     for (IndexType i=1; i<=m-j; ++i) {
                         A(j+i,j) /= A(j,j);
@@ -128,7 +128,7 @@ tf2_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //      Update trailing submatrix A(j+1:M, j+1:N)
 //
         if (j<min(m,n)) {
-            blas::ru(-One, A(_rows,j), A(j,_cols), A(_rows,_cols));
+            blas::ru(-One, A(rows_,j), A(j,cols_), A(rows_,cols_));
         }
     }
 
@@ -201,7 +201,7 @@ tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Compare results
 //
-    IndexType _info = external::tf2_impl(A, piv);
+    IndexType info_ = external::tf2_impl(A, piv);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -216,9 +216,9 @@ tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

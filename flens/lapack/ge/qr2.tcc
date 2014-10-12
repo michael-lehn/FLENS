@@ -83,8 +83,8 @@ qr2_impl(MA &A, VTAU &tau, VWORK &work)
 //
             const T Aii = A(i,i);
             A(i,i) = T(1);
-            auto _work = work(_(1, n-i));
-            larf(Left, A(_(i,m),i), tau(i), A(_(i,m), _(i+1,n)), _work);
+            auto work_ = work(_(1, n-i));
+            larf(Left, A(_(i,m),i), tau(i), A(_(i,m), _(i+1,n)), work_);
             A(i,i) = Aii;
         }
     }
@@ -123,8 +123,8 @@ qr2_impl(MA &A, VTAU &tau, VWORK &work)
 //
             const T Aii = A(i,i);
             A(i,i) = T(1);
-            auto _work = work(_(1, n-i));
-            larf(Left, A(_(i,m),i), conj(tau(i)), A(_(i,m), _(i+1,n)), _work);
+            auto work_ = work(_(1, n-i));
+            larf(Left, A(_(i,m),i), conj(tau(i)), A(_(i,m), _(i+1,n)), work_);
             A(i,i) = Aii;
         }
     }

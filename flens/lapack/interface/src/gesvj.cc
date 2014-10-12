@@ -80,12 +80,12 @@ LAPACK_DECL(dgesvj)(const char       *JOBA,
     SVJ::TypeA        typeA  = SVJ::TypeA(*JOBA);
     SVJ::JobU         jobU   = SVJ::JobU(*JOBU);
     SVJ::JobV         jobV   = SVJ::JobV(*JOBV);
-    DGeMatrixView     _A     = DFSView(*M, *N, A, *LDA);
-    DDenseVectorView  _sva   = DArrayView(*N, SVA, INTEGER(1));
-    DGeMatrixView     _V     = DFSView(mv, *N, V, *LDV);
-    DDenseVectorView  _work  = DArrayView(*LWORK, WORK, INTEGER(1));
+    DGeMatrixView     A_     = DFSView(*M, *N, A, *LDA);
+    DDenseVectorView  sva_   = DArrayView(*N, SVA, INTEGER(1));
+    DGeMatrixView     V_     = DFSView(mv, *N, V, *LDV);
+    DDenseVectorView  work_  = DArrayView(*LWORK, WORK, INTEGER(1));
 
-    *INFO = svj(typeA, jobU, jobV, _A, _sva, _V, _work);
+    *INFO = svj(typeA, jobU, jobV, A_, sva_, V_, work_);
 
     if (*INFO<0) {
         *INFO = -(*INFO);

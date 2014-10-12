@@ -40,63 +40,63 @@
 namespace flens { namespace verbose {
 
 bool
-ClosureLog::_started = false;
+ClosureLog::started_ = false;
 
 int
-ClosureLog::_indentLevel = -1;
+ClosureLog::indentLevel_ = -1;
 
 std::string
-ClosureLog::_tag;
+ClosureLog::tag_;
 
 std::ofstream
-ClosureLog::_out;
+ClosureLog::out_;
 
 VariablePool
 ClosureLog::variablePool;
 
 ClosureLogStream
-ClosureLog::_closureLogStream = ClosureLogStream(ClosureLog::variablePool,
-                                                 ClosureLog::_out);
+ClosureLog::closureLogStream_ = ClosureLogStream(ClosureLog::variablePool,
+                                                 ClosureLog::out_);
 
 void
 ClosureLog::start(const char *filename, bool clearLog)
 {
     std::ios_base::openmode mode = (clearLog) ? std::ios_base::trunc
                                               : std::ios_base::app;
-    _out.open(filename, mode | std::ios_base::out);
-    _started = true;
-    _indentLevel = 0;
-    _tag.assign("");
+    out_.open(filename, mode | std::ios_base::out);
+    started_ = true;
+    indentLevel_ = 0;
+    tag_.assign("");
 
 }
 
 void
 ClosureLog::stop()
 {
-    _out << std::endl;
-    _out.close();
-    _started = false;
+    out_ << std::endl;
+    out_.close();
+    started_ = false;
 }
 
 bool
 ClosureLog::started()
 {
-    return _started;
+    return started_;
 }
 
 void
 ClosureLog::separator()
 {
-    if (_started && _indentLevel==1) {
+    if (started_ && indentLevel_==1) {
         std::string sep(80, '-');
-        _out << std::endl << sep << std::endl;
+        out_ << std::endl << sep << std::endl;
     }
 }
 
 bool
 ClosureLog::openEntry()
 {
-    if (_started) {
+    if (started_) {
         return true;
     }
     return false;
@@ -105,8 +105,8 @@ ClosureLog::openEntry()
 bool
 ClosureLog::createEntry()
 {
-    if (_started) {
-        ++_indentLevel;
+    if (started_) {
+        ++indentLevel_;
         return true;
     }
     return false;
@@ -115,8 +115,8 @@ ClosureLog::createEntry()
 void
 ClosureLog::closeEntry()
 {
-    if (_started) {
-        --_indentLevel;
+    if (started_) {
+        --indentLevel_;
     }
 }
 
@@ -124,27 +124,27 @@ ClosureLog::closeEntry()
 void
 ClosureLog::setTag(const char *tag)
 {
-    _tag.assign(tag);
+    tag_.assign(tag);
 }
 
 void
 ClosureLog::unsetTag()
 {
-    _tag.assign("");
+    tag_.assign("");
 }
 
 ClosureLogStream &
 ClosureLog::append(bool startNewLine)
 {
-    ASSERT(_started);
+    ASSERT(started_);
 
 
     if (startNewLine) {
-        std::string indent(std::max((_indentLevel-1)*4, 0), ' ');
-        _out << std::endl;
-        _out << indent << _tag;
+        std::string indent(std::max((indentLevel_-1)*4, 0), ' ');
+        out_ << std::endl;
+        out_ << indent << tag_;
     }
-    return _closureLogStream;
+    return closureLogStream_;
 }
 
 } } // namespace verbose, namespace flens

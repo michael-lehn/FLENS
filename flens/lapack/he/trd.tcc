@@ -43,9 +43,8 @@
 #ifndef FLENS_LAPACK_HE_TRD_TCC
 #define FLENS_LAPACK_HE_TRD_TCC 1
 
-#include <flens/lapack/typedefs.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
@@ -166,14 +165,14 @@ trd_impl(HeMatrix<MA>        &A,
 //          matrix W which is needed to update the unreduced part of
 //          the matrix
 //
-            auto _A   = A(_(1,i+nb-1),_(1,i+nb-1)).upper().hermitian();
-            auto _e   = e(_(1,i+nb-2));
-            auto _tau = tau(_(1,i+nb-2));
+            auto A_   = A(_(1,i+nb-1),_(1,i+nb-1)).upper().hermitian();
+            auto e_   = e(_(1,i+nb-2));
+            auto tau_ = tau(_(1,i+nb-2));
 
             ASSERT(ldWork!=-1);
             typename GeMatrix<MA>::View  Work(i+nb-1, nb, work, ldWork);
 
-            latrd(_A, _e, _tau, Work);
+            latrd(A_, e_, tau_, Work);
 
 //
 //          Update the unreduced submatrix A(1:i-1,1:i-1), using an
@@ -197,12 +196,12 @@ trd_impl(HeMatrix<MA>        &A,
 //
 //      Use unblocked code to reduce the last or only block
 //
-        auto _A   = A(_(1,kk),_(1,kk)).upper().hermitian();
-        auto _d   = d(_(1,kk));
-        auto _e   = e(_(1,kk-1));
-        auto _tau = tau(_(1,kk-1));
+        auto A_   = A(_(1,kk),_(1,kk)).upper().hermitian();
+        auto d_   = d(_(1,kk));
+        auto e_   = e(_(1,kk-1));
+        auto tau_ = tau(_(1,kk-1));
 
-        td2(_A, _d, _e, _tau);
+        td2(A_, d_, e_, tau_);
     } else {
 //
 //      Reduce the lower triangle of A
@@ -214,14 +213,14 @@ trd_impl(HeMatrix<MA>        &A,
 //          matrix W which is needed to update the unreduced part of
 //          the matrix
 //
-            auto _A   = A(_(i,n),_(i,n)).lower().hermitian();
-            auto _e   = e(_(i,n-1));
-            auto _tau = tau(_(i,n-1));
+            auto A_   = A(_(i,n),_(i,n)).lower().hermitian();
+            auto e_   = e(_(i,n-1));
+            auto tau_ = tau(_(i,n-1));
 
             ASSERT(ldWork!=-1);
             typename GeMatrix<MA>::View  Work(n-i+1, nb, work, ldWork);
 
-            latrd(_A, _e, _tau, Work);
+            latrd(A_, e_, tau_, Work);
 //
 //          Update the unreduced submatrix A(i+nb:n,i+nb:n), using
 //          an update of the form:  A := A - V*W**H - W*V**H
@@ -247,12 +246,12 @@ trd_impl(HeMatrix<MA>        &A,
 //
 //      Use unblocked code to reduce the last or only block
 //
-        auto _A   = A(_(i,n),_(i,n)).lower().hermitian();
-        auto _d   = d(_(i,n));
-        auto _e   = e(_(i,n-1));
-        auto _tau = tau(_(i,n-1));
+        auto A_   = A(_(i,n),_(i,n)).lower().hermitian();
+        auto d_   = d(_(i,n));
+        auto e_   = e(_(i,n-1));
+        auto tau_ = tau(_(i,n-1));
 
-        td2(_A, _d, _e, _tau);
+        td2(A_, d_, e_, tau_);
     }
 
     work(1) = lWorkOpt;

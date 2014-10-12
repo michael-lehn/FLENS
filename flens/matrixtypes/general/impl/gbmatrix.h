@@ -295,14 +295,14 @@ class GbMatrix
         engine();
 
     private:
-        Engine       _engine;
+        Engine       engine_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsGbMatrix
 //
-struct _GbMatrixChecker
+struct GbMatrixChecker_
 {
 
     struct Two {
@@ -311,7 +311,7 @@ struct _GbMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -322,7 +322,7 @@ template <typename T>
 struct IsGbMatrix
 {
     static T var;
-    static const bool value = sizeof(_GbMatrixChecker::check(var))==1;
+    static const bool value = sizeof(GbMatrixChecker_::check(var))==1;
 };
 
 //

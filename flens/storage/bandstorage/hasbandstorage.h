@@ -39,13 +39,13 @@
 namespace flens {
 
 template <typename T, bool>
-struct _GetBandEngine
+struct GetBandEngine_
 {
     typedef void Type;
 };
 
 template <typename T>
-struct _GetBandEngine<T, true>
+struct GetBandEngine_<T, true>
 {
     typedef typename T::Engine Type;
 };
@@ -53,7 +53,7 @@ struct _GetBandEngine<T, true>
 template <typename T>
 struct HasBandStorage
 {
-    typedef typename _GetBandEngine<T, HasEngine<T>::value>::Type  Engine;
+    typedef typename GetBandEngine_<T, HasEngine<T>::value>::Type  Engine;
     static const bool value = IsBandStorage<Engine>::value;
 };
 

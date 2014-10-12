@@ -64,7 +64,7 @@ lasq3(IndexType             i0,
 {
     CXXLAPACK_DEBUG_OUT("slasq3");
 
-    IndexType _ieee = ieee;
+    IndexType ieee_ = ieee;
     LAPACK_IMPL(slasq3)(&i0,
                         &n0,
                         z,
@@ -76,7 +76,7 @@ lasq3(IndexType             i0,
                         &nfail,
                         &iter,
                         &ndiv,
-                        &_ieee,
+                        &ieee_,
                         &ttype,
                         &dmin1,
                         &dmin2,
@@ -113,7 +113,7 @@ lasq3(IndexType             i0,
 {
     CXXLAPACK_DEBUG_OUT("dlasq3");
 
-    IndexType _ieee = ieee;
+    IndexType ieee_ = ieee;
     LAPACK_IMPL(dlasq3)(&i0,
                         &n0,
                         z,
@@ -125,7 +125,7 @@ lasq3(IndexType             i0,
                         &nfail,
                         &iter,
                         &ndiv,
-                        &_ieee,
+                        &ieee_,
                         &ttype,
                         &dmin1,
                         &dmin2,

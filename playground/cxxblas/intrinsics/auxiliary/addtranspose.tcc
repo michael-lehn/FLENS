@@ -58,36 +58,36 @@ add_transpose_8x8(const float *A, const IndexType ldA ,
 {
     typedef Intrinsics<float, DEFAULT_INTRINSIC_LEVEL> IntrinsicType;
 
-    IntrinsicType _A[8], _B[8], _tmp[8];
+    IntrinsicType A_[8], B_[8], tmp_[8];
 
     for (IndexType k=0; k<8; ++k) {
-        _A[k].loadu(A+k*ldA);
+        A_[k].loadu(A+k*ldA);
     }
 
     for (IndexType k=0; k<4; ++k) {
-        _tmp[2*k  ] = _intrinsic_unpacklo(_A[2*k], _A[2*k+1]);
-        _tmp[2*k+1] = _intrinsic_unpackhi(_A[2*k], _A[2*k+1]);
+        tmp_[2*k  ] = intrinsic_unpacklo_(A_[2*k], A_[2*k+1]);
+        tmp_[2*k+1] = intrinsic_unpackhi_(A_[2*k], A_[2*k+1]);
     }
 
-    _A[0] = _mm256_shuffle_ps(_tmp[0].get(),_tmp[2].get(),68);
-    _A[1] = _mm256_shuffle_ps(_tmp[0].get(),_tmp[2].get(),238);
-    _A[2] = _mm256_shuffle_ps(_tmp[1].get(),_tmp[3].get(),68);
-    _A[3] = _mm256_shuffle_ps(_tmp[1].get(),_tmp[3].get(),238);
-    _A[4] = _mm256_shuffle_ps(_tmp[4].get(),_tmp[6].get(),68);
-    _A[5] = _mm256_shuffle_ps(_tmp[4].get(),_tmp[6].get(),238);
-    _A[6] = _mm256_shuffle_ps(_tmp[5].get(),_tmp[7].get(),68);
-    _A[7] = _mm256_shuffle_ps(_tmp[5].get(),_tmp[7].get(),238);
+    A_[0] = mm256_shuffle_ps_(tmp_[0].get(),tmp_[2].get(),68);
+    A_[1] = mm256_shuffle_ps_(tmp_[0].get(),tmp_[2].get(),238);
+    A_[2] = mm256_shuffle_ps_(tmp_[1].get(),tmp_[3].get(),68);
+    A_[3] = mm256_shuffle_ps_(tmp_[1].get(),tmp_[3].get(),238);
+    A_[4] = mm256_shuffle_ps_(tmp_[4].get(),tmp_[6].get(),68);
+    A_[5] = mm256_shuffle_ps_(tmp_[4].get(),tmp_[6].get(),238);
+    A_[6] = mm256_shuffle_ps_(tmp_[5].get(),tmp_[7].get(),68);
+    A_[7] = mm256_shuffle_ps_(tmp_[5].get(),tmp_[7].get(),238);
 
     for (IndexType k=0; k<4; ++k) {
-        _tmp[k  ] = _mm256_permute2f128_ps(_A[k].get(), _A[k+4].get(), 32);
-        _tmp[k+4] = _mm256_permute2f128_ps(_A[k].get(), _A[k+4].get(), 49);
+        tmp_[k  ] = mm256_permute2f128_ps_(A_[k].get(), A_[k+4].get(), 32);
+        tmp_[k+4] = mm256_permute2f128_ps_(A_[k].get(), A_[k+4].get(), 49);
     }
 
 
     for (IndexType k=0; k<8; ++k) {
-        _B[k].loadu(B+k*ldB);
-        _B[k] = _intrinsic_add(_B[k], _tmp[k]);
-        _B[k].storeu(B+k*ldB);
+        B_[k].loadu(B+k*ldB);
+        B_[k] = intrinsic_add_(B_[k], tmp_[k]);
+        B_[k].storeu(B+k*ldB);
     }
 
 }
@@ -98,29 +98,29 @@ add_transpose_8x8(const double *A, const IndexType ldA , double *B, const IndexT
 {
     typedef Intrinsics<double, DEFAULT_INTRINSIC_LEVEL> IntrinsicType;
 
-    IntrinsicType _A[4], _B[4], _tmp[4];
+    IntrinsicType A_[4], B_[4], tmp_[4];
 
     for (IndexType i=0; i<2; ++i) {
         for (IndexType j=0; j<2; ++j) {
 
             for (IndexType k=0; k<4; ++k) {
-                _A[k].loadu(A+(k+4*i)*ldA+4*j);
+                A_[k].loadu(A+(k+4*i)*ldA+4*j);
             }
 
-            _tmp[0] = _mm256_unpacklo_pd(_A[0].get(), _A[1].get());
-            _tmp[1] = _mm256_unpackhi_pd(_A[0].get(), _A[1].get());
-            _tmp[2] = _mm256_unpacklo_pd(_A[2].get(), _A[3].get());
-            _tmp[3] = _mm256_unpackhi_pd(_A[2].get(), _A[3].get());
+            tmp_[0] = mm256_unpacklo_pd_(A_[0].get(), A_[1].get());
+            tmp_[1] = mm256_unpackhi_pd_(A_[0].get(), A_[1].get());
+            tmp_[2] = mm256_unpacklo_pd_(A_[2].get(), A_[3].get());
+            tmp_[3] = mm256_unpackhi_pd_(A_[2].get(), A_[3].get());
 
-            _A[0] = _mm256_permute2f128_pd(_tmp[0].get(), _tmp[2].get(), 32);
-            _A[1] = _mm256_permute2f128_pd(_tmp[1].get(), _tmp[3].get(), 32);
-            _A[2] = _mm256_permute2f128_pd(_tmp[0].get(), _tmp[2].get(), 49);
-            _A[3] = _mm256_permute2f128_pd(_tmp[1].get(), _tmp[3].get(), 49);
+            A_[0] = mm256_permute2f128_pd_(tmp_[0].get(), tmp_[2].get(), 32);
+            A_[1] = mm256_permute2f128_pd_(tmp_[1].get(), tmp_[3].get(), 32);
+            A_[2] = mm256_permute2f128_pd_(tmp_[0].get(), tmp_[2].get(), 49);
+            A_[3] = mm256_permute2f128_pd_(tmp_[1].get(), tmp_[3].get(), 49);
 
             for (IndexType k=0; k<4; ++k) {
-                _B[k].loadu(B+(k+4*j)*ldB+4*i);
-                _B[k] = _intrinsic_add(_B[k], _A[k]);
-                _B[k].storeu(B+(k+4*j)*ldB+4*i);
+                B_[k].loadu(B+(k+4*j)*ldB+4*i);
+                B_[k] = intrinsic_add_(B_[k], A_[k]);
+                B_[k].storeu(B+(k+4*j)*ldB+4*i);
             }
         }
     }

@@ -359,16 +359,16 @@ laqr4_impl(bool                  wantT,
 //          .        vertical work array along the left-hand-edge.
 //          .        ====
 //
-            auto _V     = H(_(n-nw+1,    n), _(   1,     nw));
-            auto _T     = H(_(n-nw+1,    n), _(nw+1, n-nw-1));
-            auto _WV    = H(_(  nw+2, n-nw), _(   1,     nw));
+            auto V_     = H(_(n-nw+1,    n), _(   1,     nw));
+            auto T_     = H(_(n-nw+1,    n), _(nw+1, n-nw-1));
+            auto WV_    = H(_(  nw+2, n-nw), _(   1,     nw));
 //
 //          ==== Aggressive early deflation ====
 //
             IndexType   ls, ld;
 
             laqr2(wantT, wantZ, kTop, kBot, nw, H, iLoZ, iHiZ, Z, ls, ld,
-                  wr(_(1,kBot)), wi(_(1,kBot)), _V, _T, _WV, work);
+                  wr(_(1,kBot)), wi(_(1,kBot)), V_, T_, WV_, work);
 //
 //          ==== Adjust KBOT accounting for new deflations. ====
 //
@@ -510,8 +510,8 @@ laqr4_impl(bool                  wantT,
 //
                 if (kBot-ks+1==2) {
                     if (wi(kBot)==0) {
-                        const T _H = H(kBot,kBot);
-                        if (abs(wr(kBot)-_H) < abs(wr(kBot-1)-_H)) {
+                        const T H_ = H(kBot,kBot);
+                        if (abs(wr(kBot)-H_) < abs(wr(kBot-1)-H_)) {
                             wr(kBot-1) = wr(kBot);
                         } else {
                             wr(kBot) = wr(kBot-1);
@@ -544,20 +544,20 @@ laqr4_impl(bool                  wantT,
                 IndexType kwv   = kdu + 4;
                 IndexType nho   = (n-kdu+1-4) - (kdu+1) + 1;
 
-//              NOTE: _WH.numCols()==_WV.numRows()
+//              NOTE: WH_.numCols()==WV_.numRows()
 
                 typedef typename GeMatrix<MH>::View GeMatrixView;
-                GeMatrixView _V(IndexType(3), ns/2, work(_(1,3*ns/2)));
-                auto _U     = H(_( ku,    n), _(    1,    kdu));
-                auto _WV    = H(_(kwv,n-kdu), _(    1,    kdu));
-                auto _WH    = H(_( ku,    n), _(kdu+1,kdu+nho));
+                GeMatrixView V_(IndexType(3), ns/2, work(_(1,3*ns/2)));
+                auto U_     = H(_( ku,    n), _(    1,    kdu));
+                auto WV_    = H(_(kwv,n-kdu), _(    1,    kdu));
+                auto WH_    = H(_( ku,    n), _(kdu+1,kdu+nho));
 //
 //              ==== Small-bulge multi-shift QR sweep ====
 //
                 laqr5(wantT, wantZ, kacc22, kTop, kBot, ns,
                       wr(_(ks,kBot)), wi(_(ks,kBot)), H,
                       iLoZ, iHiZ, Z,
-                      _V, _U, _WV, _WH);
+                      V_, U_, WV_, WH_);
             }
 //
 //          ==== Note progress (or the lack of it). ====
@@ -829,16 +829,16 @@ laqr4_impl(bool                  wantT,
 //          .        vertical work array along the left-hand-edge.
 //          .        ====
 //
-            auto _V     = H(_(n-nw+1,    n), _(   1,     nw));
-            auto _T     = H(_(n-nw+1,    n), _(nw+1, n-nw-1));
-            auto _WV    = H(_(  nw+2, n-nw), _(   1,     nw));
+            auto V_     = H(_(n-nw+1,    n), _(   1,     nw));
+            auto T_     = H(_(n-nw+1,    n), _(nw+1, n-nw-1));
+            auto WV_    = H(_(  nw+2, n-nw), _(   1,     nw));
 //
 //          ==== Aggressive early deflation ====
 //
             IndexType   ls, ld;
 
             laqr2(wantT, wantZ, kTop, kBot, nw, H, iLoZ, iHiZ, Z,
-                  ls, ld, w(_(1,kBot)), _V, _T, _WV, work);
+                  ls, ld, w(_(1,kBot)), V_, T_, WV_, work);
 //
 //          ==== Adjust KBOT accounting for new deflations. ====
 //
@@ -988,13 +988,13 @@ laqr4_impl(bool                  wantT,
 //              ==== Small-bulge multi-shift QR sweep ====
 //
                 typedef typename GeMatrix<MH>::View GeMatrixView;
-                GeMatrixView _V(IndexType(3), ns/2, work(_(1,3*ns/2)));
-                auto _U     = H(_( ku,    n), _(    1,    kdu));
-                auto _WV    = H(_(kwv,n-kdu), _(    1,    kdu));
-                auto _WH    = H(_( ku,    n), _(kdu+1,kdu+nho));
+                GeMatrixView V_(IndexType(3), ns/2, work(_(1,3*ns/2)));
+                auto U_     = H(_( ku,    n), _(    1,    kdu));
+                auto WV_    = H(_(kwv,n-kdu), _(    1,    kdu));
+                auto WH_    = H(_( ku,    n), _(kdu+1,kdu+nho));
 
                 laqr5(wantT, wantZ, kacc22, kTop, kBot, ns, w(_(ks,kBot)), H,
-                      iLoZ, iHiZ, Z, _V, _U, _WV, _WH);
+                      iLoZ, iHiZ, Z, V_, U_, WV_, WH_);
             }
 //
 //          ==== Note progress (or the lack of it). ====
@@ -1292,7 +1292,7 @@ laqr4(bool                      wantT,
 //
 //  Compare results
 //
-    IndexType _info = external::laqr4_impl(wantT, wantZ, iLo, iHi, H, wr, wi,
+    IndexType info_ = external::laqr4_impl(wantT, wantZ, iLo, iHi, H, wr, wi,
                                            iLoZ, iHiZ, Z, work);
 
     bool failed = false;
@@ -1320,9 +1320,9 @@ laqr4(bool                      wantT,
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 
@@ -1448,7 +1448,7 @@ laqr4(bool                      wantT,
 //
 //  Compare results
 //
-    IndexType _info = external::laqr4_impl(wantT, wantZ, iLo, iHi, H, w,
+    IndexType info_ = external::laqr4_impl(wantT, wantZ, iLo, iHi, H, w,
                                            iLoZ, iHiZ, Z, work);
 
     bool failed = false;
@@ -1470,9 +1470,9 @@ laqr4(bool                      wantT,
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 
@@ -1539,11 +1539,11 @@ laqr4_wsq(bool                  wantT,
 //
 //  Compare results
 //
-    IndexType _info = external::laqr4_wsq_impl(wantT, wantZ, iLo, iHi, H);
+    IndexType info_ = external::laqr4_wsq_impl(wantT, wantZ, iLo, iHi, H);
 
-    if (info!=_info) {
+    if (info!=info_) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         ASSERT(0);
     }
 #   endif

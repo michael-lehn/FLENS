@@ -43,10 +43,8 @@
 #ifndef FLENS_LAPACK_IMPL_STERF_TCC
 #define FLENS_LAPACK_IMPL_STERF_TCC 1
 
-#include <flens/auxiliary/auxiliary.h>
-#include <flens/lapack/typedefs.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
@@ -468,7 +466,7 @@ sterf(VD  &&d,
     d = d_org;
     e = e_org;
 
-    const IndexType _info = external::sterf_impl(d, e);
+    const IndexType info_ = external::sterf_impl(d, e);
 
     bool failed = false;
     if (! isIdentical(d_generic, d, "d_generic", "d")) {
@@ -481,9 +479,9 @@ sterf(VD  &&d,
         std::cerr << "F77LAPACK: e = " << e << std::endl;
         failed = true;
     }
-    if (! isIdentical(info, _info, "info", "_info")) {
+    if (! isIdentical(info, info_, "info", "info_")) {
         std::cerr << "CXXLAPACK: info= " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
     if (failed) {

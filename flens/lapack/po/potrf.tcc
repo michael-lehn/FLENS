@@ -362,7 +362,7 @@ potrf(MA &&A)
 //
 //  Make copies of output arguments
 //
-    typename MatrixA::NoView       _A      = A;
+    typename MatrixA::NoView       A_      = A;
 #   endif
 
 //
@@ -374,18 +374,18 @@ potrf(MA &&A)
 //
 //  Compare results
 //
-    const IndexType _info = external::potrf_impl(_A);
+    const IndexType info_ = external::potrf_impl(A_);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "_A")) {
+    if (! isIdentical(A, A_, " A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        std::cerr << "F77LAPACK: A_ = " << A_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

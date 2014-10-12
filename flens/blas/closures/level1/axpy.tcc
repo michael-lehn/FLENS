@@ -962,12 +962,12 @@ axpy(Transpose trans, const ALPHA &alpha,
     typedef GeMatrix<FullStorage<TA, ColMajor> >  RMA;
 
     FLENS_BLASLOG_TMP_TRON;
-    RMA _A = A.impl();
+    RMA A_ = A.impl();
     FLENS_BLASLOG_TMP_TROFF;
 
-    axpy(trans, alpha, _A, B.impl());
+    axpy(trans, alpha, A_, B.impl());
 
-    FLENS_BLASLOG_TMP_REMOVE(_A, A);
+    FLENS_BLASLOG_TMP_REMOVE(A_, A);
 }
 
 #endif

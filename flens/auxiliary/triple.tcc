@@ -44,10 +44,10 @@ Triple<First,Second,Third>::Triple()
 }
 
 template <typename First, typename Second, typename Third>
-Triple<First,Second,Third>::Triple(const First &_first,
-                                   const Second &_second,
-                                   const Third &_third)
-    : first(_first), second(_second), third(_third)
+Triple<First,Second,Third>::Triple(const First &first_,
+                                   const Second &second_,
+                                   const Third &third_)
+    : first(first_), second(second_), third(third_)
 {
 }
 

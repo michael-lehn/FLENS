@@ -415,7 +415,7 @@ larft(Direction direction, StoreVectors storeVectors, N n,
         failed = true;
     }
 
-    if (! isIdentical(Tr_generic, Tr.general(), "Tr_generic", "_Tr"))
+    if (! isIdentical(Tr_generic, Tr.general(), "Tr_generic", "Tr_"))
     {
         std::cerr << "CXXLAPACK: Tr_generic = " << Tr_generic << std::endl;
         std::cerr << "F77LAPACK: Tr = " << Tr.general() << std::endl;

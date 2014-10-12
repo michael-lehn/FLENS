@@ -231,12 +231,12 @@ copy(Transpose trans, const MA &A, MB &&B)
             if (A.numRows()!=A.numCols()) {
                 typedef typename RemoveRef<MA>::Type   MatrixA;
 
-                typename Result<MatrixA>::Type _A = A;
-                FLENS_BLASLOG_TMP_ADD(_A);
+                typename Result<MatrixA>::Type A_ = A;
+                FLENS_BLASLOG_TMP_ADD(A_);
 
-                copy(trans, _A, B);
+                copy(trans, A_, B);
 
-                FLENS_BLASLOG_TMP_REMOVE(_A, A);
+                FLENS_BLASLOG_TMP_REMOVE(A_, A);
                 return;
             } else {
 //

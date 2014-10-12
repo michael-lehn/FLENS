@@ -42,7 +42,7 @@ namespace flens { namespace gematrix {
 
 template <typename M>
 Initializer<M>::Initializer(Matrix &A, IndexType row, IndexType col)
-    : _A(A), _row(row), _col(col)
+    : A_(A), row_(row), col_(col)
 {
 }
 
@@ -50,17 +50,17 @@ template <typename M>
 Initializer<M>
 Initializer<M>::operator,(const T &value)
 {
-    ++_col;
-    if (_col>_A.lastCol()) {
-        _col = _A.firstCol();
-        ++_row;
+    ++col_;
+    if (col_>A_.lastCol()) {
+        col_ = A_.firstCol();
+        ++row_;
     }
-    ASSERT(_col>=_A.firstCol());
-    ASSERT(_col<=_A.lastCol());
-    ASSERT(_row>=_A.firstRow());
-    ASSERT(_row<=_A.lastRow());
-    _A(_row, _col) = value;
-    return Initializer(_A, _row, _col);
+    ASSERT(col_>=A_.firstCol());
+    ASSERT(col_<=A_.lastCol());
+    ASSERT(row_>=A_.firstRow());
+    ASSERT(row_<=A_.lastRow());
+    A_(row_, col_) = value;
+    return Initializer(A_, row_, col_);
 }
 
 } } // namespace gematrix, flens

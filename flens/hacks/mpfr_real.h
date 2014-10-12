@@ -42,12 +42,12 @@ namespace mpfr {
 // auxiliary-functions used in numeric_limits
 //
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-    const mpfr::real<_prec,_rnd>
-    nextabove(const mpfr::real<_prec,_rnd> &x);
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+    const mpfr::real<prec_,rnd_>
+    nextabove(const mpfr::real<prec_,rnd_> &x);
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-    const mpfr::real<_prec,_rnd>
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+    const mpfr::real<prec_,rnd_>
     get_max();
 
 } // namespace mpfr
@@ -61,16 +61,16 @@ namespace std {
 //       the rest from numeric_limits<double>
 //
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-class numeric_limits<mpfr::real<_prec,_rnd> >
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+class numeric_limits<mpfr::real<prec_,rnd_> >
     : public numeric_limits<double>
 {
     public:
-        typedef mpfr::real<_prec,_rnd>  T;
+        typedef mpfr::real<prec_,rnd_>  T;
 
-        static const T _max;
-        static const T _min;
-        static const T _eps;
+        static const T max_;
+        static const T min_;
+        static const T eps_;
 
         static const T
         epsilon();
@@ -85,8 +85,8 @@ class numeric_limits<mpfr::real<_prec,_rnd> >
 //
 // import is_floating_point to namespace std
 //
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-struct is_floating_point<mpfr::real<_prec,_rnd> >
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+struct is_floating_point<mpfr::real<prec_,rnd_> >
     : public is_floating_point<double>
 {
     public:
@@ -97,8 +97,8 @@ struct is_floating_point<mpfr::real<_prec,_rnd> >
 //
 // import is_arithmetic to namespace std
 //
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-struct is_arithmetic<mpfr::real<_prec,_rnd> >
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+struct is_arithmetic<mpfr::real<prec_,rnd_> >
     : public is_arithmetic<double>
 {
     public:
@@ -109,16 +109,16 @@ struct is_arithmetic<mpfr::real<_prec,_rnd> >
 //
 // import isnan to namespace std
 //
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
     bool
-    isnan(const mpfr::real<_prec,_rnd> &x);
+    isnan(const mpfr::real<prec_,rnd_> &x);
 
 //
 // import mpfr_real to namespace std
 //
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
     int
-    signbit(const mpfr::real<_prec,_rnd> &x);
+    signbit(const mpfr::real<prec_,rnd_> &x);
 
 } // namespace std
 

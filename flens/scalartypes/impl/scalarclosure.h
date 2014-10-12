@@ -60,8 +60,8 @@ class ScalarClosure
         value() const;
 
     private:
-        typename ConstRef<L>::Type _left;
-        typename ConstRef<R>::Type _right;
+        typename ConstRef<L>::Type left_;
+        typename ConstRef<R>::Type right_;
 };
 
 template <typename Op, typename L, typename R>

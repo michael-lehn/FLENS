@@ -38,7 +38,7 @@
 
 namespace flens {
 
-struct _MatrixClosureChecker
+struct MatrixClosureChecker_
 {
 
     struct Two
@@ -48,7 +48,7 @@ struct _MatrixClosureChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Op, typename L, typename R>
         static char
@@ -59,7 +59,7 @@ template <typename T>
 struct IsMatrixClosure
 {
     static T var;
-    static const bool value = sizeof(_MatrixClosureChecker::check(var))==1;
+    static const bool value = sizeof(MatrixClosureChecker_::check(var))==1;
 };
 
 

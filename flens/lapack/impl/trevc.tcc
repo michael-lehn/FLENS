@@ -89,8 +89,8 @@ trevc_impl(bool                          computeVL,
 //
 //    .. Local Arrays ..
 //
-    ElementType  _xData[4];
-    GeMatrixView X = typename GeMatrixView::Engine(2, 2, _xData, 2);
+    ElementType  xData_[4];
+    GeMatrixView X = typename GeMatrixView::Engine(2, 2, xData_, 2);
 
     GeMatrixView Work(n, 3, work, n);
 
@@ -862,13 +862,13 @@ trevc_impl(bool                          computeVL,
                             vCrit = bigNum;
                         }
 
-                        const auto _work1 = work(_(ki+2+n,n+j-1));
-                        const auto _work2 = work(_(ki+2+n2,n2+j-1));
+                        const auto work1_ = work(_(ki+2+n,n+j-1));
+                        const auto work2_ = work(_(ki+2+n2,n2+j-1));
 
-                        work(j+n)   -= T(_(ki+2,j-1),j)   * _work1;
-                        work(j+n2)  -= T(_(ki+2,j-1),j)   * _work2;
-                        work(j+1+n) -= T(_(ki+2,j-1),j+1) * _work1;
-                        work(j+1+n2)-= T(_(ki+2,j-1),j+1) * _work2;
+                        work(j+n)   -= T(_(ki+2,j-1),j)   * work1_;
+                        work(j+n2)  -= T(_(ki+2,j-1),j)   * work2_;
+                        work(j+1+n) -= T(_(ki+2,j-1),j+1) * work1_;
+                        work(j+1+n2)-= T(_(ki+2,j-1),j+1) * work2_;
 //
 //                      Solve 2-by-2 complex linear equation
 //                      ([T(j,j)   T(j,j+1)  ]**T-(wr-i*wi)*I)*X = SCALE*B
@@ -1083,11 +1083,11 @@ trevc_impl(bool                          computeVL,
             }
 
             if (ki>1) {
-                const auto _T    = T(_(1,ki-1),_(1,ki-1));
-                auto       _x    = work(_(1,ki-1));
-                auto       _norm = rWork(_(1,ki-1));
+                const auto T_    = T(_(1,ki-1),_(1,ki-1));
+                auto       x_    = work(_(1,ki-1));
+                auto       norm_ = rWork(_(1,ki-1));
 
-                latrs(NoTrans, true, _T.upper(), _x, scale, _norm);
+                latrs(NoTrans, true, T_.upper(), x_, scale, norm_);
                 work(ki) = scale;
             }
 //
@@ -1107,9 +1107,9 @@ trevc_impl(bool                          computeVL,
             } else {
                 if (ki>1) {
                     const ElementType cScale = scale;
-                    const auto        _VR    = VR(_,_(1,ki-1));
-                    const auto        _x     = work(_(1,ki-1));
-                    blas::mv(NoTrans, COne, _VR, _x, cScale, VR(_,ki));
+                    const auto        VR_    = VR(_,_(1,ki-1));
+                    const auto        x_     = work(_(1,ki-1));
+                    blas::mv(NoTrans, COne, VR_, x_, cScale, VR(_,ki));
                 }
                 IndexType     ii   = blas::iamax(VR(_,ki));
                 PrimitiveType rMax = One / abs1(VR(ii,ki));
@@ -1161,11 +1161,11 @@ trevc_impl(bool                          computeVL,
             }
 
             if (ki < n) {
-                const auto _T    = T(_(ki+1,n),_(ki+1,n));
-                auto       _x    = work(_(ki+1,n));
-                auto       _norm = rWork(_(1,n-ki));
+                const auto T_    = T(_(ki+1,n),_(ki+1,n));
+                auto       x_    = work(_(ki+1,n));
+                auto       norm_ = rWork(_(1,n-ki));
 
-                latrs(ConjTrans, true, _T.upper(), _x, scale, _norm);
+                latrs(ConjTrans, true, T_.upper(), x_, scale, norm_);
                 work(ki) = scale;
             }
 //
@@ -1185,9 +1185,9 @@ trevc_impl(bool                          computeVL,
             } else {
                 if (ki<n) {
                     const ElementType cScale = scale;
-                    const auto        _VL    = VL(_,_(ki+1,n));
-                    const auto        _x     = work(_(ki+1,n));
-                    blas::mv(NoTrans, COne, _VL, _x, cScale, VL(_,ki));
+                    const auto        VL_    = VL(_,_(ki+1,n));
+                    const auto        x_     = work(_(ki+1,n));
+                    blas::mv(NoTrans, COne, VL_, x_, cScale, VL(_,ki));
                 }
 
                 IndexType     ii = blas::iamax(VL(_,ki));
@@ -1242,11 +1242,11 @@ trevc_impl(bool                           computeVL,
         ASSERT(0);
     }
 
-    DenseVector<Array<IndexType> > _select = select;
+    DenseVector<Array<IndexType> > select_ = select;
 
     cxxlapack::trevc<IndexType>(side,
                                 getF77Char(howMany),
-                                _select.data(),
+                                select_.data(),
                                 T.numRows(),
                                 T.data(),
                                 T.leadingDimension(),
@@ -1288,11 +1288,11 @@ trevc_impl(bool                           computeVL,
         ASSERT(0);
     }
 
-    DenseVector<Array<IndexType> > _select = select;
+    DenseVector<Array<IndexType> > select_ = select;
 
     cxxlapack::trevc<IndexType>(side,
                                 getF77Char(howMany),
-                                _select.data(),
+                                select_.data(),
                                 T.numRows(),
                                 T.data(),
                                 T.leadingDimension(),
@@ -1408,7 +1408,7 @@ trevc(bool                          computeVL,
         failed = true;
     }
 
-    if (! isIdentical(VR_generic, VR, "VR_generic", "_VR")) {
+    if (! isIdentical(VR_generic, VR, "VR_generic", "VR_")) {
         std::cerr << "CXXLAPACK: VR_generic = " << VR_generic << std::endl;
         std::cerr << "F77LAPACK: VR = " << VR << std::endl;
         failed = true;
@@ -1535,13 +1535,13 @@ trevc(bool                          computeVL,
         failed = true;
     }
 
-    if (! isIdentical(VL_generic, VL, "VL_generic", "_VL")) {
+    if (! isIdentical(VL_generic, VL, "VL_generic", "VL_")) {
         std::cerr << "CXXLAPACK: VL_generic = " << VL_generic << std::endl;
         std::cerr << "F77LAPACK: VL = " << VL << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(VR_generic, VR, "VR_generic", "_VR")) {
+    if (! isIdentical(VR_generic, VR, "VR_generic", "VR_")) {
         std::cerr << "CXXLAPACK: VR_generic = " << VR_generic << std::endl;
         std::cerr << "F77LAPACK: VR = " << VR << std::endl;
         failed = true;

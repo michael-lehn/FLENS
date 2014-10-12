@@ -99,8 +99,8 @@ labad(T &small, T &large)
 //
 //  Make copies of output arguments
 //
-    T _small    = small;
-    T _large    = large;
+    T small_    = small;
+    T large_    = large;
 #   endif
 
 //
@@ -112,18 +112,18 @@ labad(T &small, T &large)
 //
 //  Compare results
 //
-    external::labad_impl(_small, _large);
+    external::labad_impl(small_, large_);
 
     bool failed = false;
-    if (! isIdentical(small, _small, " small", "_small")) {
+    if (! isIdentical(small, small_, " small", "small_")) {
         std::cerr << "CXXLAPACK:  small = " << small << std::endl;
-        std::cerr << "F77LAPACK: _small = " << _small << std::endl;
+        std::cerr << "F77LAPACK: small_ = " << small_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(large, _large, " large", "_large")) {
+    if (! isIdentical(large, large_, " large", "large_")) {
         std::cerr << "CXXLAPACK:  large = " << large << std::endl;
-        std::cerr << "F77LAPACK: _large = " << _large << std::endl;
+        std::cerr << "F77LAPACK: large_ = " << large_ << std::endl;
         failed = true;
     }
 

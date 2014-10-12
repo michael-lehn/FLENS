@@ -71,36 +71,36 @@ template <typename IndexType, typename T>
 
      for (; i+3<m; i+=4, iY+=4*incY) {
 
-        IntrinsicType _A0, _A1, _A2, _A3, _A4;
-        IntrinsicType _x;
-        IntrinsicType _y0, _y1, _y2, _y3;
+        IntrinsicType A0_, A1_, A2_, A3_, A4_;
+        IntrinsicType x_;
+        IntrinsicType y0_, y1_, y2_, y3_;
 
-        _y0.setZero();
-        _y1.setZero();
-        _y2.setZero();
-        _y3.setZero();
+        y0_.setZero();
+        y1_.setZero();
+        y2_.setZero();
+        y3_.setZero();
 
 
         IndexType j=0;
 
         for (; j+numElements-1<n; j+=numElements) {
-            _A0.loadu(A+i*ldA+j      );
-            _A1.loadu(A+i*ldA+j+  ldA);
-            _A2.loadu(A+i*ldA+j+2*ldA);
-            _A3.loadu(A+i*ldA+j+3*ldA);
+            A0_.loadu(A+i*ldA+j      );
+            A1_.loadu(A+i*ldA+j+  ldA);
+            A2_.loadu(A+i*ldA+j+2*ldA);
+            A3_.loadu(A+i*ldA+j+3*ldA);
 
-            _x.loadu(x+j);
-            _y0 = _intrinsic_add(_y0, _intrinsic_mul(_A0, _x));
-            _y1 = _intrinsic_add(_y1, _intrinsic_mul(_A1, _x));
-            _y2 = _intrinsic_add(_y2, _intrinsic_mul(_A2, _x));
-            _y3 = _intrinsic_add(_y3, _intrinsic_mul(_A3, _x));
+            x_.loadu(x+j);
+            y0_ = intrinsic_add_(y0_, intrinsic_mul_(A0_, x_));
+            y1_ = intrinsic_add_(y1_, intrinsic_mul_(A1_, x_));
+            y2_ = intrinsic_add_(y2_, intrinsic_mul_(A2_, x_));
+            y3_ = intrinsic_add_(y3_, intrinsic_mul_(A3_, x_));
 
         }
 
-        _y0.storeu(&tmp_result[0][0]);
-        _y1.storeu(&tmp_result[1][0]);
-        _y2.storeu(&tmp_result[2][0]);
-        _y3.storeu(&tmp_result[3][0]);
+        y0_.storeu(&tmp_result[0][0]);
+        y1_.storeu(&tmp_result[1][0]);
+        y2_.storeu(&tmp_result[2][0]);
+        y3_.storeu(&tmp_result[3][0]);
 
         for (;j<n;++j) {
             tmp_result[0][0] += A[i*ldA+j      ]*x[j];
@@ -124,18 +124,18 @@ template <typename IndexType, typename T>
 
     for (; i<m; ++i, iY+=incY) {
 
-        IntrinsicType _A, _x, _y;
-        _y.setZero();
+        IntrinsicType A_, x_, y_;
+        y_.setZero();
 
         IndexType j=0;
 
         for (; j+numElements-1<n; j+=numElements) {
-            _A.loadu(A+i*ldA+j);
-            _x.loadu(x+j);
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A, _x));
+            A_.loadu(A+i*ldA+j);
+            x_.loadu(x+j);
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A_, x_));
         }
         T tmp_result[numElements];
-        _y.storeu(tmp_result);
+        y_.storeu(tmp_result);
         for (;j<n;++j) {
             tmp_result[0] += A[i*ldA+j]*x[j];
         }
@@ -166,12 +166,12 @@ template <typename IndexType, typename T>
     const int numElements = IntrinsicType::numElements;
 
 
-    IntrinsicType _y;
-    IntrinsicType _beta(beta);
+    IntrinsicType y_;
+    IntrinsicType beta_(beta);
 
-    IntrinsicType _A0, _A1, _A2, _A3;
+    IntrinsicType A0_, A1_, A2_, A3_;
 
-    IntrinsicType _x0, _x1, _x2, _x3;
+    IntrinsicType x0_, x1_, x2_, x3_;
 
     scal(n, beta, y, 1);
 
@@ -183,49 +183,49 @@ template <typename IndexType, typename T>
 
     for (; j+3<m; j+=4, jX+=4*incX) {
 
-        _x0.fill(alpha*x[jX       ]);
-        _x1.fill(alpha*x[jX+1*incX]);
-        _x2.fill(alpha*x[jX+2*incX]);
-        _x3.fill(alpha*x[jX+3*incX]);
+        x0_.fill(alpha*x[jX       ]);
+        x1_.fill(alpha*x[jX+1*incX]);
+        x2_.fill(alpha*x[jX+2*incX]);
+        x3_.fill(alpha*x[jX+3*incX]);
 
         for (IndexType i=0, ii=0; i+numElements-1<n; i+=numElements, ++ii) {
-            _y.loadu(y+i);
+            y_.loadu(y+i);
 
-            _A0.loadu(A+i+j*ldA      );
-            _A1.loadu(A+i+j*ldA+  ldA);
-            _A2.loadu(A+i+j*ldA+2*ldA);
-            _A3.loadu(A+i+j*ldA+3*ldA);
+            A0_.loadu(A+i+j*ldA      );
+            A1_.loadu(A+i+j*ldA+  ldA);
+            A2_.loadu(A+i+j*ldA+2*ldA);
+            A3_.loadu(A+i+j*ldA+3*ldA);
 
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A0, _x0));
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A1, _x1));
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A2, _x2));
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A3, _x3));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A0_, x0_));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A1_, x1_));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A2_, x2_));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A3_, x3_));
 
-            _y.storeu(y+i);
+            y_.storeu(y+i);
         }
     }
 
     for (; j<m; ++j, jX+=incX) {
 
-        _x0.fill(alpha*x[jX]);
+        x0_.fill(alpha*x[jX]);
 
         for (IndexType i=0, ii=0; i+numElements-1<n; i+=numElements, ++ii) {
-            _y.loadu(y+i);
+            y_.loadu(y+i);
 
-            _A0.loadu(A+i+j*ldA      );
+            A0_.loadu(A+i+j*ldA      );
 
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A0, _x0));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A0_, x0_));
 
-            _y.storeu(y+i);
+            y_.storeu(y+i);
         }
     }
 
     IndexType i=n-(n%numElements);
 
     for (; i<n; ++i) {
-        T _y;
-        dot(m, A+i, ldA, x, incX, _y);
-        y[i] += alpha*_y;
+        T y_;
+        dot(m, A+i, ldA, x, incX, y_);
+        y[i] += alpha*y_;
     }
 
 }
@@ -258,10 +258,10 @@ template <typename IndexType, typename T>
         y -= incY*(m-1);
     }
 
-    IntrinsicType _A0, _A1, _A2, _A3;
-    IntrinsicType  _x;
-    IntrinsicType  _y0, _y1, _y2, _y3;
-    IntrinsicPrimitiveType _real_x, _imag_x;
+    IntrinsicType A0_, A1_, A2_, A3_;
+    IntrinsicType  x_;
+    IntrinsicType  y0_, y1_, y2_, y3_;
+    IntrinsicPrimitiveType real_x_, imag_x_;
 
     T tmp_result[8][numElements];
 
@@ -269,46 +269,46 @@ template <typename IndexType, typename T>
     for (; i+3<m; i+=4, iY+=4*incY) {
 
 
-    _y0.setZero();
-    _y1.setZero();
-    _y2.setZero();
-    _y3.setZero();
+    y0_.setZero();
+    y1_.setZero();
+    y2_.setZero();
+    y3_.setZero();
 
     IndexType j=0;
     for (; j+numElements-1<n; j+=numElements) {
 
-        _A0.loadu(A+i*ldA+j);
-        _A1.loadu(A+i*ldA+j+ldA);
-        _A2.loadu(A+i*ldA+j+2*ldA);
-        _A3.loadu(A+i*ldA+j+3*ldA);
+        A0_.loadu(A+i*ldA+j);
+        A1_.loadu(A+i*ldA+j+ldA);
+        A2_.loadu(A+i*ldA+j+2*ldA);
+        A3_.loadu(A+i*ldA+j+3*ldA);
 
-        _x.loadu(x+j);
+        x_.loadu(x+j);
 
-        _real_x = _intrinsic_real(_x);
-        _imag_x = _intrinsic_imag(_x);
+        real_x_ = intrinsic_real_(x_);
+        imag_x_ = intrinsic_imag_(x_);
 
-        _y0 = _intrinsic_add(_y0, _intrinsic_mul(_A0, _real_x));
-        _y1 = _intrinsic_add(_y1, _intrinsic_mul(_A1, _real_x));
-        _y2 = _intrinsic_add(_y2, _intrinsic_mul(_A2, _real_x));
-        _y3 = _intrinsic_add(_y3, _intrinsic_mul(_A3, _real_x));
+        y0_ = intrinsic_add_(y0_, intrinsic_mul_(A0_, real_x_));
+        y1_ = intrinsic_add_(y1_, intrinsic_mul_(A1_, real_x_));
+        y2_ = intrinsic_add_(y2_, intrinsic_mul_(A2_, real_x_));
+        y3_ = intrinsic_add_(y3_, intrinsic_mul_(A3_, real_x_));
 
 
-        _A0 = _intrinsic_swap_real_imag(_A0);
-        _A1 = _intrinsic_swap_real_imag(_A1);
-        _A2 = _intrinsic_swap_real_imag(_A2);
-        _A3 = _intrinsic_swap_real_imag(_A3);
+        A0_ = intrinsic_swap_real_imag_(A0_);
+        A1_ = intrinsic_swap_real_imag_(A1_);
+        A2_ = intrinsic_swap_real_imag_(A2_);
+        A3_ = intrinsic_swap_real_imag_(A3_);
 
-        _y0 = _intrinsic_addsub(_y0, _intrinsic_mul(_A0, _imag_x));
-        _y1 = _intrinsic_addsub(_y1, _intrinsic_mul(_A1, _imag_x));
-        _y2 = _intrinsic_addsub(_y2, _intrinsic_mul(_A2, _imag_x));
-        _y3 = _intrinsic_addsub(_y3, _intrinsic_mul(_A3, _imag_x));
+        y0_ = intrinsic_addsub_(y0_, intrinsic_mul_(A0_, imag_x_));
+        y1_ = intrinsic_addsub_(y1_, intrinsic_mul_(A1_, imag_x_));
+        y2_ = intrinsic_addsub_(y2_, intrinsic_mul_(A2_, imag_x_));
+        y3_ = intrinsic_addsub_(y3_, intrinsic_mul_(A3_, imag_x_));
 
         }
 
-        _y0.storeu(&tmp_result[0][0]);
-        _y1.storeu(&tmp_result[1][0]);
-        _y2.storeu(&tmp_result[2][0]);
-        _y3.storeu(&tmp_result[3][0]);
+        y0_.storeu(&tmp_result[0][0]);
+        y1_.storeu(&tmp_result[1][0]);
+        y2_.storeu(&tmp_result[2][0]);
+        y3_.storeu(&tmp_result[3][0]);
 
         for (;j<n;++j) {
             tmp_result[0][0] += A[i*ldA+j      ]*x[j];
@@ -334,25 +334,25 @@ template <typename IndexType, typename T>
 
     for (; i<m; ++i, iY+=incY) {
 
-        _y0.setZero();
+        y0_.setZero();
         IndexType j=0;
         for (; j+numElements-1<n; j+=numElements) {
 
-            _A0.loadu(A+i*ldA+j);
-            _x.loadu(x+j);
+            A0_.loadu(A+i*ldA+j);
+            x_.loadu(x+j);
 
-            _real_x = _intrinsic_real(_x);
-            _imag_x = _intrinsic_imag(_x);
+            real_x_ = intrinsic_real_(x_);
+            imag_x_ = intrinsic_imag_(x_);
 
 
-            _y0 = _intrinsic_add(_y0, _intrinsic_mul(_A0, _real_x));
+            y0_ = intrinsic_add_(y0_, intrinsic_mul_(A0_, real_x_));
 
-            _A0 = _intrinsic_swap_real_imag(_A0);
+            A0_ = intrinsic_swap_real_imag_(A0_);
 
-            _y0 = _intrinsic_addsub(_y0, _intrinsic_mul(_A0, _imag_x));
+            y0_ = intrinsic_addsub_(y0_, intrinsic_mul_(A0_, imag_x_));
         }
 
-        _y0.storeu(&tmp_result[0][0]);
+        y0_.storeu(&tmp_result[0][0]);
 
         for (;j<n;++j) {
             tmp_result[0][0] += A[i*ldA+j    ]*x[j];
@@ -394,13 +394,13 @@ template <typename IndexType, typename T>
         y -= incY*(m-1);
     }
 
-    IntrinsicType _A0, _A1, _A2, _A3;
-    IntrinsicType  _x;
-    IntrinsicType  _y0, _y1, _y2, _y3;
-    IntrinsicPrimitiveType _real_x, _imag_x, _minusOne;
+    IntrinsicType A0_, A1_, A2_, A3_;
+    IntrinsicType  x_;
+    IntrinsicType  y0_, y1_, y2_, y3_;
+    IntrinsicPrimitiveType real_x_, imag_x_, minusOne_;
 
     PT minusOne(-1);
-    _minusOne.fill(minusOne);
+    minusOne_.fill(minusOne);
 
     T tmp_result[4][numElements];
 
@@ -408,46 +408,46 @@ template <typename IndexType, typename T>
     for (; i+3<m; i+=4, iY+=4*incY) {
 
 
-        _y0.setZero();
-        _y1.setZero();
-        _y2.setZero();
-        _y3.setZero();
+        y0_.setZero();
+        y1_.setZero();
+        y2_.setZero();
+        y3_.setZero();
 
         IndexType j=0;
         for (; j+numElements-1<n; j+=numElements) {
 
-            _A0.loadu(A+i*ldA+j);
-            _A1.loadu(A+i*ldA+j+ldA);
-            _A2.loadu(A+i*ldA+j+2*ldA);
-            _A3.loadu(A+i*ldA+j+3*ldA);
+            A0_.loadu(A+i*ldA+j);
+            A1_.loadu(A+i*ldA+j+ldA);
+            A2_.loadu(A+i*ldA+j+2*ldA);
+            A3_.loadu(A+i*ldA+j+3*ldA);
 
-            _x.loadu(x+j);
+            x_.loadu(x+j);
 
-            _real_x = _intrinsic_mul(_minusOne, _intrinsic_real(_x));
-            _imag_x = _intrinsic_imag(_x);
+            real_x_ = intrinsic_mul_(minusOne_, intrinsic_real_(x_));
+            imag_x_ = intrinsic_imag_(x_);
 
-            _y0 = _intrinsic_addsub(_y0, _intrinsic_mul(_A0, _real_x));
-            _y1 = _intrinsic_addsub(_y1, _intrinsic_mul(_A1, _real_x));
-            _y2 = _intrinsic_addsub(_y2, _intrinsic_mul(_A2, _real_x));
-            _y3 = _intrinsic_addsub(_y3, _intrinsic_mul(_A3, _real_x));
+            y0_ = intrinsic_addsub_(y0_, intrinsic_mul_(A0_, real_x_));
+            y1_ = intrinsic_addsub_(y1_, intrinsic_mul_(A1_, real_x_));
+            y2_ = intrinsic_addsub_(y2_, intrinsic_mul_(A2_, real_x_));
+            y3_ = intrinsic_addsub_(y3_, intrinsic_mul_(A3_, real_x_));
 
 
-            _A0 = _intrinsic_swap_real_imag(_A0);
-            _A1 = _intrinsic_swap_real_imag(_A1);
-            _A2 = _intrinsic_swap_real_imag(_A2);
-            _A3 = _intrinsic_swap_real_imag(_A3);
+            A0_ = intrinsic_swap_real_imag_(A0_);
+            A1_ = intrinsic_swap_real_imag_(A1_);
+            A2_ = intrinsic_swap_real_imag_(A2_);
+            A3_ = intrinsic_swap_real_imag_(A3_);
 
-            _y0 = _intrinsic_add(_y0, _intrinsic_mul(_A0, _imag_x));
-            _y1 = _intrinsic_add(_y1, _intrinsic_mul(_A1, _imag_x));
-            _y2 = _intrinsic_add(_y2, _intrinsic_mul(_A2, _imag_x));
-            _y3 = _intrinsic_add(_y3, _intrinsic_mul(_A3, _imag_x));
+            y0_ = intrinsic_add_(y0_, intrinsic_mul_(A0_, imag_x_));
+            y1_ = intrinsic_add_(y1_, intrinsic_mul_(A1_, imag_x_));
+            y2_ = intrinsic_add_(y2_, intrinsic_mul_(A2_, imag_x_));
+            y3_ = intrinsic_add_(y3_, intrinsic_mul_(A3_, imag_x_));
 
         }
 
-        _y0.storeu(&tmp_result[0][0]);
-        _y1.storeu(&tmp_result[1][0]);
-        _y2.storeu(&tmp_result[2][0]);
-        _y3.storeu(&tmp_result[3][0]);
+        y0_.storeu(&tmp_result[0][0]);
+        y1_.storeu(&tmp_result[1][0]);
+        y2_.storeu(&tmp_result[2][0]);
+        y3_.storeu(&tmp_result[3][0]);
 
         for (;j<n;++j) {
             tmp_result[0][0] += conj(A[i*ldA+j      ])*x[j];
@@ -473,25 +473,25 @@ template <typename IndexType, typename T>
 
     for (; i<m; ++i, iY+=incY) {
 
-        _y0.setZero();
+        y0_.setZero();
         IndexType j=0;
         for (; j+numElements-1<n; j+=numElements) {
 
-            _A0.loadu(A+i*ldA+j);
-            _x.loadu(x+j);
+            A0_.loadu(A+i*ldA+j);
+            x_.loadu(x+j);
 
-            _real_x = _intrinsic_mul(_minusOne, _intrinsic_real(_x));
-            _imag_x = _intrinsic_imag(_x);
+            real_x_ = intrinsic_mul_(minusOne_, intrinsic_real_(x_));
+            imag_x_ = intrinsic_imag_(x_);
 
 
-            _y0 = _intrinsic_addsub(_y0, _intrinsic_mul(_A0, _real_x));
+            y0_ = intrinsic_addsub_(y0_, intrinsic_mul_(A0_, real_x_));
 
-            _A0 = _intrinsic_swap_real_imag(_A0);
+            A0_ = intrinsic_swap_real_imag_(A0_);
 
-            _y0 = _intrinsic_add(_y0, _intrinsic_mul(_A0, _imag_x));
+            y0_ = intrinsic_add_(y0_, intrinsic_mul_(A0_, imag_x_));
         }
 
-        _y0.storeu(&tmp_result[0][0]);
+        y0_.storeu(&tmp_result[0][0]);
 
         for (;j<n;++j) {
             tmp_result[0][0] += conj(A[i*ldA+j    ])*x[j];
@@ -533,82 +533,82 @@ gemv_complex_t(IndexType m, IndexType n,
         x -= incX*(m-1);
     }
 
-    IntrinsicType  _y;
-    IntrinsicType  _A0, _A1, _A2, _A3;
-    IntrinsicPrimitiveType _real_x0, _real_x1, _real_x2, _real_x3;
-    IntrinsicPrimitiveType _imag_x0, _imag_x1, _imag_x2, _imag_x3;
+    IntrinsicType  y_;
+    IntrinsicType  A0_, A1_, A2_, A3_;
+    IntrinsicPrimitiveType real_x0_, real_x1_, real_x2_, real_x3_;
+    IntrinsicPrimitiveType imag_x0_, imag_x1_, imag_x2_, imag_x3_;
 
     IndexType j=0, jX=0;
 
     for (; j+4<m; j+=4, jX+=4*incX) {
 
-        _real_x0.fill(real(alpha*x[jX       ]));
-        _imag_x0.fill(imag(alpha*x[jX       ]));
-        _real_x1.fill(real(alpha*x[jX+  incX]));
-        _imag_x1.fill(imag(alpha*x[jX+  incX]));
-        _real_x2.fill(real(alpha*x[jX+2*incX]));
-        _imag_x2.fill(imag(alpha*x[jX+2*incX]));
-        _real_x3.fill(real(alpha*x[jX+3*incX]));
-        _imag_x3.fill(imag(alpha*x[jX+3*incX]));
+        real_x0_.fill(real(alpha*x[jX       ]));
+        imag_x0_.fill(imag(alpha*x[jX       ]));
+        real_x1_.fill(real(alpha*x[jX+  incX]));
+        imag_x1_.fill(imag(alpha*x[jX+  incX]));
+        real_x2_.fill(real(alpha*x[jX+2*incX]));
+        imag_x2_.fill(imag(alpha*x[jX+2*incX]));
+        real_x3_.fill(real(alpha*x[jX+3*incX]));
+        imag_x3_.fill(imag(alpha*x[jX+3*incX]));
 
 
         for (IndexType i=0, ii=0; i+numElements-1<n; i+=numElements, ++ii) {
-            _y.loadu(y+i);
+            y_.loadu(y+i);
 
-            _A0.loadu(A+i+j*ldA      );
-            _A1.loadu(A+i+j*ldA+  ldA);
-            _A2.loadu(A+i+j*ldA+2*ldA);
-            _A3.loadu(A+i+j*ldA+3*ldA);
-
-
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A0, _real_x0));
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A1, _real_x1));
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A2, _real_x2));
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A3, _real_x3));
+            A0_.loadu(A+i+j*ldA      );
+            A1_.loadu(A+i+j*ldA+  ldA);
+            A2_.loadu(A+i+j*ldA+2*ldA);
+            A3_.loadu(A+i+j*ldA+3*ldA);
 
 
-            _A0 = _intrinsic_swap_real_imag(_A0);
-            _A1 = _intrinsic_swap_real_imag(_A1);
-            _A2 = _intrinsic_swap_real_imag(_A2);
-            _A3 = _intrinsic_swap_real_imag(_A3);
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A0_, real_x0_));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A1_, real_x1_));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A2_, real_x2_));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A3_, real_x3_));
 
 
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_A0, _imag_x0));
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_A1, _imag_x1));
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_A2, _imag_x2));
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_A3, _imag_x3));
+            A0_ = intrinsic_swap_real_imag_(A0_);
+            A1_ = intrinsic_swap_real_imag_(A1_);
+            A2_ = intrinsic_swap_real_imag_(A2_);
+            A3_ = intrinsic_swap_real_imag_(A3_);
 
-            _y.storeu(y+i);
+
+            y_ = intrinsic_addsub_(y_, intrinsic_mul_(A0_, imag_x0_));
+            y_ = intrinsic_addsub_(y_, intrinsic_mul_(A1_, imag_x1_));
+            y_ = intrinsic_addsub_(y_, intrinsic_mul_(A2_, imag_x2_));
+            y_ = intrinsic_addsub_(y_, intrinsic_mul_(A3_, imag_x3_));
+
+            y_.storeu(y+i);
         }
     }
 
 
     for (; j<m; ++j, jX+=incX) {
 
-        _real_x0.fill(real(alpha*x[jX  ]));
-        _imag_x0.fill(imag(alpha*x[jX  ]));
+        real_x0_.fill(real(alpha*x[jX  ]));
+        imag_x0_.fill(imag(alpha*x[jX  ]));
 
         for (IndexType i=0, ii=0; i+numElements-1<n; i+=numElements, ++ii) {
-            _y.loadu(y+i);
+            y_.loadu(y+i);
 
-            _A0.loadu(A+i+j*ldA      );
+            A0_.loadu(A+i+j*ldA      );
 
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A0, _real_x0));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A0_, real_x0_));
 
-            _A0 = _intrinsic_swap_real_imag(_A0);
+            A0_ = intrinsic_swap_real_imag_(A0_);
 
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_A0, _imag_x0));
+            y_ = intrinsic_addsub_(y_, intrinsic_mul_(A0_, imag_x0_));
 
-            _y.storeu(y+i);
+            y_.storeu(y+i);
         }
     }
 
     IndexType i=n-(n%numElements);
 
     for (; i<n; ++i) {
-        T _y;
-        dotu(m, A+i, ldA, x, incX, _y);
-        y[i] += alpha*_y;
+        T y_;
+        dotu(m, A+i, ldA, x, incX, y_);
+        y[i] += alpha*y_;
     }
 
 }
@@ -642,82 +642,82 @@ gemv_complex_ct(IndexType m, IndexType n,
         x -= incX*(m-1);
     }
 
-    IntrinsicType  _y;
-    IntrinsicType  _A0, _A1, _A2, _A3;
-    IntrinsicPrimitiveType _real_x0, _real_x1, _real_x2, _real_x3;
-    IntrinsicPrimitiveType _imag_x0, _imag_x1, _imag_x2, _imag_x3;
+    IntrinsicType  y_;
+    IntrinsicType  A0_, A1_, A2_, A3_;
+    IntrinsicPrimitiveType real_x0_, real_x1_, real_x2_, real_x3_;
+    IntrinsicPrimitiveType imag_x0_, imag_x1_, imag_x2_, imag_x3_;
 
     IndexType j=0, jX=0;
 
     for (; j+4<m; j+=4, jX+=4*incX) {
 
-        _real_x0.fill(-real(alpha*x[jX       ]));
-        _imag_x0.fill( imag(alpha*x[jX       ]));
-        _real_x1.fill(-real(alpha*x[jX+  incX]));
-        _imag_x1.fill( imag(alpha*x[jX+  incX]));
-        _real_x2.fill(-real(alpha*x[jX+2*incX]));
-        _imag_x2.fill( imag(alpha*x[jX+2*incX]));
-        _real_x3.fill(-real(alpha*x[jX+3*incX]));
-        _imag_x3.fill( imag(alpha*x[jX+3*incX]));
+        real_x0_.fill(-real(alpha*x[jX       ]));
+        imag_x0_.fill( imag(alpha*x[jX       ]));
+        real_x1_.fill(-real(alpha*x[jX+  incX]));
+        imag_x1_.fill( imag(alpha*x[jX+  incX]));
+        real_x2_.fill(-real(alpha*x[jX+2*incX]));
+        imag_x2_.fill( imag(alpha*x[jX+2*incX]));
+        real_x3_.fill(-real(alpha*x[jX+3*incX]));
+        imag_x3_.fill( imag(alpha*x[jX+3*incX]));
 
 
         for (IndexType i=0, ii=0; i+numElements-1<n; i+=numElements, ++ii) {
-            _y.loadu(y+i);
+            y_.loadu(y+i);
 
-            _A0.loadu(A+i+j*ldA      );
-            _A1.loadu(A+i+j*ldA+  ldA);
-            _A2.loadu(A+i+j*ldA+2*ldA);
-            _A3.loadu(A+i+j*ldA+3*ldA);
-
-
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_A0, _real_x0));
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_A1, _real_x1));
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_A2, _real_x2));
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_A3, _real_x3));
+            A0_.loadu(A+i+j*ldA      );
+            A1_.loadu(A+i+j*ldA+  ldA);
+            A2_.loadu(A+i+j*ldA+2*ldA);
+            A3_.loadu(A+i+j*ldA+3*ldA);
 
 
-            _A0 = _intrinsic_swap_real_imag(_A0);
-            _A1 = _intrinsic_swap_real_imag(_A1);
-            _A2 = _intrinsic_swap_real_imag(_A2);
-            _A3 = _intrinsic_swap_real_imag(_A3);
+            y_ = intrinsic_addsub_(y_, intrinsic_mul_(A0_, real_x0_));
+            y_ = intrinsic_addsub_(y_, intrinsic_mul_(A1_, real_x1_));
+            y_ = intrinsic_addsub_(y_, intrinsic_mul_(A2_, real_x2_));
+            y_ = intrinsic_addsub_(y_, intrinsic_mul_(A3_, real_x3_));
 
 
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A0, _imag_x0));
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A1, _imag_x1));
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A2, _imag_x2));
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A3, _imag_x3));
+            A0_ = intrinsic_swap_real_imag_(A0_);
+            A1_ = intrinsic_swap_real_imag_(A1_);
+            A2_ = intrinsic_swap_real_imag_(A2_);
+            A3_ = intrinsic_swap_real_imag_(A3_);
 
-            _y.storeu(y+i);
+
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A0_, imag_x0_));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A1_, imag_x1_));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A2_, imag_x2_));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A3_, imag_x3_));
+
+            y_.storeu(y+i);
         }
     }
 
 
     for (; j<m; ++j, jX+=incX) {
 
-        _real_x0.fill(-real(alpha*x[jX  ]));
-        _imag_x0.fill( imag(alpha*x[jX  ]));
+        real_x0_.fill(-real(alpha*x[jX  ]));
+        imag_x0_.fill( imag(alpha*x[jX  ]));
 
         for (IndexType i=0, ii=0; i+numElements-1<n; i+=numElements, ++ii) {
-            _y.loadu(y+i);
+            y_.loadu(y+i);
 
-            _A0.loadu(A+i+j*ldA      );
+            A0_.loadu(A+i+j*ldA      );
 
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_A0, _real_x0));
+            y_ = intrinsic_addsub_(y_, intrinsic_mul_(A0_, real_x0_));
 
-            _A0 = _intrinsic_swap_real_imag(_A0);
+            A0_ = intrinsic_swap_real_imag_(A0_);
 
-            _y = _intrinsic_add(_y, _intrinsic_mul(_A0, _imag_x0));
+            y_ = intrinsic_add_(y_, intrinsic_mul_(A0_, imag_x0_));
 
-            _y.storeu(y+i);
+            y_.storeu(y+i);
         }
     }
 
     IndexType i=n-(n%numElements);
 
     for (; i<n; ++i) {
-        T _y;
-        dot(m, A+i, ldA, x, incX, _y);
-        y[i] += alpha*_y;
+        T y_;
+        dot(m, A+i, ldA, x, incX, y_);
+        y[i] += alpha*y_;
     }
 
 }

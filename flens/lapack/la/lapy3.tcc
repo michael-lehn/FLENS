@@ -115,12 +115,12 @@ lapy3(const T &x, const T &y, const T &z)
 //
 //  Compare results
 //
-    const T _result = external::lapy3_impl(x, y, z);
+    const T result_ = external::lapy3_impl(x, y, z);
 
     bool failed = false;
-    if (! isIdentical(result, _result, " result", "_result")) {
+    if (! isIdentical(result, result_, " result", "result_")) {
         std::cerr << "CXXLAPACK:  result = " << result << std::endl;
-        std::cerr << "F77LAPACK: _result = " << _result << std::endl;
+        std::cerr << "F77LAPACK: result_ = " << result_ << std::endl;
         failed = true;
     }
 
@@ -134,7 +134,7 @@ lapy3(const T &x, const T &y, const T &z)
         std::cerr << "hex(z) = " << hex(z) << std::endl;
 
         std::cerr << "hex(result)  = " << hex(result) << std::endl;
-        std::cerr << "hex(_result) = " << hex(_result) << std::endl;
+        std::cerr << "hex(result_) = " << hex(result_) << std::endl;
         ASSERT(0);
     }
 #   endif
@@ -144,4 +144,4 @@ lapy3(const T &x, const T &y, const T &z)
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_LA_LAPY§_TCC
+#endif // FLENS_LAPACK_LA_LAPY§TCC_

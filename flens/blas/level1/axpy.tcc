@@ -249,13 +249,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     typedef typename RemoveRef<MA>::Type   MatrixA;
 
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename Result<MA>::Type _A = A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        typename Result<MA>::Type A_ = A;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, A, _A);
+        copy(trans, A, A_);
         axpy(NoTrans, alpha, A, B);
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
         return;
     }
 #   endif
@@ -341,13 +341,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 //  for B += alpha*A^T or B+= alpha*A^H
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename SbMatrix<MA>::NoView _A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        typename SbMatrix<MA>::NoView A_;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, A, _A);
-        axpy(NoTrans, alpha, _A, B);
+        copy(trans, A, A_);
+        axpy(NoTrans, alpha, A_, B);
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
         return;
     }
 #   endif
@@ -514,13 +514,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 //  for B += alpha*A^T or B+= alpha*A^H
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename SbMatrix<MA>::NoView _A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        typename SbMatrix<MA>::NoView A_;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, A, _A);
-        axpy(NoTrans, alpha, _A, B);
+        copy(trans, A, A_);
+        axpy(NoTrans, alpha, A_, B);
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
         return;
     }
 #   endif

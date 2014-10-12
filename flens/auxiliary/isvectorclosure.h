@@ -37,7 +37,7 @@
 
 namespace flens {
 
-struct _VectorClosureChecker
+struct VectorClosureChecker_
 {
 
     struct Two
@@ -47,7 +47,7 @@ struct _VectorClosureChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
 
     template <typename Op, typename L, typename R>
@@ -59,7 +59,7 @@ template <typename T>
 struct IsVectorClosure
 {
     static T var;
-    static const bool value = sizeof(_VectorClosureChecker::check(var))==1;
+    static const bool value = sizeof(VectorClosureChecker_::check(var))==1;
 };
 
 } // namespace flens

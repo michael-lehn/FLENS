@@ -69,7 +69,7 @@ typename RestrictTo<IsTriangularMatrix<MA>::value &&
                     IsGeneralMatrix<MC>::value,
          void>::Type
 trmm(Side side, Transpose transA, Transpose DEBUG_VAR(transB),
-     const ALPHA &alpha, const MA &_A, const MB &_B,
+     const ALPHA &alpha, const MA &A_, const MB &B_,
      const BETA &DEBUG_VAR(beta), MC &C)
 {
     using namespace DEBUGCLOSURE;
@@ -90,11 +90,11 @@ trmm(Side side, Transpose transA, Transpose DEBUG_VAR(transB),
 #   endif
 
 //
-//  If _A or _B is a closure temporaries get created
+//  If A_ or B_ is a closure temporaries get created
 //
     FLENS_BLASLOG_TMP_TRON;
-    const RMA &A = _A;
-    const RMB &B = _B;
+    const RMA &A = A_;
+    const RMB &B = B_;
     FLENS_BLASLOG_TMP_TROFF;
 
 //
@@ -113,28 +113,28 @@ trmm(Side side, Transpose transA, Transpose DEBUG_VAR(transB),
 //
 //      apply op(B) and recall trmm
 //
-        typename RMB::NoView _B;
-        FLENS_BLASLOG_TMP_ADD(_B);
-        copy(transB, B, _B);
-        trmm(side, transA, NoTrans, alpha, A, _B, beta, C);
-        FLENS_BLASLOG_TMP_REMOVE(_B, B);
+        typename RMB::NoView B_;
+        FLENS_BLASLOG_TMP_ADD(B_);
+        copy(transB, B, B_);
+        trmm(side, transA, NoTrans, alpha, A, B_, beta, C);
+        FLENS_BLASLOG_TMP_REMOVE(B_, B);
         if (!IsSame<RMA, typename Result<RMA>::Type>::value) {
-            FLENS_BLASLOG_TMP_REMOVE(A, _A);
+            FLENS_BLASLOG_TMP_REMOVE(A, A_);
         }
         if (!IsSame<RMB, typename Result<RMB>::Type>::value) {
-            FLENS_BLASLOG_TMP_REMOVE(B, _B);
+            FLENS_BLASLOG_TMP_REMOVE(B, B_);
         }
         return;
     }
     if (identical(A,C)) {
         FLENS_BLASLOG_IDENTICAL(A, C);
-        typename RMC::NoView _C;
-        FLENS_BLASLOG_TMP_ADD(_C);
+        typename RMC::NoView C_;
+        FLENS_BLASLOG_TMP_ADD(C_);
 
-        trmm(side, transA, NoTrans, alpha, A, B, beta, _C);
-        C = _C;
+        trmm(side, transA, NoTrans, alpha, A, B, beta, C_);
+        C = C_;
 
-        FLENS_BLASLOG_TMP_REMOVE(_C, C);
+        FLENS_BLASLOG_TMP_REMOVE(C_, C);
         return;
     }
     typename RMC::NoView tmpC;
@@ -159,10 +159,10 @@ trmm(Side side, Transpose transA, Transpose DEBUG_VAR(transB),
         FLENS_BLASLOG_TMP_REMOVE(tmpC, C);
     }
     if (!IsSame<RMA, typename Result<RMA>::Type>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(A, _A);
+        FLENS_BLASLOG_TMP_REMOVE(A, A_);
     }
     if (!IsSame<RMB, typename Result<RMB>::Type>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(B, _B);
+        FLENS_BLASLOG_TMP_REMOVE(B, B_);
     }
 #   endif
 }
@@ -189,7 +189,7 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
 symm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
-     const SymmetricMatrix<MA> &_A, const GeneralMatrix<MB> &_B,
+     const SymmetricMatrix<MA> &A_, const GeneralMatrix<MB> &B_,
      const BETA &beta, Matrix<MC> &C)
 {
     using namespace DEBUGCLOSURE;
@@ -211,11 +211,11 @@ symm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
 #   endif
 
 //
-//  If _A or _B is a closure temporaries get created
+//  If A_ or B_ is a closure temporaries get created
 //
     FLENS_BLASLOG_TMP_TRON;
-    const RMA &A = _A.impl();
-    const RMB &B = _B.impl();
+    const RMA &A = A_.impl();
+    const RMB &B = B_.impl();
     FLENS_BLASLOG_TMP_TROFF;
 
 //
@@ -230,20 +230,20 @@ symm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
     if (transB==NoTrans) {
         mm(side, alpha, A, B, beta, C.impl());
     } else {
-        typename RMB::NoView _B;
-        FLENS_BLASLOG_TMP_ADD(_B);
-        copy(transB, B, _B);
-        mm(side, alpha, A, _B, beta, C.impl());
-        FLENS_BLASLOG_TMP_REMOVE(_B, B);
+        typename RMB::NoView B_;
+        FLENS_BLASLOG_TMP_ADD(B_);
+        copy(transB, B, B_);
+        mm(side, alpha, A, B_, beta, C.impl());
+        FLENS_BLASLOG_TMP_REMOVE(B_, B);
     }
 #   endif
 
 #   ifdef FLENS_DEBUG_CLOSURES
     if (!IsSame<RMA, typename Result<RMA>::Type>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(A, _A);
+        FLENS_BLASLOG_TMP_REMOVE(A, A_);
     }
     if (!IsSame<RMB, typename Result<RMB>::Type>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(B, _B);
+        FLENS_BLASLOG_TMP_REMOVE(B, B_);
     }
 #   endif
 }
@@ -274,7 +274,7 @@ mm(Transpose DEBUG_VAR(transA), Transpose transB, const ALPHA &alpha,
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
 hemm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
-     const HermitianMatrix<MA> &_A, const GeneralMatrix<MB> &_B,
+     const HermitianMatrix<MA> &A_, const GeneralMatrix<MB> &B_,
      const BETA &beta, Matrix<MC> &C)
 {
     using namespace DEBUGCLOSURE;
@@ -296,11 +296,11 @@ hemm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
 #   endif
 
 //
-//  If _A or _B is a closure temporaries get created
+//  If A_ or B_ is a closure temporaries get created
 //
     FLENS_BLASLOG_TMP_TRON;
-    const RMA &A = _A.impl();
-    const RMB &B = _B.impl();
+    const RMA &A = A_.impl();
+    const RMB &B = B_.impl();
     FLENS_BLASLOG_TMP_TROFF;
 
 //
@@ -315,20 +315,20 @@ hemm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
     if (transB==NoTrans) {
         mm(side, alpha, A, B, beta, C.impl());
     } else {
-        typename RMB::NoView _B;
-        FLENS_BLASLOG_TMP_ADD(_B);
-        copy(transB, B, _B);
-        mm(side, alpha, A, _B, beta, C.impl());
-        FLENS_BLASLOG_TMP_REMOVE(_B, B);
+        typename RMB::NoView B_;
+        FLENS_BLASLOG_TMP_ADD(B_);
+        copy(transB, B, B_);
+        mm(side, alpha, A, B_, beta, C.impl());
+        FLENS_BLASLOG_TMP_REMOVE(B_, B);
     }
 #   endif
 
 #   ifdef FLENS_DEBUG_CLOSURES
     if (!IsSame<RMA, typename Result<RMA>::Type>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(A, _A);
+        FLENS_BLASLOG_TMP_REMOVE(A, A_);
     }
     if (!IsSame<RMB, typename Result<RMB>::Type>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(B, _B);
+        FLENS_BLASLOG_TMP_REMOVE(B, B_);
     }
 #   endif
 }
@@ -385,14 +385,14 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
     typedef GeMatrix<FullStorage<TB, ColMajor> >  RMB;
 
     FLENS_BLASLOG_TMP_TRON;
-    const RMA &_A = A.impl();
-    const RMB &_B = B.impl();
+    const RMA &A_ = A.impl();
+    const RMB &B_ = B.impl();
     FLENS_BLASLOG_TMP_TROFF;
 
-    mm(transA, transB, alpha, _A, _B, beta, C.impl());
+    mm(transA, transB, alpha, A_, B_, beta, C.impl());
 
-    FLENS_BLASLOG_TMP_REMOVE(_A, A);
-    FLENS_BLASLOG_TMP_REMOVE(_B, B);
+    FLENS_BLASLOG_TMP_REMOVE(A_, A);
+    FLENS_BLASLOG_TMP_REMOVE(B_, B);
 
     FLENS_BLASLOG_END;
 }

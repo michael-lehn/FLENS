@@ -44,14 +44,14 @@ main()
 ///
 /// Compute $\tilde{b} = Q^T b$.
 ///
-    DenseVector<Array<double> >  _b;
-    _b = transpose(Q)*b;
+    DenseVector<Array<double> >  b_;
+    b_ = transpose(Q)*b;
 
 ///
 /// Solve $R x = \tilde{b}$.  Vector $b$ gets overwritten with $x$.
 ///
     const auto R = A.upper();
-    blas::sv(NoTrans, R, _b);
+    blas::sv(NoTrans, R, b_);
 
-    cout << "x = " << _b << endl;
+    cout << "x = " << b_ << endl;
 }

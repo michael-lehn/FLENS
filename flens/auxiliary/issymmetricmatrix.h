@@ -38,7 +38,7 @@
 
 namespace flens {
 
-struct _SymmetricMatrixChecker
+struct SymmetricMatrixChecker_
 {
 
     struct Two
@@ -48,7 +48,7 @@ struct _SymmetricMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -59,7 +59,7 @@ template <typename T>
 struct IsSymmetricMatrix
 {
     static T var;
-    static const bool value = sizeof(_SymmetricMatrixChecker::check(var))==1;
+    static const bool value = sizeof(SymmetricMatrixChecker_::check(var))==1;
 };
 
 } // namespace flens

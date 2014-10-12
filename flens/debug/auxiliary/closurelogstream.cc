@@ -40,7 +40,7 @@ namespace flens { namespace verbose {
 
 ClosureLogStream::ClosureLogStream(VariablePool &variablePool,
                                    std::ofstream &out)
-    : _variablePool(variablePool), _out(out)
+    : variablePool_(variablePool), out_(out)
 {
 }
 
@@ -48,14 +48,14 @@ ClosureLogStream &
 operator<<(ClosureLogStream &clStream, Side side)
 {
     if (side==Left) {
-        clStream._out << "Left";
+        clStream.out_ << "Left";
         return clStream;
     }
     if (side==Right) {
-        clStream._out << "Right";
+        clStream.out_ << "Right";
         return clStream;
     }
-    clStream._out << "?";
+    clStream.out_ << "?";
     return clStream;
 }
 
@@ -63,25 +63,25 @@ ClosureLogStream &
 operator<<(ClosureLogStream &clStream, Transpose trans)
 {
     if (trans==NoTrans) {
-        clStream._out << "NoTrans";
+        clStream.out_ << "NoTrans";
         return clStream;
     }
     if (trans==Conj) {
-        clStream._out << "Conj";
+        clStream.out_ << "Conj";
         return clStream;
     }
     if (trans==Trans) {
-        clStream._out << "Trans";
+        clStream.out_ << "Trans";
         return clStream;
     }
-    clStream._out << "ConjTrans";
+    clStream.out_ << "ConjTrans";
     return clStream;
 }
 
 ClosureLogStream &
 operator<<(ClosureLogStream &clStream, const char *msg)
 {
-    clStream._out << msg;
+    clStream.out_ << msg;
     return clStream;
 }
 

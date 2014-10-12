@@ -171,8 +171,8 @@ ungl2(IndexType                 k,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       _A      = A;
-    typename DenseVector<VWORK>::NoView _work   = work;
+    typename GeMatrix<MA>::NoView       A_      = A;
+    typename DenseVector<VWORK>::NoView work_   = work;
 #   endif
 
 //
@@ -184,18 +184,18 @@ ungl2(IndexType                 k,
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    external::ungl2_impl(k, _A, tau, _work);
+    external::ungl2_impl(k, A_, tau, work_);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "A_")) {
+    if (! isIdentical(A, A_, " A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        std::cerr << "F77LAPACK: A_ = " << A_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
+    if (! isIdentical(work, work_, " work", "work_")) {
         std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        std::cerr << "F77LAPACK: work_ = " << work_ << std::endl;
         failed = true;
     }
 

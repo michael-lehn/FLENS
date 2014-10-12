@@ -53,7 +53,7 @@ class ScalarValue
     private:
         // TODO:  Create a ScalarValueReference class that keeps a
         //        reference instead of a copy
-        const ElementType _value;
+        const ElementType value_;
 };
 
 template <typename T>
@@ -68,7 +68,7 @@ struct ConstRef<ScalarValue<T> >
 //  IsScalarValue
 //
 
-struct _ScalarValueChecker
+struct ScalarValueChecker_
 {
 
     struct Two
@@ -78,7 +78,7 @@ struct _ScalarValueChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -89,7 +89,7 @@ template <typename T>
 struct IsScalarValue
 {
     static T var;
-    static const bool value = sizeof(_ScalarValueChecker::check(var))==1;
+    static const bool value = sizeof(ScalarValueChecker_::check(var))==1;
 };
 
 } // namespace flens

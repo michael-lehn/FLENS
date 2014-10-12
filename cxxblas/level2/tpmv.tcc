@@ -60,33 +60,33 @@ tpmv_generic(StorageOrder order, StorageUpLo upLo,
         if (upLo==Upper) {
             if (diag==NonUnit) {
                 for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
-                    VX _x;
+                    VX x_;
                     dotu_generic(n-i, A+i*(2*n-i+1)/2, IndexType(1),
-                                      x+iX, incX, _x);
-                    x[iX] = _x;
+                                      x+iX, incX, x_);
+                    x[iX] = x_;
                 }
             } else { /* diag==Unit */
                 for (IndexType i=0, iX=0; i<n-1; ++i, iX+=incX) {
-                    VX _x;
+                    VX x_;
                     dotu_generic(n-i-1, A+i*(2*n-i+1)/2+1, IndexType(1),
-                                        x+iX+incX, incX, _x);
-                    x[iX] += _x;
+                                        x+iX+incX, incX, x_);
+                    x[iX] += x_;
                 }
             }
         } else { /* upLo==Lower */
             if (diag==NonUnit) {
                 for (IndexType i=n-1, iX=i*incX; i>=0; --i, iX-=incX) {
-                    VX _x;
+                    VX x_;
                     dotu_generic(i+1, A+i*(i+1)/2, IndexType(1),
-                                      x, incX, _x);
-                    x[iX] = _x;
+                                      x, incX, x_);
+                    x[iX] = x_;
                 }
             } else { /* diag==Unit */
                 for (IndexType i=n-1, iX=i*incX; i>0; --i, iX-=incX) {
-                    VX _x;
+                    VX x_;
                     dotu_generic(i, A+i*(i+1)/2, IndexType(1),
-                                    x, incX, _x);
-                    x[iX] += _x;
+                                    x, incX, x_);
+                    x[iX] += x_;
                 }
             }
         }
@@ -95,33 +95,33 @@ tpmv_generic(StorageOrder order, StorageUpLo upLo,
         if (upLo==Upper) {
             if (diag==NonUnit) {
                 for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
-                    VX _x;
+                    VX x_;
                     dot_generic(n-i, A+i*(2*n-i+1)/2, IndexType(1),
-                                     x+iX, incX, _x);
-                    x[iX] = _x;
+                                     x+iX, incX, x_);
+                    x[iX] = x_;
                 }
             } else { /* diag==Unit */
                 for (IndexType i=0, iX=0; i<n-1; ++i, iX+=incX) {
-                    VX _x;
+                    VX x_;
                     dot_generic(n-i-1, A+i*(2*n-i+1)/2+1, IndexType(1),
-                                       x+iX+incX, incX, _x);
-                    x[iX] += _x;
+                                       x+iX+incX, incX, x_);
+                    x[iX] += x_;
                 }
             }
         } else { /* upLo==Lower */
             if (diag==NonUnit) {
                 for (IndexType i=n-1, iX=i*incX; i>=0; --i, iX-=incX) {
-                    VX _x;
+                    VX x_;
                     dot_generic(i+1, A+i*(i+1)/2, IndexType(1),
-                                     x, incX, _x);
-                    x[iX] = _x;
+                                     x, incX, x_);
+                    x[iX] = x_;
                 }
             } else { /* diag==Unit */
                 for (IndexType i=n-1, iX=i*incX; i>0; --i, iX-=incX) {
-                    VX _x;
+                    VX x_;
                     dot_generic(i, A+i*(i+1)/2, IndexType(1),
-                                   x, incX, _x);
-                    x[iX] += _x;
+                                   x, incX, x_);
+                    x[iX] += x_;
                 }
             }
         }

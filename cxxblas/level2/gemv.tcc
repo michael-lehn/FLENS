@@ -67,29 +67,29 @@ gemv_generic(StorageOrder order, Transpose transA, Transpose conjX,
         if (conjX==NoTrans) {
             if (transA==Conj) {
                 for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
-                    VY _y;
-                    dot_generic(n, A+i*ldA, IndexType(1), x, incX, _y);
-                    y[iY] += alpha*_y;
+                    VY y_;
+                    dot_generic(n, A+i*ldA, IndexType(1), x, incX, y_);
+                    y[iY] += alpha * y_;
                 }
             } else {
                 for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
-                    VY _y;
-                    dotu_generic(n, A+i*ldA, IndexType(1), x, incX, _y);
-                    y[iY] += alpha*_y;
+                    VY y_;
+                    dotu_generic(n, A+i*ldA, IndexType(1), x, incX, y_);
+                    y[iY] += alpha * y_;
                 }
             }
         } else if (conjX==Conj) {
             if (transA==Conj) {
                 for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
-                    VY _y;
-                    dotu_generic(n, A+i*ldA, IndexType(1), x, incX, _y);
-                    y[iY] += alpha*cxxblas::conjugate(_y);
+                    VY y_;
+                    dotu_generic(n, A+i*ldA, IndexType(1), x, incX, y_);
+                    y[iY] += alpha*cxxblas::conjugate(y_);
                 }
             } else {
                 for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
-                    VY _y;
-                    dot_generic(n, x, incX, A+i*ldA, IndexType(1), _y);
-                    y[iY] += alpha*_y;
+                    VY y_;
+                    dot_generic(n, x, incX, A+i*ldA, IndexType(1), y_);
+                    y[iY] += alpha * y_;
                 }
             }
         }
@@ -105,29 +105,29 @@ gemv_generic(StorageOrder order, Transpose transA, Transpose conjX,
         if (conjX==NoTrans) {
             if (transA==ConjTrans) {
                 for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
-                    VY _y;
-                    dot_generic(m, A+i, ldA, x, incX, _y);
-                    y[iY] += alpha*_y;
+                    VY y_;
+                    dot_generic(m, A+i, ldA, x, incX, y_);
+                    y[iY] += alpha * y_;
                 }
             } else {
                 for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
-                    VY _y;
-                    dotu_generic(m, A+i, ldA, x, incX, _y);
-                    y[iY] += alpha*_y;
+                    VY y_;
+                    dotu_generic(m, A+i, ldA, x, incX, y_);
+                    y[iY] += alpha * y_;
                 }
             }
         } else if (conjX==Conj) {
             if (transA==ConjTrans) {
                 for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
-                    VY _y;
-                    dotu_generic(m, A+i, ldA, x, incX, _y);
-                    y[iY] += alpha*cxxblas::conjugate(_y);
+                    VY y_;
+                    dotu_generic(m, A+i, ldA, x, incX, y_);
+                    y[iY] += alpha*cxxblas::conjugate(y_);
                 }
             } else {
                 for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
-                    VY _y;
-                    dot_generic(m, x, incX, A+i, ldA, _y);
-                    y[iY] += alpha*_y;
+                    VY y_;
+                    dot_generic(m, x, incX, A+i, ldA, y_);
+                    y[iY] += alpha * y_;
                 }
             }
         }

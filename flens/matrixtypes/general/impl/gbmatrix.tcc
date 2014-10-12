@@ -49,7 +49,7 @@ GbMatrix<FS>::GbMatrix(IndexType n, IndexType m,
                        IndexType numSubDiags,
                        IndexType numSuperDiags,
                        IndexType firstIndex)
-    : _engine(n, m, numSubDiags, numSuperDiags, firstIndex)
+    : engine_(n, m, numSubDiags, numSuperDiags, firstIndex)
 {
     ASSERT(n>=0);
     ASSERT(m>=0);
@@ -59,28 +59,28 @@ GbMatrix<FS>::GbMatrix(IndexType n, IndexType m,
 
 template <typename FS>
 GbMatrix<FS>::GbMatrix(const Engine &engine)
-    : _engine(engine)
+    : engine_(engine)
 {
 }
 
 template <typename FS>
 GbMatrix<FS>::GbMatrix(const GbMatrix &rhs)
     : GeneralMatrix<GbMatrix<FS> >(),
-      _engine(rhs.engine())
+      engine_(rhs.engine())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 GbMatrix<FS>::GbMatrix(const GbMatrix<RHS> &rhs)
-    : _engine(rhs.engine())
+    : engine_(rhs.engine())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 GbMatrix<FS>::GbMatrix(GbMatrix<RHS> &rhs)
-    : _engine(rhs.engine())
+    : engine_(rhs.engine())
 {
 }
 
@@ -178,14 +178,14 @@ template <typename FS>
 const typename GbMatrix<FS>::ElementType &
 GbMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 template <typename FS>
 typename GbMatrix<FS>::ElementType &
 GbMatrix<FS>::operator()(IndexType row, IndexType col)
 {
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 // -- views --------------------------------------------------------------------
@@ -198,8 +198,8 @@ template <typename FS>
 const typename GbMatrix<FS>::ConstTriangularView
 GbMatrix<FS>::upper(Diag diag) const
 {
-    ASSERT(_engine.numCols() == _engine.numRows());
-    return ConstTriangularView(_engine.viewDiags(0, _engine.numSuperDiags()),
+    ASSERT(engine_.numCols() == engine_.numRows());
+    return ConstTriangularView(engine_.viewDiags(0, engine_.numSuperDiags()),
                                Upper, diag);
 }
 
@@ -207,8 +207,8 @@ template <typename FS>
 typename GbMatrix<FS>::TriangularView
 GbMatrix<FS>::upper(Diag diag)
 {
-    ASSERT(_engine.numCols() == _engine.numRows());
-    return TriangularView(_engine.viewDiags(0, _engine.numSuperDiags()),
+    ASSERT(engine_.numCols() == engine_.numRows());
+    return TriangularView(engine_.viewDiags(0, engine_.numSuperDiags()),
                           Upper, diag);
 }
 
@@ -216,24 +216,24 @@ template <typename FS>
 const typename GbMatrix<FS>::ConstView
 GbMatrix<FS>::strictUpper() const
 {
-    ASSERT(_engine.numSuperDiags()>0);
-    return ConstView(_engine.viewDiags(1, _engine.numSuperDiags()));
+    ASSERT(engine_.numSuperDiags()>0);
+    return ConstView(engine_.viewDiags(1, engine_.numSuperDiags()));
 }
 
 template <typename FS>
 typename GbMatrix<FS>::View
 GbMatrix<FS>::strictUpper()
 {
-    ASSERT(_engine.numSuperDiags()>0);
-    return View(_engine.viewDiags(1, _engine.numSuperDiags()));
+    ASSERT(engine_.numSuperDiags()>0);
+    return View(engine_.viewDiags(1, engine_.numSuperDiags()));
 }
 
 template <typename FS>
 const typename GbMatrix<FS>::ConstTriangularView
 GbMatrix<FS>::lower(Diag diag) const
 {
-    ASSERT(_engine.numCols() == _engine.numRows());
-    return ConstTriangularView(_engine.viewDiags(-_engine.numSubDiags(), 0),
+    ASSERT(engine_.numCols() == engine_.numRows());
+    return ConstTriangularView(engine_.viewDiags(-engine_.numSubDiags(), 0),
                                Lower, diag);
 }
 
@@ -241,8 +241,8 @@ template <typename FS>
 typename GbMatrix<FS>::TriangularView
 GbMatrix<FS>::lower(Diag diag)
 {
-    ASSERT(_engine.numCols() == _engine.numRows());
-    return TriangularView(_engine.viewDiags(-_engine.numSubDiags(), 0),
+    ASSERT(engine_.numCols() == engine_.numRows());
+    return TriangularView(engine_.viewDiags(-engine_.numSubDiags(), 0),
                           Lower, diag);
 }
 
@@ -250,30 +250,30 @@ template <typename FS>
 const typename GbMatrix<FS>::ConstView
 GbMatrix<FS>::strictLower() const
 {
-    ASSERT(_engine.numSubDiags()>0);
-    return ConstView(_engine.viewDiags(-_engine.numSubDiags(),-1));
+    ASSERT(engine_.numSubDiags()>0);
+    return ConstView(engine_.viewDiags(-engine_.numSubDiags(),-1));
 }
 
 template <typename FS>
 typename GbMatrix<FS>::View
 GbMatrix<FS>::strictLower()
 {
-    ASSERT(_engine.numSubDiags()>0);
-    return View(_engine.viewDiags(-_engine.numSubDiags(),-1));
+    ASSERT(engine_.numSubDiags()>0);
+    return View(engine_.viewDiags(-engine_.numSubDiags(),-1));
 }
 
 template <typename FS>
 const typename GbMatrix<FS>::ConstVectorView
 GbMatrix<FS>::diag(IndexType d) const
 {
-    return ConstVectorView(_engine.viewDiag(d, _engine.firstIndex()));
+    return ConstVectorView(engine_.viewDiag(d, engine_.firstIndex()));
 }
 
 template <typename FS>
 typename GbMatrix<FS>::VectorView
 GbMatrix<FS>::diag(IndexType d)
 {
-    return VectorView(_engine.viewDiag(d, _engine.firstIndex()));
+    return VectorView(engine_.viewDiag(d, engine_.firstIndex()));
 }
 
 // row view (vector view)
@@ -354,28 +354,28 @@ template <typename FS>
 const typename GbMatrix<FS>::ConstView
 GbMatrix<FS>::diags(IndexType fromDiag, IndexType toDiag) const
 {
-    return ConstView(_engine.viewDiags(fromDiag, toDiag));
+    return ConstView(engine_.viewDiags(fromDiag, toDiag));
 }
 
 template <typename FS>
 typename GbMatrix<FS>::View
 GbMatrix<FS>::diags(IndexType fromDiag, IndexType toDiag)
 {
-    return View(_engine.viewDiags(fromDiag, toDiag));
+    return View(engine_.viewDiags(fromDiag, toDiag));
 }
 
 template <typename FS>
 const typename GbMatrix<FS>::ConstGeView
 GbMatrix<FS>::viewStorageGeMatrix() const
 {
-    return _engine.viewFullStorage();
+    return engine_.viewFullStorage();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::GeView
 GbMatrix<FS>::viewStorageGeMatrix()
 {
-    return _engine.viewFullStorage();
+    return engine_.viewFullStorage();
 }
 
 // -- methods ------------------------------------------------------------------
@@ -384,98 +384,98 @@ template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::firstIndex() const
 {
-    return _engine.firstIndex();
+    return engine_.firstIndex();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::lastIndex() const
 {
-    return _engine.lastIndex();
+    return engine_.lastIndex();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::numSubDiags() const
 {
-    return _engine.numSubDiags();
+    return engine_.numSubDiags();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::numSuperDiags() const
 {
-    return _engine.numSuperDiags();
+    return engine_.numSuperDiags();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::IndexType
 GbMatrix<FS>::leadingDimension() const
 {
-    return _engine.leadingDimension();
+    return engine_.leadingDimension();
 }
 
 template <typename FS>
 StorageOrder
 GbMatrix<FS>::order() const
 {
-    return _engine.order;
+    return engine_.order;
 }
 
 template <typename FS>
 const typename GbMatrix<FS>::ElementType *
 GbMatrix<FS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename GbMatrix<FS>::ElementType *
 GbMatrix<FS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
@@ -484,7 +484,7 @@ bool
 GbMatrix<FS>::resize(const GbMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return engine_.resize(rhs.engine(), value);
 }
 
 template <typename FS>
@@ -493,21 +493,21 @@ GbMatrix<FS>::resize(IndexType n, IndexType m, IndexType kl, IndexType ku,
                      IndexType firstIndex,
                      const ElementType &value)
 {
-    return _engine.resize(n, m, kl, ku, firstIndex, value);
+    return engine_.resize(n, m, kl, ku, firstIndex, value);
 }
 
 template <typename FS>
 bool
 GbMatrix<FS>::fill(const ElementType &value)
 {
-    return _engine.fill(value);
+    return engine_.fill(value);
 }
 
 template <typename FS>
 bool
 GbMatrix<FS>::fillRandom()
 {
-    return _engine.fillRandom();
+    return engine_.fillRandom();
 }
 // -- implementation -----------------------------------------------------------
 
@@ -515,14 +515,14 @@ template <typename FS>
 const typename GbMatrix<FS>::Engine &
 GbMatrix<FS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename FS>
 typename GbMatrix<FS>::Engine &
 GbMatrix<FS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

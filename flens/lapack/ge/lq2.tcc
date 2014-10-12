@@ -83,8 +83,8 @@ lq2_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
             const ElementType Aii = A(i,i);
             A(i,i) = One;
-            auto _work = work(_(1, m-i));
-            larf(Right, A(i,_(i,n)), tau(i), A(_(i+1,m), _(i,n)), _work);
+            auto work_ = work(_(1, m-i));
+            larf(Right, A(i,_(i,n)), tau(i), A(_(i+1,m), _(i,n)), work_);
             A(i,i) = Aii;
         }
     }
@@ -122,8 +122,8 @@ lq2_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //          Apply H(i) to A(i+1:m,i:n) from the right
 //
             A(i,i) = One;
-            auto _work = work(_(1, m-i));
-            larf(Right, A(i,_(i,n)), tau(i), A(_(i+1,m), _(i,n)), _work);
+            auto work_ = work(_(1, m-i));
+            larf(Right, A(i,_(i,n)), tau(i), A(_(i+1,m), _(i,n)), work_);
         }
         A(i,i) = alpha;
         A(i, _(i,n)) = conjugate(A(i, _(i,n)));

@@ -33,6 +33,7 @@
 #ifndef CXXBLAS_LEVEL3_SYR2K_H
 #define CXXBLAS_LEVEL3_SYR2K_H 1
 
+#include <cxxblas/drivers/drivers.h>
 #include <cxxblas/typedefs.h>
 
 #define HAVE_CXXBLAS_SYR2K 1

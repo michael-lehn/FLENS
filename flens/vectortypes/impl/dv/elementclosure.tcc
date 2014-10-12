@@ -39,7 +39,7 @@ namespace flens { namespace densevector {
 
 template <typename V>
 ElementClosure<V>::ElementClosure(Vector &vector, IndexVariable &index)
-    : _vector(vector), _index(index)
+    : vector_(vector), index_(index)
 {
 }
 
@@ -48,9 +48,9 @@ template <typename V>
 int
 ElementClosure<V>::operator=(const ElementType &rhs)
 {
-    typename IndexVariable::ElementType &i = _index.value();
+    typename IndexVariable::ElementType &i = index_.value();
 
-    for (i=_vector.firstIndex(); i<=_vector.lastIndex(); ++i) {
+    for (i=vector_.firstIndex(); i<=vector_.lastIndex(); ++i) {
         value() = rhs;
     }
     return 0;
@@ -61,9 +61,9 @@ template <typename S>
 void
 ElementClosure<V>::operator=(const Scalar<S> &rhs)
 {
-    typename IndexVariable::ElementType &i = _index.value();
+    typename IndexVariable::ElementType &i = index_.value();
 
-    for (i=_vector.firstIndex(); i<=_vector.lastIndex(); ++i) {
+    for (i=vector_.firstIndex(); i<=vector_.lastIndex(); ++i) {
         value() = rhs.impl().value();
     }
 }
@@ -72,9 +72,9 @@ template <typename V>
 void
 ElementClosure<V>::operator=(const ElementClosure &rhs)
 {
-    typename IndexVariable::ElementType &i = _index.value();
+    typename IndexVariable::ElementType &i = index_.value();
 
-    for (i=_vector.firstIndex(); i<=_vector.lastIndex(); ++i) {
+    for (i=vector_.firstIndex(); i<=vector_.lastIndex(); ++i) {
         value() = rhs.impl().value();
     }
 }
@@ -83,14 +83,14 @@ template <typename V>
 const typename ElementClosure<V>::ElementType &
 ElementClosure<V>::value() const
 {
-    return _vector(_index.value());
+    return vector_(index_.value());
 }
 
 template <typename V>
 typename ElementClosure<V>::ElementType &
 ElementClosure<V>::value()
 {
-    return _vector(_index.value());
+    return vector_(index_.value());
 }
 
 } } // namespace densevector, flens

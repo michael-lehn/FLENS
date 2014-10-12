@@ -338,13 +338,13 @@ mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
     if (DEBUGCLOSURE::identical(x, y)) {
         typedef typename RemoveRef<VX>::Type  VectorX;
 
-        typename Result<VectorX>::Type  _x;
-        FLENS_BLASLOG_TMP_ADD(_x);
-        _x = x;
+        typename Result<VectorX>::Type  x_;
+        FLENS_BLASLOG_TMP_ADD(x_);
+        x_ = x;
 
-        mv(transpose, alpha, A, _x, beta, y);
+        mv(transpose, alpha, A, x_, beta, y);
 
-        FLENS_BLASLOG_TMP_REMOVE(_x, x);
+        FLENS_BLASLOG_TMP_REMOVE(x_, x);
         return;
     }
 #   endif

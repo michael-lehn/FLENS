@@ -162,9 +162,9 @@ evx_impl(BALANCE::Balance     balance,
 //
 //  .. Local Arrays ..
 //
-    bool _selectData[1];
+    bool selectData_[1];
     DenseVectorView<bool>
-        select = typename DenseVectorView<bool>::Engine(1, _selectData);
+        select = typename DenseVectorView<bool>::Engine(1, selectData_);
 //
 //  Test the input arguments
 //
@@ -334,8 +334,8 @@ evx_impl(BALANCE::Balance     balance,
         if (!wantSN) {
             IndexType nOut;
 
-            IndexType _n = (sense!=SENSE::EigenvaluesOnly) ? n : 0;
-            GeMatrixView<T>  Work(_n, n+6, work(_(iWrk, lWork)), n);
+            IndexType n_ = (sense!=SENSE::EigenvaluesOnly) ? n : 0;
+            GeMatrixView<T>  Work(n_, n+6, work(_(iWrk, lWork)), n);
 
             trsna(TRSNA::Job(sense), TRSNA::All, select, A, VL, VR,
                   rCondE, rCondV, n, nOut, Work, iWork);
@@ -878,7 +878,7 @@ evx(BALANCE::Balance     balance,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = external::evx_impl(balance, computeVL, computeVR,
+    IndexType info_ = external::evx_impl(balance, computeVL, computeVR,
                                          sense, A, wr, wi, VL, VR, iLo, iHi,
                                          scale, abNorm, rCondE, rCondV,
                                          work, iWork);
@@ -967,9 +967,9 @@ evx(BALANCE::Balance     balance,
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

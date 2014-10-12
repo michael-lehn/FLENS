@@ -40,10 +40,10 @@
 //--- Real
 
 Intrinsics<float, IntrinsicsLevel::SSE>
-inline _intrinsic_imag(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x);
+inline intrinsic_imag_(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x);
 
 Intrinsics<double, IntrinsicsLevel::SSE>
-inline _intrinsic_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x);
+inline intrinsic_imag_(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x);
 
 #endif // HAVE_SSE
 
@@ -53,10 +53,10 @@ inline _intrinsic_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::S
 //--- Real
 
 Intrinsics<float, IntrinsicsLevel::AVX>
-inline _intrinsic_imag(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x);
+inline intrinsic_imag_(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x);
 
 Intrinsics<double, IntrinsicsLevel::AVX>
-inline _intrinsic_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x);
+inline intrinsic_imag_(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x);
 
 #endif // HAVE_AVX
 

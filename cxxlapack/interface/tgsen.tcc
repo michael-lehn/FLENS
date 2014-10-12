@@ -69,12 +69,12 @@ tgsen(IndexType             ijob,
     CXXLAPACK_DEBUG_OUT("stgsen");
 
      IndexType info;
-     IndexType _wantq = wantq;
-     IndexType _wantz = wantz;
+     IndexType wantq_ = wantq;
+     IndexType wantz_ = wantz;
      //TODO: Convert select into a logical array!
      LAPACK_IMPL(stgsen)(&ijob,
-                         &_wantq,
-                         &_wantz,
+                         &wantq_,
+                         &wantz_,
                          select,
                          &n,
                          A,
@@ -136,12 +136,12 @@ tgsen(IndexType             ijob,
      CXXLAPACK_DEBUG_OUT("dtgsen");
 
      IndexType info;
-     IndexType _wantq = wantq;
-     IndexType _wantz = wantz;
+     IndexType wantq_ = wantq;
+     IndexType wantz_ = wantz;
      //TODO: Convert select into a logical array!
      LAPACK_IMPL(dtgsen)(&ijob,
-                         &_wantq,
-                         &_wantz,
+                         &wantq_,
+                         &wantz_,
                          select,
                          &n,
                          A,
@@ -203,12 +203,12 @@ tgsen(IndexType             ijob,
      CXXLAPACK_DEBUG_OUT("ctgsen");
 
      IndexType info;
-     IndexType _wantq = wantq;
-     IndexType _wantz = wantz;
+     IndexType wantq_ = wantq;
+     IndexType wantz_ = wantz;
      //TODO: Convert select into a logical array!
      LAPACK_IMPL(ctgsen)(&ijob,
-                         &_wantq,
-                         &_wantz,
+                         &wantq_,
+                         &wantz_,
                          select,
                          &n,
                          reinterpret_cast<float  *>(A),
@@ -268,12 +268,12 @@ tgsen(IndexType             ijob,
      CXXLAPACK_DEBUG_OUT("ztgsen");
 
      IndexType info;
-     IndexType _wantq = wantq;
-     IndexType _wantz = wantz;
+     IndexType wantq_ = wantq;
+     IndexType wantz_ = wantz;
      //TODO: Convert select into a logical array!
      LAPACK_IMPL(ztgsen)(&ijob,
-                         &_wantq,
-                         &_wantz,
+                         &wantq_,
+                         &wantz_,
                          select,
                          &n,
                          reinterpret_cast<double *>(A),

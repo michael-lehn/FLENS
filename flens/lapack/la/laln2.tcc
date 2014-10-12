@@ -88,25 +88,25 @@ laln2_impl(bool                  transA,
 //
 //    .. Local Arrays ..
 //
-    T   _ciData[4], _crData[4];
-    GeMatrixView<T> CI = typename GeMatrixView<T>::Engine(2, 2, _ciData, 2);
-    GeMatrixView<T> CR = typename GeMatrixView<T>::Engine(2, 2, _crData, 2);
+    T   ciData_[4], crData_[4];
+    GeMatrixView<T> CI = typename GeMatrixView<T>::Engine(2, 2, ciData_, 2);
+    GeMatrixView<T> CR = typename GeMatrixView<T>::Engine(2, 2, crData_, 2);
 
-    DenseVectorView<T> civ = typename DenseVectorView<T>::Engine(4, _ciData);
-    DenseVectorView<T> crv = typename DenseVectorView<T>::Engine(4, _crData);
+    DenseVectorView<T> civ = typename DenseVectorView<T>::Engine(4, ciData_);
+    DenseVectorView<T> crv = typename DenseVectorView<T>::Engine(4, crData_);
 
-    bool _rSwapData[4] = {false, true, false, true};
-    bool _zSwapData[4] = {false, false, true, true};
+    bool rSwapData_[4] = {false, true, false, true};
+    bool zSwapData_[4] = {false, false, true, true};
     DenseVectorView<bool>
-        rSwap = typename DenseVectorView<bool>::Engine(4, _rSwapData),
-        zSwap = typename DenseVectorView<bool>::Engine(4, _zSwapData);
+        rSwap = typename DenseVectorView<bool>::Engine(4, rSwapData_),
+        zSwap = typename DenseVectorView<bool>::Engine(4, zSwapData_);
 
-    IndexType _iPivotData[16] = { 1, 2, 3, 4,
+    IndexType iPivotData_[16] = { 1, 2, 3, 4,
                                   2, 1, 4, 3,
                                   3, 4, 1, 2,
                                   4, 3, 2, 1};
     GeMatrixView<IndexType>
-        iPivot = typename GeMatrixView<IndexType>::Engine(4, 4, _iPivotData, 4);
+        iPivot = typename GeMatrixView<IndexType>::Engine(4, 4, iPivotData_, 4);
 
 //
 //  Compute BIGNUM
@@ -579,7 +579,7 @@ laln2(bool                  transA,
 //
 //  Compare generic results with results from the native implementation
 //
-    const IndexType _info = external::laln2_impl(transA, nw, safeMin, ca,
+    const IndexType info_ = external::laln2_impl(transA, nw, safeMin, ca,
                                                  A, d1, d2, B, wr, wi,
                                                  X, scale, xNorm);
 
@@ -604,9 +604,9 @@ laln2(bool                  transA,
         failed = true;
     }
 
-    if (! isIdentical(info, _info, "info", "_info")) {
+    if (! isIdentical(info, info_, "info", "info_")) {
         std::cerr << "CXXLAPACK: info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

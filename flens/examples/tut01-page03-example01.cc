@@ -59,7 +59,7 @@ main()
 /// arguments to the range operator "`_`".  Analogously you can select all
 /// columns of course.
 ///
-    GeMatrixConstView  C = A(_,_(2,4));
+    const GeMatrixConstView  C = A(_,_(2,4));
 
 ///
 /// We overwrite `B` and by that `A`

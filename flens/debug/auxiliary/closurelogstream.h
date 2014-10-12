@@ -46,8 +46,8 @@ class ClosureLogStream
     public:
         ClosureLogStream(VariablePool &variablePool, std::ofstream &out);
 
-        VariablePool    &_variablePool;
-        std::ofstream   &_out;
+        VariablePool    &variablePool_;
+        std::ofstream   &out_;
 };
 
 ClosureLogStream &

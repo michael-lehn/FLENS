@@ -47,38 +47,38 @@ ConstBandStorageView<T, Order, I, A>::ConstBandStorageView(
                                         IndexType leadingDimension,
                                         IndexType firstIndex,
                                         const Allocator &allocator)
-    : _data(data), _allocator(allocator), _numRows(numRows), _numCols(numCols),
-      _numSubDiags(numSubDiags), _numSuperDiags(numSuperDiags),
-      _firstIndex(firstIndex),
-      _leadingDimension(leadingDimension)
+    : data_(data), allocator_(allocator), numRows_(numRows), numCols_(numCols),
+      numSubDiags_(numSubDiags), numSuperDiags_(numSuperDiags),
+      firstIndex_(firstIndex),
+      leadingDimension_(leadingDimension)
 {
-    ASSERT(_numRows>=0);
-    ASSERT(_numCols>=0);
-    ASSERT(_numSubDiags>=0);
-    ASSERT(_numSuperDiags>=0);
+    ASSERT(numRows_>=0);
+    ASSERT(numCols_>=0);
+    ASSERT(numSubDiags_>=0);
+    ASSERT(numSuperDiags_>=0);
 
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 ConstBandStorageView<T, Order, I, A>::ConstBandStorageView(
                                                 const ConstBandStorageView &rhs)
-    : _data(rhs._data),
-      _allocator(rhs._allocator),
-      _numRows(rhs.numRows()), _numCols(rhs.numCols()),
-      _numSubDiags(rhs.numSubDiags()), _numSuperDiags(rhs.numSuperDiags()),
-      _firstIndex(rhs.firstIndex()),_leadingDimension(rhs.leadingDimension())
+    : data_(rhs.data_),
+      allocator_(rhs.allocator_),
+      numRows_(rhs.numRows()), numCols_(rhs.numCols()),
+      numSubDiags_(rhs.numSubDiags()), numSuperDiags_(rhs.numSuperDiags()),
+      firstIndex_(rhs.firstIndex()),leadingDimension_(rhs.leadingDimension())
 {
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
 ConstBandStorageView<T, Order, I, A>::ConstBandStorageView(const RHS &rhs)
-    : _data(rhs.data()),
-      _allocator(rhs.allocator()),
-      _numRows(rhs.numRows()), _numCols(rhs.numCols()),
-      _numSubDiags(rhs.numSubDiags()), _numSuperDiags(rhs.numSuperDiags()),
-      _firstIndex(rhs.firstIndex()),
-      _leadingDimension(rhs.leadingDimension())
+    : data_(rhs.data()),
+      allocator_(rhs.allocator()),
+      numRows_(rhs.numRows()), numCols_(rhs.numCols()),
+      numSubDiags_(rhs.numSubDiags()), numSuperDiags_(rhs.numSuperDiags()),
+      firstIndex_(rhs.firstIndex()),
+      leadingDimension_(rhs.leadingDimension())
 {
 //     changeIndexBase(rhs.firstIndex());
 }
@@ -95,25 +95,25 @@ const typename ConstBandStorageView<T, Order, I, A>::ElementType &
 ConstBandStorageView<T, Order, I, A>::operator()(IndexType row,
                                                  IndexType col) const
 {
-    ASSERT(row>=_firstIndex);
-    ASSERT(row<_firstIndex+_numRows);
-    ASSERT(col>=_firstIndex);
-    ASSERT(col<_firstIndex+_numCols);
+    ASSERT(row>=firstIndex_);
+    ASSERT(row<firstIndex_+numRows_);
+    ASSERT(col>=firstIndex_);
+    ASSERT(col<firstIndex_+numCols_);
 
-    ASSERT(max(_firstIndex,col-_numSuperDiags) <= row);
-    ASSERT(row <= min(_numRows+_firstIndex-1,col+_numSubDiags));
+    ASSERT(max(firstIndex_,col-numSuperDiags_) <= row);
+    ASSERT(row <= min(numRows_+firstIndex_-1,col+numSubDiags_));
 
     if (Order == ColMajor) {
-        const IndexType i = _numSuperDiags+row-col;
-        const IndexType j = col-_firstIndex;
-        const IndexType storageNumRows = _numSubDiags+_numSuperDiags+1;
-        return _data[j*_leadingDimension+i];
+        const IndexType i = numSuperDiags_+row-col;
+        const IndexType j = col-firstIndex_;
+        const IndexType storageNumRows = numSubDiags_+numSuperDiags_+1;
+        return data_[j*leadingDimension_+i];
     }
 
-    const IndexType i = _numSubDiags+col-row;
-    const IndexType j = row-_firstIndex;
-    const IndexType storageNumRows = _numSubDiags+_numSuperDiags+1;
-    return _data[j*_leadingDimension+i];
+    const IndexType i = numSubDiags_+col-row;
+    const IndexType j = row-firstIndex_;
+    const IndexType storageNumRows = numSubDiags_+numSuperDiags_+1;
+    return data_[j*leadingDimension_+i];
 }
 
 //-- methods -------------------------------------------------------------------
@@ -122,84 +122,84 @@ template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::firstRow() const
 {
-    return _firstIndex;
+    return firstIndex_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::firstCol() const
 {
-    return _firstIndex;
+    return firstIndex_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::lastRow() const
 {
-    return _firstIndex+_numRows-1;
+    return firstIndex_+numRows_-1;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::lastCol() const
 {
-    return _firstIndex+_numCols-1;
+    return firstIndex_+numCols_-1;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::firstIndex() const
 {
-    return _firstIndex;
+    return firstIndex_;
 }
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::lastIndex() const
 {
-    return _firstIndex+_numCols-1;
+    return firstIndex_+numCols_-1;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::numRows() const
 {
-    return _numRows;
+    return numRows_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::numCols() const
 {
-    return _numCols;
+    return numCols_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::numSubDiags() const
 {
-    return _numSubDiags;
+    return numSubDiags_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::numSuperDiags() const
 {
-    return _numSuperDiags;
+    return numSuperDiags_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::dim() const
 {
-    ASSERT(_numCols == _numRows);
-    return _numCols;
+    ASSERT(numCols_ == numRows_);
+    return numCols_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename ConstBandStorageView<T, Order, I, A>::IndexType
 ConstBandStorageView<T, Order, I, A>::leadingDimension() const
 {
-    return _leadingDimension;
+    return leadingDimension_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -222,21 +222,21 @@ template <typename T, StorageOrder Order, typename I, typename A>
 const typename ConstBandStorageView<T, Order, I, A>::ElementType *
 ConstBandStorageView<T, Order, I, A>::data() const
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename ConstBandStorageView<T, Order, I, A>::Allocator &
 ConstBandStorageView<T, Order, I, A>::allocator() const
 {
-    return _allocator;
+    return allocator_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 void
 ConstBandStorageView<T, Order, I, A>::changeIndexBase(IndexType firstIndex)
 {
-    _firstIndex = firstIndex;
+    firstIndex_ = firstIndex;
 }
 
 // view of fullstorage scheme as an array
@@ -245,15 +245,15 @@ const typename ConstBandStorageView<T, Order, I, A>::ConstArrayView
 ConstBandStorageView<T, Order, I, A>::arrayView(IndexType firstViewIndex) const
 {
     if (Order==RowMajor) {
-        return ConstArrayView(_leadingDimension*_numRows,
-                              _data,
+        return ConstArrayView(leadingDimension_*numRows_,
+                              data_,
                               IndexType(1),
                               firstViewIndex,
                               allocator());
     }
 
-    return ConstArrayView(_leadingDimension*_numRows,
-                          _data,
+    return ConstArrayView(leadingDimension_*numRows_,
+                          data_,
                           IndexType(1),
                           firstViewIndex,
                           allocator());
@@ -266,20 +266,20 @@ ConstBandStorageView<T, Order, I, A>::viewDiag(IndexType diag,
                                                IndexType firstViewIndex) const
 {
 
-    ASSERT( diag <= _numSuperDiags);
-    ASSERT(-diag <= _numSubDiags);
+    ASSERT( diag <= numSuperDiags_);
+    ASSERT(-diag <= numSubDiags_);
 
     using std::min;
 
     const IndexType i = (diag < 0) ? -diag+firstViewIndex: firstViewIndex;
     const IndexType j = (diag > 0) ?  diag+firstViewIndex: firstViewIndex;
-    const IndexType length = (diag<=0) ? min(_numCols, _numRows+diag)
-                                       : min(_numCols-diag, _numRows);
+    const IndexType length = (diag<=0) ? min(numCols_, numRows_+diag)
+                                       : min(numCols_-diag, numRows_);
 
-    return ConstArrayView(length-firstViewIndex+_firstIndex,
+    return ConstArrayView(length-firstViewIndex+firstIndex_,
                           &(operator()(i, j)),
-                          _leadingDimension,
-                          _firstIndex, _allocator);
+                          leadingDimension_,
+                          firstIndex_, allocator_);
 
 }
 
@@ -289,68 +289,68 @@ ConstBandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag,
                                                 IndexType toDiag) const
 {
     ASSERT(fromDiag<=toDiag);
-    IndexType numRows = _numRows;
-    IndexType numCols = _numCols;
+    IndexType numRows = numRows_;
+    IndexType numCols = numCols_;
 
     if (fromDiag>0) {
-        numCols = _numCols - fromDiag;
-        if (_numRows<_numCols) {
-            if (_numCols-_numRows < fromDiag) {
-                numRows = _numCols - fromDiag;
+        numCols = numCols_ - fromDiag;
+        if (numRows_<numCols_) {
+            if (numCols_-numRows_ < fromDiag) {
+                numRows = numCols_ - fromDiag;
             }
         } else {
-            numRows = _numCols - fromDiag;
+            numRows = numCols_ - fromDiag;
         }
     }
     if (toDiag<0) {
-        numRows = _numRows + toDiag;
-        if (_numCols<_numRows) {
-            if (_numRows-_numCols < -toDiag) {
-              numCols = _numRows + toDiag;
+        numRows = numRows_ + toDiag;
+        if (numCols_<numRows_) {
+            if (numRows_-numCols_ < -toDiag) {
+              numCols = numRows_ + toDiag;
             }
         } else {
-            numCols = _numRows + toDiag;
+            numCols = numRows_ + toDiag;
         }
     }
 
-    const IndexType i = _firstIndex - ((toDiag<0) ? toDiag : 0);
-    const IndexType j = _firstIndex + ((fromDiag>0) ? fromDiag : 0);
+    const IndexType i = firstIndex_ - ((toDiag<0) ? toDiag : 0);
+    const IndexType j = firstIndex_ + ((fromDiag>0) ? fromDiag : 0);
 
     if (Order == RowMajor ) {
         if (toDiag < 0) {
             return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
                              &(operator()(i,j)) + fromDiag-toDiag ,
-                            _leadingDimension,
-                             _firstIndex, _allocator);
+                            leadingDimension_,
+                             firstIndex_, allocator_);
         }
         if (fromDiag > 0) {
             return ConstView(numRows, numCols, 0, toDiag-fromDiag,
                              &(operator()(i,j)),
-                             _leadingDimension,
-                             _firstIndex, _allocator);
+                             leadingDimension_,
+                             firstIndex_, allocator_);
         }
         return ConstView(numRows, numCols, -fromDiag, toDiag,
-                         _data + _numSubDiags+fromDiag,
-                         _leadingDimension,
-                         _firstIndex, _allocator);
+                         data_ + numSubDiags_+fromDiag,
+                         leadingDimension_,
+                         firstIndex_, allocator_);
     }
 
     if (toDiag < 0) {
         return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
                          &(operator()(i,j)),
-                         _leadingDimension,
-                         _firstIndex, _allocator);
+                         leadingDimension_,
+                         firstIndex_, allocator_);
     }
     if (fromDiag > 0) {
         return ConstView(numRows, numCols, 0, toDiag-fromDiag,
                          &(operator()(i,j)) + fromDiag-toDiag,
-                         _leadingDimension,
-                         _firstIndex, _allocator);
+                         leadingDimension_,
+                         firstIndex_, allocator_);
     }
-    return ConstView(_numRows, _numCols, -fromDiag, toDiag,
-                     _data + (_numSuperDiags-toDiag),
-                     _leadingDimension,
-                     _firstIndex, _allocator);
+    return ConstView(numRows_, numCols_, -fromDiag, toDiag,
+                     data_ + (numSuperDiags_-toDiag),
+                     leadingDimension_,
+                     firstIndex_, allocator_);
 }
 
 // view of single row

@@ -153,16 +153,16 @@ tzrzf_impl(GeMatrix<MA>              &A,
 //          Compute the TZ factorization of the current block
 //          A(i:i+ib-1,i:n)
 //
-            auto _tau  = tau(_(i,i+ib-1));
-            auto _work = work(_(1,ib));
-            latrz(n-m, A(_(i,i+ib-1),_(i,n)), _tau, _work);
+            auto tau_  = tau(_(i,i+ib-1));
+            auto work_ = work(_(1,ib));
+            latrz(n-m, A(_(i,i+ib-1),_(i,n)), tau_, work_);
 
             if (i>1) {
 //
 //              Form the triangular factor of the block reflector
 //              H = H(i+ib-1) . . . H(i+1) H(i)
 //
-                larzt(Backward, RowWise, A(_(i,i+ib-1),_(m1,n)), _tau, Tr);
+                larzt(Backward, RowWise, A(_(i,i+ib-1),_(m1,n)), tau_, Tr);
 //
 //              Apply H to A(1:i-1,i:n) from the right
 //

@@ -45,7 +45,7 @@ HeCoordMatrix<CS>::HeCoordMatrix(IndexType   dim,
                                  StorageUpLo upLo,
                                  IndexType   densityEstimate,
                                  IndexType   indexBase)
-    : _engine(dim, dim, densityEstimate, indexBase), _upLo(upLo)
+    : engine_(dim, dim, densityEstimate, indexBase), upLo_(upLo)
 {
 }
 
@@ -55,14 +55,14 @@ typename HeCoordMatrix<CS>::ElementProxy
 HeCoordMatrix<CS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
-    if (_upLo==Upper) {
+    if (upLo_==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
     }
 #   endif
 
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 // -- methods ------------------------------------------------------------------
@@ -71,63 +71,63 @@ typename HeCoordMatrix<CS>::IndexType
 HeCoordMatrix<CS>::dim() const
 {
     ASSERT(numRows()==numCols());
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename CS>
 typename HeCoordMatrix<CS>::IndexType
 HeCoordMatrix<CS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename CS>
 typename HeCoordMatrix<CS>::IndexType
 HeCoordMatrix<CS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename CS>
 typename HeCoordMatrix<CS>::IndexType
 HeCoordMatrix<CS>::indexBase() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename CS>
 typename HeCoordMatrix<CS>::IndexType
 HeCoordMatrix<CS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename CS>
 typename HeCoordMatrix<CS>::IndexType
 HeCoordMatrix<CS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename CS>
 typename HeCoordMatrix<CS>::IndexType
 HeCoordMatrix<CS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename CS>
 typename HeCoordMatrix<CS>::IndexType
 HeCoordMatrix<CS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 template <typename CS>
 StorageUpLo
 HeCoordMatrix<CS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 // -- implementation -----------------------------------------------------------
@@ -135,7 +135,7 @@ template <typename CS>
 const typename HeCoordMatrix<CS>::Engine &
 HeCoordMatrix<CS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

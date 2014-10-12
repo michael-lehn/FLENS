@@ -9,7 +9,7 @@ void
 BLAS(chemv)(const char      *UPLO,
             const INTEGER   *N,
             const cfloat    *ALPHA,
-            const cfloat    *_A,
+            const cfloat    *A_,
             const INTEGER   *LDA,
             const cfloat    *X,
             const INTEGER   *INCX,
@@ -20,15 +20,15 @@ BLAS(chemv)(const char      *UPLO,
 
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
+        char    UPLO_   = toupper(*UPLO);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
 
         cblas_chemv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
                     reinterpret_cast<const float *>(ALPHA),
-                    reinterpret_cast<const float *>(_A), *LDA,
+                    reinterpret_cast<const float *>(A_), *LDA,
                     reinterpret_cast<const float *>(X), *INCX,
                     reinterpret_cast<const float *>(BETA),
                     reinterpret_cast<float *>(Y), *INCY);
@@ -38,11 +38,11 @@ BLAS(chemv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO = toupper(*UPLO);
+        char    UPLO_ = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info    = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
             } else if (*N<0) {
                 info = 2;
@@ -59,9 +59,9 @@ BLAS(chemv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
 
-        CHeMatrixConstView    A(CFullConstView(*N, *N, _A, *LDA), upLo);
+        CHeMatrixConstView    A(CFullConstView(*N, *N, A_, *LDA), upLo);
         CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         CDenseVectorView      y(CArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
@@ -80,7 +80,7 @@ void
 BLAS(zhemv)(const char      *UPLO,
             const INTEGER   *N,
             const cdouble   *ALPHA,
-            const cdouble   *_A,
+            const cdouble   *A_,
             const INTEGER   *LDA,
             const cdouble   *X,
             const INTEGER   *INCX,
@@ -91,15 +91,15 @@ BLAS(zhemv)(const char      *UPLO,
 
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
+        char    UPLO_   = toupper(*UPLO);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
 
         cblas_zhemv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
                     reinterpret_cast<const double *>(ALPHA),
-                    reinterpret_cast<const double *>(_A), *LDA,
+                    reinterpret_cast<const double *>(A_), *LDA,
                     reinterpret_cast<const double *>(X), *INCX,
                     reinterpret_cast<const double *>(BETA),
                     reinterpret_cast<double *>(Y), *INCY);
@@ -109,11 +109,11 @@ BLAS(zhemv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO = toupper(*UPLO);
+        char    UPLO_ = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info    = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
             } else if (*N<0) {
                 info = 2;
@@ -130,9 +130,9 @@ BLAS(zhemv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
 
-        ZHeMatrixConstView    A(ZFullConstView(*N, *N, _A, *LDA), upLo);
+        ZHeMatrixConstView    A(ZFullConstView(*N, *N, A_, *LDA), upLo);
         ZDenseVectorConstView x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         ZDenseVectorView      y(ZArrayView(*N, Y, abs(*INCY)), *INCY<0);
 

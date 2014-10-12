@@ -77,11 +77,11 @@ struct ClosureLog
         static VariablePool     variablePool;
 
     private:
-        static bool             _started;
-        static int              _indentLevel;
-        static std::string      _tag;
-        static std::ofstream    _out;
-        static ClosureLogStream _closureLogStream;
+        static bool             started_;
+        static int              indentLevel_;
+        static std::string      tag_;
+        static std::ofstream    out_;
+        static ClosureLogStream closureLogStream_;
 };
 
 } } // namespace verbose, namespace flens

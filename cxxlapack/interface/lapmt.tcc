@@ -50,8 +50,8 @@ lapmt(bool                  forwrd,
 {
     CXXLAPACK_DEBUG_OUT("slapmt");
 
-    IndexType _forwrd = forwrd;
-    LAPACK_IMPL(slapmt)(&_forwrd,
+    IndexType forwrd_ = forwrd;
+    LAPACK_IMPL(slapmt)(&forwrd_,
                         &m,
                         &n,
                         X,
@@ -72,8 +72,8 @@ lapmt(bool                  forwrd,
 {
     CXXLAPACK_DEBUG_OUT("dlapmt");
 
-    IndexType _forwrd = forwrd;
-    LAPACK_IMPL(dlapmt)(&_forwrd,
+    IndexType forwrd_ = forwrd;
+    LAPACK_IMPL(dlapmt)(&forwrd_,
                         &m,
                         &n,
                         X,
@@ -93,8 +93,8 @@ lapmt(bool                  forwrd,
 {
     CXXLAPACK_DEBUG_OUT("clapmt");
 
-    IndexType _forwrd = forwrd;
-    LAPACK_IMPL(clapmt)(&_forwrd,
+    IndexType forwrd_ = forwrd;
+    LAPACK_IMPL(clapmt)(&forwrd_,
                         &m,
                         &n,
                         reinterpret_cast<float  *>(X),
@@ -114,8 +114,8 @@ lapmt(bool                  forwrd,
 {
     CXXLAPACK_DEBUG_OUT("zlapmt");
 
-    IndexType _forwrd = forwrd;
-    LAPACK_IMPL(zlapmt)(&_forwrd,
+    IndexType forwrd_ = forwrd;
+    LAPACK_IMPL(zlapmt)(&forwrd_,
                         &m,
                         &n,
                         reinterpret_cast<double *>(X),

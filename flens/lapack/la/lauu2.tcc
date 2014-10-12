@@ -260,7 +260,7 @@ lauu2(TrMatrix<MA> &A)
     external::lauu2_impl(A);
 
     bool failed = false;
-    if (! isIdentical(A_generic, A, "A_generic", "_A")) {
+    if (! isIdentical(A_generic, A, "A_generic", "A_")) {
         std::cerr << "A_org = " << A_org << std::endl;
         std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
         std::cerr << "F77LAPACK: A = " << A << std::endl;

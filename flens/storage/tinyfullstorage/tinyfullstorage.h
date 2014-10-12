@@ -76,7 +76,7 @@ class TinyFullStorage
         fill(const ElementType &value = ElementType(0));
 
     private:
-        ElementType _data[m][n];
+        ElementType data_[m][n];
 };
 
 } // namespace flens

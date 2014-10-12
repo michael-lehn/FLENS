@@ -13,22 +13,22 @@ BLAS(strsm)(const char      *SIDE,
             const INTEGER   *M,
             const INTEGER   *N,
             const float     *ALPHA,
-            const float     *_A,
+            const float     *A_,
             const INTEGER   *LDA,
-            float           *_B,
+            float           *B_,
             const INTEGER   *LDB)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _SIDE   = toupper(*SIDE);
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANSA = toupper(*TRANSA);
-        char    _DIAG   = toupper(*DIAG);
+        char    SIDE_   = toupper(*SIDE);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANSA_ = toupper(*TRANSA);
+        char    DIAG_   = toupper(*DIAG);
 
-        Side           side   = Side(_SIDE);
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      transA = convertTo<Transpose>(_TRANSA);
-        Diag           diag   = Diag(_DIAG);
+        Side           side   = Side(SIDE_);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      transA = convertTo<Transpose>(TRANSA_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_strsm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
@@ -36,27 +36,27 @@ BLAS(strsm)(const char      *SIDE,
                     cxxblas::CBLAS::getCblasType(transA),
                     cxxblas::CBLAS::getCblasType(diag),
                     *M, *N, *ALPHA,
-                    _A, *LDA, _B, *LDB);
+                    A_, *LDA, B_, *LDB);
 
 #   else
         using std::abs;
         using std::max;
 
-        char    _SIDE   = toupper(*SIDE);
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANSA = toupper(*TRANSA);
-        char    _DIAG   = toupper(*DIAG);
-        INTEGER nRowA   = (_SIDE=='L') ? *M : *N;
+        char    SIDE_   = toupper(*SIDE);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANSA_ = toupper(*TRANSA);
+        char    DIAG_   = toupper(*DIAG);
+        INTEGER nRowA   = (SIDE_=='L') ? *M : *N;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_SIDE!='L' && _SIDE!='R') {
+            if (SIDE_!='L' && SIDE_!='R') {
                 info = 1;
-            } else if (_UPLO!='U' && _UPLO!='L') {
+            } else if (UPLO_!='U' && UPLO_!='L') {
                 info = 2;
-            } else if (_TRANSA!='N' && _TRANSA!='T' && _TRANSA!='C') {
+            } else if (TRANSA_!='N' && TRANSA_!='T' && TRANSA_!='C') {
                 info = 3;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 4;
             } else if (*M<0) {
                 info = 5;
@@ -73,14 +73,14 @@ BLAS(strsm)(const char      *SIDE,
             }
 #       endif
 
-        Side           side   = Side(_SIDE);
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      transA = convertTo<Transpose>(_TRANSA);
-        Diag           diag   = Diag(_DIAG);
+        Side           side   = Side(SIDE_);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      transA = convertTo<Transpose>(TRANSA_);
+        Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        STrMatrixConstView  A(SFullConstView(ka, ka, _A, *LDA), upLo, diag);
-        SGeMatrixView       B = SFullView(*M, *N, _B, *LDB);
+        STrMatrixConstView  A(SFullConstView(ka, ka, A_, *LDA), upLo, diag);
+        SGeMatrixView       B = SFullView(*M, *N, B_, *LDB);
 
         blas::sm(side, transA, *ALPHA, A, B);
 #   endif
@@ -94,22 +94,22 @@ BLAS(dtrsm)(const char      *SIDE,
             const INTEGER   *M,
             const INTEGER   *N,
             const double    *ALPHA,
-            const double    *_A,
+            const double    *A_,
             const INTEGER   *LDA,
-            double          *_B,
+            double          *B_,
             const INTEGER   *LDB)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _SIDE   = toupper(*SIDE);
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANSA = toupper(*TRANSA);
-        char    _DIAG   = toupper(*DIAG);
+        char    SIDE_   = toupper(*SIDE);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANSA_ = toupper(*TRANSA);
+        char    DIAG_   = toupper(*DIAG);
 
-        Side           side   = Side(_SIDE);
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      transA = convertTo<Transpose>(_TRANSA);
-        Diag           diag   = Diag(_DIAG);
+        Side           side   = Side(SIDE_);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      transA = convertTo<Transpose>(TRANSA_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_dtrsm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
@@ -117,27 +117,27 @@ BLAS(dtrsm)(const char      *SIDE,
                     cxxblas::CBLAS::getCblasType(transA),
                     cxxblas::CBLAS::getCblasType(diag),
                     *M, *N, *ALPHA,
-                    _A, *LDA, _B, *LDB);
+                    A_, *LDA, B_, *LDB);
 
 #   else
         using std::abs;
         using std::max;
 
-        char    _SIDE   = toupper(*SIDE);
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANSA = toupper(*TRANSA);
-        char    _DIAG   = toupper(*DIAG);
-        INTEGER nRowA   = (_SIDE=='L') ? *M : *N;
+        char    SIDE_   = toupper(*SIDE);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANSA_ = toupper(*TRANSA);
+        char    DIAG_   = toupper(*DIAG);
+        INTEGER nRowA   = (SIDE_=='L') ? *M : *N;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_SIDE!='L' && _SIDE!='R') {
+            if (SIDE_!='L' && SIDE_!='R') {
                 info = 1;
-            } else if (_UPLO!='U' && _UPLO!='L') {
+            } else if (UPLO_!='U' && UPLO_!='L') {
                 info = 2;
-            } else if (_TRANSA!='N' && _TRANSA!='T' && _TRANSA!='C') {
+            } else if (TRANSA_!='N' && TRANSA_!='T' && TRANSA_!='C') {
                 info = 3;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 4;
             } else if (*M<0) {
                 info = 5;
@@ -154,14 +154,14 @@ BLAS(dtrsm)(const char      *SIDE,
             }
 #       endif
 
-        Side           side   = Side(_SIDE);
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      transA = convertTo<Transpose>(_TRANSA);
-        Diag           diag   = Diag(_DIAG);
+        Side           side   = Side(SIDE_);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      transA = convertTo<Transpose>(TRANSA_);
+        Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        DTrMatrixConstView  A(DFullConstView(ka, ka, _A, *LDA), upLo, diag);
-        DGeMatrixView       B = DFullView(*M, *N, _B, *LDB);
+        DTrMatrixConstView  A(DFullConstView(ka, ka, A_, *LDA), upLo, diag);
+        DGeMatrixView       B = DFullView(*M, *N, B_, *LDB);
 
         blas::sm(side, transA, *ALPHA, A, B);
 #   endif
@@ -175,22 +175,22 @@ BLAS(ctrsm)(const char      *SIDE,
             const INTEGER   *M,
             const INTEGER   *N,
             const cfloat    *ALPHA,
-            const cfloat    *_A,
+            const cfloat    *A_,
             const INTEGER   *LDA,
-            cfloat          *_B,
+            cfloat          *B_,
             const INTEGER   *LDB)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _SIDE   = toupper(*SIDE);
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANSA = toupper(*TRANSA);
-        char    _DIAG   = toupper(*DIAG);
+        char    SIDE_   = toupper(*SIDE);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANSA_ = toupper(*TRANSA);
+        char    DIAG_   = toupper(*DIAG);
 
-        Side           side   = Side(_SIDE);
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      transA = convertTo<Transpose>(_TRANSA);
-        Diag           diag   = Diag(_DIAG);
+        Side           side   = Side(SIDE_);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      transA = convertTo<Transpose>(TRANSA_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_ctrsm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
@@ -199,28 +199,28 @@ BLAS(ctrsm)(const char      *SIDE,
                     cxxblas::CBLAS::getCblasType(diag),
                     *M, *N,
                     reinterpret_cast<const float *>(ALPHA),
-                    reinterpret_cast<const float *>(_A), *LDA,
-                    reinterpret_cast<float *>(_B), *LDB);
+                    reinterpret_cast<const float *>(A_), *LDA,
+                    reinterpret_cast<float *>(B_), *LDB);
 
 #   else
         using std::abs;
         using std::max;
 
-        char    _SIDE   = toupper(*SIDE);
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANSA = toupper(*TRANSA);
-        char    _DIAG   = toupper(*DIAG);
-        INTEGER nRowA   = (_SIDE=='L') ? *M : *N;
+        char    SIDE_   = toupper(*SIDE);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANSA_ = toupper(*TRANSA);
+        char    DIAG_   = toupper(*DIAG);
+        INTEGER nRowA   = (SIDE_=='L') ? *M : *N;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_SIDE!='L' && _SIDE!='R') {
+            if (SIDE_!='L' && SIDE_!='R') {
                 info = 1;
-            } else if (_UPLO!='U' && _UPLO!='L') {
+            } else if (UPLO_!='U' && UPLO_!='L') {
                 info = 2;
-            } else if (_TRANSA!='N' && _TRANSA!='T' && _TRANSA!='C') {
+            } else if (TRANSA_!='N' && TRANSA_!='T' && TRANSA_!='C') {
                 info = 3;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 4;
             } else if (*M<0) {
                 info = 5;
@@ -237,14 +237,14 @@ BLAS(ctrsm)(const char      *SIDE,
             }
 #       endif
 
-        Side           side   = Side(_SIDE);
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      transA = convertTo<Transpose>(_TRANSA);
-        Diag           diag   = Diag(_DIAG);
+        Side           side   = Side(SIDE_);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      transA = convertTo<Transpose>(TRANSA_);
+        Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        CTrMatrixConstView  A(CFullConstView(ka, ka, _A, *LDA), upLo, diag);
-        CGeMatrixView       B = CFullView(*M, *N, _B, *LDB);
+        CTrMatrixConstView  A(CFullConstView(ka, ka, A_, *LDA), upLo, diag);
+        CGeMatrixView       B = CFullView(*M, *N, B_, *LDB);
 
         blas::sm(side, transA, *ALPHA, A, B);
 #   endif
@@ -258,22 +258,22 @@ BLAS(ztrsm)(const char      *SIDE,
             const INTEGER   *M,
             const INTEGER   *N,
             const cdouble   *ALPHA,
-            const cdouble   *_A,
+            const cdouble   *A_,
             const INTEGER   *LDA,
-            cdouble         *_B,
+            cdouble         *B_,
             const INTEGER   *LDB)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _SIDE   = toupper(*SIDE);
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANSA = toupper(*TRANSA);
-        char    _DIAG   = toupper(*DIAG);
+        char    SIDE_   = toupper(*SIDE);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANSA_ = toupper(*TRANSA);
+        char    DIAG_   = toupper(*DIAG);
 
-        Side           side   = Side(_SIDE);
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      transA = convertTo<Transpose>(_TRANSA);
-        Diag           diag   = Diag(_DIAG);
+        Side           side   = Side(SIDE_);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      transA = convertTo<Transpose>(TRANSA_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_ztrsm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
@@ -282,29 +282,29 @@ BLAS(ztrsm)(const char      *SIDE,
                     cxxblas::CBLAS::getCblasType(diag),
                     *M, *N,
                     reinterpret_cast<const double *>(ALPHA),
-                    reinterpret_cast<const double *>(_A), *LDA,
-                    reinterpret_cast<double *>(_B), *LDB);
+                    reinterpret_cast<const double *>(A_), *LDA,
+                    reinterpret_cast<double *>(B_), *LDB);
 
 #   else
 
         using std::abs;
         using std::max;
 
-        char    _SIDE   = toupper(*SIDE);
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANSA = toupper(*TRANSA);
-        char    _DIAG   = toupper(*DIAG);
-        INTEGER nRowA   = (_SIDE=='L') ? *M : *N;
+        char    SIDE_   = toupper(*SIDE);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANSA_ = toupper(*TRANSA);
+        char    DIAG_   = toupper(*DIAG);
+        INTEGER nRowA   = (SIDE_=='L') ? *M : *N;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_SIDE!='L' && _SIDE!='R') {
+            if (SIDE_!='L' && SIDE_!='R') {
                 info = 1;
-            } else if (_UPLO!='U' && _UPLO!='L') {
+            } else if (UPLO_!='U' && UPLO_!='L') {
                 info = 2;
-            } else if (_TRANSA!='N' && _TRANSA!='T' && _TRANSA!='C') {
+            } else if (TRANSA_!='N' && TRANSA_!='T' && TRANSA_!='C') {
                 info = 3;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 4;
             } else if (*M<0) {
                 info = 5;
@@ -321,14 +321,14 @@ BLAS(ztrsm)(const char      *SIDE,
             }
 #       endif
 
-        Side           side   = Side(_SIDE);
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      transA = convertTo<Transpose>(_TRANSA);
-        Diag           diag   = Diag(_DIAG);
+        Side           side   = Side(SIDE_);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      transA = convertTo<Transpose>(TRANSA_);
+        Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        ZTrMatrixConstView  A(ZFullConstView(ka, ka, _A, *LDA), upLo, diag);
-        ZGeMatrixView       B = ZFullView(*M, *N, _B, *LDB);
+        ZTrMatrixConstView  A(ZFullConstView(ka, ka, A_, *LDA), upLo, diag);
+        ZGeMatrixView       B = ZFullView(*M, *N, B_, *LDB);
 
         blas::sm(side, transA, *ALPHA, A, B);
 #   endif

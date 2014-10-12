@@ -40,14 +40,14 @@ LAPACK_DECL(dgetri)(const INTEGER    *N,
 //
 //  Setup FLENS matrix/vector types
 //
-    DGeMatrixView          _A      = DFSView(*N, *N, A, *LDA);
-    IConstDenseVectorView  _IPIV   = IConstArrayView(*N, IPIV, 1);
-    DDenseVectorView       _WORK   = DArrayView(*LWORK, WORK, 1);
+    DGeMatrixView          A_      = DFSView(*N, *N, A, *LDA);
+    IConstDenseVectorView  IPIV_   = IConstArrayView(*N, IPIV, 1);
+    DDenseVectorView       WORK_   = DArrayView(*LWORK, WORK, 1);
 
 //
 //  Call FLENS implementation
 //
-    tri(_A, _IPIV, _WORK);
+    tri(A_, IPIV_, WORK_);
 }
 
 //-- zgetri --------------------------------------------------------------------
@@ -88,14 +88,14 @@ LAPACK_DECL(zgetri)(const INTEGER    *N,
     auto zA     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView          _A      = ZFSView(*N, *N, zA, *LDA);
-    IConstDenseVectorView  _IPIV   = IConstArrayView(*N, IPIV, 1);
-    ZDenseVectorView       _WORK   = ZArrayView(*LWORK, zWORK, 1);
+    ZGeMatrixView          A_      = ZFSView(*N, *N, zA, *LDA);
+    IConstDenseVectorView  IPIV_   = IConstArrayView(*N, IPIV, 1);
+    ZDenseVectorView       WORK_   = ZArrayView(*LWORK, zWORK, 1);
 
 //
 //  Call FLENS implementation
 //
-    tri(_A, _IPIV, _WORK);
+    tri(A_, IPIV_, WORK_);
 }
 
 } // extern "C"

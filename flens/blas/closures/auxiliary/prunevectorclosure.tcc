@@ -71,8 +71,8 @@ struct PruneVectorClosure<VectorClosure<OpMult, ScalarValue<L>, R> >
 {
     typedef VectorClosure<OpMult, ScalarValue<L>, R>  VC;
 
-    typedef typename PruneVectorClosure<R>::ScalingFactor  _ScalingFactor;
-    typedef typename Promotion<L, _ScalingFactor>::Type    ScalingFactor;
+    typedef typename PruneVectorClosure<R>::ScalingFactor  ScalingFactor_;
+    typedef typename Promotion<L, ScalingFactor_>::Type    ScalingFactor;
     typedef typename PruneVectorClosure<R>::Remainder      Remainder;
 
     template <typename ALPHA>

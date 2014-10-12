@@ -52,7 +52,7 @@ GeMatrix<FS>::GeMatrix()
 
 template <typename FS>
 GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols)
-    : _engine(numRows, numCols)
+    : engine_(numRows, numCols)
 {
     ASSERT(numRows>=0);
     ASSERT(numCols>=0);
@@ -61,7 +61,7 @@ GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols)
 template <typename FS>
 GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols,
                        IndexType firstRow, IndexType firstCol)
-    : _engine(numRows, numCols, firstRow, firstCol)
+    : engine_(numRows, numCols, firstRow, firstCol)
 {
     ASSERT(numRows>=0);
     ASSERT(numCols>=0);
@@ -70,7 +70,7 @@ GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols,
 template <typename FS>
 GeMatrix<FS>::GeMatrix(const Range<IndexType> &rowRange,
                        const Range<IndexType> &colRange)
-    : _engine(rowRange.numTicks(), colRange.numTicks(),
+    : engine_(rowRange.numTicks(), colRange.numTicks(),
               rowRange.firstIndex(), colRange.firstIndex())
 {
     ASSERT(rowRange.stride()==1);
@@ -79,27 +79,27 @@ GeMatrix<FS>::GeMatrix(const Range<IndexType> &rowRange,
 
 template <typename FS>
 GeMatrix<FS>::GeMatrix(const Engine &engine)
-    : _engine(engine)
+    : engine_(engine)
 {
 }
 
 template <typename FS>
 GeMatrix<FS>::GeMatrix(const GeMatrix &rhs)
-    : GeneralMatrix<GeMatrix>(), _engine(rhs._engine)
+    : GeneralMatrix<GeMatrix>(), engine_(rhs.engine_)
 {
 }
 
 template <typename FS>
 template <typename RHS>
 GeMatrix<FS>::GeMatrix(const GeMatrix<RHS> &rhs)
-    : _engine(rhs.engine())
+    : engine_(rhs.engine())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 GeMatrix<FS>::GeMatrix(GeMatrix<RHS> &rhs)
-    : _engine(rhs.engine())
+    : engine_(rhs.engine())
 {
 }
 
@@ -113,7 +113,7 @@ GeMatrix<FS>::GeMatrix(const Matrix<RHS> &rhs)
 template <typename FS>
 template <typename VECTOR>
 GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols, VECTOR &&rhs)
-    : _engine(numRows, numCols, rhs.engine(), (FS::order==RowMajor) ? numCols
+    : engine_(numRows, numCols, rhs.engine(), (FS::order==RowMajor) ? numCols
                                                                     : numRows)
 {
 }
@@ -123,7 +123,7 @@ template <typename VECTOR>
 GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols,
                        VECTOR &&rhs,
                        IndexType leadingDimension)
-    : _engine(numRows, numCols, rhs.engine(), leadingDimension)
+    : engine_(numRows, numCols, rhs.engine(), leadingDimension)
 {
 }
 
@@ -231,7 +231,7 @@ inline
 const typename GeMatrix<FS>::ElementType &
 GeMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 template <typename FS>
@@ -239,7 +239,7 @@ inline
 typename GeMatrix<FS>::ElementType &
 GeMatrix<FS>::operator()(IndexType row, IndexType col)
 {
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 template <typename FS>
@@ -274,84 +274,84 @@ template <typename FS>
 typename GeMatrix<FS>::IndexType
 GeMatrix<FS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename FS>
 typename GeMatrix<FS>::IndexType
 GeMatrix<FS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename FS>
 typename GeMatrix<FS>::IndexType
 GeMatrix<FS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename FS>
 typename GeMatrix<FS>::IndexType
 GeMatrix<FS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename FS>
 typename GeMatrix<FS>::IndexType
 GeMatrix<FS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename FS>
 typename GeMatrix<FS>::IndexType
 GeMatrix<FS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 template <typename FS>
 Range<typename GeMatrix<FS>::IndexType>
 GeMatrix<FS>::rows() const
 {
-    return Range<IndexType>(_engine.firstRow(),_engine.lastRow());
+    return Range<IndexType>(engine_.firstRow(),engine_.lastRow());
 }
 
 template <typename FS>
 Range<typename GeMatrix<FS>::IndexType>
 GeMatrix<FS>::cols() const
 {
-    return Range<IndexType>(_engine.firstCol(),_engine.lastCol());
+    return Range<IndexType>(engine_.firstCol(),engine_.lastCol());
 }
 
 template <typename FS>
 const typename GeMatrix<FS>::ElementType *
 GeMatrix<FS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename GeMatrix<FS>::ElementType *
 GeMatrix<FS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename GeMatrix<FS>::IndexType
 GeMatrix<FS>::leadingDimension() const
 {
-    return _engine.leadingDimension();
+    return engine_.leadingDimension();
 }
 
 template <typename FS>
 StorageOrder
 GeMatrix<FS>::order() const
 {
-    return _engine.order;
+    return engine_.order;
 }
 
 template <typename FS>
@@ -360,7 +360,7 @@ bool
 GeMatrix<FS>::resize(const GeMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return engine_.resize(rhs.engine(), value);
 }
 
 template <typename FS>
@@ -370,7 +370,7 @@ GeMatrix<FS>::resize(IndexType numRows, IndexType numCols,
                      IndexType firstColIndex,
                      const ElementType &value)
 {
-    return _engine.resize(numRows, numCols,
+    return engine_.resize(numRows, numCols,
                           firstRowIndex, firstColIndex,
                           value);
 }
@@ -379,14 +379,14 @@ template <typename FS>
 bool
 GeMatrix<FS>::fill(const ElementType &value)
 {
-    return _engine.fill(value);
+    return engine_.fill(value);
 }
 
 template <typename FS>
 void
 GeMatrix<FS>::changeIndexBase(IndexType firstRowIndex, IndexType firstColIndex)
 {
-    _engine.changeIndexBase(firstRowIndex, firstColIndex);
+    engine_.changeIndexBase(firstRowIndex, firstColIndex);
 }
 
 
@@ -396,14 +396,14 @@ template <typename FS>
 const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::vectorView() const
 {
-    return _engine.arrayView();
+    return engine_.arrayView();
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::vectorView()
 {
-    return _engine.arrayView();
+    return engine_.arrayView();
 }
 
 // vectorize matrix and select range
@@ -411,14 +411,14 @@ template <typename FS>
 const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::vectorView(IndexType from, IndexType to) const
 {
-    return _engine.arrayView().view(from,to);
+    return engine_.arrayView().view(from,to);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::vectorView(IndexType from, IndexType to)
 {
-    return _engine.arrayView().view(from,to);
+    return engine_.arrayView().view(from,to);
 }
 
 // diag views
@@ -426,14 +426,14 @@ template <typename FS>
 const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::diag(IndexType d) const
 {
-    return _engine.viewDiag(d);
+    return engine_.viewDiag(d);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::diag(IndexType d)
 {
-    return _engine.viewDiag(d);
+    return engine_.viewDiag(d);
 }
 
 // diag views
@@ -441,14 +441,14 @@ template <typename FS>
 const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::antiDiag(IndexType d) const
 {
-    return _engine.viewAntiDiag(d);
+    return engine_.viewAntiDiag(d);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::antiDiag(IndexType d)
 {
-    return _engine.viewAntiDiag(d);
+    return engine_.viewAntiDiag(d);
 }
 
 // triangular views
@@ -709,14 +709,14 @@ template <typename FS>
 const typename GeMatrix<FS>::Engine &
 GeMatrix<FS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename FS>
 typename GeMatrix<FS>::Engine &
 GeMatrix<FS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 //-- GeMatrix specific functions -----------------------------------------------

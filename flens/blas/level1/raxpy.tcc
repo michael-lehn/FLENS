@@ -134,12 +134,12 @@ raxpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
 
-        typename Result<MatrixA>::Type _A = A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        typename Result<MatrixA>::Type A_ = A;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        axpy(trans, alpha, _A, B);
+        axpy(trans, alpha, A_, B);
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
         return;
     }
 #   endif

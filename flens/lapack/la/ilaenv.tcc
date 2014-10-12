@@ -450,12 +450,12 @@ LAPACK_DECL(ilaenv)(const INTEGER *SPEC,
 
 template <typename T>
 int
-ilaenv_LapackTest(int spec, const char *_name, const char *opts,
+ilaenv_LapackTest(int spec, const char *name_, const char *opts,
                   int n1, int n2, int n3, int n4)
 {
     using std::complex;
 
-    char name[strlen(_name+2)];
+    char name[strlen(name_+2)];
     if (IsSame<T,float>::value) {
         *name = 'S';
     } else if (IsSame<T,double>::value) {
@@ -467,21 +467,21 @@ ilaenv_LapackTest(int spec, const char *_name, const char *opts,
     } else {
         ASSERT(0);
     }
-    strcpy(name+1, _name);
+    strcpy(name+1, name_);
 
 #if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
-    INTEGER _spec = spec;
-    INTEGER _n1 = n1;
-    INTEGER _n2 = n2;
-    INTEGER _n3 = n3;
-    INTEGER _n4 = n4;
-    int result = LAPACK_DECL(ilaenv)(&_spec,
+    INTEGER spec_ = spec;
+    INTEGER n1_ = n1;
+    INTEGER n2_ = n2;
+    INTEGER n3_ = n3;
+    INTEGER n4_ = n4;
+    int result = LAPACK_DECL(ilaenv)(&spec_,
                                      name,
                                      opts,
-                                     &_n1,
-                                     &_n2,
-                                     &_n3,
-                                     &_n4,
+                                     &n1_,
+                                     &n2_,
+                                     &n3_,
+                                     &n4_,
                                      strlen(name),
                                      strlen(opts));
     return result;

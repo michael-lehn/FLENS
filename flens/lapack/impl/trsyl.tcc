@@ -78,10 +78,10 @@ trsyl_impl(Transpose             transA,
 //
 //  .. Local Arrays ..
 //
-    T   _vecData[4], _xData[4];
+    T   vecData_[4], xData_[4];
     GeMatrixView<T>
-        VEC    = typename GeMatrixView<T>::Engine(2, 2, _vecData, 2),
-        X      = typename GeMatrixView<T>::Engine(2, 2, _xData, 2);
+        VEC    = typename GeMatrixView<T>::Engine(2, 2, vecData_, 2),
+        X      = typename GeMatrixView<T>::Engine(2, 2, xData_, 2);
 
 //
 //  Decode and Test input parameters
@@ -935,7 +935,7 @@ trsyl(Transpose             transA,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = external::trsyl_impl(transA, transB, iSign,
+    IndexType info_ = external::trsyl_impl(transA, transB, iSign,
                                            A, B, C, scale);
 
     bool failed = false;
@@ -951,9 +951,9 @@ trsyl(Transpose             transA,
                   << scale << std::endl;
         failed = true;
     }
-    if (! isIdentical(info, _info, "info", "_info")) {
+    if (! isIdentical(info, info_, "info", "info_")) {
         std::cerr << "CXXLAPACK: info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
     if (failed) {

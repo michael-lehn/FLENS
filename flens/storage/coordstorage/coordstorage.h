@@ -114,14 +114,14 @@ class CoordStorage
         //        someone gives me a reason.
         CoordStorage(const CoordStorage &rhs);
 
-        IndexType  _numRows, _numCols;
-        IndexType  _indexBase;
+        IndexType  numRows_, numCols_;
+        IndexType  indexBase_;
 
-        mutable CoordVector  _coord;
-        mutable size_t       _lastSortedCoord;
-        mutable bool         _isSorted;
-        mutable bool         _isAccumulated;
-        Cmp                  _less;
+        mutable CoordVector  coord_;
+        mutable size_t       lastSortedCoord_;
+        mutable bool         isSorted_;
+        mutable bool         isAccumulated_;
+        Cmp                  less_;
 };
 
 //-- Coord ---------------------------------------------------------------------

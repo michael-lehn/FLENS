@@ -67,8 +67,8 @@ dot(const Vector<X> &x, const Vector<Y> &y, T &result)
 
     FLENS_BLASLOG_TMP_TRON;
 
-    const RVX &_x = x.impl();
-    const RVY &_y = y.impl();
+    const RVX &x_ = x.impl();
+    const RVY &y_ = y.impl();
 
     FLENS_BLASLOG_TMP_TROFF;
 
@@ -77,14 +77,14 @@ dot(const Vector<X> &x, const Vector<Y> &y, T &result)
 //  we would get an unterminated recursion   So we use a checkpoint guard.
 //
     CHECKPOINT_ENTER;
-    dot(_x, _y, result);
+    dot(x_, y_, result);
     CHECKPOINT_LEAVE;
 
     if (! IsSame<VX,RVX>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(_x, x.impl());
+        FLENS_BLASLOG_TMP_REMOVE(x_, x.impl());
     }
     if (! IsSame<VY,RVY>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(_y, y.impl());
+        FLENS_BLASLOG_TMP_REMOVE(y_, y.impl());
     }
 
     FLENS_BLASLOG_END;

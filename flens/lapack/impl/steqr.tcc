@@ -43,10 +43,8 @@
 #ifndef FLENS_LAPACK_IMPL_STEQR_TCC
 #define FLENS_LAPACK_IMPL_STEQR_TCC 1
 
-#include <flens/auxiliary/auxiliary.h>
-#include <flens/lapack/typedefs.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
@@ -580,11 +578,11 @@ steqr(STEQR::ComputeZ  compZ,
     Z    = Z_org;
     work = work_org;
 
-    const IndexType _info = external::steqr_impl(compZ, d, e, Z, work);
+    const IndexType info_ = external::steqr_impl(compZ, d, e, Z, work);
 
     bool failed = false;
-    if (! isIdentical(_info, info, "_info", "info")) {
-        std::cerr << "CXXLAPACK: _info = " << _info << std::endl;
+    if (! isIdentical(info_, info, "info_", "info")) {
+        std::cerr << "CXXLAPACK: info_ = " << info_ << std::endl;
         std::cerr << "F77LAPACK: info = " << info << std::endl;
         failed = true;
     }

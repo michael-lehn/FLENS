@@ -135,14 +135,14 @@ class GeTinyMatrix
         engine();
 
     private:
-        Engine _engine;
+        Engine engine_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsGeMatrix
 //
-struct _GeTinyMatrixChecker
+struct GeTinyMatrixChecker_
 {
 
     struct Two {
@@ -151,7 +151,7 @@ struct _GeTinyMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -162,7 +162,7 @@ template <typename T>
 struct IsGeTinyMatrix
 {
     static T var;
-    static const bool value = sizeof(_GeTinyMatrixChecker::check(var))==1;
+    static const bool value = sizeof(GeTinyMatrixChecker_::check(var))==1;
 };
 
 //

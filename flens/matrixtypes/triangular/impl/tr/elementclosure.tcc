@@ -42,7 +42,7 @@ namespace flens { namespace trmatrix {
 template <typename M>
 ElementClosure<M>::ElementClosure(Matrix &matrix,
                                   IndexVariable &row, IndexVariable &col)
-    : _matrix(matrix), _row(row), _col(col)
+    : matrix_(matrix), row_(row), col_(col)
 {
 }
 
@@ -53,65 +53,65 @@ ElementClosure<M>::operator=(const ElementType &rhs)
 {
     typedef typename IndexVariable::ElementType  IndexType;
 
-    IndexType &i = _row.value();
-    IndexType &j = _col.value();
+    IndexType &i = row_.value();
+    IndexType &j = col_.value();
 
     if (M::Engine::order==RowMajor) {
-        if (_matrix.upLo()==Upper && _matrix.diag()==NonUnit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j0 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=j0; j<=_matrix.lastCol(); ++j) {
+        if (matrix_.upLo()==Upper && matrix_.diag()==NonUnit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j0 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=j0; j<=matrix_.lastCol(); ++j) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Upper && _matrix.diag()==Unit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j0 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=j0+1; j<=_matrix.lastCol(); ++j) {
+        } else if (matrix_.upLo()==Upper && matrix_.diag()==Unit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j0 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=j0+1; j<=matrix_.lastCol(); ++j) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Lower && _matrix.diag()==NonUnit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j1 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=_matrix.firstCol(); j<=j1; ++j) {
+        } else if (matrix_.upLo()==Lower && matrix_.diag()==NonUnit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j1 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=matrix_.firstCol(); j<=j1; ++j) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Lower && _matrix.diag()==Unit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j1 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=_matrix.firstCol(); j<j1; ++j) {
+        } else if (matrix_.upLo()==Lower && matrix_.diag()==Unit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j1 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=matrix_.firstCol(); j<j1; ++j) {
                     value() = rhs;
                 }
             }
         }
     } else {
-        if (_matrix.upLo()==Upper && _matrix.diag()==NonUnit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i1 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=_matrix.firstRow(); i<=i1; ++i) {
+        if (matrix_.upLo()==Upper && matrix_.diag()==NonUnit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i1 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=matrix_.firstRow(); i<=i1; ++i) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Upper && _matrix.diag()==Unit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i1 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=_matrix.firstRow(); i<i1; ++i) {
+        } else if (matrix_.upLo()==Upper && matrix_.diag()==Unit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i1 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=matrix_.firstRow(); i<i1; ++i) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Lower && _matrix.diag()==NonUnit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i0 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=i0; i<=_matrix.lastRow(); ++i) {
+        } else if (matrix_.upLo()==Lower && matrix_.diag()==NonUnit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i0 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=i0; i<=matrix_.lastRow(); ++i) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Lower && _matrix.diag()==Unit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i0 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=i0+1; i<=_matrix.lastRow(); ++i) {
+        } else if (matrix_.upLo()==Lower && matrix_.diag()==Unit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i0 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=i0+1; i<=matrix_.lastRow(); ++i) {
                     value() = rhs;
                 }
             }
@@ -127,65 +127,65 @@ ElementClosure<M>::operator=(const Scalar<S> &rhs)
 {
     typedef typename IndexVariable::ElementType  IndexType;
 
-    IndexType &i = _row.value();
-    IndexType &j = _col.value();
+    IndexType &i = row_.value();
+    IndexType &j = col_.value();
 
     if (M::Engine::order==RowMajor) {
-        if (_matrix.upLo()==Upper && _matrix.diag()==NonUnit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j0 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=j0; j<=_matrix.lastCol(); ++j) {
+        if (matrix_.upLo()==Upper && matrix_.diag()==NonUnit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j0 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=j0; j<=matrix_.lastCol(); ++j) {
                     value() = rhs.impl().value();
                 }
             }
-        } else if (_matrix.upLo()==Upper && _matrix.diag()==Unit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j0 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=j0+1; j<=_matrix.lastCol(); ++j) {
+        } else if (matrix_.upLo()==Upper && matrix_.diag()==Unit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j0 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=j0+1; j<=matrix_.lastCol(); ++j) {
                     value() = rhs.impl().value();
                 }
             }
-         } else if (_matrix.upLo()==Lower && _matrix.diag()==NonUnit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j1 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=_matrix.firstCol(); j<=j1; ++j) {
+         } else if (matrix_.upLo()==Lower && matrix_.diag()==NonUnit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j1 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=matrix_.firstCol(); j<=j1; ++j) {
                     value() = rhs.impl().value();
                 }
             }
-        } else if (_matrix.upLo()==Lower && _matrix.diag()==Unit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j1 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=_matrix.firstCol(); j<j1; ++j) {
+        } else if (matrix_.upLo()==Lower && matrix_.diag()==Unit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j1 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=matrix_.firstCol(); j<j1; ++j) {
                     value() = rhs.impl().value();
                 }
             }
         }
     } else {
-        if (_matrix.upLo()==Upper && _matrix.diag()==NonUnit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i1 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=_matrix.firstRow(); i<=i1; ++i) {
+        if (matrix_.upLo()==Upper && matrix_.diag()==NonUnit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i1 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=matrix_.firstRow(); i<=i1; ++i) {
                     value() = rhs.impl().value();
                 }
             }
-        } else if (_matrix.upLo()==Upper && _matrix.diag()==Unit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i1 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=_matrix.firstRow(); i<i1; ++i) {
+        } else if (matrix_.upLo()==Upper && matrix_.diag()==Unit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i1 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=matrix_.firstRow(); i<i1; ++i) {
                     value() = rhs.impl().value();
                 }
             }
-        } else if (_matrix.upLo()==Lower && _matrix.diag()==NonUnit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i0 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=i0; i<=_matrix.lastRow(); ++i) {
+        } else if (matrix_.upLo()==Lower && matrix_.diag()==NonUnit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i0 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=i0; i<=matrix_.lastRow(); ++i) {
                     value() = rhs.impl().value();
                 }
             }
-        } else if (_matrix.upLo()==Lower && _matrix.diag()==Unit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i0 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=i0+1; i<=_matrix.lastRow(); ++i) {
+        } else if (matrix_.upLo()==Lower && matrix_.diag()==Unit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i0 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=i0+1; i<=matrix_.lastRow(); ++i) {
                     value() = rhs.impl().value();
                 }
             }
@@ -199,65 +199,65 @@ ElementClosure<M>::operator=(const ElementClosure &rhs)
 {
     typedef typename IndexVariable::ElementType  IndexType;
 
-    IndexType &i = _row.value();
-    IndexType &j = _col.value();
+    IndexType &i = row_.value();
+    IndexType &j = col_.value();
 
     if (M::Engine::order==RowMajor) {
-        if (_matrix.upLo()==Upper && _matrix.diag()==NonUnit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j0 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=j0; j<=_matrix.lastCol(); ++j) {
+        if (matrix_.upLo()==Upper && matrix_.diag()==NonUnit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j0 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=j0; j<=matrix_.lastCol(); ++j) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Upper && _matrix.diag()==Unit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j0 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=j0+1; j<=_matrix.lastCol(); ++j) {
+        } else if (matrix_.upLo()==Upper && matrix_.diag()==Unit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j0 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=j0+1; j<=matrix_.lastCol(); ++j) {
                     value() = rhs;
                 }
             }
-         } else if (_matrix.upLo()==Lower && _matrix.diag()==NonUnit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j1 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=_matrix.firstCol(); j<=j1; ++j) {
+         } else if (matrix_.upLo()==Lower && matrix_.diag()==NonUnit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j1 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=matrix_.firstCol(); j<=j1; ++j) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Lower && _matrix.diag()==Unit) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-                const IndexType j1 = i + _matrix.firstCol()-_matrix.firstRow();
-                for (j=_matrix.firstCol(); j<j1; ++j) {
+        } else if (matrix_.upLo()==Lower && matrix_.diag()==Unit) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+                const IndexType j1 = i + matrix_.firstCol()-matrix_.firstRow();
+                for (j=matrix_.firstCol(); j<j1; ++j) {
                     value() = rhs;
                 }
             }
         }
     } else {
-        if (_matrix.upLo()==Upper && _matrix.diag()==NonUnit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i1 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=_matrix.firstRow(); i<=i1; ++i) {
+        if (matrix_.upLo()==Upper && matrix_.diag()==NonUnit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i1 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=matrix_.firstRow(); i<=i1; ++i) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Upper && _matrix.diag()==Unit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i1 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=_matrix.firstRow(); i<i1; ++i) {
+        } else if (matrix_.upLo()==Upper && matrix_.diag()==Unit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i1 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=matrix_.firstRow(); i<i1; ++i) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Lower && _matrix.diag()==NonUnit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i0 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=i0; i<=_matrix.lastRow(); ++i) {
+        } else if (matrix_.upLo()==Lower && matrix_.diag()==NonUnit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i0 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=i0; i<=matrix_.lastRow(); ++i) {
                     value() = rhs;
                 }
             }
-        } else if (_matrix.upLo()==Lower && _matrix.diag()==Unit) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-                const IndexType i0 = j + _matrix.firstRow()-_matrix.firstCol();
-                for (i=i0+1; i<=_matrix.lastRow(); ++i) {
+        } else if (matrix_.upLo()==Lower && matrix_.diag()==Unit) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+                const IndexType i0 = j + matrix_.firstRow()-matrix_.firstCol();
+                for (i=i0+1; i<=matrix_.lastRow(); ++i) {
                     value() = rhs;
                 }
             }
@@ -269,14 +269,14 @@ template <typename M>
 const typename ElementClosure<M>::ElementType &
 ElementClosure<M>::value() const
 {
-    return _matrix(_row.value(), _col.value());
+    return matrix_(row_.value(), col_.value());
 }
 
 template <typename M>
 typename ElementClosure<M>::ElementType &
 ElementClosure<M>::value()
 {
-    return _matrix(_row.value(), _col.value());
+    return matrix_(row_.value(), col_.value());
 }
 
 } } // namespace trmatrix, flens

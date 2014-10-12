@@ -55,7 +55,7 @@ la_porCond_c(char                        uplo,
 {
     CXXLAPACK_DEBUG_OUT("cla_porcond_c");
 
-    IndexType _capply = capply;
+    IndexType capply_ = capply;
     return LAPACK_IMPL(cla_porcond_c)(&uplo,
                                       &n,
                                       reinterpret_cast<const float  *>(A),
@@ -63,7 +63,7 @@ la_porCond_c(char                        uplo,
                                       reinterpret_cast<const float  *>(Af),
                                       &ldAf,
                                       c,
-                                      &_capply,
+                                      &capply_,
                                       &info,
                                       reinterpret_cast<float  *>(work),
                                       rWork);
@@ -85,7 +85,7 @@ la_porCond_c(char                        uplo,
 {
     CXXLAPACK_DEBUG_OUT("zla_porcond_c");
 
-    IndexType _capply = capply;
+    IndexType capply_ = capply;
     return LAPACK_IMPL(zla_porcond_c)(&uplo,
                                       &n,
                                       reinterpret_cast<const double *>(A),
@@ -93,7 +93,7 @@ la_porCond_c(char                        uplo,
                                       reinterpret_cast<const double *>(Af),
                                       &ldAf,
                                       c,
-                                      &_capply,
+                                      &capply_,
                                       &info,
                                       reinterpret_cast<double *>(work),
                                       rWork);

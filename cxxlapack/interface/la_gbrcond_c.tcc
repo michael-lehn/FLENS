@@ -58,7 +58,7 @@ la_gbrCond_c(char                        trans,
 {
     CXXLAPACK_DEBUG_OUT("cla_gbrcond_c");
 
-    IndexType _capply = capply;
+    IndexType capply_ = capply;
     return LAPACK_IMPL(cla_gbrcond_c)(&trans,
                                       &n,
                                       &kl,
@@ -69,7 +69,7 @@ la_gbrCond_c(char                        trans,
                                       &ldAfb,
                                       iPiv,
                                       c,
-                                      &_capply,
+                                      &capply_,
                                       &info,
                                       reinterpret_cast<float  *>(work),
                                       rWork);
@@ -95,7 +95,7 @@ la_gbrCond_c(char                        trans,
 {
     CXXLAPACK_DEBUG_OUT("zla_gbrcond_c");
 
-    IndexType _capply = capply;
+    IndexType capply_ = capply;
     return LAPACK_IMPL(zla_gbrcond_c)(&trans,
                                       &n,
                                       &kl,
@@ -106,7 +106,7 @@ la_gbrCond_c(char                        trans,
                                       &ldAfb,
                                       iPiv,
                                       c,
-                                      &_capply,
+                                      &capply_,
                                       &info,
                                       reinterpret_cast<double *>(work),
                                       rWork);

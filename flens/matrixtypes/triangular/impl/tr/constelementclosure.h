@@ -55,10 +55,10 @@ class ConstElementClosure
         value() const;
 
     private:
-        const Matrix         &_matrix;
-        const IndexVariable  &_row;
-        const IndexVariable  &_col;
-        int _id;
+        const Matrix         &matrix_;
+        const IndexVariable  &row_;
+        const IndexVariable  &col_;
+        int id_;
 };
 
 } } // namespace trmatrix, flens

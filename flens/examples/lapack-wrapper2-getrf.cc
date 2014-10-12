@@ -67,21 +67,21 @@ trf(MA &&A, VPIV &&piv)
 ///
 /// Create views of the arguments
 ///
-    typename OneBased<MatrixA>::View    _A    = A;
-    typename OneBased<VectorPiv>::View  _piv  = piv;
+    typename OneBased<MatrixA>::View    A_    = A;
+    typename OneBased<VectorPiv>::View  piv_  = piv;
 
-    _A.changeIndexBase(1,1);
-    _piv.changeIndexBase(1);
+    A_.changeIndexBase(1,1);
+    piv_.changeIndexBase(1);
 
 ///
 /// Make the views one-based
 ///
-    IndexType info = lapack::trf(_A, _piv);
+    IndexType info = lapack::trf(A_, piv_);
 
-    const IndexType diff = piv.firstIndex() - _piv.firstIndex();
+    const IndexType diff = piv.firstIndex() - piv_.firstIndex();
 
-    for (IndexType i=1; i<=_piv.length(); ++i) {
-        _piv(i) += diff;
+    for (IndexType i=1; i<=piv_.length(); ++i) {
+        piv_(i) += diff;
     }
 
     return info;

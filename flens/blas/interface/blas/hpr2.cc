@@ -17,9 +17,9 @@ BLAS(chpr2)(const char      *UPLO,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
+        char    UPLO_   = toupper(*UPLO);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
 
         cblas_chpr2(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -34,11 +34,11 @@ BLAS(chpr2)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
+        char    UPLO_  = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
             } else if (*N<0) {
                 info = 2;
@@ -53,7 +53,7 @@ BLAS(chpr2)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
 
         CDenseVectorConstView  x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         CDenseVectorConstView  y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
@@ -82,9 +82,9 @@ BLAS(zhpr2)(const char      *UPLO,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
+        char    UPLO_   = toupper(*UPLO);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
 
         cblas_zhpr2(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -99,11 +99,11 @@ BLAS(zhpr2)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
+        char    UPLO_  = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
             } else if (*N<0) {
                 info = 2;
@@ -118,7 +118,7 @@ BLAS(zhpr2)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
 
         ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         ZDenseVectorConstView  y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);

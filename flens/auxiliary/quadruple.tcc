@@ -44,11 +44,11 @@ Quadruple<First,Second,Third,Forth>::Quadruple()
 }
 
 template <typename First, typename Second, typename Third, typename Forth>
-Quadruple<First,Second,Third,Forth>::Quadruple(const First &_first,
-                                               const Second &_second,
-                                               const Third &_third,
-                                               const Forth &_forth)
-    : first(_first), second(_second), third(_third), forth(_forth)
+Quadruple<First,Second,Third,Forth>::Quadruple(const First &first_,
+                                               const Second &second_,
+                                               const Third &third_,
+                                               const Forth &forth_)
+    : first(first_), second(second_), third(third_), forth(forth_)
 {
 }
 

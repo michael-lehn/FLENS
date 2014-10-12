@@ -41,7 +41,7 @@ template <typename T>
 ClosureLogStream &
 operator<<(ClosureLogStream &clStream, const T &x)
 {
-    clStream._out << verbalizeClosure(clStream._variablePool, x);
+    clStream.out_ << verbalizeClosure(clStream.variablePool_, x);
     return clStream;
 }
 

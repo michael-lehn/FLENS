@@ -236,9 +236,9 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //              Factorize JB columns among columns J:N.
 //
                 IndexType fjb;
-                auto _A    = A(_,_(j,n));
-                auto _jPiv = jPiv(_(j,n));
-                auto _tau  = tau(_(j,min(j+jb-1,minmn)));
+                auto A_    = A(_,_(j,n));
+                auto jPiv_ = jPiv(_(j,n));
+                auto tau_  = tau(_(j,min(j+jb-1,minmn)));
                 auto vn1   = work(_(j,n));
                 auto vn2   = work(_(j+n,2*n));
                 auto aux   = work(_(2*n+1, 2*n+jb));
@@ -248,7 +248,7 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 
                 GeMatrixView<T> F(n-j+1, jb, f, n-j+1);
 
-                laqps(j-1, jb, fjb, _A, _jPiv, _tau, vn1, vn2, aux, F);
+                laqps(j-1, jb, fjb, A_, jPiv_, tau_, vn1, vn2, aux, F);
 
                 j += fjb;
             }
@@ -260,14 +260,14 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //
 //
         if (j<=minmn) {
-            auto _A    = A(_,_(j,n));
-            auto _jPiv = jPiv(_(j,n));
-            auto _tau  = tau(_(j,minmn));
+            auto A_    = A(_,_(j,n));
+            auto jPiv_ = jPiv(_(j,n));
+            auto tau_  = tau(_(j,minmn));
             auto vn1   = work(_(j,n));
             auto vn2   = work(_(j+n,2*n));
-            auto _work = work(_(2*n+1, 3*n+1-j));
+            auto work_ = work(_(2*n+1, 3*n+1-j));
 
-            laqp2(j-1, _A, _jPiv, _tau, vn1, vn2, _work);
+            laqp2(j-1, A_, jPiv_, tau_, vn1, vn2, work_);
         }
 
     }
@@ -426,9 +426,9 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //              Factorize JB columns among columns J:N.
 //
                 IndexType fjb;
-                auto _A    = A(_,_(j,n));
-                auto _jPiv = jPiv(_(j,n));
-                auto _tau  = tau(_(j,min(j+jb-1,minmn)));
+                auto A_    = A(_,_(j,n));
+                auto jPiv_ = jPiv(_(j,n));
+                auto tau_  = tau(_(j,min(j+jb-1,minmn)));
                 auto vn1   = rWork(_(j,n));
                 auto vn2   = rWork(_(j+n,2*n));
                 auto aux   = work(_(1, jb));
@@ -438,7 +438,7 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 
                 GeMatrixView<T> F(n-j+1, jb, f, n-j+1);
 
-                laqps(j-1, jb, fjb, _A, _jPiv, _tau, vn1, vn2, aux, F);
+                laqps(j-1, jb, fjb, A_, jPiv_, tau_, vn1, vn2, aux, F);
 
                 j += fjb;
             }
@@ -450,14 +450,14 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //
 //
         if (j<=minmn) {
-            auto _A    = A(_,_(j,n));
-            auto _jPiv = jPiv(_(j,n));
-            auto _tau  = tau(_(j,minmn));
+            auto A_    = A(_,_(j,n));
+            auto jPiv_ = jPiv(_(j,n));
+            auto tau_  = tau(_(j,minmn));
             auto vn1   = rWork(_(j,n));
             auto vn2   = rWork(_(j+n,2*n));
-            auto _work = work(_(1, n+1-j));
+            auto work_ = work(_(1, n+1-j));
 
-            laqp2(j-1, _A, _jPiv, _tau, vn1, vn2, _work);
+            laqp2(j-1, A_, jPiv_, tau_, vn1, vn2, work_);
         }
 
     }
@@ -920,9 +920,9 @@ qp3_wsq(const MA &A)
 //
 //  Compare generic results with results from the native implementation
 //
-    const IndexType _info = external::qp3_wsq_impl(A);
+    const IndexType info_ = external::qp3_wsq_impl(A);
 
-    ASSERT(info==_info);
+    ASSERT(info==info_);
 #   endif
     return info;
 }

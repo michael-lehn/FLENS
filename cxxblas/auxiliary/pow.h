@@ -44,14 +44,6 @@
 
 namespace cxxblas {
 
-/*
-template <typename B, typename E>
-    typename RestrictTo<IsMpfrReal<B>::value
-                     || IsMpfrReal<E>::value,
-             typename mpfr::result_type2<B, E>::type>::Type
-    pow(const B &base, const E &exponent);
-*/
-
 template <typename T>
     typename RestrictTo<IsSame<T,int>::value,
              T>::Type

@@ -43,9 +43,8 @@
 #ifndef FLENS_LAPACK_LA_LATRD_TCC
 #define FLENS_LAPACK_LA_LATRD_TCC 1
 
-#include <flens/lapack/typedefs.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
@@ -90,19 +89,19 @@ latrd_impl(HeMatrix<MA>       &A,
 //
                 A(i,i) = real(A(i,i));
 
-                const auto _A  = A(_(1,i),_(i+1,n));
-                auto       _w  = W(i,_(iw+1,nb));
-                auto       _Ai = A(_(1,i),i);
+                const auto A_  = A(_(1,i),_(i+1,n));
+                auto       w_  = W(i,_(iw+1,nb));
+                auto       A_i = A(_(1,i),i);
 
-                blas::conj(_w);
-                blas::mv(NoTrans, -One, _A, _w, One, _Ai);
-                blas::conj(_w);
+                blas::conj(w_);
+                blas::mv(NoTrans, -One, A_, w_, One, A_i);
+                blas::conj(w_);
 
-                const auto _W  = W(_(1,i),_(iw+1,nb));
+                const auto W_  = W(_(1,i),_(iw+1,nb));
                 auto       Ai_ = A(i,_(i+1,n));
 
                 blas::conj(Ai_);
-                blas::mv(NoTrans, -One, _W, Ai_, One, _Ai);
+                blas::mv(NoTrans, -One, W_, Ai_, One, A_i);
                 blas::conj(Ai_);
                 A(i,i) = real(A(i,i));
             }
@@ -118,26 +117,26 @@ latrd_impl(HeMatrix<MA>       &A,
 //
 //              Compute W(1:i-1,i)
 //
-                const auto _A11  = A(_(1,i-1),_(1,i-1)).upper().hermitian();
-                const auto _Ai   = A(_(1,i-1),i);
-                auto       _W1iw = W(_(1,i-1),iw);
+                const auto A11_  = A(_(1,i-1),_(1,i-1)).upper().hermitian();
+                const auto Ai_   = A(_(1,i-1),i);
+                auto       W1iw_ = W(_(1,i-1),iw);
 
-                blas::mv(One, _A11, _Ai, Zero, _W1iw);
+                blas::mv(One, A11_, Ai_, Zero, W1iw_);
                 if (i<n) {
-                    const auto _W    = W(_(1,i-1),_(iw+1,nb));
-                    auto       _W2iw = W(_(i+1,n),iw);
+                    const auto W_    = W(_(1,i-1),_(iw+1,nb));
+                    auto       W2iw_ = W(_(i+1,n),iw);
 
-                    blas::mv(ConjTrans, One, _W, _Ai, Zero, _W2iw);
+                    blas::mv(ConjTrans, One, W_, Ai_, Zero, W2iw_);
 
-                    const auto _A12 = A(_(1,i-1),_(i+1,n));
+                    const auto A12_ = A(_(1,i-1),_(i+1,n));
 
-                    blas::mv(NoTrans, -One, _A12, _W2iw, One, _W1iw);
-                    blas::mv(ConjTrans, One, _A12, _Ai, Zero, _W2iw);
-                    blas::mv(NoTrans, -One, _W, _W2iw, One, _W1iw);
+                    blas::mv(NoTrans, -One, A12_, W2iw_, One, W1iw_);
+                    blas::mv(ConjTrans, One, A12_, Ai_, Zero, W2iw_);
+                    blas::mv(NoTrans, -One, W_, W2iw_, One, W1iw_);
                 }
-                _W1iw *= tau(i-1);
-                alpha = -Half * tau(i-1) * blas::dotc(_W1iw, _Ai);
-                _W1iw += alpha*_Ai;
+                W1iw_ *= tau(i-1);
+                alpha = -Half * tau(i-1) * blas::dotc(W1iw_, Ai_);
+                W1iw_ += alpha*Ai_;
             }
 
         }
@@ -151,19 +150,19 @@ latrd_impl(HeMatrix<MA>       &A,
 //
             A(i,i) = real(A(i,i));
 
-            const auto _A  = A(_(i,n),_(1,i-1));
-            auto       _w  = W(i,_(1,i-1));
-            auto       _Ai = A(_(i,n),i);
+            const auto A_  = A(_(i,n),_(1,i-1));
+            auto       w_  = W(i,_(1,i-1));
+            auto       A_i = A(_(i,n),i);
 
-            blas::conj(_w);
-            blas::mv(NoTrans, -One, _A, _w, One, _Ai);
-            blas::conj(_w);
+            blas::conj(w_);
+            blas::mv(NoTrans, -One, A_, w_, One, A_i);
+            blas::conj(w_);
 
-            const auto _W  = W(_(i,n),_(1,i-1));
+            const auto W_  = W(_(i,n),_(1,i-1));
             auto       Ai_ = A(i,_(1,i-1));
 
             blas::conj(Ai_);
-            blas::mv(NoTrans, -One, _W, Ai_, One, _Ai);
+            blas::mv(NoTrans, -One, W_, Ai_, One, A_i);
             blas::conj(Ai_);
             A(i,i) = real(A(i,i));
 
@@ -179,25 +178,25 @@ latrd_impl(HeMatrix<MA>       &A,
 //
 //              Compute W(i+1:n,i)
 //
-                const auto _A22 = A(_(i+1,n),_(i+1,n)).lower().hermitian();
-                const auto _Ai  = A(_(i+1,n),i);
-                auto       _W2i = W(_(i+1,n),i);
+                const auto A22_ = A(_(i+1,n),_(i+1,n)).lower().hermitian();
+                const auto Ai_  = A(_(i+1,n),i);
+                auto       W2i_ = W(_(i+1,n),i);
 
-                blas::mv(One, _A22, _Ai, Zero, _W2i);
+                blas::mv(One, A22_, Ai_, Zero, W2i_);
 
-                const auto _W   = W(_(i+1,n),_(1,i-1));
-                auto       _W1i = W(_(1,i-1),i);
+                const auto W_   = W(_(i+1,n),_(1,i-1));
+                auto       W1i_ = W(_(1,i-1),i);
 
-                blas::mv(ConjTrans, One, _W, _Ai, Zero, _W1i);
+                blas::mv(ConjTrans, One, W_, Ai_, Zero, W1i_);
 
-                const auto _A21 = A(_(i+1,n),_(1,i-1));
+                const auto A21_ = A(_(i+1,n),_(1,i-1));
 
-                blas::mv(NoTrans, -One, _A21, _W1i, One, _W2i);
-                blas::mv(ConjTrans, One, _A21, _Ai, Zero, _W1i);
-                blas::mv(NoTrans, -One, _W, _W1i, One, _W2i);
-                _W2i *= tau(i);
-                alpha = -Half * tau(i) * blas::dotc(_W2i, _Ai);
-                _W2i += alpha*_Ai;
+                blas::mv(NoTrans, -One, A21_, W1i_, One, W2i_);
+                blas::mv(ConjTrans, One, A21_, Ai_, Zero, W1i_);
+                blas::mv(NoTrans, -One, W_, W1i_, One, W2i_);
+                W2i_ *= tau(i);
+                alpha = -Half * tau(i) * blas::dotc(W2i_, Ai_);
+                W2i_ += alpha*Ai_;
             }
         }
     }

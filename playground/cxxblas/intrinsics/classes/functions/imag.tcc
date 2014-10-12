@@ -40,15 +40,15 @@
 //--- Real
 
 Intrinsics<float, IntrinsicsLevel::SSE>
-inline _intrinsic_imag(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x)
+inline intrinsic_imag_(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x)
 {
-    return Intrinsics<float, IntrinsicsLevel::SSE>(_mm_movehdup_ps(x.get()));
+    return Intrinsics<float, IntrinsicsLevel::SSE>(mm_movehdup_ps_(x.get()));
 }
 
 Intrinsics<double, IntrinsicsLevel::SSE>
-inline _intrinsic_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x)
+inline intrinsic_imag_(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x)
 {
-    return Intrinsics<double, IntrinsicsLevel::SSE>(_mm_movehdup_pd(x.get()));
+    return Intrinsics<double, IntrinsicsLevel::SSE>(mm_movehdup_pd_(x.get()));
 }
 
 #endif // HAVE_SSE
@@ -59,15 +59,15 @@ inline _intrinsic_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::S
 //--- Real
 
 Intrinsics<float, IntrinsicsLevel::AVX>
-inline _intrinsic_imag(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x)
+inline intrinsic_imag_(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x)
 {
-    return Intrinsics<float, IntrinsicsLevel::AVX>(_mm256_movehdup_ps(x.get()));
+    return Intrinsics<float, IntrinsicsLevel::AVX>(mm256_movehdup_ps_(x.get()));
 }
 
 Intrinsics<double, IntrinsicsLevel::AVX>
-inline _intrinsic_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x)
+inline intrinsic_imag_(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x)
 {
-    return Intrinsics<double, IntrinsicsLevel::AVX>(_mm256_movehdup_pd(x.get()));
+    return Intrinsics<double, IntrinsicsLevel::AVX>(mm256_movehdup_pd_(x.get()));
 }
 
 #endif // HAVE_AVX

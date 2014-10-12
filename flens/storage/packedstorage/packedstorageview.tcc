@@ -44,12 +44,12 @@ PackedStorageView<T, Order, I, A>::PackedStorageView(IndexType dim,
                                                      ElementType *data,
                                                      IndexType indexBase,
                                                      const Allocator &allocator)
-    : _data(data),
-      _allocator(allocator),
-      _dim(dim),
-      _indexBase(0)
+    : data_(data),
+      allocator_(allocator),
+      dim_(dim),
+      indexBase_(0)
 {
-    ASSERT(_dim>=0);
+    ASSERT(dim_>=0);
 
     changeIndexBase(indexBase);
 }
@@ -60,33 +60,33 @@ PackedStorageView<T, Order, I, A>::PackedStorageView(IndexType dim,
                                                      ARRAY &array,
                                                      IndexType indexBase,
                                                      const Allocator &allocator)
-    : _data(array.data()),
-      _allocator(allocator),
-      _dim(dim),
-      _indexBase(0)
+    : data_(array.data()),
+      allocator_(allocator),
+      dim_(dim),
+      indexBase_(0)
 {
     ASSERT((dim*(dim+1))/2<=array.length());
-    ASSERT(_dim>=0);
+    ASSERT(dim_>=0);
 
     changeIndexBase(indexBase);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 PackedStorageView<T,Order,I,A>::PackedStorageView(const PackedStorageView &rhs)
-    : _data(rhs._data),
-      _allocator(rhs._allocator),
-      _dim(rhs._dim),
-      _indexBase(rhs._indexBase)
+    : data_(rhs.data_),
+      allocator_(rhs.allocator_),
+      dim_(rhs.dim_),
+      indexBase_(rhs.indexBase_)
 {
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
 PackedStorageView<T, Order, I, A>::PackedStorageView(RHS &rhs)
-    : _data(rhs.data()),
-      _allocator(rhs.allocator()),
-      _dim(rhs.dim()),
-      _indexBase(0)
+    : data_(rhs.data()),
+      allocator_(rhs.allocator()),
+      dim_(rhs.dim()),
+      indexBase_(0)
 {
     changeIndexBase(rhs.indexBase());
 }
@@ -119,20 +119,20 @@ PackedStorageView<T, Order, I, A>::operator()(StorageUpLo  upLo,
     }
 #   endif
 
-    const IndexType i = row - _indexBase;
-    const IndexType j = col - _indexBase;
-    const IndexType n = _dim;
+    const IndexType i = row - indexBase_;
+    const IndexType j = col - indexBase_;
+    const IndexType n = dim_;
 
     if ((order==RowMajor) && (upLo==Upper)) {
-        return _data[j+i*(2*n-i-1)/2];
+        return data_[j+i*(2*n-i-1)/2];
     }
     if ((order==RowMajor) && (upLo==Lower)) {
-        return _data[j+i*(i+1)/2];
+        return data_[j+i*(i+1)/2];
     }
     if ((order==ColMajor) && (upLo==Upper)) {
-        return _data[i+j*(j+1)/2];
+        return data_[i+j*(j+1)/2];
     }
-    return _data[i+j*(2*n-j-1)/2];
+    return data_[i+j*(2*n-j-1)/2];
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -156,20 +156,20 @@ PackedStorageView<T, Order, I, A>::operator()(StorageUpLo  upLo,
     }
 #   endif
 
-    const IndexType i = row - _indexBase;
-    const IndexType j = col - _indexBase;
-    const IndexType n = _dim;
+    const IndexType i = row - indexBase_;
+    const IndexType j = col - indexBase_;
+    const IndexType n = dim_;
 
     if ((order==RowMajor) && (upLo==Upper)) {
-        return _data[j+i*(2*n-i-1)/2];
+        return data_[j+i*(2*n-i-1)/2];
     }
     if ((order==RowMajor) && (upLo==Lower)) {
-        return _data[j+i*(i+1)/2];
+        return data_[j+i*(i+1)/2];
     }
     if ((order==ColMajor) && (upLo==Upper)) {
-        return _data[i+j*(j+1)/2];
+        return data_[i+j*(j+1)/2];
     }
-    return _data[i+j*(2*n-j-1)/2];
+    return data_[i+j*(2*n-j-1)/2];
 }
 
 //-- methods -------------------------------------------------------------------
@@ -178,14 +178,14 @@ template <typename T, StorageOrder Order, typename I, typename A>
 typename PackedStorageView<T, Order, I, A>::IndexType
 PackedStorageView<T, Order, I, A>::indexBase() const
 {
-    return _indexBase;
+    return indexBase_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename PackedStorageView<T, Order, I, A>::IndexType
 PackedStorageView<T, Order, I, A>::numNonZeros() const
 {
-    return _dim*(_dim+1)/IndexType(2);
+    return dim_*(dim_+1)/IndexType(2);
 
 }
 
@@ -193,37 +193,37 @@ template <typename T, StorageOrder Order, typename I, typename A>
 typename PackedStorageView<T, Order, I, A>::IndexType
 PackedStorageView<T, Order, I, A>::dim() const
 {
-    return _dim;
+    return dim_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename PackedStorageView<T, Order, I, A>::ElementType *
 PackedStorageView<T, Order, I, A>::data() const
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename PackedStorageView<T, Order, I, A>::ElementType *
 PackedStorageView<T, Order, I, A>::data()
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename PackedStorageView<T, Order, I, A>::Allocator &
 PackedStorageView<T, Order, I, A>::allocator() const
 {
-    return _allocator;
+    return allocator_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 bool
-PackedStorageView<T, Order, I, A>::resize(IndexType DEBUG_VAR(_dim),
+PackedStorageView<T, Order, I, A>::resize(IndexType DEBUG_VAR(dim_),
                                           IndexType indexBase,
                                           const ElementType &)
 {
-    ASSERT(_dim==dim());
+    ASSERT(dim_==dim());
     changeIndexBase(indexBase);
     return false;
 }
@@ -240,7 +240,7 @@ template <typename T, StorageOrder Order, typename I, typename A>
 void
 PackedStorageView<T, Order, I, A>::changeIndexBase(IndexType indexBase)
 {
-    _indexBase = indexBase;
+    indexBase_ = indexBase;
 }
 
 } // namespace flens

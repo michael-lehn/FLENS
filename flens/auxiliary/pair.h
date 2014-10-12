@@ -46,7 +46,7 @@ class Pair
 
         Pair();
 
-        Pair(const First &_first, const Second &_second);
+        Pair(const First &first_, const Second &second_);
 
         template <typename RhsFirst, typename RhsSecond>
             Pair(const Pair<RhsFirst, RhsSecond> &rhs);

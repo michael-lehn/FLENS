@@ -145,8 +145,8 @@ esx_impl(bool                 computeSchurVectors,
 //  .. Local Arrays ..
 //  this array is used to save variables between calls to lacn2
 //
-    T _dum[1];
-    DenseVectorView<T>  dum = typename DenseVectorView<T>::Engine(1, _dum);
+    T dum_[1];
+    DenseVectorView<T>  dum = typename DenseVectorView<T>::Engine(1, dum_);
 //
 //  Test the input arguments
 //
@@ -837,7 +837,7 @@ esx(bool                computeSchurVectors,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _result = external::esx_impl(computeSchurVectors,
+    IndexType result_ = external::esx_impl(computeSchurVectors,
                                            sortEigenvalues,
                                            selectFunction,
                                            sense,
@@ -917,9 +917,9 @@ esx(bool                computeSchurVectors,
         failed = true;
     }
 
-    if (! isIdentical(result, _result, " result", "_result")) {
+    if (! isIdentical(result, result_, " result", "result_")) {
         std::cerr << "CXXLAPACK:  result = " << result << std::endl;
-        std::cerr << "F77LAPACK: _result = " << _result << std::endl;
+        std::cerr << "F77LAPACK: result_ = " << result_ << std::endl;
         failed = true;
     }
 
@@ -1059,14 +1059,14 @@ esx_wsq(bool                 computeSchurVectors,
 //
 //  Compare results
 //
-    const auto _ws = external::esx_wsq_impl(computeSchurVectors, sense, A);
-    if (! isIdentical(ws.first, _ws.first, "ws.first", "_ws.first")) {
+    const auto ws_ = external::esx_wsq_impl(computeSchurVectors, sense, A);
+    if (! isIdentical(ws.first, ws_.first, "ws.first", "ws_.first")) {
         ASSERT(0);
     }
-    if (! isIdentical(ws.third, _ws.third, "ws.third", "_ws.third")) {
+    if (! isIdentical(ws.third, ws_.third, "ws.third", "ws_.third")) {
         ASSERT(0);
     }
-    if (! isIdentical(ws.forth, _ws.forth, "ws.forth", "_ws.forth")) {
+    if (! isIdentical(ws.forth, ws_.forth, "ws.forth", "ws_.forth")) {
         ASSERT(0);
     }
 #   endif

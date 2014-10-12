@@ -318,9 +318,9 @@ lartg(const T &f, const T &g, T &cs, T &sn, T &r)
 //
 //  Make copies of output arguments
 //
-    T   _cs = cs;
-    T   _sn = sn;
-    T   _r  = r;
+    T   cs_ = cs;
+    T   sn_ = sn;
+    T   r_  = r;
 #   endif
 
 //
@@ -332,24 +332,24 @@ lartg(const T &f, const T &g, T &cs, T &sn, T &r)
 //
 //  Compare results
 //
-    external::lartg_impl(f, g, _cs, _sn, _r);
+    external::lartg_impl(f, g, cs_, sn_, r_);
 
     bool failed = false;
-    if (! isIdentical(cs, _cs, " cs", "_cs")) {
+    if (! isIdentical(cs, cs_, " cs", "cs_")) {
         std::cerr << "CXXLAPACK:  cs = " << cs << std::endl;
-        std::cerr << "F77LAPACK: _cs = " << _cs << std::endl;
+        std::cerr << "F77LAPACK: cs_ = " << cs_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(sn, _sn, " sn", "_sn")) {
+    if (! isIdentical(sn, sn_, " sn", "sn_")) {
         std::cerr << "CXXLAPACK:  sn = " << sn << std::endl;
-        std::cerr << "F77LAPACK: _sn = " << _sn << std::endl;
+        std::cerr << "F77LAPACK: sn_ = " << sn_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(r, _r, " r", "_r")) {
+    if (! isIdentical(r, r_, " r", "r_")) {
         std::cerr << "CXXLAPACK:  r = " << r << std::endl;
-        std::cerr << "F77LAPACK: _r = " << _r << std::endl;
+        std::cerr << "F77LAPACK: r_ = " << r_ << std::endl;
         failed = true;
     }
 
@@ -374,9 +374,9 @@ lartg(const T &f, const T &g, PT &cs, T &sn, T &r)
 //
 //  Make copies of output arguments
 //
-    PT  _cs = cs;
-    T   _sn = sn;
-    T   _r  = r;
+    PT  cs_ = cs;
+    T   sn_ = sn;
+    T   r_  = r;
 #   endif
 
 //
@@ -388,24 +388,24 @@ lartg(const T &f, const T &g, PT &cs, T &sn, T &r)
 //
 //  Compare results
 //
-    external::lartg_impl(f, g, _cs, _sn, _r);
+    external::lartg_impl(f, g, cs_, sn_, r_);
 
     bool failed = false;
-    if (! isIdentical(cs, _cs, " cs", "_cs")) {
+    if (! isIdentical(cs, cs_, " cs", "cs_")) {
         std::cerr << "CXXLAPACK:  cs = " << cs << std::endl;
-        std::cerr << "F77LAPACK: _cs = " << _cs << std::endl;
+        std::cerr << "F77LAPACK: cs_ = " << cs_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(sn, _sn, " sn", "_sn")) {
+    if (! isIdentical(sn, sn_, " sn", "sn_")) {
         std::cerr << "CXXLAPACK:  sn = " << sn << std::endl;
-        std::cerr << "F77LAPACK: _sn = " << _sn << std::endl;
+        std::cerr << "F77LAPACK: sn_ = " << sn_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(r, _r, " r", "_r")) {
+    if (! isIdentical(r, r_, " r", "r_")) {
         std::cerr << "CXXLAPACK:  r = " << r << std::endl;
-        std::cerr << "F77LAPACK: _r = " << _r << std::endl;
+        std::cerr << "F77LAPACK: r_ = " << r_ << std::endl;
         failed = true;
     }
 

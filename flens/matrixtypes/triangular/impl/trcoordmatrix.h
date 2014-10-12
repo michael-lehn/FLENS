@@ -96,15 +96,15 @@ class TrCoordMatrix
         // forbidden:
         TrCoordMatrix(const TrCoordMatrix &rhs);
 
-        Engine       _engine;
-        StorageUpLo  _upLo;
+        Engine       engine_;
+        StorageUpLo  upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsTrCoordMatrix
 //
-struct _TrCoordMatrixChecker
+struct TrCoordMatrixChecker_
 {
 
     struct Two {
@@ -113,7 +113,7 @@ struct _TrCoordMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -124,7 +124,7 @@ template <typename T>
 struct IsTrCoordMatrix
 {
     static T var;
-    static const bool value = sizeof(_TrCoordMatrixChecker::check(var))==1;
+    static const bool value = sizeof(TrCoordMatrixChecker_::check(var))==1;
 };
 
 //

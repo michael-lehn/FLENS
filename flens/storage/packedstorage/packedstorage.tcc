@@ -46,22 +46,22 @@ PackedStorage<T, Order, I, A>::PackedStorage(IndexType dim,
                                              IndexType indexBase,
                                              const ElementType &value,
                                              const Allocator &allocator)
-    : _data(0), _allocator(allocator),
-      _dim(dim),
-      _indexBase(indexBase)
+    : data_(0), allocator_(allocator),
+      dim_(dim),
+      indexBase_(indexBase)
 {
-    ASSERT(_dim>=0);
+    ASSERT(dim_>=0);
 
-    _allocate(value);
+    allocate_(value);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 PackedStorage<T, Order, I, A>::PackedStorage(const PackedStorage &rhs)
-    : _data(0), _allocator(rhs.allocator()),
-      _dim(rhs.dim()),
-      _indexBase(rhs.indexBase())
+    : data_(0), allocator_(rhs.allocator()),
+      dim_(rhs.dim()),
+      indexBase_(rhs.indexBase())
 {
-    _allocate(ElementType());
+    allocate_(ElementType());
 
     cxxblas::copy(rhs.dim(), rhs.data(), 1, data(), 1);
 }
@@ -69,11 +69,11 @@ PackedStorage<T, Order, I, A>::PackedStorage(const PackedStorage &rhs)
 template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
 PackedStorage<T, Order, I, A>::PackedStorage(const RHS &rhs)
-    : _data(0), _allocator(rhs.allocator()),
-      _dim(rhs.dim()),
-      _indexBase(rhs.indexBase())
+    : data_(0), allocator_(rhs.allocator()),
+      dim_(rhs.dim()),
+      indexBase_(rhs.indexBase())
 {
-    _allocate(ElementType());
+    allocate_(ElementType());
 
     cxxblas::copy(rhs.dim(), rhs.data(), 1, data(), 1);
 
@@ -82,7 +82,7 @@ PackedStorage<T, Order, I, A>::PackedStorage(const RHS &rhs)
 template <typename T, StorageOrder Order, typename I, typename A>
 PackedStorage<T, Order, I, A>::~PackedStorage()
 {
-    _release();
+    release_();
 }
 
 //-- operators -----------------------------------------------------------------
@@ -104,20 +104,20 @@ PackedStorage<T, Order, I, A>::operator()(StorageUpLo  upLo,
         ASSERT(col>=row);
     }
 
-    const IndexType i = row - _indexBase;
-    const IndexType j = col - _indexBase;
-    const IndexType n = _dim;
+    const IndexType i = row - indexBase_;
+    const IndexType j = col - indexBase_;
+    const IndexType n = dim_;
 
     if ((order==RowMajor) && (upLo==Upper)) {
-        return _data[j+i*(2*n-i-1)/2];
+        return data_[j+i*(2*n-i-1)/2];
     }
     if ((order==RowMajor) && (upLo==Lower)) {
-        return _data[j+i*(i+1)/2];
+        return data_[j+i*(i+1)/2];
     }
     if ((order==ColMajor) && (upLo==Upper)) {
-        return _data[i+j*(j+1)/2];
+        return data_[i+j*(j+1)/2];
     }
-    return _data[i+j*(2*n-j-1)/2];
+    return data_[i+j*(2*n-j-1)/2];
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -137,20 +137,20 @@ PackedStorage<T, Order, I, A>::operator()(StorageUpLo  upLo,
         ASSERT(col>=row);
     }
 
-    const IndexType i = row - _indexBase;
-    const IndexType j = col - _indexBase;
-    const IndexType n = _dim;
+    const IndexType i = row - indexBase_;
+    const IndexType j = col - indexBase_;
+    const IndexType n = dim_;
 
     if ((order==RowMajor) && (upLo==Upper)) {
-        return _data[j+i*(2*n-i-1)/2];
+        return data_[j+i*(2*n-i-1)/2];
     }
     if ((order==RowMajor) && (upLo==Lower)) {
-        return _data[j+i*(i+1)/2];
+        return data_[j+i*(i+1)/2];
     }
     if ((order==ColMajor) && (upLo==Upper)) {
-        return _data[i+j*(j+1)/2];
+        return data_[i+j*(j+1)/2];
     }
-    return _data[i+j*(2*n-j-1)/2];
+    return data_[i+j*(2*n-j-1)/2];
 }
 
 //-- Methods -------------------------------------------------------------------
@@ -158,42 +158,42 @@ template <typename T, StorageOrder Order, typename I, typename A>
 typename PackedStorage<T, Order, I, A>::IndexType
 PackedStorage<T, Order, I, A>::indexBase() const
 {
-    return _indexBase;
+    return indexBase_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename PackedStorage<T, Order, I, A>::IndexType
 PackedStorage<T, Order, I, A>::numNonZeros() const
 {
-    return (_dim+1)*_dim/IndexType(2);
+    return (dim_+1)*dim_/IndexType(2);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename PackedStorage<T, Order, I, A>::IndexType
 PackedStorage<T, Order, I, A>::dim() const
 {
-    return _dim;
+    return dim_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename PackedStorage<T, Order, I, A>::ElementType *
 PackedStorage<T, Order, I, A>::data() const
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename PackedStorage<T, Order, I, A>::ElementType *
 PackedStorage<T, Order, I, A>::data()
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename PackedStorage<T, Order, I, A>::Allocator &
 PackedStorage<T, Order, I, A>::allocator() const
 {
-    return _allocator;
+    return allocator_;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -202,11 +202,11 @@ PackedStorage<T, Order, I, A>::resize(IndexType dim,
                                             IndexType indexBase,
                                             const ElementType &value)
 {
-    if (_dim!=dim) {
-        _release();
-        _dim = dim;
-        _indexBase = indexBase;
-        _allocate(value);
+    if (dim_!=dim) {
+        release_();
+        dim_ = dim;
+        indexBase_ = indexBase;
+        allocate_(value);
         return true;
     }
     changeIndexBase(indexBase);
@@ -217,7 +217,7 @@ template <typename T, StorageOrder Order, typename I, typename A>
 bool
 PackedStorage<T, Order, I, A>::fill(const ElementType &value)
 {
-    ASSERT(_data);
+    ASSERT(data_);
     std::fill_n(data(), 0.5*(dim()+1)*dim(), value);
     return true;
 }
@@ -226,26 +226,26 @@ template <typename T, StorageOrder Order, typename I, typename A>
 void
 PackedStorage<T, Order, I, A>::changeIndexBase(IndexType indexBase)
 {
-    _indexBase = indexBase;
+    indexBase_ = indexBase;
 }
 
 //-- Private Methods -----------------------------------------------------------
 
 template <typename T, StorageOrder Order, typename I, typename A>
 void
-PackedStorage<T, Order, I, A>::_raw_allocate()
+PackedStorage<T, Order, I, A>::raw_allocate_()
 {
-    ASSERT(!_data);
-    ASSERT(_dim>0);
+    ASSERT(!data_);
+    ASSERT(dim_>0);
 
-    _data = _allocator.allocate(numNonZeros());
-    ASSERT(_data);
+    data_ = allocator_.allocate(numNonZeros());
+    ASSERT(data_);
 
 #ifndef NDEBUG
-    ElementType *p = _data;
+    ElementType *p = data_;
 #endif
 
-    changeIndexBase(_indexBase);
+    changeIndexBase(indexBase_);
 
 #ifndef NDEBUG
     ASSERT(p==data());
@@ -254,7 +254,7 @@ PackedStorage<T, Order, I, A>::_raw_allocate()
 
 template <typename T, StorageOrder Order, typename I, typename A>
 void
-PackedStorage<T, Order, I, A>::_allocate(const ElementType &value)
+PackedStorage<T, Order, I, A>::allocate_(const ElementType &value)
 {
     const IndexType numElements = numNonZeros();
 
@@ -262,28 +262,28 @@ PackedStorage<T, Order, I, A>::_allocate(const ElementType &value)
         return;
     }
 
-    _raw_allocate();
+    raw_allocate_();
     T *p = data();
     for (IndexType i=0; i<numElements; ++i, ++p) {
-        _allocator.construct(p, value);
+        allocator_.construct(p, value);
     }
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 void
-PackedStorage<T, Order, I, A>::_release()
+PackedStorage<T, Order, I, A>::release_()
 {
-    if (_data) {
+    if (data_) {
         const IndexType numElements = numNonZeros();
 
         T *p = data();
         for (IndexType i=0; i<numElements; ++i, ++p) {
-            _allocator.destroy(p);
+            allocator_.destroy(p);
         }
-        _allocator.deallocate(data(), numElements);
-        _data = 0;
+        allocator_.deallocate(data(), numElements);
+        data_ = 0;
     }
-    ASSERT(_data==0);
+    ASSERT(data_==0);
 }
 
 } // namespace flens

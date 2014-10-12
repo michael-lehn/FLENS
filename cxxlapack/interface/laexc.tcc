@@ -55,8 +55,8 @@ laexc(bool          wantQ,
     CXXLAPACK_DEBUG_OUT("slaexc");
 
     IndexType info;
-    IndexType _wantQ = wantQ;
-    LAPACK_IMPL(slaexc)(&_wantQ,
+    IndexType wantQ_ = wantQ;
+    LAPACK_IMPL(slaexc)(&wantQ_,
                         &n,
                         T,
                         &ldT,
@@ -92,8 +92,8 @@ laexc(bool          wantQ,
     CXXLAPACK_DEBUG_OUT("dlaexc");
 
     IndexType info;
-    IndexType _wantQ = wantQ;
-    LAPACK_IMPL(dlaexc)(&_wantQ,
+    IndexType wantQ_ = wantQ;
+    LAPACK_IMPL(dlaexc)(&wantQ_,
                         &n,
                         T,
                         &ldT,

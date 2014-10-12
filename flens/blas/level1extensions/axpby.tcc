@@ -253,13 +253,13 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
 //  for B = beta*B + alpha*A^T or B = beta*B + alpha*A^H
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename Result<MA>::Type _A = A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        typename Result<MA>::Type A_ = A;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, A, _A);
+        copy(trans, A, A_);
         axpby(NoTrans, alpha, A, beta, B);
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
         return;
     }
 #   endif
@@ -349,13 +349,13 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
 //  for B = beta*B + alpha*A^T or B = beta*B + alpha*A^H
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename SbMatrix<MA>::NoView _A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        typename SbMatrix<MA>::NoView A_;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, A, _A);
-        axpby(NoTrans, alpha, _A, beta, B);
+        copy(trans, A, A_);
+        axpby(NoTrans, alpha, A_, beta, B);
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
         return;
     }
 #   endif
@@ -529,13 +529,13 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
 //  for B = beta*B + alpha*A^T or B = beta*B + alpha*A^H
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename SbMatrix<MA>::NoView _A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        typename SbMatrix<MA>::NoView A_;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, A, _A);
-        axpby(NoTrans, alpha, _A, beta, B);
+        copy(trans, A, A_);
+        axpby(NoTrans, alpha, A_, beta, B);
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
         return;
     }
 #   endif

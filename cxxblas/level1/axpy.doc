@@ -84,9 +84,9 @@ Complex Single Precision
 |           ComplexFloat *y, IndexType incY);                               |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [O#c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@C@comple]
-                         [x>#f#*1S2_#S0_#*S2_#S0_#templatetypenameIndexTypet]
-                         [ypenameIfIndexTypeisBlasCompatibleInteger         ]
+                         [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@N@__1@C@co]
+                         [mplex>#f#*1S2_#S0_#*S2_#S0_#templatetypenameIndexT]
+                         [ypetypenameIfIndexTypeisBlasCompatibleInteger     ]
 
 
 Complex Double Precision
@@ -100,55 +100,12 @@ Complex Double Precision
 |           ComplexDouble *y, IndexType incY);                              |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [O#c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@C@comple]
-                         [x>#d#*1S2_#S0_#*S2_#S0_#templatetypenameIndexTypet]
-                         [ypenameIfIndexTypeisBlasCompatibleInteger         ]
+                         [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@N@__1@C@co]
+                         [mplex>#d#*1S2_#S0_#*S2_#S0_#templatetypenameIndexT]
+                         [ypetypenameIfIndexTypeisBlasCompatibleInteger     ]
 
 
 :links: __CBLAS__    -> http://www.netlib.org/blas/
         __ATLAS__    -> http://math-atlas.sourceforge.net
         __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
-
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
-
-
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  template <typename IndexType>                                            |
-|      typename If<IndexType>::isBlasCompatibleInteger                      |
-|      axpy(IndexType n, const ComplexFloat &alpha,                         |
-|           const ComplexFloat *x, IndexType incX,                          |
-|           ComplexFloat *y, IndexType incY);                               |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@N@__1@C@co]
-                         [mplex>#f#*1S2_#S0_#*S2_#S0_#templatetypenameIndexT]
-                         [ypetypenameIfIndexTypeisBlasCompatibleInteger     ]
-
-    Defined in namespace `cxxblas`.
-    Function `axpy` with 1 template parameters.
-
-
-
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  template <typename IndexType>                                            |
-|      typename If<IndexType>::isBlasCompatibleInteger                      |
-|      axpy(IndexType n, const ComplexDouble &alpha,                        |
-|           const ComplexDouble *x, IndexType incX,                         |
-|           ComplexDouble *y, IndexType incY);                              |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@N@__1@C@co]
-                         [mplex>#d#*1S2_#S0_#*S2_#S0_#templatetypenameIndexT]
-                         [ypetypenameIfIndexTypeisBlasCompatibleInteger     ]
-
-    Defined in namespace `cxxblas`.
-    Function `axpy` with 1 template parameters.
-
-
 

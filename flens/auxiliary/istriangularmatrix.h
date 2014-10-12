@@ -38,7 +38,7 @@
 
 namespace flens {
 
-struct _TriangularMatrixChecker
+struct TriangularMatrixChecker_
 {
 
     struct Two
@@ -48,7 +48,7 @@ struct _TriangularMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -59,7 +59,7 @@ template <typename T>
 struct IsTriangularMatrix
 {
     static T var;
-    static const bool value = sizeof(_TriangularMatrixChecker::check(var))==1;
+    static const bool value = sizeof(TriangularMatrixChecker_::check(var))==1;
 };
 
 } // namespace flens

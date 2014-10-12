@@ -54,15 +54,15 @@ sum(IndexType n, const T *y, IndexType incY, T &sum)
 
         IndexType i=0;
 
-        IntrinsicType _sum, _y;
+        IntrinsicType sum_, y_;
 
-        _sum.setZero();
+        sum_.setZero();
 
         for(;i+numElements-1<n;i+=numElements) {
-            _y.loadu(y+i);
-            _sum = _intrinsic_add(_sum, _y);
+            y_.loadu(y+i);
+            sum_ = intrinsic_add_(sum_, y_);
         }
-        _sum.storeu(&sum);
+        sum_.storeu(&sum);
 
         for (;i<n;++i) {
             sum += y[i];

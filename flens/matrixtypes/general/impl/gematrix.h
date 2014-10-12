@@ -376,14 +376,14 @@ class GeMatrix
         engine();
 
     private:
-        Engine _engine;
+        Engine engine_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsGeMatrix
 //
-struct _GeMatrixChecker
+struct GeMatrixChecker_
 {
 
     struct Two {
@@ -392,7 +392,7 @@ struct _GeMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -403,7 +403,7 @@ template <typename T>
 struct IsGeMatrix
 {
     static T var;
-    static const bool value = sizeof(_GeMatrixChecker::check(var))==1;
+    static const bool value = sizeof(GeMatrixChecker_::check(var))==1;
 };
 
 //

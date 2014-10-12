@@ -59,25 +59,25 @@ symv_generic(StorageOrder order, StorageUpLo upLo,
     scal_generic(n, beta, y, incY);
     if (upLo==Upper) {
         for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
-            VY _y = VY(0);
-            dotu_generic(n-i, A+i*ldA+i, IndexType(1), x+i*incX, incX, _y);
-            y[iY] += alpha*_y;
+            VY y_ = VY(0);
+            dotu_generic(n-i, A+i*ldA+i, IndexType(1), x+i*incX, incX, y_);
+            y[iY] += alpha*y_;
         }
         for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
-            VY _y = VY(0);
-            dotu_generic(i, A+i, ldA, x, incX, _y);
-            y[iY] += alpha*_y;
+            VY y_ = VY(0);
+            dotu_generic(i, A+i, ldA, x, incX, y_);
+            y[iY] += alpha*y_;
         }
     } else {
         for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
-            VY _y = VY(0);
-            dotu_generic(i, A+i*ldA, IndexType(1), x, incX, _y);
-            y[iY] += alpha*_y;
+            VY y_ = VY(0);
+            dotu_generic(i, A+i*ldA, IndexType(1), x, incX, y_);
+            y[iY] += alpha*y_;
         }
         for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
-            VY _y = VY(0);
-            dotu_generic(n-i, A+i*ldA+i, ldA, x+i*incX, incX, _y);
-            y[iY] += alpha*_y;
+            VY y_ = VY(0);
+            dotu_generic(n-i, A+i*ldA+i, ldA, x+i*incX, incX, y_);
+            y[iY] += alpha*y_;
         }
     }
 }

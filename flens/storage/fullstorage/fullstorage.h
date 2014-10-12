@@ -248,21 +248,21 @@ class FullStorage
     private:
 
         void
-        _setIndexBase(IndexType firstRow, IndexType firstCol);
+        setIndexBase_(IndexType firstRow, IndexType firstCol);
 
         void
-        _raw_allocate();
+        raw_allocate_();
 
         void
-        _allocate(const ElementType &value = ElementType());
+        allocate_(const ElementType &value = ElementType());
 
         void
-        _release();
+        release_();
 
-        ElementType  *_data;
-        Allocator    _allocator;
-        IndexType    _numRows, _numCols;
-        IndexType    _firstRow, _firstCol;
+        ElementType  *data_;
+        Allocator    allocator_;
+        IndexType    numRows_, numCols_;
+        IndexType    firstRow_, firstCol_;
 };
 
 //-- FullStorage specific functions --------------------------------------------

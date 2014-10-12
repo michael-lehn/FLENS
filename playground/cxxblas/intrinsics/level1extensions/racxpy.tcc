@@ -76,25 +76,25 @@ racxpy(IndexType n, const T &alpha, const T *x,
 
         IndexType i=0;
 
-        IntrinsicType _x, _y, _tmp;
+        IntrinsicType x_, y_, tmp_;
 
         if (abs(real(alpha)) < abs(imag(alpha))) {
 
             PT r   = real(alpha)/imag(alpha);
             PT den = imag(alpha) + r*real(alpha);
 
-            IntrinsicPrimitiveType _r(r);
-            IntrinsicPrimitiveType _den(den);
+            IntrinsicPrimitiveType r_(r);
+            IntrinsicPrimitiveType den_(den);
 
            for (; i+numElements-1<n; i+=numElements) {
-                _x.loadu(x+i);
-                _y.loadu(y+i);
+                x_.loadu(x+i);
+                y_.loadu(y+i);
 
-                _tmp = _intrinsic_swap_real_imag(_x);
-                _tmp = _intrinsic_addsub(_tmp, _intrinsic_mul(_r,_x));
-                _y   = _intrinsic_sub(_y, _intrinsic_div(_tmp, _den));
+                tmp_ = intrinsic_swap_real_imag_(x_);
+                tmp_ = intrinsic_addsub_(tmp_, intrinsic_mul_(r_,x_));
+                y_   = intrinsic_sub_(y_, intrinsic_div_(tmp_, den_));
 
-                _y.storeu(y+i);
+                y_.storeu(y+i);
             }
 
         } else {
@@ -102,18 +102,18 @@ racxpy(IndexType n, const T &alpha, const T *x,
             PT r   = imag(alpha)/real(alpha);
             PT den = real(alpha) + r*imag(alpha);
 
-            IntrinsicPrimitiveType _r(r);
-            IntrinsicPrimitiveType _den(den);
+            IntrinsicPrimitiveType r_(r);
+            IntrinsicPrimitiveType den_(den);
 
            for (; i+numElements-1<n; i+=numElements) {
-                _x.loadu(x+i);
-                _y.loadu(y+i);
+                x_.loadu(x+i);
+                y_.loadu(y+i);
 
-                _tmp = _intrinsic_mul(_r,_intrinsic_swap_real_imag(_x));
-                _x   = _intrinsic_addsub(_tmp, _x);
-                _y   = _intrinsic_sub(_y, _intrinsic_div(_x, _den));
+                tmp_ = intrinsic_mul_(r_,intrinsic_swap_real_imag_(x_));
+                x_   = intrinsic_addsub_(tmp_, x_);
+                y_   = intrinsic_sub_(y_, intrinsic_div_(x_, den_));
 
-                _y.storeu(y+i);
+                y_.storeu(y+i);
             }
 
 

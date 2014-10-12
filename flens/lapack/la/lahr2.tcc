@@ -76,7 +76,7 @@ lahr2_impl(IndexType k, IndexType nb, GeMatrix<MA> &A,
 
 //  TODO: as long as view creation is not supported by the TrMatrix interface
 //        we get them through a GeMatrix::View
-    auto _Tr = Tr.general();
+    auto Tr_ = Tr.general();
 //
 //  Quick return if possible
 //
@@ -106,32 +106,32 @@ lahr2_impl(IndexType k, IndexType nb, GeMatrix<MA> &A,
 //
 //          w := V1**T * b1
 //
-            _Tr(_(1,i-1),nb) = A(_(k+1,k+i-1),i);
+            Tr_(_(1,i-1),nb) = A(_(k+1,k+i-1),i);
             blas::mv(Trans, A(_(k+1,k+i-1),_(1,i-1)).lowerUnit(),
-                     _Tr(_(1,i-1),nb));
+                     Tr_(_(1,i-1),nb));
 //
 //          w := w + V2**T * b2
 //
             blas::mv(Trans,
                      One, A(_(k+i,n),_(1,i-1)), A(_(k+i,n),i),
-                     One, _Tr(_(1,i-1),nb));
+                     One, Tr_(_(1,i-1),nb));
 //
 //          w := T**T * w
 //
-            blas::mv(Trans, _Tr(_(1,i-1),_(1,i-1)).upper(), _Tr(_(1,i-1),nb));
+            blas::mv(Trans, Tr_(_(1,i-1),_(1,i-1)).upper(), Tr_(_(1,i-1),nb));
 //
 //          b2 := b2 - V2*w
 //
             blas::mv(NoTrans,
-                     -One, A(_(k+i,n),_(1,i-1)), _Tr(_(1,i-1),nb),
+                     -One, A(_(k+i,n),_(1,i-1)), Tr_(_(1,i-1),nb),
                      One, A(_(k+i,n),i));
 //
 //          b1 := b1 - V1*w
 //
             blas::mv(NoTrans,
                      A(_(k+1,k+i-1),_(1,i-1)).lowerUnit(),
-                     _Tr(_(1,i-1),nb));
-            A(_(k+1,k+i-1),i) -= _Tr(_(1,i-1),nb);
+                     Tr_(_(1,i-1),nb));
+            A(_(k+1,k+i-1),i) -= Tr_(_(1,i-1),nb);
 
             A(k+i-1,i-1) = ei;
         }
@@ -151,16 +151,16 @@ lahr2_impl(IndexType k, IndexType nb, GeMatrix<MA> &A,
                  Zero, Y(_(k+1,n),i));
         blas::mv(Trans,
                  One, A(_(k+i,n),_(1,i-1)), A(_(k+i,n),i),
-                 Zero, _Tr(_(1,i-1),i));
+                 Zero, Tr_(_(1,i-1),i));
         blas::mv(NoTrans,
-                 -One, Y(_(k+1,n),_(1,i-1)), _Tr(_(1,i-1),i),
+                 -One, Y(_(k+1,n),_(1,i-1)), Tr_(_(1,i-1),i),
                  One, Y(_(k+1,n),i));
         blas::scal(tau(i),Y(_(k+1,n),i));
 //
 //      Compute T(1:I,I)
 //
-        blas::scal(-tau(i), _Tr(_(1,i-1),i));
-        blas::mv(NoTrans, _Tr(_(1,i-1),_(1,i-1)).upper(), _Tr(_(1,i-1),i));
+        blas::scal(-tau(i), Tr_(_(1,i-1),i));
+        blas::mv(NoTrans, Tr_(_(1,i-1),_(1,i-1)).upper(), Tr_(_(1,i-1),i));
         Tr(i,i) = tau(i);
     }
     A(k+nb, nb) = ei;
@@ -203,7 +203,7 @@ lahr2_impl(IndexType k, IndexType nb, GeMatrix<MA> &A,
 
 //  TODO: as long as view creation is not supported by the TrMatrix interface
 //        we get them through a GeMatrix::View
-    auto _Tr = Tr.general();
+    auto Tr_ = Tr.general();
 //
 //  Quick return if possible
 //
@@ -235,33 +235,33 @@ lahr2_impl(IndexType k, IndexType nb, GeMatrix<MA> &A,
 //
 //          w := V1**H * b1
 //
-            _Tr(_(1,i-1),nb) = A(_(k+1,k+i-1),i);
+            Tr_(_(1,i-1),nb) = A(_(k+1,k+i-1),i);
             blas::mv(ConjTrans, A(_(k+1,k+i-1),_(1,i-1)).lowerUnit(),
-                     _Tr(_(1,i-1),nb));
+                     Tr_(_(1,i-1),nb));
 //
 //          w := w + V2**H * b2
 //
             blas::mv(ConjTrans,
                      One, A(_(k+i,n),_(1,i-1)), A(_(k+i,n),i),
-                     One, _Tr(_(1,i-1),nb));
+                     One, Tr_(_(1,i-1),nb));
 //
 //          w := T**H * w
 //
-            blas::mv(ConjTrans, _Tr(_(1,i-1),_(1,i-1)).upper(),
-                     _Tr(_(1,i-1),nb));
+            blas::mv(ConjTrans, Tr_(_(1,i-1),_(1,i-1)).upper(),
+                     Tr_(_(1,i-1),nb));
 //
 //          b2 := b2 - V2*w
 //
             blas::mv(NoTrans,
-                     -One, A(_(k+i,n),_(1,i-1)), _Tr(_(1,i-1),nb),
+                     -One, A(_(k+i,n),_(1,i-1)), Tr_(_(1,i-1),nb),
                      One, A(_(k+i,n),i));
 //
 //          b1 := b1 - V1*w
 //
             blas::mv(NoTrans,
                      A(_(k+1,k+i-1),_(1,i-1)).lowerUnit(),
-                     _Tr(_(1,i-1),nb));
-            A(_(k+1,k+i-1),i) -= _Tr(_(1,i-1),nb);
+                     Tr_(_(1,i-1),nb));
+            A(_(k+1,k+i-1),i) -= Tr_(_(1,i-1),nb);
 
             A(k+i-1,i-1) = ei;
         }
@@ -281,16 +281,16 @@ lahr2_impl(IndexType k, IndexType nb, GeMatrix<MA> &A,
                  Zero, Y(_(k+1,n),i));
         blas::mv(ConjTrans,
                  One, A(_(k+i,n),_(1,i-1)), A(_(k+i,n),i),
-                 Zero, _Tr(_(1,i-1),i));
+                 Zero, Tr_(_(1,i-1),i));
         blas::mv(NoTrans,
-                 -One, Y(_(k+1,n),_(1,i-1)), _Tr(_(1,i-1),i),
+                 -One, Y(_(k+1,n),_(1,i-1)), Tr_(_(1,i-1),i),
                  One, Y(_(k+1,n),i));
         blas::scal(tau(i),Y(_(k+1,n),i));
 //
 //      Compute T(1:I,I)
 //
-        blas::scal(-tau(i), _Tr(_(1,i-1),i));
-        blas::mv(NoTrans, _Tr(_(1,i-1),_(1,i-1)).upper(), _Tr(_(1,i-1),i));
+        blas::scal(-tau(i), Tr_(_(1,i-1),i));
+        blas::mv(NoTrans, Tr_(_(1,i-1),_(1,i-1)).upper(), Tr_(_(1,i-1),i));
         Tr(i,i) = tau(i);
     }
     A(k+nb, nb) = ei;

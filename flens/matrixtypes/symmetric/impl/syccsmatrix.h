@@ -103,15 +103,15 @@ class SyCCSMatrix
 
     private:
 
-        Engine       _engine;
-        StorageUpLo  _upLo;
+        Engine       engine_;
+        StorageUpLo  upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsSyCCSMatrix
 //
-struct _SyCCSMatrixChecker
+struct SyCCSMatrixChecker_
 {
 
     struct Two {
@@ -120,7 +120,7 @@ struct _SyCCSMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -131,7 +131,7 @@ template <typename T>
 struct IsSyCCSMatrix
 {
     static T var;
-    static const bool value = sizeof(_SyCCSMatrixChecker::check(var))==1;
+    static const bool value = sizeof(SyCCSMatrixChecker_::check(var))==1;
 };
 
 //

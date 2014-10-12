@@ -40,7 +40,7 @@ namespace flens {
 template <typename Op, typename L, typename R>
 VectorClosure<Op, L, R>::VectorClosure(typename ConstRef<L>::Type l,
                                        typename ConstRef<R>::Type r)
-    : _left(l), _right(r)
+    : left_(l), right_(r)
 {
 }
 
@@ -48,14 +48,14 @@ template <typename Op, typename L, typename R>
 typename ConstRef<L>::Type
 VectorClosure<Op, L, R>::left() const
 {
-    return _left;
+    return left_;
 }
 
 template <typename Op, typename L, typename R>
 typename ConstRef<R>::Type
 VectorClosure<Op, L, R>::right() const
 {
-    return _right;
+    return right_;
 }
 
 } // namespace flens

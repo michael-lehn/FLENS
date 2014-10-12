@@ -97,7 +97,7 @@ svj0_impl(SVJ::JobV                                  jobV,
     const IndexType  m     = A.numRows();
     const IndexType  n     = A.numCols();
 
-    auto _work = work(_(1,m));
+    auto work_ = work(_(1,m));
 
     const bool applyV   = (jobV==SVJ::ApplyV);
     const bool rhsVec   = (jobV==SVJ::ComputeV) || applyV;
@@ -229,20 +229,20 @@ svj0_impl(SVJ::JobV                                  jobV,
                             if (aapp<big/aaqq) {
                                aapq = A(_,p)*A(_,q)*d(p)*d(q)/aaqq/aapp;
                             } else {
-                               _work = A(_,p);
+                               work_ = A(_,p);
                                lascl(LASCL::FullMatrix, 0, 0,
-                                     aapp, d(p), _work);
-                               aapq = _work*A(_,q)*d(q)/aaqq;
+                                     aapp, d(p), work_);
+                               aapq = work_*A(_,q)*d(q)/aaqq;
                             }
                          } else {
                             rotOk = aapp<=aaqq/small;
                             if (aapp>small/aaqq) {
                                aapq = A(_,p)*A(_,q)*d(p)*d(q)/aaqq/aapp;
                             } else {
-                               _work = A(_,q);
+                               work_ = A(_,q);
                                lascl(LASCL::FullMatrix, 0, 0,
-                                     aaqq, d(q), _work);
-                               aapq = _work*A(_,p)*d(p)/aapp;
+                                     aaqq, d(q), work_);
+                               aapq = work_*A(_,p)*d(p)/aapp;
                             }
                          }
 //
@@ -354,13 +354,13 @@ svj0_impl(SVJ::JobV                                  jobV,
 //
                             } else {
 //           .. have to use modified Gram-Schmidt like transformation
-                               _work = A(_,p);
+                               work_ = A(_,p);
                                lascl(LASCL::FullMatrix, 0, 0,
-                                     aapp, One, _work);
+                                     aapp, One, work_);
                                lascl(LASCL::FullMatrix, 0, 0,
                                      aaqq, One, A(_,q));
                                tmp = -aapq*d(p)/d(q);
-                               A(_,q) += tmp*_work;
+                               A(_,q) += tmp*work_;
                                lascl(LASCL::FullMatrix, 0, 0,
                                      One, aaqq, A(_,q));
                                sva(q) = aaqq*sqrt(max(Zero,One-aapq*aapq));
@@ -476,10 +476,10 @@ svj0_impl(SVJ::JobV                                  jobV,
                             if (aapp<big/aaqq) {
                                aapq = A(_,p)*A(_,q)*d(p)*d(q)/aaqq/aapp;
                             } else {
-                               _work = A(_,p);
+                               work_ = A(_,p);
                                lascl(LASCL::FullMatrix, 0, 0,
-                                     aapp, d(p), _work);
-                               aapq = _work*A(_,q)*d(q)/aaqq;
+                                     aapp, d(p), work_);
+                               aapq = work_*A(_,q)*d(q)/aaqq;
                             }
                          } else {
                             if (aapp>=aaqq) {
@@ -490,10 +490,10 @@ svj0_impl(SVJ::JobV                                  jobV,
                             if (aapp>small/aaqq) {
                                aapq = A(_,p)*A(_,q)*d(p)*d(q)/aaqq/aapp;
                             } else {
-                               _work = A(_,q);
+                               work_ = A(_,q);
                                lascl(LASCL::FullMatrix, 0, 0,
-                                     aaqq, d(q), _work);
-                               aapq = _work*A(_,p)*d(p)/aapp;
+                                     aaqq, d(q), work_);
+                               aapq = work_*A(_,p)*d(p)/aapp;
                             }
                          }
 
@@ -604,25 +604,25 @@ svj0_impl(SVJ::JobV                                  jobV,
 
                             } else {
                                if (aapp>aaqq) {
-                                  _work = A(_,p);
+                                  work_ = A(_,p);
                                   lascl(LASCL::FullMatrix, 0, 0,
-                                        aapp, One, _work);
+                                        aapp, One, work_);
                                   lascl(LASCL::FullMatrix, 0, 0,
                                         aaqq, One, A(_,q));
                                   tmp = -aapq*d(p)/d(q);
-                                  A(_,q) += tmp*_work;
+                                  A(_,q) += tmp*work_;
                                   lascl(LASCL::FullMatrix, 0, 0,
                                         One, aaqq, A(_,q));
                                   sva(q) = aaqq*sqrt(max(Zero, One-aapq*aapq));
                                   max_sinj = max(max_sinj, safeMin);
                                } else {
-                                  _work = A(_,q);
+                                  work_ = A(_,q);
                                   lascl(LASCL::FullMatrix, 0, 0,
-                                        aaqq, One, _work);
+                                        aaqq, One, work_);
                                   lascl(LASCL::FullMatrix, 0, 0,
                                         aapp, One, A(_,p));
                                   tmp = -aapq*d(q)/d(p);
-                                  A(_,p) += tmp*_work;
+                                  A(_,p) += tmp*work_;
                                   lascl(LASCL::FullMatrix, 0, 0,
                                         One, aapp, A(_,p));
                                   sva(p) = aapp*sqrt(max(Zero,One-aapq*aapq));
@@ -892,7 +892,7 @@ svj0(SVJ::JobV                                  jobV,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = external::svj0_impl(jobV, A, d, sva, V,
+    IndexType info_ = external::svj0_impl(jobV, A, d, sva, V,
                                           eps, safeMin, tol,
                                           nSweep, work);
 
@@ -922,9 +922,9 @@ svj0(SVJ::JobV                                  jobV,
         std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
     }
-    if (! isIdentical(info, _info, "info", "_info")) {
+    if (! isIdentical(info, info_, "info", "info_")) {
         std::cerr << "CXXLAPACK: info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

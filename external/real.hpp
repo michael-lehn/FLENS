@@ -58,12 +58,12 @@ namespace mpfr {
   class exception_real: public std::exception {
     public:
       exception_real(const std::string& msg = "exception_real")
-        throw(): _msg(msg) {}
+        throw(): msg_(msg) {}
       virtual ~exception_real() throw() {}
       // returns cause of error
-      virtual const char* what() const throw() { return _msg.c_str(); };
+      virtual const char* what() const throw() { return msg_.c_str(); };
     private:
-      std::string _msg;
+      std::string msg_;
   };
 
 }  // namespace mpfr
@@ -108,17 +108,17 @@ namespace mpfr {
   // declaration of real
   // //////////////////////////////////////////////////////////////
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
+  template <real_prec_t prec_, real_rnd_t rnd_>
   class real;
 
   // //////////////////////////////////////////////////////////////////
   // type traits
   // //////////////////////////////////////////////////////////////////
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   struct type_traits {
-    typedef _Tp1 real_type;
-    typedef _Tp2 other_type;
+    typedef Tp1_ real_type;
+    typedef Tp2_ other_type;
 
     // support level in class real
     static const bool enable_impl_ctor  = false;  // implicit ctor (else expl.)
@@ -141,9 +141,9 @@ namespace mpfr {
     static const bool has_div_b = false;
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, unsigned long int> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, unsigned long int> {
+    typedef real<prec_, rnd_> real_type;
     typedef unsigned long int other_type;
 
     // support level in class real
@@ -193,9 +193,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, long int> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, long int> {
+    typedef real<prec_, rnd_> real_type;
     typedef long int other_type;
 
     // support level in class real
@@ -245,9 +245,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, unsigned int> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, unsigned int> {
+    typedef real<prec_, rnd_> real_type;
     typedef unsigned int other_type;
 
     // support level in class real
@@ -297,9 +297,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, int> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, int> {
+    typedef real<prec_, rnd_> real_type;
     typedef int other_type;
 
     // support level in class real
@@ -349,9 +349,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, unsigned short int> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, unsigned short int> {
+    typedef real<prec_, rnd_> real_type;
     typedef unsigned short int other_type;
 
     // support level in class real
@@ -401,9 +401,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, short int> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, short int> {
+    typedef real<prec_, rnd_> real_type;
     typedef short int other_type;
 
     // support level in class real
@@ -453,9 +453,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, unsigned char> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, unsigned char> {
+    typedef real<prec_, rnd_> real_type;
     typedef unsigned char other_type;
 
     // support level in class real
@@ -505,9 +505,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, signed char> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, signed char> {
+    typedef real<prec_, rnd_> real_type;
     typedef signed char other_type;
 
     // support level in class real
@@ -557,9 +557,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, char> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, char> {
+    typedef real<prec_, rnd_> real_type;
     typedef char other_type;
 
     // support level in class real
@@ -609,9 +609,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, wchar_t> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, wchar_t> {
+    typedef real<prec_, rnd_> real_type;
     typedef wchar_t other_type;
 
     // support level in class real
@@ -661,9 +661,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, float> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, float> {
+    typedef real<prec_, rnd_> real_type;
     typedef float other_type;
 
     // support level in class real
@@ -713,9 +713,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, double> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, double> {
+    typedef real<prec_, rnd_> real_type;
     typedef double other_type;
 
     // support level in class real
@@ -765,9 +765,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, long double> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, long double> {
+    typedef real<prec_, rnd_> real_type;
     typedef long double other_type;
 
     // support level in class real
@@ -799,9 +799,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpz_t> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpz_t> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpz_t other_type;
 
     // support level in class real
@@ -845,9 +845,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpq_t> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpq_t> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpq_t other_type;
 
     // support level in class real
@@ -888,9 +888,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpf_t> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpf_t> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpf_t other_type;
 
     // support level in class real
@@ -922,9 +922,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpfr_t> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpfr_t> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpfr_t other_type;
 
     // support level in class real
@@ -974,9 +974,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpz_ptr> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpz_ptr> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpz_ptr other_type;
 
     // support level in class real
@@ -1020,9 +1020,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpq_ptr> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpq_ptr> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpq_ptr other_type;
 
     // support level in class real
@@ -1063,9 +1063,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpf_ptr> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpf_ptr> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpf_ptr other_type;
 
     // support level in class real
@@ -1097,9 +1097,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpfr_ptr> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpfr_ptr> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpfr_ptr other_type;
 
     // support level in class real
@@ -1149,9 +1149,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpz_srcptr> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpz_srcptr> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpz_srcptr other_type;
 
     // support level in class real
@@ -1192,9 +1192,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpq_srcptr> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpq_srcptr> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpq_srcptr other_type;
 
     // support level in class real
@@ -1235,9 +1235,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpf_srcptr> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpf_srcptr> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpf_srcptr other_type;
 
     // support level in class real
@@ -1266,9 +1266,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, mpfr_srcptr> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, mpfr_srcptr> {
+    typedef real<prec_, rnd_> real_type;
     typedef mpfr_srcptr other_type;
 
     // support level in class real
@@ -1315,9 +1315,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, std::string> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, std::string> {
+    typedef real<prec_, rnd_> real_type;
     typedef std::string other_type;
 
     // support level in class real
@@ -1346,9 +1346,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, char*> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, char*> {
+    typedef real<prec_, rnd_> real_type;
     typedef char* other_type;
 
     // support level in class real
@@ -1377,9 +1377,9 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
-  struct type_traits<real<_prec, _rnd>, const char*> {
-    typedef real<_prec, _rnd> real_type;
+  template <real_prec_t prec_, real_rnd_t rnd_>
+  struct type_traits<real<prec_, rnd_>, const char*> {
+    typedef real<prec_, rnd_> real_type;
     typedef const char* other_type;
 
     // support level in class real
@@ -1408,10 +1408,10 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd, int _i>
-  struct type_traits<real<_prec, _rnd>, char[_i]> {
-    typedef real<_prec, _rnd> real_type;
-    typedef char other_type[_i];
+  template <real_prec_t prec_, real_rnd_t rnd_, int i_>
+  struct type_traits<real<prec_, rnd_>, char[i_]> {
+    typedef real<prec_, rnd_> real_type;
+    typedef char other_type[i_];
 
     // support level in class real
     static const bool enable_impl_ctor  = true;
@@ -1439,10 +1439,10 @@ namespace mpfr {
     }
   };
 
-  template <real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd>
-  struct type_traits<real<_prec1, _rnd>, real<_prec2, _rnd> > {
-    typedef real<_prec1, _rnd> real_type;
-    typedef real<_prec2, _rnd> other_type;
+  template <real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd_>
+  struct type_traits<real<prec1_, rnd_>, real<prec2_, rnd_> > {
+    typedef real<prec1_, rnd_> real_type;
+    typedef real<prec2_, rnd_> other_type;
 
     // support level in class real
     static const bool enable_impl_ctor  = true;
@@ -1453,7 +1453,7 @@ namespace mpfr {
     static const bool enable_math_funcs = true;
 
     // support in MPFR library
-    // (all "has_..." booleans *MUST* be set to "false" for "real<_prec, _rnd>")
+    // (all "has_..." booleans *MUST* be set to "false" for "real<prec_, rnd_>")
     static const bool has_set   = false;
     static const bool has_get_a = false;
     static const bool has_get_b = false;
@@ -1465,7 +1465,7 @@ namespace mpfr {
     static const bool has_div_b = false;
 
     // functions in MPFR library
-    // (there should be no function definitions for "real<_prec, _rnd>")
+    // (there should be no function definitions for "real<prec_, rnd_>")
   };
 
 }  // namespace mpfr
@@ -1478,7 +1478,7 @@ namespace mpfr {
   // declaration of real
   // //////////////////////////////////////////////////////////////
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
+  template <real_prec_t prec_, real_rnd_t rnd_>
   class real;
 
   // //////////////////////////////////////////////////////////////////
@@ -1487,12 +1487,12 @@ namespace mpfr {
 
   // enable_if
 
-  template<bool, class _Tp = void>
+  template<bool, class Tp_ = void>
   struct enable_if {};
 
-  template<class _Tp>
-  struct enable_if<true, _Tp> {
-    typedef _Tp type;
+  template<class Tp_>
+  struct enable_if<true, Tp_> {
+    typedef Tp_ type;
   };
 
   // //////////////////////////////////////////////////////////////////
@@ -1500,36 +1500,36 @@ namespace mpfr {
   // //////////////////////////////////////////////////////////////////
 
   // At least one argument must be of type "real" and all "real"s must have
-  // the same rounding ("_rnd").  The result type is the "real" with highest
+  // the same rounding ("rnd_").  The result type is the "real" with highest
   // precision.
 
-  template<class _Tp1, class _Tp2>
+  template<class Tp1_, class Tp2_>
   struct result_type2 {
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd, class _Tp>
-  struct result_type2<real<_prec, _rnd>, _Tp> {
-    typedef real<_prec, _rnd> type;
-    static const real_rnd_t  rnd  = _rnd;
-    static const real_prec_t prec = _prec;
+  template <real_prec_t prec_, real_rnd_t rnd_, class Tp_>
+  struct result_type2<real<prec_, rnd_>, Tp_> {
+    typedef real<prec_, rnd_> type;
+    static const real_rnd_t  rnd  = rnd_;
+    static const real_prec_t prec = prec_;
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd, class _Tp>
-  struct result_type2<_Tp, real<_prec, _rnd> > {
-    typedef real<_prec, _rnd> type;
-    static const real_rnd_t  rnd  = _rnd;
-    static const real_prec_t prec = _prec;
+  template <real_prec_t prec_, real_rnd_t rnd_, class Tp_>
+  struct result_type2<Tp_, real<prec_, rnd_> > {
+    typedef real<prec_, rnd_> type;
+    static const real_rnd_t  rnd  = rnd_;
+    static const real_prec_t prec = prec_;
   };
 
-  template <real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd>
-  struct result_type2<real<_prec1, _rnd>, real<_prec2, _rnd> > {
-    typedef real<((_prec1 < _prec2) ? _prec2 : _prec1), _rnd> type;
-    static const real_rnd_t  rnd  = _rnd;
-    static const real_prec_t prec = ((_prec1 < _prec2) ? _prec2 : _prec1);
+  template <real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd_>
+  struct result_type2<real<prec1_, rnd_>, real<prec2_, rnd_> > {
+    typedef real<((prec1_ < prec2_) ? prec2_ : prec1_), rnd_> type;
+    static const real_rnd_t  rnd  = rnd_;
+    static const real_prec_t prec = ((prec1_ < prec2_) ? prec2_ : prec1_);
   };
 
-  template <real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd1, real_rnd_t _rnd2>
-  struct result_type2<real<_prec1, _rnd1>, real<_prec2, _rnd2> > {
+  template <real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd1_, real_rnd_t rnd2_>
+  struct result_type2<real<prec1_, rnd1_>, real<prec2_, rnd2_> > {
   };
 
   // //////////////////////////////////////////////////////////////////
@@ -1537,110 +1537,110 @@ namespace mpfr {
   // //////////////////////////////////////////////////////////////////
 
   // At least one argument must be of type "real" and all "real"s must have
-  // the same rounding ("_rnd").  The result type is the "real" with highest
+  // the same rounding ("rnd_").  The result type is the "real" with highest
   // precision.
 
-  template<class _Tp1, class _Tp2, class _Tp3>
+  template<class Tp1_, class Tp2_, class Tp3_>
   struct result_type3 {
   };
 
-  template<real_prec_t _prec, real_rnd_t _rnd, class _Tp1, class _Tp2>
-  struct result_type3<real<_prec, _rnd>, _Tp1, _Tp2> {
-    typedef real<_prec, _rnd> type;
-    static const real_rnd_t  rnd  = _rnd;
-    static const real_prec_t prec = _prec;
+  template<real_prec_t prec_, real_rnd_t rnd_, class Tp1_, class Tp2_>
+  struct result_type3<real<prec_, rnd_>, Tp1_, Tp2_> {
+    typedef real<prec_, rnd_> type;
+    static const real_rnd_t  rnd  = rnd_;
+    static const real_prec_t prec = prec_;
   };
 
-  template<real_prec_t _prec, real_rnd_t _rnd, class _Tp1, class _Tp2>
-  struct result_type3<_Tp2, real<_prec, _rnd>, _Tp1> {
-    typedef real<_prec, _rnd> type;
-    static const real_rnd_t  rnd  = _rnd;
-    static const real_prec_t prec = _prec;
+  template<real_prec_t prec_, real_rnd_t rnd_, class Tp1_, class Tp2_>
+  struct result_type3<Tp2_, real<prec_, rnd_>, Tp1_> {
+    typedef real<prec_, rnd_> type;
+    static const real_rnd_t  rnd  = rnd_;
+    static const real_prec_t prec = prec_;
   };
 
-  template<real_prec_t _prec, real_rnd_t _rnd, class _Tp1, class _Tp2>
-  struct result_type3<_Tp1, _Tp2, real<_prec, _rnd> > {
-    typedef real<_prec, _rnd> type;
-    static const real_rnd_t  rnd  = _rnd;
-    static const real_prec_t prec = _prec;
+  template<real_prec_t prec_, real_rnd_t rnd_, class Tp1_, class Tp2_>
+  struct result_type3<Tp1_, Tp2_, real<prec_, rnd_> > {
+    typedef real<prec_, rnd_> type;
+    static const real_rnd_t  rnd  = rnd_;
+    static const real_prec_t prec = prec_;
   };
 
-  template<real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd, class _Tp>
-  struct result_type3<real<_prec1, _rnd>, real<_prec2, _rnd>, _Tp> {
-    typedef real<((_prec1 < _prec2) ? _prec2 : _prec1), _rnd> type;
-    static const real_rnd_t  rnd  = _rnd;
-    static const real_prec_t prec = ((_prec1 < _prec2) ? _prec2 : _prec1);
+  template<real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd_, class Tp_>
+  struct result_type3<real<prec1_, rnd_>, real<prec2_, rnd_>, Tp_> {
+    typedef real<((prec1_ < prec2_) ? prec2_ : prec1_), rnd_> type;
+    static const real_rnd_t  rnd  = rnd_;
+    static const real_prec_t prec = ((prec1_ < prec2_) ? prec2_ : prec1_);
   };
 
-  template<real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd1, real_rnd_t _rnd2, class _Tp>
-  struct result_type3<real<_prec1, _rnd1>, real<_prec2, _rnd2>, _Tp> {
+  template<real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd1_, real_rnd_t rnd2_, class Tp_>
+  struct result_type3<real<prec1_, rnd1_>, real<prec2_, rnd2_>, Tp_> {
   };
 
-  template<real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd, class _Tp>
-  struct result_type3<_Tp, real<_prec1, _rnd>, real<_prec2, _rnd> > {
-    typedef real<((_prec1 < _prec2) ? _prec2 : _prec1), _rnd> type;
-    static const real_rnd_t  rnd  = _rnd;
-    static const real_prec_t prec = ((_prec1 < _prec2) ? _prec2 : _prec1);
+  template<real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd_, class Tp_>
+  struct result_type3<Tp_, real<prec1_, rnd_>, real<prec2_, rnd_> > {
+    typedef real<((prec1_ < prec2_) ? prec2_ : prec1_), rnd_> type;
+    static const real_rnd_t  rnd  = rnd_;
+    static const real_prec_t prec = ((prec1_ < prec2_) ? prec2_ : prec1_);
   };
 
-  template<real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd1, real_rnd_t _rnd2, class _Tp>
-  struct result_type3<_Tp, real<_prec1, _rnd1>, real<_prec2, _rnd2> > {
+  template<real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd1_, real_rnd_t rnd2_, class Tp_>
+  struct result_type3<Tp_, real<prec1_, rnd1_>, real<prec2_, rnd2_> > {
   };
 
-  template<real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd, class _Tp>
-  struct result_type3<real<_prec2, _rnd>, _Tp, real<_prec1, _rnd> > {
-    typedef real<((_prec1 < _prec2) ? _prec2 : _prec1), _rnd> type;
-    static const real_rnd_t  rnd  = _rnd;
-    static const real_prec_t prec = ((_prec1 < _prec2) ? _prec2 : _prec1);
+  template<real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd_, class Tp_>
+  struct result_type3<real<prec2_, rnd_>, Tp_, real<prec1_, rnd_> > {
+    typedef real<((prec1_ < prec2_) ? prec2_ : prec1_), rnd_> type;
+    static const real_rnd_t  rnd  = rnd_;
+    static const real_prec_t prec = ((prec1_ < prec2_) ? prec2_ : prec1_);
   };
 
-  template<real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd1, real_rnd_t _rnd2, class _Tp>
-  struct result_type3<real<_prec2, _rnd2>, _Tp, real<_prec1, _rnd1> > {
+  template<real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd1_, real_rnd_t rnd2_, class Tp_>
+  struct result_type3<real<prec2_, rnd2_>, Tp_, real<prec1_, rnd1_> > {
   };
 
-  template<real_prec_t _prec1, real_prec_t _prec2, real_prec_t _prec3, real_rnd_t _rnd>
-  struct result_type3<real<_prec1, _rnd>, real<_prec2, _rnd>, real<_prec3, _rnd> > {
-    typedef real<((((_prec3 < _prec2) ? _prec2 : _prec3) < _prec1) ? _prec1 :
-                    ((_prec3 < _prec2) ? _prec2 : _prec3)), _rnd> type;
-    static const real_rnd_t  rnd  = _rnd;
-    static const real_prec_t prec = ((((_prec3 < _prec2) ? _prec2 : _prec3)
-      < _prec1) ? _prec1 : ((_prec3 < _prec2) ? _prec2 : _prec3));
+  template<real_prec_t prec1_, real_prec_t prec2_, real_prec_t prec3_, real_rnd_t rnd_>
+  struct result_type3<real<prec1_, rnd_>, real<prec2_, rnd_>, real<prec3_, rnd_> > {
+    typedef real<((((prec3_ < prec2_) ? prec2_ : prec3_) < prec1_) ? prec1_ :
+                    ((prec3_ < prec2_) ? prec2_ : prec3_)), rnd_> type;
+    static const real_rnd_t  rnd  = rnd_;
+    static const real_prec_t prec = ((((prec3_ < prec2_) ? prec2_ : prec3_)
+      < prec1_) ? prec1_ : ((prec3_ < prec2_) ? prec2_ : prec3_));
   };
 
-  template<real_prec_t _prec1, real_prec_t _prec2, real_prec_t _prec3,
-    real_rnd_t _rnd1, real_rnd_t _rnd2, real_rnd_t _rnd3>
-  struct result_type3<real<_prec1, _rnd1>, real<_prec2, _rnd2>, real<_prec3, _rnd3> > {
+  template<real_prec_t prec1_, real_prec_t prec2_, real_prec_t prec3_,
+    real_rnd_t rnd1_, real_rnd_t rnd2_, real_rnd_t rnd3_>
+  struct result_type3<real<prec1_, rnd1_>, real<prec2_, rnd2_>, real<prec3_, rnd3_> > {
   };
 
   // //////////////////////////////////////////////////////////////////
   // promotion to real
   // //////////////////////////////////////////////////////////////////
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   struct promote {
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd, class _Tp>
-  struct promote<real<_prec, _rnd>, _Tp> {
-    typedef const real<_prec, _rnd> type;
+  template <real_prec_t prec_, real_rnd_t rnd_, class Tp_>
+  struct promote<real<prec_, rnd_>, Tp_> {
+    typedef const real<prec_, rnd_> type;
   };
 
-  template <real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd>
-  struct promote<real<_prec1, _rnd>, real<_prec2, _rnd> > {
-    typedef const real<_prec2, _rnd>& type;
+  template <real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd_>
+  struct promote<real<prec1_, rnd_>, real<prec2_, rnd_> > {
+    typedef const real<prec2_, rnd_>& type;
   };
 
   // //////////////////////////////////////////////////////////////////
   // check for equal types
   // //////////////////////////////////////////////////////////////////
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   struct equal_types2 {
     static const bool val = false;
   };
 
-  template <class _Tp>
-  struct equal_types2<_Tp, _Tp> {
+  template <class Tp_>
+  struct equal_types2<Tp_, Tp_> {
     static const bool val = true;
   };
 
@@ -1648,28 +1648,28 @@ namespace mpfr {
   // check for type "real"
   // //////////////////////////////////////////////////////////////////
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   struct has_real2 {
     static const bool val = false;
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd, class _Tp>
-  struct has_real2<real<_prec, _rnd>, _Tp> {
+  template <real_prec_t prec_, real_rnd_t rnd_, class Tp_>
+  struct has_real2<real<prec_, rnd_>, Tp_> {
     static const bool val = true;
   };
 
-  template <real_prec_t _prec, real_rnd_t _rnd, class _Tp>
-  struct has_real2<_Tp, real<_prec, _rnd> > {
+  template <real_prec_t prec_, real_rnd_t rnd_, class Tp_>
+  struct has_real2<Tp_, real<prec_, rnd_> > {
     static const bool val = true;
   };
 
-  template <real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd>
-  struct has_real2<real<_prec1, _rnd>, real<_prec2, _rnd> > {
+  template <real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd_>
+  struct has_real2<real<prec1_, rnd_>, real<prec2_, rnd_> > {
     static const bool val = true;
   };
 
-  template <real_prec_t _prec1, real_prec_t _prec2, real_rnd_t _rnd1, real_rnd_t _rnd2>
-  struct has_real2<real<_prec1, _rnd1>, real<_prec2, _rnd2> > {
+  template <real_prec_t prec1_, real_prec_t prec2_, real_rnd_t rnd1_, real_rnd_t rnd2_>
+  struct has_real2<real<prec1_, rnd1_>, real<prec2_, rnd2_> > {
     static const bool val = false;
   };
 
@@ -1684,532 +1684,532 @@ namespace mpfr {
   // class declaration
   // //////////////////////////////////////////////////////////////
 
-  template <real_prec_t _prec, real_rnd_t _rnd>
+  template <real_prec_t prec_, real_rnd_t rnd_>
   class real;
 
   // //////////////////////////////////////////////////////////////
   // generic operators (definitions of binary operators)
   // //////////////////////////////////////////////////////////////
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_arithm_ops &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_arithm_ops,
-    const typename result_type2<_Tp1, _Tp2>::type>::type
-  operator +(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_arithm_ops &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_arithm_ops,
+    const typename result_type2<Tp1_, Tp2_>::type>::type
+  operator +(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_add(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_add(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_arithm_ops &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_arithm_ops,
-    const typename result_type2<_Tp1, _Tp2>::type>::type
-  operator -(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_arithm_ops &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_arithm_ops,
+    const typename result_type2<Tp1_, Tp2_>::type>::type
+  operator -(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_sub(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_sub(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_arithm_ops &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_arithm_ops,
-    const typename result_type2<_Tp1, _Tp2>::type>::type
-  operator *(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_arithm_ops &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_arithm_ops,
+    const typename result_type2<Tp1_, Tp2_>::type>::type
+  operator *(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_mul(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_mul(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_arithm_ops &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_arithm_ops,
-    const typename result_type2<_Tp1, _Tp2>::type>::type
-  operator /(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_arithm_ops &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_arithm_ops,
+    const typename result_type2<Tp1_, Tp2_>::type>::type
+  operator /(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_div(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_div(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_compar_ops &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_compar_ops,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_compar_ops &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_compar_ops,
     const bool>::type
-  operator ==(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_equal_p(temp1._x, temp2._x);
+  operator ==(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_equal_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_compar_ops &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_compar_ops,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_compar_ops &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_compar_ops,
     const bool>::type
-  operator !=(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_lessgreater_p(temp1._x, temp2._x);
+  operator !=(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_lessgreater_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_compar_ops &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_compar_ops,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_compar_ops &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_compar_ops,
     const bool>::type
-  operator <(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_less_p(temp1._x, temp2._x);
+  operator <(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_less_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_compar_ops &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_compar_ops,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_compar_ops &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_compar_ops,
     const bool>::type
-  operator <=(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_lessequal_p(temp1._x, temp2._x);
+  operator <=(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_lessequal_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_compar_ops &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_compar_ops,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_compar_ops &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_compar_ops,
     const bool>::type
-  operator >(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_greater_p(temp1._x, temp2._x);
+  operator >(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_greater_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_compar_ops &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_compar_ops,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_compar_ops &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_compar_ops,
     const bool>::type
-  operator >=(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_greaterequal_p(temp1._x, temp2._x);
+  operator >=(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_greaterequal_p(temp1.x_, temp2.x_);
   }
 
   // //////////////////////////////////////////////////////////////
   // mathematical functions (definitions for multiple "real" arguments)
   // //////////////////////////////////////////////////////////////
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
     const int>::type
-  isgreater(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_greater_p(temp1._x, temp2._x);
+  isgreater(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_greater_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
     const int>::type
-  isgreaterequal(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_greaterequal_p(temp1._x, temp2._x);
+  isgreaterequal(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_greaterequal_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
     const int>::type
-  isless(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_less_p(temp1._x, temp2._x);
+  isless(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_less_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
     const int>::type
-  islessequal(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_lessequal_p(temp1._x, temp2._x);
+  islessequal(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_lessequal_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
     const int>::type
-  islessgreater(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_lessgreater_p(temp1._x, temp2._x);
+  islessgreater(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_lessgreater_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
     const int>::type
-  isunordered(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_unordered_p(temp1._x, temp2._x);
+  isunordered(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_unordered_p(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  atan2(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  atan2(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_atan2(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_atan2(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  copysign(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  copysign(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_copysign(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_copysign(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  fdim(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  fdim(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_dim(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_dim(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2, class _Tp3>
+  template <class Tp1_, class Tp2_, class Tp3_>
   inline typename enable_if<
-    type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-      _Tp2>::enable_math_funcs &&
-    type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-      _Tp3>::enable_math_funcs,
-    typename result_type3<_Tp1, _Tp2, _Tp3>::type>::type
-  fma(const _Tp1& r1, const _Tp2& r2, const _Tp3& r3) {
-    typedef typename result_type3<_Tp1, _Tp2, _Tp3>::type temp_type;
-    const real_rnd_t rnd = result_type3<_Tp1, _Tp2, _Tp3>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    typename promote<temp_type, _Tp3>::type temp3(r3);
+    type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+      Tp2_>::enable_math_funcs &&
+    type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+      Tp3_>::enable_math_funcs,
+    typename result_type3<Tp1_, Tp2_, Tp3_>::type>::type
+  fma(const Tp1_& r1, const Tp2_& r2, const Tp3_& r3) {
+    typedef typename result_type3<Tp1_, Tp2_, Tp3_>::type temp_type;
+    const real_rnd_t rnd = result_type3<Tp1_, Tp2_, Tp3_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    typename promote<temp_type, Tp3_>::type temp3(r3);
     temp_type temp;
-    mpfr_fma(temp._x, temp1._x, temp2._x, temp3._x, rnd);
+    mpfr_fma(temp.x_, temp1.x_, temp2.x_, temp3.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  fmax(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  fmax(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_max(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_max(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  fmin(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  fmin(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_min(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_min(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  fmod(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  fmod(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_fmod(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_fmod(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  hypot(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  hypot(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_hypot(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_hypot(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  pow(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  pow(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_pow(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_pow(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  remainder(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  remainder(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_remainder(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_remainder(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  agm(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  agm(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_agm(temp._x, temp1._x, temp2._x, rnd);
+    mpfr_agm(temp.x_, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
     const int>::type
-  cmpabs(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    return mpfr_cmpabs(temp1._x, temp2._x);
+  cmpabs(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    return mpfr_cmpabs(temp1.x_, temp2.x_);
   }
 
-  template <class _Tp1, class _Tp2, class _Tp3>
+  template <class Tp1_, class Tp2_, class Tp3_>
   inline typename enable_if<
-    type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-      _Tp2>::enable_math_funcs &&
-    type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-      _Tp3>::enable_math_funcs,
-    typename result_type3<_Tp1, _Tp2, _Tp3>::type>::type
-  fms(const _Tp1& r1, const _Tp2& r2, const _Tp3& r3) {
-    typedef typename result_type3<_Tp1, _Tp2, _Tp3>::type temp_type;
-    const real_rnd_t rnd = result_type3<_Tp1, _Tp2, _Tp3>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    typename promote<temp_type, _Tp3>::type temp3(r3);
+    type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+      Tp2_>::enable_math_funcs &&
+    type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+      Tp3_>::enable_math_funcs,
+    typename result_type3<Tp1_, Tp2_, Tp3_>::type>::type
+  fms(const Tp1_& r1, const Tp2_& r2, const Tp3_& r3) {
+    typedef typename result_type3<Tp1_, Tp2_, Tp3_>::type temp_type;
+    const real_rnd_t rnd = result_type3<Tp1_, Tp2_, Tp3_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    typename promote<temp_type, Tp3_>::type temp3(r3);
     temp_type temp;
-    mpfr_fms(temp._x, temp1._x, temp2._x, temp3._x, rnd);
+    mpfr_fms(temp.x_, temp1.x_, temp2.x_, temp3.x_, rnd);
     return temp;
   }
 
-  template <real_prec_t _prec, real_rnd_t _rnd, class _Tp>
+  template <real_prec_t prec_, real_rnd_t rnd_, class Tp_>
   inline typename enable_if<
-    type_traits<typename result_type2<real<_prec, _rnd>, _Tp>::type,
-      _Tp>::enable_math_funcs &&
-    type_traits<typename result_type2<real<_prec, _rnd>, _Tp>::type,
-      real<_prec, _rnd> >::enable_math_funcs,
-    typename result_type2<real<_prec, _rnd>, _Tp>::type>::type
-  modf(const _Tp& r, real<_prec, _rnd>* iptr) {
-    typedef typename result_type2<real<_prec, _rnd>, _Tp>::type temp_type;
-    const real_rnd_t rnd = result_type2<real<_prec, _rnd>, _Tp>::rnd;
+    type_traits<typename result_type2<real<prec_, rnd_>, Tp_>::type,
+      Tp_>::enable_math_funcs &&
+    type_traits<typename result_type2<real<prec_, rnd_>, Tp_>::type,
+      real<prec_, rnd_> >::enable_math_funcs,
+    typename result_type2<real<prec_, rnd_>, Tp_>::type>::type
+  modf(const Tp_& r, real<prec_, rnd_>* iptr) {
+    typedef typename result_type2<real<prec_, rnd_>, Tp_>::type temp_type;
+    const real_rnd_t rnd = result_type2<real<prec_, rnd_>, Tp_>::rnd;
     temp_type temp;
-    mpfr_modf(iptr->_x, temp._x, r._x, rnd);
+    mpfr_modf(iptr->x_, temp.x_, r.x_, rnd);
     return temp;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  nextafter(const _Tp1& r1, const _Tp2& r2) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  nextafter(const Tp1_& r1, const Tp2_& r2) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
     temp_type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
-    mpfr_nexttoward(temp1._x, temp2._x);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
+    mpfr_nexttoward(temp1.x_, temp2.x_);
     return temp1;
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  nexttoward(const _Tp1& r1, const _Tp2& r2) {
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  nexttoward(const Tp1_& r1, const Tp2_& r2) {
     return nextafter(r1, r2);
   }
 
-  template <class _Tp1, class _Tp2>
+  template <class Tp1_, class Tp2_>
   inline typename enable_if<
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp1>::enable_math_funcs &&
-    type_traits<typename result_type2<_Tp1, _Tp2>::type,
-      _Tp2>::enable_math_funcs,
-    typename result_type2<_Tp1, _Tp2>::type>::type
-  remquo(const _Tp1& r1, const _Tp2& r2, long* quo) {
-    typedef typename result_type2<_Tp1, _Tp2>::type temp_type;
-    const real_rnd_t rnd = result_type2<_Tp1, _Tp2>::rnd;
-    typename promote<temp_type, _Tp1>::type temp1(r1);
-    typename promote<temp_type, _Tp2>::type temp2(r2);
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp1_>::enable_math_funcs &&
+    type_traits<typename result_type2<Tp1_, Tp2_>::type,
+      Tp2_>::enable_math_funcs,
+    typename result_type2<Tp1_, Tp2_>::type>::type
+  remquo(const Tp1_& r1, const Tp2_& r2, long* quo) {
+    typedef typename result_type2<Tp1_, Tp2_>::type temp_type;
+    const real_rnd_t rnd = result_type2<Tp1_, Tp2_>::rnd;
+    typename promote<temp_type, Tp1_>::type temp1(r1);
+    typename promote<temp_type, Tp2_>::type temp2(r2);
     temp_type temp;
-    mpfr_remquo(temp._x, quo, temp1._x, temp2._x, rnd);
+    mpfr_remquo(temp.x_, quo, temp1.x_, temp2.x_, rnd);
     return temp;
   }
 
@@ -2217,11 +2217,11 @@ namespace mpfr {
   // class definition
   // //////////////////////////////////////////////////////////////////
 
-  template <real_prec_t _prec = 53, real_rnd_t _rnd = MPFR_RNDN>
+  template <real_prec_t prec_ = 53, real_rnd_t rnd_ = MPFR_RNDN>
   class real {
     // private:
     public:
-      mpfr_t _x;
+      mpfr_t x_;
 
     public:
       // //////////////////////////////////////////////////////////////
@@ -2231,27 +2231,27 @@ namespace mpfr {
       // default and copy constructor
 
       inline real() {
-        mpfr_init2(_x, _prec);
-        mpfr_set_zero(_x, +1);
+        mpfr_init2(x_, prec_);
+        mpfr_set_zero(x_, +1);
       }
 
       inline real(const real& o) {
-        mpfr_init2(_x, _prec);
-        mpfr_set(_x, o._x, _rnd);
+        mpfr_init2(x_, prec_);
+        mpfr_set(x_, o.x_, rnd_);
       }
 
       // default assignment operator
 
       inline real& operator =(const real& o) {
         if (&o != this)
-          mpfr_set(_x, o._x, _rnd);
+          mpfr_set(x_, o.x_, rnd_);
         return *this;
       }
 
       // destructor
 
       inline ~real() {
-        mpfr_clear(_x);
+        mpfr_clear(x_);
       }
 
       // //////////////////////////////////////////////////////////////
@@ -2260,64 +2260,64 @@ namespace mpfr {
 
       // friend of other reals
 
-      template <real_prec_t _prec1, real_rnd_t _rnd1>
+      template <real_prec_t prec1_, real_rnd_t rnd1_>
       friend class real;
 
       // implicit conversion constructors
 
-      template <class _Tp>
-      inline real(const _Tp& o,
-          typename enable_if<type_traits<real, _Tp>::has_set &&
-          type_traits<real, _Tp>::enable_impl_ctor>::type* = 0) {
-        mpfr_init2(_x, _prec);
-        type_traits<real, _Tp>::set(_x, o, _rnd);
+      template <class Tp_>
+      inline real(const Tp_& o,
+          typename enable_if<type_traits<real, Tp_>::has_set &&
+          type_traits<real, Tp_>::enable_impl_ctor>::type* = 0) {
+        mpfr_init2(x_, prec_);
+        type_traits<real, Tp_>::set(x_, o, rnd_);
       }
 
-      template <real_prec_t _prec1, real_rnd_t _rnd1>
-      inline real(const real<_prec1, _rnd1>& o,
+      template <real_prec_t prec1_, real_rnd_t rnd1_>
+      inline real(const real<prec1_, rnd1_>& o,
           typename enable_if<
-          type_traits<real, real<_prec1, _rnd1> >::enable_impl_ctor>::type* = 0) {
-        mpfr_init2(_x, _prec1);
-        mpfr_set(_x, o._x, _rnd1);
+          type_traits<real, real<prec1_, rnd1_> >::enable_impl_ctor>::type* = 0) {
+        mpfr_init2(x_, prec1_);
+        mpfr_set(x_, o.x_, rnd1_);
       }
 
       // explicit conversion constructors
 
-      template <class _Tp>
-      inline explicit real(const _Tp& o,
+      template <class Tp_>
+      inline explicit real(const Tp_& o,
           typename enable_if<
-          type_traits<real, _Tp>::has_set &&
-          (! type_traits<real, _Tp>::enable_impl_ctor)>::type* = 0) {
-        mpfr_init2(_x, _prec);
-        type_traits<real, _Tp>::set(_x, o, _rnd);
+          type_traits<real, Tp_>::has_set &&
+          (! type_traits<real, Tp_>::enable_impl_ctor)>::type* = 0) {
+        mpfr_init2(x_, prec_);
+        type_traits<real, Tp_>::set(x_, o, rnd_);
       }
 
-      template <real_prec_t _prec1, real_rnd_t _rnd1>
-      inline explicit real(const real<_prec1, _rnd1>& o,
+      template <real_prec_t prec1_, real_rnd_t rnd1_>
+      inline explicit real(const real<prec1_, rnd1_>& o,
           typename enable_if<
-          (! type_traits<real, real<_prec1, _rnd1> >::enable_impl_ctor)>::type* = 0) {
-        mpfr_init2(_x, _prec1);
-        mpfr_set(_x, o._x, _rnd1);
+          (! type_traits<real, real<prec1_, rnd1_> >::enable_impl_ctor)>::type* = 0) {
+        mpfr_init2(x_, prec1_);
+        mpfr_set(x_, o.x_, rnd1_);
       }
 
       // converting assignment operators
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_assign_op &&
-        type_traits<real, _Tp>::has_set,
+        type_traits<real, Tp_>::enable_assign_op &&
+        type_traits<real, Tp_>::has_set,
         real&>::type
-      operator =(const _Tp& o) {
-        type_traits<real, _Tp>::set(_x, o, _rnd);
+      operator =(const Tp_& o) {
+        type_traits<real, Tp_>::set(x_, o, rnd_);
         return *this;
       }
 
-      template <real_prec_t _prec1, real_rnd_t _rnd1>
+      template <real_prec_t prec1_, real_rnd_t rnd1_>
       inline typename enable_if<
-        type_traits<real, real<_prec1, _rnd1> >::enable_assign_op,
+        type_traits<real, real<prec1_, rnd1_> >::enable_assign_op,
         real&>::type
-      operator =(const real<_prec1, _rnd1>& o) {
-        mpfr_set(_x, o._x, _rnd1);
+      operator =(const real<prec1_, rnd1_>& o) {
+        mpfr_set(x_, o.x_, rnd1_);
         return *this;
       }
 
@@ -2325,269 +2325,269 @@ namespace mpfr {
       // generic operators
       // //////////////////////////////////////////////////////////////
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        (! type_traits<real, _Tp>::has_add),
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        (! type_traits<real, Tp_>::has_add),
         real&>::type
-      operator +=(const _Tp& o) {
-        typename promote<real, _Tp>::type temp(o);
-        mpfr_add(_x, _x, temp._x, _rnd);
+      operator +=(const Tp_& o) {
+        typename promote<real, Tp_>::type temp(o);
+        mpfr_add(x_, x_, temp.x_, rnd_);
         return *this;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        (! type_traits<real, _Tp>::has_sub_a),
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        (! type_traits<real, Tp_>::has_sub_a),
         real&>::type
-      operator -=(const _Tp& o) {
-        typename promote<real, _Tp>::type temp(o);
-        mpfr_sub(_x, _x, temp._x, _rnd);
+      operator -=(const Tp_& o) {
+        typename promote<real, Tp_>::type temp(o);
+        mpfr_sub(x_, x_, temp.x_, rnd_);
         return *this;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        (! type_traits<real, _Tp>::has_mul),
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        (! type_traits<real, Tp_>::has_mul),
         real&>::type
-      operator *=(const _Tp& o) {
-        typename promote<real, _Tp>::type temp(o);
-        mpfr_mul(_x, _x, temp._x, _rnd);
+      operator *=(const Tp_& o) {
+        typename promote<real, Tp_>::type temp(o);
+        mpfr_mul(x_, x_, temp.x_, rnd_);
         return *this;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        (! type_traits<real, _Tp>::has_div_a),
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        (! type_traits<real, Tp_>::has_div_a),
         real&>::type
-      operator /=(const _Tp& o) {
-        typename promote<real, _Tp>::type temp(o);
-        mpfr_div(_x, _x, temp._x, _rnd);
+      operator /=(const Tp_& o) {
+        typename promote<real, Tp_>::type temp(o);
+        mpfr_div(x_, x_, temp.x_, rnd_);
         return *this;
       }
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_arithm_ops &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_arithm_ops,
-        const typename result_type2<_Tp1, _Tp2>::type>::type
-      operator +(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_arithm_ops &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_arithm_ops,
+        const typename result_type2<Tp1_, Tp2_>::type>::type
+      operator +(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_arithm_ops &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_arithm_ops,
-        const typename result_type2<_Tp1, _Tp2>::type>::type
-      operator -(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_arithm_ops &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_arithm_ops,
+        const typename result_type2<Tp1_, Tp2_>::type>::type
+      operator -(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_arithm_ops &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_arithm_ops,
-        const typename result_type2<_Tp1, _Tp2>::type>::type
-      operator *(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_arithm_ops &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_arithm_ops,
+        const typename result_type2<Tp1_, Tp2_>::type>::type
+      operator *(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_arithm_ops &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_arithm_ops,
-        const typename result_type2<_Tp1, _Tp2>::type>::type
-      operator /(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_arithm_ops &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_arithm_ops,
+        const typename result_type2<Tp1_, Tp2_>::type>::type
+      operator /(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_compar_ops &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_compar_ops,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_compar_ops &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_compar_ops,
         const bool>::type
-      operator ==(const _Tp1& r1, const _Tp2& r2);
+      operator ==(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_compar_ops &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_compar_ops,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_compar_ops &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_compar_ops,
         const bool>::type
-      operator !=(const _Tp1& r1, const _Tp2& r2);
+      operator !=(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_compar_ops &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_compar_ops,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_compar_ops &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_compar_ops,
         const bool>::type
-      operator <(const _Tp1& r1, const _Tp2& r2);
+      operator <(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_compar_ops &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_compar_ops,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_compar_ops &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_compar_ops,
         const bool>::type
-      operator <=(const _Tp1& r1, const _Tp2& r2);
+      operator <=(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_compar_ops &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_compar_ops,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_compar_ops &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_compar_ops,
         const bool>::type
-      operator >(const _Tp1& r1, const _Tp2& r2);
+      operator >(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_compar_ops &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_compar_ops,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_compar_ops &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_compar_ops,
         const bool>::type
-      operator >=(const _Tp1& r1, const _Tp2& r2);
+      operator >=(const Tp1_& r1, const Tp2_& r2);
 
       // //////////////////////////////////////////////////////////////
       // optimized operators
       // //////////////////////////////////////////////////////////////
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_add,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_add,
         real&>::type
-      operator +=(const _Tp& o) {
-        type_traits<real, _Tp>::add(_x, _x, o, _rnd);
+      operator +=(const Tp_& o) {
+        type_traits<real, Tp_>::add(x_, x_, o, rnd_);
         return *this;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_sub_a,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_sub_a,
         real&>::type
-      operator -=(const _Tp& o) {
-        type_traits<real, _Tp>::sub_a(_x, _x, o, _rnd);
+      operator -=(const Tp_& o) {
+        type_traits<real, Tp_>::sub_a(x_, x_, o, rnd_);
         return *this;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_mul,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_mul,
         real&>::type
-      operator *=(const _Tp& o) {
-        type_traits<real, _Tp>::mul(_x, _x, o, _rnd);
+      operator *=(const Tp_& o) {
+        type_traits<real, Tp_>::mul(x_, x_, o, rnd_);
         return *this;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_div_a,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_div_a,
         real&>::type
-      operator /=(const _Tp& o) {
-        type_traits<real, _Tp>::div_a(_x, _x, o, _rnd);
+      operator /=(const Tp_& o) {
+        type_traits<real, Tp_>::div_a(x_, x_, o, rnd_);
         return *this;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_add,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_add,
         const real>::type
-      operator +(const real& r1, const _Tp& r2) {
+      operator +(const real& r1, const Tp_& r2) {
         real temp;
-        type_traits<real, _Tp>::add(temp._x, r1._x, r2, _rnd);
+        type_traits<real, Tp_>::add(temp.x_, r1.x_, r2, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_add,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_add,
         const real>::type
-      operator +(const _Tp& r1, const real& r2) {
+      operator +(const Tp_& r1, const real& r2) {
         real temp;
-        type_traits<real, _Tp>::add(temp._x, r2._x, r1, _rnd);
+        type_traits<real, Tp_>::add(temp.x_, r2.x_, r1, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_sub_a,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_sub_a,
         const real>::type
-      operator -(const real& r1, const _Tp& r2) {
+      operator -(const real& r1, const Tp_& r2) {
         real temp;
-        type_traits<real, _Tp>::sub_a(temp._x, r1._x, r2, _rnd);
+        type_traits<real, Tp_>::sub_a(temp.x_, r1.x_, r2, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_sub_b,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_sub_b,
         const real>::type
-      operator -(const _Tp& r1, const real& r2) {
+      operator -(const Tp_& r1, const real& r2) {
         real temp;
-        type_traits<real, _Tp>::sub_b(temp._x, r1, r2._x, _rnd);
+        type_traits<real, Tp_>::sub_b(temp.x_, r1, r2.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_mul,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_mul,
         const real>::type
-      operator *(const real& r1, const _Tp& r2) {
+      operator *(const real& r1, const Tp_& r2) {
         real temp;
-        type_traits<real, _Tp>::mul(temp._x, r1._x, r2, _rnd);
+        type_traits<real, Tp_>::mul(temp.x_, r1.x_, r2, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_mul,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_mul,
         const real>::type
-      operator *(const _Tp& r1, const real& r2) {
+      operator *(const Tp_& r1, const real& r2) {
         real temp;
-        type_traits<real, _Tp>::mul(temp._x, r2._x, r1, _rnd);
+        type_traits<real, Tp_>::mul(temp.x_, r2.x_, r1, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_div_a,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_div_a,
         const real>::type
-      operator /(const real& r1, const _Tp& r2) {
+      operator /(const real& r1, const Tp_& r2) {
         real temp;
-        type_traits<real, _Tp>::div_a(temp._x, r1._x, r2, _rnd);
+        type_traits<real, Tp_>::div_a(temp.x_, r1.x_, r2, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_arithm_ops &&
-        type_traits<real, _Tp>::has_div_b,
+        type_traits<real, Tp_>::enable_arithm_ops &&
+        type_traits<real, Tp_>::has_div_b,
         const real>::type
-      operator /(const _Tp& r1, const real& r2) {
+      operator /(const Tp_& r1, const real& r2) {
         real temp;
-        type_traits<real, _Tp>::div_b(temp._x, r1, r2._x, _rnd);
+        type_traits<real, Tp_>::div_b(temp.x_, r1, r2.x_, rnd_);
         return temp;
       }
 
@@ -2600,55 +2600,55 @@ namespace mpfr {
 
       #ifdef REAL_ENABLE_CONVERSION_OPERATORS
       inline operator unsigned long int() const {
-        return mpfr_get_ui(_x, _rnd);
+        return mpfr_get_ui(x_, rnd_);
       }
 
       inline operator long int() const {
-        return mpfr_get_si(_x, _rnd);
+        return mpfr_get_si(x_, rnd_);
       }
 
       inline operator unsigned int() const {
-        return mpfr_get_ui(_x, _rnd);
+        return mpfr_get_ui(x_, rnd_);
       }
 
       inline operator int() const {
-        return mpfr_get_si(_x, _rnd);
+        return mpfr_get_si(x_, rnd_);
       }
 
       inline operator unsigned short int() const {
-        return mpfr_get_ui(_x, _rnd);
+        return mpfr_get_ui(x_, rnd_);
       }
 
       inline operator short int() const {
-        return mpfr_get_si(_x, _rnd);
+        return mpfr_get_si(x_, rnd_);
       }
 
       inline operator unsigned char() const {
-        return mpfr_get_ui(_x, _rnd);
+        return mpfr_get_ui(x_, rnd_);
       }
 
       inline operator signed char() const {
-        return mpfr_get_si(_x, _rnd);
+        return mpfr_get_si(x_, rnd_);
       }
 
       inline operator char() const {
-        return mpfr_get_si(_x, _rnd);
+        return mpfr_get_si(x_, rnd_);
       }
 
       inline operator wchar_t() const {
-        return mpfr_get_si(_x, _rnd);
+        return mpfr_get_si(x_, rnd_);
       }
 
       inline operator float() const {
-        return mpfr_get_flt(_x, _rnd);
+        return mpfr_get_flt(x_, rnd_);
       }
 
       inline operator double() const {
-        return mpfr_get_d(_x, _rnd);
+        return mpfr_get_d(x_, rnd_);
       }
 
       inline operator long double() const {
-        return mpfr_get_ld(_x, _rnd);
+        return mpfr_get_ld(x_, rnd_);
       }
 
       inline operator std::string() const {
@@ -2659,7 +2659,7 @@ namespace mpfr {
         }
         catch (...) {
           throw exception_real(
-            "in real<_prec, _rnd>& real<_prec, _rnd>::operator std::string() const:\n  conversion failed");
+            "in real<prec_, rnd_>& real<prec_, rnd_>::operator std::string() const:\n  conversion failed");
         }
         return temp.str();
       }
@@ -2667,31 +2667,31 @@ namespace mpfr {
 
       // conversion functions
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_conv_func &&
-        type_traits<real, _Tp>::has_get_a,
+        type_traits<real, Tp_>::enable_conv_func &&
+        type_traits<real, Tp_>::has_get_a,
         void>::type
-      conv(_Tp& o) const {
-        o = type_traits<real, _Tp>::get_a(_x, _rnd);
+      conv(Tp_& o) const {
+        o = type_traits<real, Tp_>::get_a(x_, rnd_);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_conv_func &&
-        (! type_traits<real, _Tp>::has_get_a) &&
-        type_traits<real, _Tp>::has_get_b,
+        type_traits<real, Tp_>::enable_conv_func &&
+        (! type_traits<real, Tp_>::has_get_a) &&
+        type_traits<real, Tp_>::has_get_b,
         void>::type
-      conv(_Tp const o) const {
-        type_traits<real, _Tp>::get_b(o, _x, _rnd);
+      conv(Tp_ const o) const {
+        type_traits<real, Tp_>::get_b(o, x_, rnd_);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       inline typename enable_if<
-        type_traits<real, _Tp>::enable_conv_func &&
-        equal_types2<char*, _Tp>::val,
+        type_traits<real, Tp_>::enable_conv_func &&
+        equal_types2<char*, Tp_>::val,
         void>::type
-      conv(_Tp const o) const {
+      conv(Tp_ const o) const {
         std::stringstream temp;
         temp.precision(-1);
         try {
@@ -2699,7 +2699,7 @@ namespace mpfr {
         }
         catch (...) {
           throw exception_real(
-            "in const char* real<_prec, _rnd>::c_str() const:\n  conversion failed");
+            "in const char* real<prec_, rnd_>::c_str() const:\n  conversion failed");
         }
         strcpy(o, temp.str().c_str());
       }
@@ -2711,13 +2711,13 @@ namespace mpfr {
       // increment operators
 
       inline real& operator ++() {
-        static const real<_prec, _rnd> _one(1);
-        *this += _one;
+        static const real<prec_, rnd_> one_(1);
+        *this += one_;
         return *this;
       }
 
       inline const real operator ++(int) {
-        real<_prec, _rnd> temp = *this;
+        real<prec_, rnd_> temp = *this;
         ++(*this);
         return temp;
       }
@@ -2725,13 +2725,13 @@ namespace mpfr {
       // decrement operators
 
       inline real& operator --() {
-        static const real<_prec, _rnd> _one(1);
-        *this -= _one;
+        static const real<prec_, rnd_> one_(1);
+        *this -= one_;
         return *this;
       }
 
       inline const real operator --(int) {
-        real<_prec, _rnd> temp = *this;
+        real<prec_, rnd_> temp = *this;
         --(*this);
         return temp;
       }
@@ -2742,8 +2742,8 @@ namespace mpfr {
       // do not match the unary member operator- (in any case).
 
       inline const real operator -() const {
-        real<_prec, _rnd> temp;
-        mpfr_neg(temp._x, _x, _rnd);
+        real<prec_, rnd_> temp;
+        mpfr_neg(temp.x_, x_, rnd_);
         return temp;
       }
 
@@ -2769,7 +2769,7 @@ namespace mpfr {
         }
         catch (...) {
           throw exception_real(
-            std::string("in std::istream& operator >>(std::istream& s, real<_prec, _rnd>& r):\n  invalid input format ")
+            std::string("in std::istream& operator >>(std::istream& s, real<prec_, rnd_>& r):\n  invalid input format ")
             + t);
         }
 
@@ -2782,10 +2782,10 @@ namespace mpfr {
 
       friend inline std::ostream& operator <<(std::ostream& s, const real& r) {
         real_exp_t exp;
-        char* ch = mpfr_get_str(0, &exp, 10, s.precision() + 1, r._x, _rnd);
+        char* ch = mpfr_get_str(0, &exp, 10, s.precision() + 1, r.x_, rnd_);
         if (! ch)
           throw exception_real(
-            "in std::ostream& operator <<(std::ostream& s, const real<_prec, _rnd>& r):\n  conversion failed");
+            "in std::ostream& operator <<(std::ostream& s, const real<prec_, rnd_>& r):\n  conversion failed");
         std::string t = ch;
         mpfr_free_str(ch);
 
@@ -2808,13 +2808,13 @@ namespace mpfr {
 
           // fixing exponent after insertion of decimal point
           // why must life be so difficult? (any suggestions for improvements?)
-          if (! mpfr_zero_p(r._x)) {
+          if (! mpfr_zero_p(r.x_)) {
             const real_exp_t exp_prev = exp;
             volatile real_exp_t* exp_ptr = &exp;
             exp--;
             if (*exp_ptr > exp_prev)
               throw exception_real(
-                "in std::ostream& operator <<(std::ostream& s, const real<_prec, _rnd>& r):\n  exponent out of range");
+                "in std::ostream& operator <<(std::ostream& s, const real<prec_, rnd_>& r):\n  exponent out of range");
           }
 
           // composing of the exponent
@@ -2859,837 +2859,837 @@ namespace mpfr {
       // mathematical functions with zero or one "real" argument
       // //////////////////////////////////////////////////////////////
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const int>::type
-      isfinite(const _Tp& r) {
-        return mpfr_number_p(r._x);
+      isfinite(const Tp_& r) {
+        return mpfr_number_p(r.x_);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const int>::type
-      isinf(const _Tp& r) {
-        return mpfr_inf_p(r._x);
+      isinf(const Tp_& r) {
+        return mpfr_inf_p(r.x_);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const int>::type
-      isnan(const _Tp& r) {
-        return mpfr_nan_p(r._x);
+      isnan(const Tp_& r) {
+        return mpfr_nan_p(r.x_);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const int>::type
-      isnormal(const _Tp& r) {
-        return mpfr_regular_p(r._x);
+      isnormal(const Tp_& r) {
+        return mpfr_regular_p(r.x_);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const int>::type
-      signbit(const _Tp& r) {
-        return mpfr_signbit(r._x);
+      signbit(const Tp_& r) {
+        return mpfr_signbit(r.x_);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      acos(const _Tp& r) {
+      acos(const Tp_& r) {
         real temp;
-        mpfr_acos(temp._x, r._x, _rnd);
+        mpfr_acos(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      acosh(const _Tp& r) {
+      acosh(const Tp_& r) {
         real temp;
-        mpfr_acosh(temp._x, r._x, _rnd);
+        mpfr_acosh(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      asin(const _Tp& r) {
+      asin(const Tp_& r) {
         real temp;
-        mpfr_asin(temp._x, r._x, _rnd);
+        mpfr_asin(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      asinh(const _Tp& r) {
+      asinh(const Tp_& r) {
         real temp;
-        mpfr_asinh(temp._x, r._x, _rnd);
+        mpfr_asinh(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      atan(const _Tp& r) {
+      atan(const Tp_& r) {
         real temp;
-        mpfr_atan(temp._x, r._x, _rnd);
+        mpfr_atan(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      atanh(const _Tp& r) {
+      atanh(const Tp_& r) {
         real temp;
-        mpfr_atanh(temp._x, r._x, _rnd);
+        mpfr_atanh(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      cbrt(const _Tp& r) {
+      cbrt(const Tp_& r) {
         real temp;
-        mpfr_cbrt(temp._x, r._x, _rnd);
+        mpfr_cbrt(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      ceil(const _Tp& r) {
+      ceil(const Tp_& r) {
         real temp;
-        mpfr_ceil(temp._x, r._x);
+        mpfr_ceil(temp.x_, r.x_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      cos(const _Tp& r) {
+      cos(const Tp_& r) {
         real temp;
-        mpfr_cos(temp._x, r._x, _rnd);
+        mpfr_cos(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      cosh(const _Tp& r) {
+      cosh(const Tp_& r) {
         real temp;
-        mpfr_cosh(temp._x, r._x, _rnd);
+        mpfr_cosh(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      erf(const _Tp& r) {
+      erf(const Tp_& r) {
         real temp;
-        mpfr_erf(temp._x, r._x, _rnd);
+        mpfr_erf(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      erfc(const _Tp& r) {
+      erfc(const Tp_& r) {
         real temp;
-        mpfr_erfc(temp._x, r._x, _rnd);
+        mpfr_erfc(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      exp(const _Tp& r) {
+      exp(const Tp_& r) {
         real temp;
-        mpfr_exp(temp._x, r._x, _rnd);
+        mpfr_exp(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      exp2(const _Tp& r) {
+      exp2(const Tp_& r) {
         real temp;
-        mpfr_exp2(temp._x, r._x, _rnd);
+        mpfr_exp2(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      expm1(const _Tp& r) {
+      expm1(const Tp_& r) {
         real temp;
-        mpfr_expm1(temp._x, r._x, _rnd);
+        mpfr_expm1(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      fabs(const _Tp& r) {
+      fabs(const Tp_& r) {
         real temp;
-        mpfr_abs(temp._x, r._x, _rnd);
+        mpfr_abs(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      abs(const _Tp& r) {
+      abs(const Tp_& r) {
         real temp;
-        mpfr_abs(temp._x, r._x, _rnd);
+        mpfr_abs(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      floor(const _Tp& r) {
+      floor(const Tp_& r) {
         real temp;
-        mpfr_floor(temp._x, r._x);
+        mpfr_floor(temp.x_, r.x_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      log(const _Tp& r) {
+      log(const Tp_& r) {
         real temp;
-        mpfr_log(temp._x, r._x, _rnd);
+        mpfr_log(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      log10(const _Tp& r) {
+      log10(const Tp_& r) {
         real temp;
-        mpfr_log10(temp._x, r._x, _rnd);
+        mpfr_log10(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      log1p(const _Tp& r) {
+      log1p(const Tp_& r) {
         real temp;
-        mpfr_log1p(temp._x, r._x, _rnd);
+        mpfr_log1p(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      log2(const _Tp& r) {
+      log2(const Tp_& r) {
         real temp;
-        mpfr_log2(temp._x, r._x, _rnd);
+        mpfr_log2(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      nearbyint(const _Tp& r) {
+      nearbyint(const Tp_& r) {
         real temp;
-        mpfr_rint(temp._x, r._x, _rnd);
+        mpfr_rint(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      rint(const _Tp& r) {
+      rint(const Tp_& r) {
         real temp;
-        mpfr_rint(temp._x, r._x, _rnd);
+        mpfr_rint(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      round(const _Tp& r) {
+      round(const Tp_& r) {
         real temp;
-        mpfr_round(temp._x, r._x);
+        mpfr_round(temp.x_, r.x_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      sin(const _Tp& r) {
+      sin(const Tp_& r) {
         real temp;
-        mpfr_sin(temp._x, r._x, _rnd);
+        mpfr_sin(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      sinh(const _Tp& r) {
+      sinh(const Tp_& r) {
         real temp;
-        mpfr_sinh(temp._x, r._x, _rnd);
+        mpfr_sinh(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      sqrt(const _Tp& r) {
+      sqrt(const Tp_& r) {
         real temp;
-        mpfr_sqrt(temp._x, r._x, _rnd);
+        mpfr_sqrt(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      tan(const _Tp& r) {
+      tan(const Tp_& r) {
         real temp;
-        mpfr_tan(temp._x, r._x, _rnd);
+        mpfr_tan(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      tanh(const _Tp& r) {
+      tanh(const Tp_& r) {
         real temp;
-        mpfr_tanh(temp._x, r._x, _rnd);
+        mpfr_tanh(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      tgamma(const _Tp& r) {
+      tgamma(const Tp_& r) {
         real temp;
-        mpfr_gamma(temp._x, r._x, _rnd);
+        mpfr_gamma(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      trunc(const _Tp& r) {
+      trunc(const Tp_& r) {
         real temp;
-        mpfr_trunc(temp._x, r._x);
+        mpfr_trunc(temp.x_, r.x_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      j0(const _Tp& r) {
+      j0(const Tp_& r) {
         real temp;
-        mpfr_j0(temp._x, r._x, _rnd);
+        mpfr_j0(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      j1(const _Tp& r) {
+      j1(const Tp_& r) {
         real temp;
-        mpfr_j1(temp._x, r._x, _rnd);
+        mpfr_j1(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      y0(const _Tp& r) {
+      y0(const Tp_& r) {
         real temp;
-        mpfr_y0(temp._x, r._x, _rnd);
+        mpfr_y0(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      y1(const _Tp& r) {
+      y1(const Tp_& r) {
         real temp;
-        mpfr_y1(temp._x, r._x, _rnd);
+        mpfr_y1(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      ai(const _Tp& r) {
+      ai(const Tp_& r) {
         real temp;
-        mpfr_ai(temp._x, r._x, _rnd);
+        mpfr_ai(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      cot(const _Tp& r) {
+      cot(const Tp_& r) {
         real temp;
-        mpfr_cot(temp._x, r._x, _rnd);
+        mpfr_cot(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      coth(const _Tp& r) {
+      coth(const Tp_& r) {
         real temp;
-        mpfr_coth(temp._x, r._x, _rnd);
+        mpfr_coth(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      csc(const _Tp& r) {
+      csc(const Tp_& r) {
         real temp;
-        mpfr_csc(temp._x, r._x, _rnd);
+        mpfr_csc(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      csch(const _Tp& r) {
+      csch(const Tp_& r) {
         real temp;
-        mpfr_csch(temp._x, r._x, _rnd);
+        mpfr_csch(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      digamma(const _Tp& r) {
+      digamma(const Tp_& r) {
         real temp;
-        mpfr_digamma(temp._x, r._x, _rnd);
+        mpfr_digamma(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      exp10(const _Tp& r) {
+      exp10(const Tp_& r) {
         real temp;
-        mpfr_exp10(temp._x, r._x, _rnd);
+        mpfr_exp10(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      expint(const _Tp& r) {
+      expint(const Tp_& r) {
         real temp;
-        mpfr_eint(temp._x, r._x, _rnd);
+        mpfr_eint(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      frac(const _Tp& r) {
+      frac(const Tp_& r) {
         real temp;
-        mpfr_frac(temp._x, r._x, _rnd);
+        mpfr_frac(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const int>::type
-      isinteger(const _Tp& r) {
-        return mpfr_integer_p(r._x);
+      isinteger(const Tp_& r) {
+        return mpfr_integer_p(r.x_);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const int>::type
-      iszero(const _Tp& r) {
-        return mpfr_zero_p(r._x);
+      iszero(const Tp_& r) {
+        return mpfr_zero_p(r.x_);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      li2(const _Tp& r) {
+      li2(const Tp_& r) {
         real temp;
-        mpfr_li2(temp._x, r._x, _rnd);
+        mpfr_li2(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      rec_sqrt(const _Tp& r) {
+      rec_sqrt(const Tp_& r) {
         real temp;
-        mpfr_rec_sqrt(temp._x, r._x, _rnd);
+        mpfr_rec_sqrt(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      sec(const _Tp& r) {
+      sec(const Tp_& r) {
         real temp;
-        mpfr_sec(temp._x, r._x, _rnd);
+        mpfr_sec(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      sech(const _Tp& r) {
+      sech(const Tp_& r) {
         real temp;
-        mpfr_sech(temp._x, r._x, _rnd);
+        mpfr_sech(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const int>::type
-      sgn(const _Tp& r) {
-        return mpfr_sgn(r._x);
+      sgn(const Tp_& r) {
+        return mpfr_sgn(r.x_);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real>::type
-      zeta(const _Tp& r) {
+      zeta(const Tp_& r) {
         real temp;
-        mpfr_zeta(temp._x, r._x, _rnd);
+        mpfr_zeta(temp.x_, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const int>::type
-      fpclassify(const _Tp& r) {
-        if (mpfr_nan_p(r._x))
+      fpclassify(const Tp_& r) {
+        if (mpfr_nan_p(r.x_))
           return FP_NAN;
-        else if (mpfr_inf_p(r._x))
+        else if (mpfr_inf_p(r.x_))
           return FP_INFINITE;
-        else if (mpfr_zero_p(r._x))
+        else if (mpfr_zero_p(r.x_))
           return FP_ZERO;
         else
           return FP_NORMAL;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
-      frexp(const _Tp& r, real_exp_t* exp) {
-        if (mpfr_zero_p(r._x)) {
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
+      frexp(const Tp_& r, real_exp_t* exp) {
+        if (mpfr_zero_p(r.x_)) {
           *exp = 0;
           return r;
         }
-        else if (mpfr_inf_p(r._x) || mpfr_nan_p(r._x)) {
+        else if (mpfr_inf_p(r.x_) || mpfr_nan_p(r.x_)) {
           //*exp = 0;
           return r;
         }
         else {
-          _Tp temp = r;
-          *exp = mpfr_get_exp(r._x);
-          mpfr_set_exp(temp._x, 0);
+          Tp_ temp = r;
+          *exp = mpfr_get_exp(r.x_);
+          mpfr_set_exp(temp.x_, 0);
           return temp;
         }
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
         const real_exp_t>::type
-      ilogb(const _Tp& r) {
-        if (mpfr_zero_p(r._x) || mpfr_nan_p(r._x))
+      ilogb(const Tp_& r) {
+        if (mpfr_zero_p(r.x_) || mpfr_nan_p(r.x_))
           return std::numeric_limits<real_exp_t>::min();
-        else if (mpfr_inf_p(r._x))
+        else if (mpfr_inf_p(r.x_))
           return std::numeric_limits<real_exp_t>::max();
         else {
-          real_exp_t temp = mpfr_get_exp(r._x);
+          real_exp_t temp = mpfr_get_exp(r.x_);
           if (temp != std::numeric_limits<real_exp_t>::min())
             temp--;
           return temp;
         }
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp >::type
-      ldexp(const _Tp& r, const long exp) {
-        _Tp temp;
-        mpfr_mul_2si(temp._x, r._x, exp, _rnd);
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_ >::type
+      ldexp(const Tp_& r, const long exp) {
+        Tp_ temp;
+        mpfr_mul_2si(temp.x_, r.x_, exp, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
-      lgamma(const _Tp& r) {
-        _Tp temp;
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
+      lgamma(const Tp_& r) {
+        Tp_ temp;
         int signp;
-        mpfr_lgamma(temp._x, &signp, r._x, _rnd);
+        mpfr_lgamma(temp.x_, &signp, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
-      logb(const _Tp& r) {
-        _Tp temp;
-        if (mpfr_zero_p(r._x))
-          mpfr_set_inf(temp._x, -1);
-        else if (mpfr_nan_p(r._x))
-          mpfr_set_nan(temp._x);
-        else if (mpfr_inf_p(r._x))
-          mpfr_set_inf(temp._x, 1);
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
+      logb(const Tp_& r) {
+        Tp_ temp;
+        if (mpfr_zero_p(r.x_))
+          mpfr_set_inf(temp.x_, -1);
+        else if (mpfr_nan_p(r.x_))
+          mpfr_set_nan(temp.x_);
+        else if (mpfr_inf_p(r.x_))
+          mpfr_set_inf(temp.x_, 1);
         else {
-          temp = mpfr_get_exp(r._x);
+          temp = mpfr_get_exp(r.x_);
           temp--;
         }
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
       nan(const char*) {
-        _Tp temp;
-        mpfr_set_nan(temp._x);
+        Tp_ temp;
+        mpfr_set_nan(temp.x_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
-      scalbln(const _Tp& r, const long exp) {
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
+      scalbln(const Tp_& r, const long exp) {
         return ldexp(r, exp);  // FLT_RADIX == 2???
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
-      scalbn(const _Tp& r, const int exp) {
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
+      scalbn(const Tp_& r, const int exp) {
         return ldexp(r, exp);  // FLT_RADIX == 2???
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
-      jn(const long n, const _Tp& r) {
-        _Tp temp;
-        mpfr_jn(temp._x, n, r._x, _rnd);
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
+      jn(const long n, const Tp_& r) {
+        Tp_ temp;
+        mpfr_jn(temp.x_, n, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
-      yn(const long n, const _Tp& r) {
-        _Tp temp;
-        mpfr_yn(temp._x, n, r._x, _rnd);
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
+      yn(const long n, const Tp_& r) {
+        Tp_ temp;
+        mpfr_yn(temp.x_, n, r.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
-      cyl_bessel_j(const long n, const _Tp& r) {
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
+      cyl_bessel_j(const long n, const Tp_& r) {
         return jn(n, r);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
-      cyl_neumann(const long n, const _Tp& r) {
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
+      cyl_neumann(const long n, const Tp_& r) {
         return yn(n, r);
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
       factorial(const long n) {
-        _Tp temp;
-        mpfr_fac_ui(temp._x, n, _rnd);
+        Tp_ temp;
+        mpfr_fac_ui(temp.x_, n, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
-      root(const _Tp& r, const unsigned long n) {
-        _Tp temp;
-        mpfr_root(temp._x, r._x, n, _rnd);
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
+      root(const Tp_& r, const unsigned long n) {
+        Tp_ temp;
+        mpfr_root(temp.x_, r.x_, n, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
       inf(const int n) {
-        _Tp temp;
-        mpfr_set_inf(temp._x, n);
+        Tp_ temp;
+        mpfr_set_inf(temp.x_, n);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
       zero(const int n) {
-        _Tp temp;
-        mpfr_set_zero(temp._x, n);
+        Tp_ temp;
+        mpfr_set_zero(temp.x_, n);
         return temp;
       }
 
@@ -3697,262 +3697,262 @@ namespace mpfr {
       // mathematical functions with multiple "real" arguments
       // //////////////////////////////////////////////////////////////
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
         const int>::type
-      isgreater(const _Tp1& r1, const _Tp2& r2);
+      isgreater(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
         const int>::type
-      isgreaterequal(const _Tp1& r1, const _Tp2& r2);
+      isgreaterequal(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
         const int>::type
-      isless(const _Tp1& r1, const _Tp2& r2);
+      isless(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
         const int>::type
-      islessequal(const _Tp1& r1, const _Tp2& r2);
+      islessequal(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
         const int>::type
-      islessgreater(const _Tp1& r1, const _Tp2& r2);
+      islessgreater(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
         const int>::type
-      isunordered(const _Tp1& r1, const _Tp2& r2);
+      isunordered(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      atan2(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      atan2(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      copysign(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      copysign(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      fdim(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      fdim(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2, class _Tp3>
+      template <class Tp1_, class Tp2_, class Tp3_>
       friend typename enable_if<
-        type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-          _Tp2>::enable_math_funcs &&
-        type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-          _Tp3>::enable_math_funcs,
-        typename result_type3<_Tp1, _Tp2, _Tp3>::type>::type
-      fma(const _Tp1& r1, const _Tp2& r2, const _Tp3& r3);
+        type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+          Tp2_>::enable_math_funcs &&
+        type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+          Tp3_>::enable_math_funcs,
+        typename result_type3<Tp1_, Tp2_, Tp3_>::type>::type
+      fma(const Tp1_& r1, const Tp2_& r2, const Tp3_& r3);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      fmax(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      fmax(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      fmin(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      fmin(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      fmod(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      fmod(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      hypot(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      hypot(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      pow(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      pow(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      remainder(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      remainder(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      agm(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      agm(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
         const int>::type
-      cmpabs(const _Tp1& r1, const _Tp2& r2);
+      cmpabs(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2, class _Tp3>
+      template <class Tp1_, class Tp2_, class Tp3_>
       friend typename enable_if<
-        type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-          _Tp2>::enable_math_funcs &&
-        type_traits<typename result_type3<_Tp1, _Tp2, _Tp3>::type,
-          _Tp3>::enable_math_funcs,
-        typename result_type3<_Tp1, _Tp2, _Tp3>::type>::type
-      fms(const _Tp1& r1, const _Tp2& r2, const _Tp3& r3);
+        type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+          Tp2_>::enable_math_funcs &&
+        type_traits<typename result_type3<Tp1_, Tp2_, Tp3_>::type,
+          Tp3_>::enable_math_funcs,
+        typename result_type3<Tp1_, Tp2_, Tp3_>::type>::type
+      fms(const Tp1_& r1, const Tp2_& r2, const Tp3_& r3);
 
-      template <real_prec_t _prec1, real_rnd_t _rnd1, class _Tp>
+      template <real_prec_t prec1_, real_rnd_t rnd1_, class Tp_>
       friend typename enable_if<
-        type_traits<typename result_type2<real<_prec1, _rnd1>, _Tp>::type,
-          _Tp>::enable_math_funcs &&
-        type_traits<typename result_type2<real<_prec1, _rnd1>, _Tp>::type,
-          real<_prec1, _rnd1> >::enable_math_funcs,
-        typename result_type2<real<_prec1, _rnd1>, _Tp>::type>::type
-      modf(const _Tp& r, real<_prec1, _rnd1>* iptr);
+        type_traits<typename result_type2<real<prec1_, rnd1_>, Tp_>::type,
+          Tp_>::enable_math_funcs &&
+        type_traits<typename result_type2<real<prec1_, rnd1_>, Tp_>::type,
+          real<prec1_, rnd1_> >::enable_math_funcs,
+        typename result_type2<real<prec1_, rnd1_>, Tp_>::type>::type
+      modf(const Tp_& r, real<prec1_, rnd1_>* iptr);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      nextafter(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      nextafter(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      nexttoward(const _Tp1& r1, const _Tp2& r2);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      nexttoward(const Tp1_& r1, const Tp2_& r2);
 
-      template <class _Tp1, class _Tp2>
+      template <class Tp1_, class Tp2_>
       friend typename enable_if<
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp1>::enable_math_funcs &&
-        type_traits<typename result_type2<_Tp1, _Tp2>::type,
-          _Tp2>::enable_math_funcs,
-        typename result_type2<_Tp1, _Tp2>::type>::type
-      remquo(const _Tp1& r1, const _Tp2& r2, long* quo);
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp1_>::enable_math_funcs &&
+        type_traits<typename result_type2<Tp1_, Tp2_>::type,
+          Tp2_>::enable_math_funcs,
+        typename result_type2<Tp1_, Tp2_>::type>::type
+      remquo(const Tp1_& r1, const Tp2_& r2, long* quo);
 
       // //////////////////////////////////////////////////////////////
       // mathematical constants
       // //////////////////////////////////////////////////////////////
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
       const_log2() {
-        _Tp temp;
-        mpfr_const_log2(temp._x, _rnd);
+        Tp_ temp;
+        mpfr_const_log2(temp.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
       const_pi() {
-        _Tp temp;
-        mpfr_const_pi(temp._x, _rnd);
+        Tp_ temp;
+        mpfr_const_pi(temp.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
       const_euler() {
-        _Tp temp;
-        mpfr_const_euler(temp._x, _rnd);
+        Tp_ temp;
+        mpfr_const_euler(temp.x_, rnd_);
         return temp;
       }
 
-      template <class _Tp>
+      template <class Tp_>
       friend inline typename enable_if<
-        type_traits<real, _Tp>::enable_math_funcs &&
-        equal_types2<real, _Tp>::val,
-        const _Tp>::type
+        type_traits<real, Tp_>::enable_math_funcs &&
+        equal_types2<real, Tp_>::val,
+        const Tp_>::type
       const_catalan() {
-        _Tp temp;
-        mpfr_const_catalan(temp._x, _rnd);
+        Tp_ temp;
+        mpfr_const_catalan(temp.x_, rnd_);
         return temp;
       }
   };  // class real

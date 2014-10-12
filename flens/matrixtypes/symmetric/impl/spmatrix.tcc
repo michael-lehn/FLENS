@@ -44,33 +44,33 @@ namespace flens {
 
 template <typename PS>
 SpMatrix<PS>::SpMatrix(IndexType dim, StorageUpLo upLo)
-      : _engine(dim), _upLo(upLo)
+      : engine_(dim), upLo_(upLo)
 {
 }
 
 template <typename PS>
 SpMatrix<PS>::SpMatrix(const Engine &engine, StorageUpLo upLo)
-    : _engine(engine), _upLo(upLo)
+    : engine_(engine), upLo_(upLo)
 {
 }
 
 template <typename PS>
 SpMatrix<PS>::SpMatrix(const SpMatrix &rhs)
-    : SymmetricMatrix<SpMatrix<PS> >(), _engine(rhs.engine()), _upLo(rhs.upLo())
+    : SymmetricMatrix<SpMatrix<PS> >(), engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename PS>
 template <typename RHS>
 SpMatrix<PS>::SpMatrix(const SpMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename PS>
 template <typename RHS>
 SpMatrix<PS>::SpMatrix(SpMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -87,7 +87,7 @@ template <typename PS>
 void
 SpMatrix<PS>::operator=(const ElementType &alpha)
 {
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x = alpha;
 
@@ -143,7 +143,7 @@ SpMatrix<PS>::operator()(IndexType row, IndexType col) const
     }
 #   endif
 
-    return _engine(upLo(), row, col);
+    return engine_(upLo(), row, col);
 }
 
 template <typename PS>
@@ -158,7 +158,7 @@ SpMatrix<PS>::operator()(IndexType row, IndexType col)
     }
 #   endif
 
-    return _engine(upLo(), row, col);
+    return engine_(upLo(), row, col);
 }
 
 
@@ -166,7 +166,7 @@ template <typename PS>
 SpMatrix<PS> &
 SpMatrix<PS>::operator+=(const ElementType &alpha)
 {
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x += alpha;
 
@@ -177,7 +177,7 @@ template <typename PS>
 SpMatrix<PS> &
 SpMatrix<PS>::operator-=(const ElementType &alpha)
 {
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x -= alpha;
 
@@ -188,7 +188,7 @@ template <typename PS>
 SpMatrix<PS> &
 SpMatrix<PS>::operator*=(const ElementType &alpha)
 {
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x *= alpha;
 
@@ -199,7 +199,7 @@ template <typename PS>
 SpMatrix<PS> &
 SpMatrix<PS>::operator/=(const ElementType &alpha)
 {
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x /= alpha;
 
@@ -211,28 +211,28 @@ template <typename PS>
 typename SpMatrix<PS>::IndexType
 SpMatrix<PS>::numRows() const
 {
-    return _engine.dim();
+    return engine_.dim();
 }
 
 template <typename PS>
 typename SpMatrix<PS>::IndexType
 SpMatrix<PS>::numCols() const
 {
-    return _engine.dim();
+    return engine_.dim();
 }
 
 template <typename PS>
 typename SpMatrix<PS>::IndexType
 SpMatrix<PS>::dim() const
 {
-    return _engine.dim();
+    return engine_.dim();
 }
 
 template <typename PS>
 typename SpMatrix<PS>::IndexType
 SpMatrix<PS>::firstRow() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename PS>
@@ -246,7 +246,7 @@ template <typename PS>
 typename SpMatrix<PS>::IndexType
 SpMatrix<PS>::firstCol() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename PS>
@@ -260,49 +260,49 @@ template <typename PS>
 typename SpMatrix<PS>::IndexType
 SpMatrix<PS>::indexBase() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename PS>
 StorageUpLo
 SpMatrix<PS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename PS>
 StorageUpLo &
 SpMatrix<PS>::upLo()
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename PS>
 const typename SpMatrix<PS>::ElementType *
 SpMatrix<PS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename PS>
 typename SpMatrix<PS>::ElementType *
 SpMatrix<PS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename PS>
 StorageOrder
 SpMatrix<PS>::order() const
 {
-    return _engine.order;
+    return engine_.order;
 }
 
 template <typename PS>
 bool
 SpMatrix<PS>::fill(const ElementType &value)
 {
-    return _engine.fill(value);
+    return engine_.fill(value);
 }
 
 template <typename PS>
@@ -311,7 +311,7 @@ bool
 SpMatrix<PS>::resize(const SpMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.dim(), rhs.indexBase(), value);
+    return engine_.resize(rhs.dim(), rhs.indexBase(), value);
 }
 
 template <typename PS>
@@ -319,7 +319,7 @@ bool
 SpMatrix<PS>::resize(IndexType dim, IndexType firstIndex,
                      const ElementType &value)
 {
-    return _engine.resize(dim, firstIndex, value);
+    return engine_.resize(dim, firstIndex, value);
 }
 
 // -- views --------------------------------------------------------------------
@@ -329,14 +329,14 @@ template <typename PS>
 const typename SpMatrix<PS>::ConstHermitianView
 SpMatrix<PS>::hermitian() const
 {
-    return ConstHermitianView(_engine);
+    return ConstHermitianView(engine_);
 }
 
 template <typename PS>
 typename SpMatrix<PS>::HermitianView
 SpMatrix<PS>::hermitian()
 {
-    return HermitianView(_engine);
+    return HermitianView(engine_);
 }
 
 // symmetric views
@@ -344,14 +344,14 @@ template <typename PS>
 const typename SpMatrix<PS>::ConstView
 SpMatrix<PS>::symmetric() const
 {
-    return ConstView(_engine);
+    return ConstView(engine_);
 }
 
 template <typename PS>
 typename SpMatrix<PS>::View
 SpMatrix<PS>::symmetric()
 {
-    return View(_engine);
+    return View(engine_);
 }
 
 // triangular views
@@ -359,14 +359,14 @@ template <typename PS>
 const typename SpMatrix<PS>::ConstTriangularView
 SpMatrix<PS>::triangular() const
 {
-    return ConstTriangularView(_engine);
+    return ConstTriangularView(engine_);
 }
 
 template <typename PS>
 typename SpMatrix<PS>::TriangularView
 SpMatrix<PS>::triangular()
 {
-    return TriangularView(_engine);
+    return TriangularView(engine_);
 }
 
 // -- implementation -----------------------------------------------------------
@@ -375,14 +375,14 @@ template <typename PS>
 const typename SpMatrix<PS>::Engine &
 SpMatrix<PS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename PS>
 typename SpMatrix<PS>::Engine &
 SpMatrix<PS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

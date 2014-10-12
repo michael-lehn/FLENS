@@ -71,7 +71,7 @@ class TinyArrayView
         fill(const ElementType &value = ElementType(0));
 
     private:
-        ElementType *_data;
+        ElementType *data_;
 };
 
 } // namespace flens

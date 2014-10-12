@@ -45,7 +45,7 @@ namespace flens {
 
 template <typename PS>
 HpMatrix<PS>::HpMatrix(IndexType dim, StorageUpLo upLo)
-    : _engine(dim), _upLo(upLo)
+    : engine_(dim), upLo_(upLo)
 {
     ASSERT(dim>=0);
 }
@@ -53,28 +53,28 @@ HpMatrix<PS>::HpMatrix(IndexType dim, StorageUpLo upLo)
 
 template <typename PS>
 HpMatrix<PS>::HpMatrix(const Engine &engine, StorageUpLo upLo)
-    : _engine(engine), _upLo(upLo)
+    : engine_(engine), upLo_(upLo)
 {
 }
 
 template <typename PS>
 HpMatrix<PS>::HpMatrix(const HpMatrix &rhs)
     : HermitianMatrix<HpMatrix<PS> >(),
-      _engine(rhs.engine()), _upLo(rhs.upLo())
+      engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename PS>
 template <typename RHS>
 HpMatrix<PS>::HpMatrix(const HpMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename PS>
 template <typename RHS>
 HpMatrix<PS>::HpMatrix(HpMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -93,7 +93,7 @@ HpMatrix<PS>::operator=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
 
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x = alpha;
     return *this;
@@ -147,7 +147,7 @@ HpMatrix<PS>::operator()(IndexType row, IndexType col) const
         ASSERT(col<=row);
     }
 #   endif
-    return _engine(upLo(), row, col);
+    return engine_(upLo(), row, col);
 }
 
 template <typename PS>
@@ -161,7 +161,7 @@ HpMatrix<PS>::operator()(IndexType row, IndexType col)
         ASSERT(col<=row);
     }
 #   endif
-    return _engine(upLo(), row, col);
+    return engine_(upLo(), row, col);
 }
 
 template <typename PS>
@@ -170,7 +170,7 @@ HpMatrix<PS>::operator+=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
 
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x += alpha;
     return *this;
@@ -182,7 +182,7 @@ HpMatrix<PS>::operator-=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
 
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x -= alpha;
     return *this;
@@ -194,7 +194,7 @@ HpMatrix<PS>::operator*=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
 
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x *= alpha;
     return *this;
@@ -206,7 +206,7 @@ HpMatrix<PS>::operator/=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
 
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x /= alpha;
     return *this;
@@ -218,14 +218,14 @@ template <typename PS>
 typename HpMatrix<PS>::IndexType
 HpMatrix<PS>::numRows() const
 {
-    return _engine.dim();
+    return engine_.dim();
 }
 
 template <typename PS>
 typename HpMatrix<PS>::IndexType
 HpMatrix<PS>::numCols() const
 {
-    return _engine.dim();
+    return engine_.dim();
 }
 
 
@@ -233,14 +233,14 @@ template <typename PS>
 typename HpMatrix<PS>::IndexType
 HpMatrix<PS>::dim() const
 {
-    return _engine.dim();
+    return engine_.dim();
 }
 
 template <typename PS>
 typename HpMatrix<PS>::IndexType
 HpMatrix<PS>::firstRow() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename PS>
@@ -254,7 +254,7 @@ template <typename PS>
 typename HpMatrix<PS>::IndexType
 HpMatrix<PS>::firstCol() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename PS>
@@ -268,42 +268,42 @@ template <typename PS>
 typename HpMatrix<PS>::IndexType
 HpMatrix<PS>::indexBase() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename PS>
 StorageUpLo
 HpMatrix<PS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename PS>
 StorageUpLo &
 HpMatrix<PS>::upLo()
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename PS>
 const typename HpMatrix<PS>::ElementType *
 HpMatrix<PS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename PS>
 typename HpMatrix<PS>::ElementType *
 HpMatrix<PS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename PS>
 StorageOrder
 HpMatrix<PS>::order() const
 {
-    return _engine.order;
+    return engine_.order;
 }
 
 template <typename PS>
@@ -312,7 +312,7 @@ HpMatrix<PS>::fill(const ElementType &value)
 {
     ASSERT(cxxblas::imag(value)==0);
 
-    return _engine.fill(value);
+    return engine_.fill(value);
 }
 
 template <typename PS>
@@ -321,7 +321,7 @@ bool
 HpMatrix<PS>::resize(const HpMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.dim(), rhs.indexBase(), value);
+    return engine_.resize(rhs.dim(), rhs.indexBase(), value);
 }
 
 template <typename PS>
@@ -329,7 +329,7 @@ bool
 HpMatrix<PS>::resize(IndexType dim, IndexType indexBase,
                      const ElementType &value)
 {
-    return _engine.resize(dim, indexBase, value);
+    return engine_.resize(dim, indexBase, value);
 }
 
 // -- views --------------------------------------------------------------------
@@ -339,14 +339,14 @@ template <typename PS>
 const typename HpMatrix<PS>::ConstView
 HpMatrix<PS>::hermitian() const
 {
-    return ConstView(_engine);
+    return ConstView(engine_);
 }
 
 template <typename PS>
 typename HpMatrix<PS>::View
 HpMatrix<PS>::hermitian()
 {
-    return View(_engine);
+    return View(engine_);
 }
 
 // symmetric view
@@ -354,14 +354,14 @@ template <typename PS>
 const typename HpMatrix<PS>::ConstSymmetricView
 HpMatrix<PS>::symmetric() const
 {
-    return ConstSymmetricView(_engine);
+    return ConstSymmetricView(engine_);
 }
 
 template <typename PS>
 typename HpMatrix<PS>::SymmetricView
 HpMatrix<PS>::symmetric()
 {
-    return SymmetricView(_engine);
+    return SymmetricView(engine_);
 }
 
 // triangular view
@@ -369,14 +369,14 @@ template <typename PS>
 const typename HpMatrix<PS>::ConstTriangularView
 HpMatrix<PS>::triangular() const
 {
-    return ConstTriangularView(_engine);
+    return ConstTriangularView(engine_);
 }
 
 template <typename PS>
 typename HpMatrix<PS>::TriangularView
 HpMatrix<PS>::triangular()
 {
-    return TriangularView(_engine);
+    return TriangularView(engine_);
 }
 
 // -- implementation -----------------------------------------------------------
@@ -385,14 +385,14 @@ template <typename PS>
 const typename HpMatrix<PS>::Engine &
 HpMatrix<PS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename PS>
 typename HpMatrix<PS>::Engine &
 HpMatrix<PS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

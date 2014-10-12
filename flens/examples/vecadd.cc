@@ -60,52 +60,52 @@ add_NB(ALPHA alpha, const TX *x, TY *y)
 #       ifdef HAVE_AVX
 
         __m256d x1_, x2_, y1_, y2_;
-        __m256d alpha_ = _mm256_set1_pd(alpha);
+        __m256d alpha_ = mm256_set1_pd_(alpha);
 
-        x1_ = _mm256_loadu_pd(x);
-        x2_ = _mm256_loadu_pd(x+4);
+        x1_ = mm256_loadu_pd_(x);
+        x2_ = mm256_loadu_pd_(x+4);
 
-        x1_ = _mm256_mul_pd(alpha_, x1_);
-        x2_ = _mm256_mul_pd(alpha_, x2_);
+        x1_ = mm256_mul_pd_(alpha_, x1_);
+        x2_ = mm256_mul_pd_(alpha_, x2_);
 
-        y1_ = _mm256_loadu_pd(y);
-        y2_ = _mm256_loadu_pd(y+4);
+        y1_ = mm256_loadu_pd_(y);
+        y2_ = mm256_loadu_pd_(y+4);
 
-        y1_ = _mm256_add_pd(y1_, x1_);
-        y2_ = _mm256_add_pd(y2_, x2_);
+        y1_ = mm256_add_pd_(y1_, x1_);
+        y2_ = mm256_add_pd_(y2_, x2_);
 
-        _mm256_storeu_pd(y  , y1_);
-        _mm256_storeu_pd(y+4, y2_);
+        mm256_storeu_pd_(y  , y1_);
+        mm256_storeu_pd_(y+4, y2_);
 
 #       else
 
         __m128d x1_, x2_, x3_, x4_ , y1_, y2_, y3_, y4_;
-        __m128d alpha_ = _mm_set1_pd(alpha);
+        __m128d alpha_ = mm_set1_pd_(alpha);
 
-        x1_ = _mm_loadu_pd(x);
-        x2_ = _mm_loadu_pd(x+2);
-        x3_ = _mm_loadu_pd(x+4);
-        x4_ = _mm_loadu_pd(x+6);
+        x1_ = mm_loadu_pd_(x);
+        x2_ = mm_loadu_pd_(x+2);
+        x3_ = mm_loadu_pd_(x+4);
+        x4_ = mm_loadu_pd_(x+6);
 
-        x1_ = _mm_mul_pd(alpha_, x1_);
-        x2_ = _mm_mul_pd(alpha_, x2_);
-        x3_ = _mm_mul_pd(alpha_, x3_);
-        x4_ = _mm_mul_pd(alpha_, x4_);
+        x1_ = mm_mul_pd_(alpha_, x1_);
+        x2_ = mm_mul_pd_(alpha_, x2_);
+        x3_ = mm_mul_pd_(alpha_, x3_);
+        x4_ = mm_mul_pd_(alpha_, x4_);
 
-        y1_ = _mm_loadu_pd(y);
-        y2_ = _mm_loadu_pd(y+2);
-        y3_ = _mm_loadu_pd(y+4);
-        y4_ = _mm_loadu_pd(y+6);
+        y1_ = mm_loadu_pd_(y);
+        y2_ = mm_loadu_pd_(y+2);
+        y3_ = mm_loadu_pd_(y+4);
+        y4_ = mm_loadu_pd_(y+6);
 
-        y1_ = _mm_add_pd(y1_, x1_);
-        y2_ = _mm_add_pd(y2_, x2_);
-        y3_ = _mm_add_pd(y3_, x3_);
-        y4_ = _mm_add_pd(y4_, x4_);
+        y1_ = mm_add_pd_(y1_, x1_);
+        y2_ = mm_add_pd_(y2_, x2_);
+        y3_ = mm_add_pd_(y3_, x3_);
+        y4_ = mm_add_pd_(y4_, x4_);
 
-        _mm_storeu_pd(y  , y1_);
-        _mm_storeu_pd(y+2, y2_);
-        _mm_storeu_pd(y+4, y3_);
-        _mm_storeu_pd(y+6, y4_);
+        mm_storeu_pd_(y  , y1_);
+        mm_storeu_pd_(y+2, y2_);
+        mm_storeu_pd_(y+4, y3_);
+        mm_storeu_pd_(y+6, y4_);
 
 #       endif // HAVE_AVX
 #   endif // HAVE_SSE
@@ -127,22 +127,22 @@ copy(IndexType i0, IndexType nb, ALPHA alpha, const DenseVector<VX> &x,
     typedef typename DenseVector<VY>::ElementType  TY;
 
     const IndexType  incX = x.stride();
-    const TX         *_x = x.data() + i0*incX;
+    const TX         *x_ = x.data() + i0*incX;
 
     const IndexType  incY = y.stride();
-    TY               *_y  = y.data() + i0*incY;
+    TY               *y_  = y.data() + i0*incY;
 
     if (incX==1 && incY==1) {
         if (nb==NB) {
-            copy_NB(alpha, _x, _y);
+            copy_NB(alpha, x_, y_);
         } else {
             for (IndexType i=0; i<nb; ++i) {
-                _y[i] = alpha * _x[i];
+                y_[i] = alpha * x_[i];
             }
         }
     } else {
-        for (IndexType i=0; i<nb; ++i, _x+=incX, _y+=incY) {
-            *_y = alpha * (*_x);
+        for (IndexType i=0; i<nb; ++i, x_+=incX, y_+=incY) {
+            *y_ = alpha * (*x_);
         }
     }
 }
@@ -156,22 +156,22 @@ add(IndexType i0, IndexType nb, ALPHA alpha, const DenseVector<VX> &x,
     typedef typename DenseVector<VY>::ElementType  TY;
 
     const IndexType  incX = x.stride();
-    const TX         *_x = x.data() + i0*incX;
+    const TX         *x_ = x.data() + i0*incX;
 
     const IndexType  incY = y.stride();
-    TY               *_y  = y.data() + i0*incY;
+    TY               *y_  = y.data() + i0*incY;
 
     if (incX==1 && incY==1) {
         if (nb==NB) {
-            add_NB(alpha, _x, _y);
+            add_NB(alpha, x_, y_);
         } else {
             for (IndexType i=0; i<nb; ++i) {
-                _y[i] += alpha * _x[i];
+                y_[i] += alpha * x_[i];
             }
         }
     } else {
-        for (IndexType i=0; i<nb; ++i, _x+=incX, _y+=incY) {
-            *_y += alpha * (*_x);
+        for (IndexType i=0; i<nb; ++i, x_+=incX, y_+=incY) {
+            *y_ += alpha * (*x_);
         }
     }
 }

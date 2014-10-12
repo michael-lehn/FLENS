@@ -226,15 +226,15 @@ class HpMatrix
         engine();
 
     private:
-        Engine       _engine;
-        StorageUpLo  _upLo;
+        Engine       engine_;
+        StorageUpLo  upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsHpMatrix
 //
-struct _HpMatrixChecker
+struct HpMatrixChecker_
 {
 
     struct Two {
@@ -243,7 +243,7 @@ struct _HpMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -254,7 +254,7 @@ template <typename T>
 struct IsHpMatrix
 {
     static T var;
-    static const bool value = sizeof(_HpMatrixChecker::check(var))==1;
+    static const bool value = sizeof(HpMatrixChecker_::check(var))==1;
 };
 
 } // namespace flens

@@ -55,19 +55,19 @@ spmv_generic(StorageOrder order, StorageUpLo upLo,
     scal_generic(n, beta, y, incY);
     if (upLo==Upper) {
         for (IndexType i=0, iY=0, iX=0; i<n; ++i, iX+=incX, iY+=incY) {
-            VY _y = VY(0);
+            VY y_ = VY(0);
             dotu_generic(n-i, A+i*(2*n-i+1)/2, IndexType(1),
-                             x+iX, incX, _y);
-            y[iY] += alpha*_y;
+                             x+iX, incX, y_);
+            y[iY] += alpha*y_;
             axpy_generic(n-i-1, alpha*x[iX],
                          A+i*(2*n-i+1)/2+1, IndexType(1),
                          y+iY+incY, incY);
         }
     } else {
         for (IndexType i=0, iY=0, iX=0; i<n; ++i, iX+=incX, iY+=incY) {
-            VY _y = VY(0);
-            dotu_generic(i, A+i*(i+1)/2, IndexType(1), x, incX, _y);
-            y[iY] += alpha*_y;
+            VY y_ = VY(0);
+            dotu_generic(i, A+i*(i+1)/2, IndexType(1), x, incX, y_);
+            y[iY] += alpha*y_;
             axpy_generic(i+1, alpha*x[iX],
                          A+i*(i+1)/2, IndexType(1),
                          y, incY);

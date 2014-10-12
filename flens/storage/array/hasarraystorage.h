@@ -39,13 +39,13 @@
 namespace flens {
 
 template <typename T, bool>
-struct _GetArrayEngine
+struct GetArrayEngine_
 {
     typedef void Type;
 };
 
 template <typename T>
-struct _GetArrayEngine<T, true>
+struct GetArrayEngine_<T, true>
 {
     typedef typename T::Engine Type;
 };
@@ -53,7 +53,7 @@ struct _GetArrayEngine<T, true>
 template <typename T>
 struct HasArrayStorage
 {
-    typedef typename _GetArrayEngine<T, HasEngine<T>::value>::Type  Engine;
+    typedef typename GetArrayEngine_<T, HasEngine<T>::value>::Type  Engine;
     static const bool value = IsArrayStorage<Engine>::value;
 };
 

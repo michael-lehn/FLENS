@@ -77,24 +77,24 @@ mvSwitch(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
     typedef typename PruneConjTrans<MA>::Remainder RMA;
 
     trans = Transpose(trans^PruneConjTrans<MA>::trans);
-    const RMA  &_A = PruneConjTrans<MA>::remainder(A);
+    const RMA  &A_ = PruneConjTrans<MA>::remainder(A);
 //
 //  If x is a closure it gets evaluated.  In this case a temporary gets
 //  created.  Otherwise we only keep a reference
 //
     FLENS_BLASLOG_TMP_TRON;
-    const typename Result<VX>::Type  &_x = x;
+    const typename Result<VX>::Type  &x_ = x;
     FLENS_BLASLOG_TMP_TROFF;
 //
 //  Call mv implementation
 //
-    mvCase(trans, alpha, _A, _x, beta, y);
+    mvCase(trans, alpha, A_, x_, beta, y);
 //
 //  If a temporary was created and registered before we now unregister it
 //
 #   ifdef FLENS_DEBUG_CLOSURES
     if (!IsSame<VX, typename Result<VX>::Type>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(_x, x);
+        FLENS_BLASLOG_TMP_REMOVE(x_, x);
     }
 #   else
     const bool check = IsSame<VX, typename Result<VX>::Type>::value;
@@ -130,30 +130,30 @@ mvCase(Transpose trans, const ALPHA &alpha,
 //
 //  If A is a closure then prune arbitrary many OpTrans/OpConj
 //
-    typedef typename PruneConjTrans<MA>::Remainder  _MA;
-    typedef typename Result<_MA>::Type              RMA;
+    typedef typename PruneConjTrans<MA>::Remainder  MA_;
+    typedef typename Result<MA_>::Type              RMA;
 
-    Transpose _trans = Transpose(trans^PruneConjTrans<MA>::trans);
+    Transpose trans_ = Transpose(trans^PruneConjTrans<MA>::trans);
 //
 //  If the remaining A is a closure it gets evaluated.  In this case
 //  a temporary gets created.  Otherwise we only keep a reference
 //
     FLENS_BLASLOG_TMP_TRON;
-    const _MA &_A  = PruneConjTrans<MA>::remainder(scale_A.right());
-    const RMA &A   = _A;
+    const MA_ &A_  = PruneConjTrans<MA>::remainder(scale_A.right());
+    const RMA &A   = A_;
     FLENS_BLASLOG_TMP_TROFF;
 
-    mv(_trans, alpha*scale_A.left().value(), A, x, beta, y);
+    mv(trans_, alpha*scale_A.left().value(), A, x, beta, y);
 
 //
 //  If a temporary was created and registered before we now unregister it
 //
 #   ifdef FLENS_DEBUG_CLOSURES
-    if (!IsSame<_MA, RMA>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(A, _A);
+    if (!IsSame<MA_, RMA>::value) {
+        FLENS_BLASLOG_TMP_REMOVE(A, A_);
     }
 #   else
-    const bool check = IsSame<_MA, RMA>::value;
+    const bool check = IsSame<MA_, RMA>::value;
     if (!check) {
         std::cerr << "ERROR: Temporary required." << std::endl;
     }
@@ -177,17 +177,17 @@ mvCase(Transpose trans, const ALPHA &alpha, const MatrixClosure<Op, L, R> &A,
 //
     FLENS_BLASLOG_TMP_TRON;
     typedef typename Result<MC>::Type  MA;
-    const MA &_A = A;
+    const MA &A_ = A;
     FLENS_BLASLOG_TMP_TROFF;
 
-    mv(trans, alpha, _A, x, beta, y);
+    mv(trans, alpha, A_, x, beta, y);
 
 //
 //  If a temporary was created and registered before we now unregister it
 //
 #   ifdef FLENS_DEBUG_CLOSURES
     if (!IsSame<MC, MA>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
     }
 #   else
     const bool check = IsSame<MC, MA>::value;

@@ -1,5 +1,5 @@
-CXX ?= g++
-FC  ?= gfortran
+CXX = g++-4.8
+FC  = gfortran
 
 CXX_SOURCE_FILES = $(wildcard *.cc) \
                    $(wildcard asum/*.cc) \

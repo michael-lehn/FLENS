@@ -6,7 +6,7 @@ namespace flens { namespace lapack {
 extern "C" {
 
 MachineParameter
-_getMachineParameter(const char c)
+getMachineParameter_(const char c)
 {
     MachineParameter machineParameter = Eps;
 
@@ -51,7 +51,7 @@ _getMachineParameter(const char c)
 DOUBLE
 LAPACK_DECL(__dlamch)(const char *c)
 {
-    return lamch<DOUBLE>(_getMachineParameter(*c));
+    return lamch<DOUBLE>(getMachineParameter_(*c));
 }
 
 } // extern "C"

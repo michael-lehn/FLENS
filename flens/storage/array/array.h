@@ -132,17 +132,17 @@ class Array
 
     private:
         void
-        _raw_allocate();
+        raw_allocate_();
 
         void
-        _allocate(const ElementType &value  = ElementType());
+        allocate_(const ElementType &value  = ElementType());
 
         void
-        _release();
+        release_();
 
-        ElementType *_data;
-        Allocator   _allocator;
-        IndexType   _length, _firstIndex;
+        ElementType *data_;
+        Allocator   allocator_;
+        IndexType   length_, firstIndex_;
 };
 
 //-- Array specific functions --------------------------------------------------

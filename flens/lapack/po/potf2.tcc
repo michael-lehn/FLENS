@@ -338,18 +338,18 @@ potf2(MA &&A)
 //
 //  Compare results
 //
-    IndexType _info = external::potf2_impl(A);
+    IndexType info_ = external::potf2_impl(A);
 
     bool failed = false;
-    if (! isIdentical(A_generic, A.general(), "A_generic", "_A")) {
+    if (! isIdentical(A_generic, A.general(), "A_generic", "A_")) {
         std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
         std::cerr << "F77LAPACK: A = " << A.general() << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

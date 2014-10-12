@@ -204,15 +204,15 @@ class DiagMatrix
         engine();
 
     private:
-        Engine       _engine;
-        StorageUpLo  _upLo;
+        Engine       engine_;
+        StorageUpLo  upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsDiagMatrix
 //
-struct _DiagMatrixChecker
+struct DiagMatrixChecker_
 {
 
     struct Two {
@@ -221,7 +221,7 @@ struct _DiagMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
     static char
@@ -232,7 +232,7 @@ template <typename T>
 struct IsDiagMatrix
 {
     static T var;
-    static const bool value = sizeof(_DiagMatrixChecker::check(var))==1;
+    static const bool value = sizeof(DiagMatrixChecker_::check(var))==1;
 };
 
 //

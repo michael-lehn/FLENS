@@ -40,15 +40,15 @@
 //--- Real
 
 Intrinsics<std::complex<float>, IntrinsicsLevel::SSE>
-inline _intrinsic_swap_real_imag(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x)
+inline intrinsic_swap_real_imag_(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x)
 {
-    return Intrinsics<std::complex<float>, IntrinsicsLevel::SSE>(_mm_shuffle_ps(x.get(),x.get(),177));
+    return Intrinsics<std::complex<float>, IntrinsicsLevel::SSE>(mm_shuffle_ps_(x.get(),x.get(),177));
 }
 
 Intrinsics<std::complex<double>, IntrinsicsLevel::SSE>
-inline _intrinsic_swap_real_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x)
+inline intrinsic_swap_real_imag_(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x)
 {
-    return Intrinsics<std::complex<double>, IntrinsicsLevel::SSE>(_mm_permute_pd(x.get(),1));
+    return Intrinsics<std::complex<double>, IntrinsicsLevel::SSE>(mm_permute_pd_(x.get(),1));
 }
 
 #endif // HAVE_SSE
@@ -59,15 +59,15 @@ inline _intrinsic_swap_real_imag(const Intrinsics<std::complex<double>, Intrinsi
 //--- Real
 
 Intrinsics<std::complex<float>, IntrinsicsLevel::AVX>
-inline _intrinsic_swap_real_imag(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x)
+inline intrinsic_swap_real_imag_(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x)
 {
-    return Intrinsics<std::complex<float>, IntrinsicsLevel::AVX>(_mm256_permute_ps(x.get(),177));
+    return Intrinsics<std::complex<float>, IntrinsicsLevel::AVX>(mm256_permute_ps_(x.get(),177));
 }
 
 Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>
-inline _intrinsic_swap_real_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x)
+inline intrinsic_swap_real_imag_(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x)
 {
-    return Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>(_mm256_permute_pd(x.get(),5));
+    return Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>(mm256_permute_pd_(x.get(),5));
 }
 
 #endif // HAVE_AVX

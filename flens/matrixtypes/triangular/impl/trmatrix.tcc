@@ -46,14 +46,14 @@ namespace flens {
 
 template <typename FS>
 TrMatrix<FS>::TrMatrix(IndexType dim, StorageUpLo upLo, Diag diag)
-    : _engine(dim, dim), _upLo(upLo), _diag(diag)
+    : engine_(dim, dim), upLo_(upLo), diag_(diag)
 {
 }
 
 template <typename FS>
 TrMatrix<FS>::TrMatrix(IndexType numRows, IndexType numCols,
                        StorageUpLo upLo, Diag diag)
-    : _engine(numRows, numCols), _upLo(upLo), _diag(diag)
+    : engine_(numRows, numCols), upLo_(upLo), diag_(diag)
 {
 }
 
@@ -61,34 +61,34 @@ template <typename FS>
 TrMatrix<FS>::TrMatrix(IndexType numRows, IndexType numCols,
                        IndexType firstRow, IndexType firstCol,
                        StorageUpLo upLo, Diag diag)
-    : _engine(numRows, numCols, firstRow, firstCol), _upLo(upLo), _diag(diag)
+    : engine_(numRows, numCols, firstRow, firstCol), upLo_(upLo), diag_(diag)
 {
 }
 
 template <typename FS>
 TrMatrix<FS>::TrMatrix(const Engine &engine, StorageUpLo upLo, Diag diag)
-    : _engine(engine), _upLo(upLo), _diag(diag)
+    : engine_(engine), upLo_(upLo), diag_(diag)
 {
 }
 
 template <typename FS>
 TrMatrix<FS>::TrMatrix(const TrMatrix &rhs)
     : TriangularMatrix<TrMatrix<FS> >(),
-      _engine(rhs.engine()), _upLo(rhs.upLo()), _diag(rhs.diag())
+      engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 TrMatrix<FS>::TrMatrix(const TrMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo()), _diag(rhs.diag())
+    : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 TrMatrix<FS>::TrMatrix(TrMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo()), _diag(rhs.diag())
+    : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
 
@@ -104,7 +104,7 @@ template <typename FS>
 void
 TrMatrix<FS>::operator=(const ElementType &value)
 {
-    engine().fill(_upLo, value);
+    engine().fill(upLo_, value);
 }
 
 template <typename FS>
@@ -151,14 +151,14 @@ const typename TrMatrix<FS>::ElementType &
 TrMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
-    if (_upLo==Upper) {
+    if (upLo_==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
     }
-    ASSERT(!((_diag==Unit) && (col==row)));
+    ASSERT(!((diag_==Unit) && (col==row)));
 #   endif
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 template <typename FS>
@@ -166,14 +166,14 @@ typename TrMatrix<FS>::ElementType &
 TrMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
-    if (_upLo==Upper) {
+    if (upLo_==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
     }
-    ASSERT(!((_diag==Unit) && (col==row)));
+    ASSERT(!((diag_==Unit) && (col==row)));
 #   endif
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 template <typename FS>
@@ -207,114 +207,114 @@ template <typename FS>
 typename TrMatrix<FS>::IndexType
 TrMatrix<FS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename FS>
 typename TrMatrix<FS>::IndexType
 TrMatrix<FS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename FS>
 typename TrMatrix<FS>::IndexType
 TrMatrix<FS>::dim() const
 {
-    ASSERT(_engine.numRows()==_engine.numCols());
+    ASSERT(engine_.numRows()==engine_.numCols());
 
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename FS>
 typename TrMatrix<FS>::IndexType
 TrMatrix<FS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename FS>
 typename TrMatrix<FS>::IndexType
 TrMatrix<FS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename FS>
 typename TrMatrix<FS>::IndexType
 TrMatrix<FS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename FS>
 typename TrMatrix<FS>::IndexType
 TrMatrix<FS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 template <typename FS>
 StorageUpLo
 TrMatrix<FS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename FS>
 StorageUpLo &
 TrMatrix<FS>::upLo()
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename FS>
 Diag
 TrMatrix<FS>::diag() const
 {
-    return _diag;
+    return diag_;
 }
 
 template <typename FS>
 Diag &
 TrMatrix<FS>::diag()
 {
-    return _diag;
+    return diag_;
 }
 
 template <typename FS>
 const typename TrMatrix<FS>::ElementType *
 TrMatrix<FS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename TrMatrix<FS>::ElementType *
 TrMatrix<FS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename TrMatrix<FS>::IndexType
 TrMatrix<FS>::leadingDimension() const
 {
-    return _engine.leadingDimension();
+    return engine_.leadingDimension();
 }
 
 template <typename FS>
 StorageOrder
 TrMatrix<FS>::order() const
 {
-    return _engine.order;
+    return engine_.order;
 }
 
 template <typename FS>
 bool
 TrMatrix<FS>::fill(const ElementType &value)
 {
-    return _engine.fill(_upLo, value);
+    return engine_.fill(upLo_, value);
 }
 
 template <typename FS>
@@ -323,7 +323,7 @@ bool
 TrMatrix<FS>::resize(const TrMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return engine_.resize(rhs.engine(), value);
 }
 
 template <typename FS>
@@ -332,7 +332,7 @@ TrMatrix<FS>::resize(IndexType numRows, IndexType numCols,
                      IndexType firstRowIndex, IndexType firstColIndex,
                      const ElementType &value)
 {
-    return _engine.resize(numRows, numCols,
+    return engine_.resize(numRows, numCols,
                           firstRowIndex, firstColIndex,
                           value);
 }
@@ -374,14 +374,14 @@ template <typename FS>
 const typename TrMatrix<FS>::ConstGeneralView
 TrMatrix<FS>::general() const
 {
-    return ConstGeneralView(_engine);
+    return ConstGeneralView(engine_);
 }
 
 template <typename FS>
 typename TrMatrix<FS>::GeneralView
 TrMatrix<FS>::general()
 {
-    return GeneralView(_engine);
+    return GeneralView(engine_);
 }
 
 // hermitian views
@@ -390,7 +390,7 @@ const typename TrMatrix<FS>::ConstHermitianView
 TrMatrix<FS>::hermitian() const
 {
     ASSERT(numRows()==numCols());
-    return ConstHermitianView(_engine, upLo());
+    return ConstHermitianView(engine_, upLo());
 }
 
 template <typename FS>
@@ -398,7 +398,7 @@ typename TrMatrix<FS>::HermitianView
 TrMatrix<FS>::hermitian()
 {
     ASSERT(numRows()==numCols());
-    return HermitianView(_engine, upLo());
+    return HermitianView(engine_, upLo());
 }
 
 // symmetric views
@@ -407,7 +407,7 @@ const typename TrMatrix<FS>::ConstSymmetricView
 TrMatrix<FS>::symmetric() const
 {
     ASSERT(numRows()==numCols());
-    return ConstSymmetricView(_engine, upLo());
+    return ConstSymmetricView(engine_, upLo());
 }
 
 template <typename FS>
@@ -415,7 +415,7 @@ typename TrMatrix<FS>::SymmetricView
 TrMatrix<FS>::symmetric()
 {
     ASSERT(numRows()==numCols());
-    return SymmetricView(_engine, upLo());
+    return SymmetricView(engine_, upLo());
 }
 
 // rectangular views
@@ -532,14 +532,14 @@ template <typename FS>
 const typename TrMatrix<FS>::Engine &
 TrMatrix<FS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename FS>
 typename TrMatrix<FS>::Engine &
 TrMatrix<FS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 //-- TrMatrix specific functions -----------------------------------------------

@@ -78,7 +78,7 @@ laqr2_wsq_impl(IndexType                 kTop,
 //  ==== Estimate optimal workspace. ====
 //
     IndexType jw = min(nw, kBot-kTop+1);
-    auto  _T  = T(_(1,jw),_(1,jw));
+    auto  T_  = T(_(1,jw),_(1,jw));
 
     IndexType lWorkOpt;
     if (jw<=2) {
@@ -87,11 +87,11 @@ laqr2_wsq_impl(IndexType                 kTop,
 //
 //      ==== Workspace query call to DGEHRD ====
 //
-        IndexType lWork1 = hrd_wsq(IndexType(1), jw-1, _T);
+        IndexType lWork1 = hrd_wsq(IndexType(1), jw-1, T_);
 //
 //      ==== Workspace query call to DORMHR ====
 //
-        IndexType lWork2 = ormhr_wsq(Right, NoTrans, IndexType(1), jw-1, _T);
+        IndexType lWork2 = ormhr_wsq(Right, NoTrans, IndexType(1), jw-1, T_);
 //
 //      ==== Optimal workspace ====
 //
@@ -120,7 +120,7 @@ laqr2_wsq_impl(IndexType                 kTop,
 //  ==== Estimate optimal workspace. ====
 //
     IndexType jw = min(nw, kBot-kTop+1);
-    auto  _T  = T(_(1,jw),_(1,jw));
+    auto  T_  = T(_(1,jw),_(1,jw));
 
     IndexType lWorkOpt;
     if (jw<=2) {
@@ -129,11 +129,11 @@ laqr2_wsq_impl(IndexType                 kTop,
 //
 //      ==== Workspace query call to DGEHRD ====
 //
-        IndexType lWork1 = hrd_wsq(IndexType(1), jw-1, _T);
+        IndexType lWork1 = hrd_wsq(IndexType(1), jw-1, T_);
 //
 //      ==== Workspace query call to DORMHR ====
 //
-        IndexType lWork2 = unmhr_wsq(Right, NoTrans, IndexType(1), jw-1, _T);
+        IndexType lWork2 = unmhr_wsq(Right, NoTrans, IndexType(1), jw-1, T_);
 //
 //      ==== Optimal workspace ====
 //
@@ -470,11 +470,11 @@ laqr2_impl(bool                      wantT,
 
             T(_(3,jw),_(1,jw-2)).lower() = Zero;
 
-            const auto _v = work(_(1,ns));
+            const auto v_ = work(_(1,ns));
 
-            larf(Left,  _v, tau, T(_(1,ns),_(1,jw)), work(_(jw+1,jw+jw)));
-            larf(Right, _v, tau, T(_(1,ns),_(1,ns)), work(_(jw+1,jw+ns)));
-            larf(Right, _v, tau, V(_(1,jw),_(1,ns)), work(_(jw+1,jw+jw)));
+            larf(Left,  v_, tau, T(_(1,ns),_(1,jw)), work(_(jw+1,jw+jw)));
+            larf(Right, v_, tau, T(_(1,ns),_(1,ns)), work(_(jw+1,jw+ns)));
+            larf(Right, v_, tau, V(_(1,jw),_(1,ns)), work(_(jw+1,jw+jw)));
 
             hrd(IndexType(1), ns, T_jw, work(_(1,jw-1)), work(_(jw+1,lWork)));
         }
@@ -779,11 +779,11 @@ laqr2_impl(bool                      wantT,
 
             T(_(3,jw),_(1,jw-2)).lower() = Zero;
 
-            const auto _v = work(_(1,ns));
+            const auto v_ = work(_(1,ns));
 
-            larf(Left,  _v, conj(tau), T(_(1,ns),_(1,jw)), work(_(jw+1,jw+jw)));
-            larf(Right, _v, tau, T(_(1,ns),_(1,ns)), work(_(jw+1,jw+ns)));
-            larf(Right, _v, tau, V(_(1,jw),_(1,ns)), work(_(jw+1,jw+jw)));
+            larf(Left,  v_, conj(tau), T(_(1,ns),_(1,jw)), work(_(jw+1,jw+jw)));
+            larf(Right, v_, tau, T(_(1,ns),_(1,ns)), work(_(jw+1,jw+ns)));
+            larf(Right, v_, tau, V(_(1,jw),_(1,ns)), work(_(jw+1,jw+jw)));
 
             hrd(IndexType(1), ns, T_jw, work(_(1,jw-1)), work(_(jw+1,lWork)));
         }
@@ -1251,7 +1251,7 @@ laqr2(bool                      wantT,
         failed = true;
     }
 
-    if (! isIdentical(sr_generic, sr, "sr_generic", "_sr")) {
+    if (! isIdentical(sr_generic, sr, "sr_generic", "sr_")) {
         std::cerr << "CXXLAPACK: sr_generic = " << sr_generic << std::endl;
         std::cerr << "F77LAPACK: sr = " << sr << std::endl;
         failed = true;
@@ -1275,13 +1275,13 @@ laqr2(bool                      wantT,
         failed = true;
     }
 
-    if (! isIdentical(WV_generic, WV, "WV_generic", "_WV")) {
+    if (! isIdentical(WV_generic, WV, "WV_generic", "WV_")) {
         std::cerr << "CXXLAPACK: WV_generic = " << WV_generic << std::endl;
         std::cerr << "F77LAPACK: WV = " << WV << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work_generic, work, "work_generic", "_work")) {
+    if (! isIdentical(work_generic, work, "work_generic", "work_")) {
         std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
         std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
@@ -1462,7 +1462,7 @@ laqr2(bool                      wantT,
         failed = true;
     }
 
-    if (! isIdentical(sh_generic, sh, "sh_generic", "_sh")) {
+    if (! isIdentical(sh_generic, sh, "sh_generic", "sh_")) {
         std::cerr << "CXXLAPACK: sh_generic = " << sh_generic << std::endl;
         std::cerr << "F77LAPACK: sh = " << sh << std::endl;
         failed = true;
@@ -1480,13 +1480,13 @@ laqr2(bool                      wantT,
         failed = true;
     }
 
-    if (! isIdentical(WV_generic, WV, "WV_generic", "_WV")) {
+    if (! isIdentical(WV_generic, WV, "WV_generic", "WV_")) {
         std::cerr << "CXXLAPACK: WV_generic = " << WV_generic << std::endl;
         std::cerr << "F77LAPACK: WV = " << WV << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work_generic, work, "work_generic", "_work")) {
+    if (! isIdentical(work_generic, work, "work_generic", "work_")) {
         std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
         std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
@@ -1530,11 +1530,11 @@ laqr2_wsq(IndexType                 kTop,
 //
 //  Compare results
 //
-    IndexType _info = external::laqr2_wsq_impl(kTop, kBot, nw, T);
+    IndexType info_ = external::laqr2_wsq_impl(kTop, kBot, nw, T);
 
-    if (info!=_info) {
+    if (info!=info_) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         ASSERT(0);
     }
 #   endif

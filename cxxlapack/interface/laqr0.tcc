@@ -60,10 +60,10 @@ laqr0(bool          wantT,
     CXXLAPACK_DEBUG_OUT("slaqr0");
 
     IndexType info;
-    IndexType _wantT = wantT;
-    IndexType _wantZ = wantZ;
-    LAPACK_IMPL(slaqr0)(&_wantT,
-                        &_wantZ,
+    IndexType wantT_ = wantT;
+    IndexType wantZ_ = wantZ;
+    LAPACK_IMPL(slaqr0)(&wantT_,
+                        &wantZ_,
                         &n,
                         &iLo,
                         &iHi,
@@ -109,10 +109,10 @@ laqr0(bool          wantT,
     CXXLAPACK_DEBUG_OUT("dlaqr0");
 
     IndexType info;
-    IndexType _wantT = wantT;
-    IndexType _wantZ = wantZ;
-    LAPACK_IMPL(dlaqr0)(&_wantT,
-                        &_wantZ,
+    IndexType wantT_ = wantT;
+    IndexType wantZ_ = wantZ;
+    LAPACK_IMPL(dlaqr0)(&wantT_,
+                        &wantZ_,
                         &n,
                         &iLo,
                         &iHi,
@@ -156,10 +156,10 @@ laqr0(bool                  wantT,
     CXXLAPACK_DEBUG_OUT("claqr0");
 
     IndexType info;
-    IndexType _wantT = wantT;
-    IndexType _wantZ = wantZ;
-    LAPACK_IMPL(claqr0)(&_wantT,
-                        &_wantZ,
+    IndexType wantT_ = wantT;
+    IndexType wantZ_ = wantZ;
+    LAPACK_IMPL(claqr0)(&wantT_,
+                        &wantZ_,
                         &n,
                         &iLo,
                         &iHi,
@@ -202,10 +202,10 @@ laqr0(bool                  wantT,
     CXXLAPACK_DEBUG_OUT("zlaqr0");
 
     IndexType info;
-    IndexType _wantT = wantT;
-    IndexType _wantZ = wantZ;
-    LAPACK_IMPL(zlaqr0)(&_wantT,
-                        &_wantZ,
+    IndexType wantT_ = wantT;
+    IndexType wantZ_ = wantZ;
+    LAPACK_IMPL(zlaqr0)(&wantT_,
+                        &wantZ_,
                         &n,
                         &iLo,
                         &iHi,

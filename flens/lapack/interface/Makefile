@@ -1,4 +1,4 @@
-CXX  ?= g++
+CXX  = g++-4.8
 #CXX  = clang++
 
 CXXFLAGS += -g -std=c++11 -Wall -Wextra -Werror

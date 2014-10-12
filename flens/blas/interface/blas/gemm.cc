@@ -12,43 +12,43 @@ BLAS(sgemm)(const char      *TRANSA,
             const INTEGER   *N,
             const INTEGER   *K,
             const float     *ALPHA,
-            const float     *_A,
+            const float     *A_,
             const INTEGER   *LDA,
-            const float     *_B,
+            const float     *B_,
             const INTEGER   *LDB,
             const float     *BETA,
-            float           *_C,
+            float           *C_,
             const INTEGER   *LDC)
 {
 
 #   ifdef TEST_DIRECT_CBLAS
 
-        const char         _TRANSA = toupper(*TRANSA);
-        const char         _TRANSB = toupper(*TRANSB);
-        const Transpose    transA  = convertTo<Transpose>(_TRANSA);
-        const Transpose    transB  = convertTo<Transpose>(_TRANSB);
+        const char         TRANSA_ = toupper(*TRANSA);
+        const char         TRANSB_ = toupper(*TRANSB);
+        const Transpose    transA  = convertTo<Transpose>(TRANSA_);
+        const Transpose    transB  = convertTo<Transpose>(TRANSB_);
 
         cblas_sgemm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(transA),
                     cxxblas::CBLAS::getCblasType(transB),
                     *M, *N, *K, *ALPHA,
-                    _A, *LDA, _B, *LDB, *BETA, _C, *LDC);
+                    A_, *LDA, B_, *LDB, *BETA, C_, *LDC);
 
 #   else
 
         using std::abs;
         using std::max;
 
-        char    _TRANSA = toupper(*TRANSA);
-        char    _TRANSB = toupper(*TRANSB);
-        INTEGER nRowA   = (_TRANSA=='N') ? *M : *K;
-        INTEGER nRowB   = (_TRANSB=='N') ? *K : *N;
+        char    TRANSA_ = toupper(*TRANSA);
+        char    TRANSB_ = toupper(*TRANSB);
+        INTEGER nRowA   = (TRANSA_=='N') ? *M : *K;
+        INTEGER nRowB   = (TRANSB_=='N') ? *K : *N;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info = 0;
-            if (_TRANSA!='N' && _TRANSA!='C' && _TRANSA!='T') {
+            if (TRANSA_!='N' && TRANSA_!='C' && TRANSA_!='T') {
                 info = 1;
-            } else if (_TRANSB!='N' && _TRANSB!='C' && _TRANSB!='T') {
+            } else if (TRANSB_!='N' && TRANSB_!='C' && TRANSB_!='T') {
                 info = 2;
             } else if (*M<0) {
                 info = 3;
@@ -69,23 +69,23 @@ BLAS(sgemm)(const char      *TRANSA,
             }
 #       endif
 
-        Transpose  transA = convertTo<Transpose>(_TRANSA);
-        Transpose  transB = convertTo<Transpose>(_TRANSB);
+        Transpose  transA = convertTo<Transpose>(TRANSA_);
+        Transpose  transB = convertTo<Transpose>(TRANSB_);
 
         const bool noTransA = (transA==NoTrans || transA==Conj);
         const bool noTransB = (transB==NoTrans || transB==Conj);
 
         const SGeMatrixConstView  A = SFullConstView(noTransA ? *M : *K,
                                                      noTransA ? *K : *M,
-                                                     _A,
+                                                     A_,
                                                      *LDA);
 
         const SGeMatrixConstView  B = SFullConstView(noTransB ? *K : *N,
                                                      noTransB ? *N : *K,
-                                                     _B,
+                                                     B_,
                                                      *LDB);
 
-        SGeMatrixView       C = SFullView(*M, *N, _C, *LDC);
+        SGeMatrixView       C = SFullView(*M, *N, C_, *LDC);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -124,25 +124,25 @@ BLAS(dgemm)(const char      *TRANSA,
             const INTEGER   *N,
             const INTEGER   *K,
             const double    *ALPHA,
-            const double    *_A,
+            const double    *A_,
             const INTEGER   *LDA,
-            const double    *_B,
+            const double    *B_,
             const INTEGER   *LDB,
             const double    *BETA,
-            double          *_C,
+            double          *C_,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        const char         _TRANSA = toupper(*TRANSA);
-        const char         _TRANSB = toupper(*TRANSB);
-        const Transpose    transA  = convertTo<Transpose>(_TRANSA);
-        const Transpose    transB  = convertTo<Transpose>(_TRANSB);
+        const char         TRANSA_ = toupper(*TRANSA);
+        const char         TRANSB_ = toupper(*TRANSB);
+        const Transpose    transA  = convertTo<Transpose>(TRANSA_);
+        const Transpose    transB  = convertTo<Transpose>(TRANSB_);
 
         cblas_dgemm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(transA),
                     cxxblas::CBLAS::getCblasType(transB), *M, *N, *K, *ALPHA,
-                    _A, *LDA, _B, *LDB, *BETA, _C, *LDC);
+                    A_, *LDA, B_, *LDB, *BETA, C_, *LDC);
 
 #   else
 
@@ -150,16 +150,16 @@ BLAS(dgemm)(const char      *TRANSA,
         using std::max;
 
 
-        char    _TRANSA = toupper(*TRANSA);
-        char    _TRANSB = toupper(*TRANSB);
-        INTEGER nRowA   = (_TRANSA=='N') ? *M : *K;
-        INTEGER nRowB   = (_TRANSB=='N') ? *K : *N;
+        char    TRANSA_ = toupper(*TRANSA);
+        char    TRANSB_ = toupper(*TRANSB);
+        INTEGER nRowA   = (TRANSA_=='N') ? *M : *K;
+        INTEGER nRowB   = (TRANSB_=='N') ? *K : *N;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info    = 0;
-            if (_TRANSA!='N' && _TRANSA!='C' && _TRANSA!='T') {
+            if (TRANSA_!='N' && TRANSA_!='C' && TRANSA_!='T') {
                 info = 1;
-            } else if (_TRANSB!='N' && _TRANSB!='C' && _TRANSB!='T') {
+            } else if (TRANSB_!='N' && TRANSB_!='C' && TRANSB_!='T') {
                 info = 2;
             } else if (*M<0) {
                 info = 3;
@@ -181,23 +181,23 @@ BLAS(dgemm)(const char      *TRANSA,
 #       endif
 
 
-        Transpose  transA = convertTo<Transpose>(_TRANSA);
-        Transpose  transB = convertTo<Transpose>(_TRANSB);
+        Transpose  transA = convertTo<Transpose>(TRANSA_);
+        Transpose  transB = convertTo<Transpose>(TRANSB_);
 
         const bool noTransA = (transA==NoTrans || transA==Conj);
         const bool noTransB = (transB==NoTrans || transB==Conj);
 
         const DGeMatrixConstView  A = DFullConstView(noTransA ? *M : *K,
                                                      noTransA ? *K : *M,
-                                                     _A,
+                                                     A_,
                                                      *LDA);
 
         const DGeMatrixConstView  B = DFullConstView(noTransB ? *K : *N,
                                                      noTransB ? *N : *K,
-                                                     _B,
+                                                     B_,
                                                      *LDB);
 
-        DGeMatrixView  C = DFullView(*M, *N, _C, *LDC);
+        DGeMatrixView  C = DFullView(*M, *N, C_, *LDC);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -235,46 +235,46 @@ BLAS(cgemm)(const char      *TRANSA,
             const INTEGER   *N,
             const INTEGER   *K,
             const cfloat    *ALPHA,
-            const cfloat    *_A,
+            const cfloat    *A_,
             const INTEGER   *LDA,
-            const cfloat    *_B,
+            const cfloat    *B_,
             const INTEGER   *LDB,
             const cfloat    *BETA,
-            cfloat          *_C,
+            cfloat          *C_,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        const char         _TRANSA = toupper(*TRANSA);
-        const char         _TRANSB = toupper(*TRANSB);
-        const Transpose    transA  = convertTo<Transpose>(_TRANSA);
-        const Transpose    transB  = convertTo<Transpose>(_TRANSB);
+        const char         TRANSA_ = toupper(*TRANSA);
+        const char         TRANSB_ = toupper(*TRANSB);
+        const Transpose    transA  = convertTo<Transpose>(TRANSA_);
+        const Transpose    transB  = convertTo<Transpose>(TRANSB_);
 
         cblas_cgemm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(transA),
                     cxxblas::CBLAS::getCblasType(transB),
                     *M, *N, *K,
                     reinterpret_cast<const float *>(ALPHA),
-                    reinterpret_cast<const float *>(_A), *LDA,
-                    reinterpret_cast<const float *>(_B), *LDB,
+                    reinterpret_cast<const float *>(A_), *LDA,
+                    reinterpret_cast<const float *>(B_), *LDB,
                     reinterpret_cast<const float *>(BETA),
-                    reinterpret_cast<float *>(_C), *LDC);
+                    reinterpret_cast<float *>(C_), *LDC);
 
 #   else
 
         using std::abs;
         using std::max;
 
-        char    _TRANSA = toupper(*TRANSA);
-        char    _TRANSB = toupper(*TRANSB);
-        INTEGER nRowA   = (_TRANSA=='N') ? *M : *K;
-        INTEGER nRowB   = (_TRANSB=='N') ? *K : *N;
+        char    TRANSA_ = toupper(*TRANSA);
+        char    TRANSB_ = toupper(*TRANSB);
+        INTEGER nRowA   = (TRANSA_=='N') ? *M : *K;
+        INTEGER nRowB   = (TRANSB_=='N') ? *K : *N;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info    = 0;
-            if (_TRANSA!='N' && _TRANSA!='C' && _TRANSA!='T') {
+            if (TRANSA_!='N' && TRANSA_!='C' && TRANSA_!='T') {
                 info = 1;
-            } else if (_TRANSB!='N' && _TRANSB!='C' && _TRANSB!='T') {
+            } else if (TRANSB_!='N' && TRANSB_!='C' && TRANSB_!='T') {
                 info = 2;
             } else if (*M<0) {
                 info = 3;
@@ -295,23 +295,23 @@ BLAS(cgemm)(const char      *TRANSA,
             }
 #       endif
 
-        Transpose  transA = convertTo<Transpose>(_TRANSA);
-        Transpose  transB = convertTo<Transpose>(_TRANSB);
+        Transpose  transA = convertTo<Transpose>(TRANSA_);
+        Transpose  transB = convertTo<Transpose>(TRANSB_);
 
         const bool noTransA = (transA==NoTrans || transA==Conj);
         const bool noTransB = (transB==NoTrans || transB==Conj);
 
         const CGeMatrixConstView  A = CFullConstView(noTransA ? *M : *K,
                                                      noTransA ? *K : *M,
-                                                     _A,
+                                                     A_,
                                                      *LDA);
 
         const CGeMatrixConstView  B = CFullConstView(noTransB ? *K : *N,
                                                      noTransB ? *N : *K,
-                                                     _B,
+                                                     B_,
                                                      *LDB);
 
-        CGeMatrixView       C = CFullView(*M, *N, _C, *LDC);
+        CGeMatrixView       C = CFullView(*M, *N, C_, *LDC);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -350,30 +350,30 @@ BLAS(zgemm)(const char      *TRANSA,
             const INTEGER   *N,
             const INTEGER   *K,
             const cdouble   *ALPHA,
-            const cdouble   *_A,
+            const cdouble   *A_,
             const INTEGER   *LDA,
-            const cdouble   *_B,
+            const cdouble   *B_,
             const INTEGER   *LDB,
             const cdouble   *BETA,
-            cdouble         *_C,
+            cdouble         *C_,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        const char         _TRANSA = toupper(*TRANSA);
-        const char         _TRANSB = toupper(*TRANSB);
-        const Transpose    transA  = convertTo<Transpose>(_TRANSA);
-        const Transpose    transB  = convertTo<Transpose>(_TRANSB);
+        const char         TRANSA_ = toupper(*TRANSA);
+        const char         TRANSB_ = toupper(*TRANSB);
+        const Transpose    transA  = convertTo<Transpose>(TRANSA_);
+        const Transpose    transB  = convertTo<Transpose>(TRANSB_);
 
         cblas_zgemm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(transA),
                     cxxblas::CBLAS::getCblasType(transB),
                     *M, *N, *K,
                     reinterpret_cast<const double *>(ALPHA),
-                    reinterpret_cast<const double *>(_A), *LDA,
-                    reinterpret_cast<const double *>(_B), *LDB,
+                    reinterpret_cast<const double *>(A_), *LDA,
+                    reinterpret_cast<const double *>(B_), *LDB,
                     reinterpret_cast<const double *>(BETA),
-                    reinterpret_cast<double *>(_C), *LDC);
+                    reinterpret_cast<double *>(C_), *LDC);
 
 #   else
 
@@ -381,16 +381,16 @@ BLAS(zgemm)(const char      *TRANSA,
         using std::max;
 
 
-        char    _TRANSA = toupper(*TRANSA);
-        char    _TRANSB = toupper(*TRANSB);
-        INTEGER nRowA   = (_TRANSA=='N') ? *M : *K;
-        INTEGER nRowB   = (_TRANSB=='N') ? *K : *N;
+        char    TRANSA_ = toupper(*TRANSA);
+        char    TRANSB_ = toupper(*TRANSB);
+        INTEGER nRowA   = (TRANSA_=='N') ? *M : *K;
+        INTEGER nRowB   = (TRANSB_=='N') ? *K : *N;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info    = 0;
-            if (_TRANSA!='N' && _TRANSA!='C' && _TRANSA!='T') {
+            if (TRANSA_!='N' && TRANSA_!='C' && TRANSA_!='T') {
                 info = 1;
-            } else if (_TRANSB!='N' && _TRANSB!='C' && _TRANSB!='T') {
+            } else if (TRANSB_!='N' && TRANSB_!='C' && TRANSB_!='T') {
                 info = 2;
             } else if (*M<0) {
                 info = 3;
@@ -413,23 +413,23 @@ BLAS(zgemm)(const char      *TRANSA,
 
 
 
-        Transpose  transA = convertTo<Transpose>(_TRANSA);
-        Transpose  transB = convertTo<Transpose>(_TRANSB);
+        Transpose  transA = convertTo<Transpose>(TRANSA_);
+        Transpose  transB = convertTo<Transpose>(TRANSB_);
 
         const bool noTransA = (transA==NoTrans || transA==Conj);
         const bool noTransB = (transB==NoTrans || transB==Conj);
 
         const ZGeMatrixConstView  A = ZFullConstView(noTransA ? *M : *K,
                                                      noTransA ? *K : *M,
-                                                     _A,
+                                                     A_,
                                                      *LDA);
 
         const ZGeMatrixConstView  B = ZFullConstView(noTransB ? *K : *N,
                                                      noTransB ? *N : *K,
-                                                     _B,
+                                                     B_,
                                                      *LDB);
 
-        ZGeMatrixView  C = ZFullView(*M, *N, _C, *LDC);
+        ZGeMatrixView  C = ZFullView(*M, *N, C_, *LDC);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;

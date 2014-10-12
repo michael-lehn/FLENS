@@ -101,35 +101,35 @@ acxpby(IndexType n, const T &alpha, const T *x,
 
         IndexType i=0;
 
-        IntrinsicType _x, _y, _tmp;
-        IntrinsicPrimitiveType _real_alpha(-real(alpha));
-        IntrinsicPrimitiveType _imag_alpha( imag(alpha));
-        IntrinsicPrimitiveType _real_beta(  real(beta));
-        IntrinsicPrimitiveType _imag_beta(  imag(beta));
+        IntrinsicType x_, y_, tmp_;
+        IntrinsicPrimitiveType real_alpha_(-real(alpha));
+        IntrinsicPrimitiveType imag_alpha_( imag(alpha));
+        IntrinsicPrimitiveType real_beta_(  real(beta));
+        IntrinsicPrimitiveType imag_beta_(  imag(beta));
 
         if (beta==T(0)) {
             for (; i+numElements-1<n; i+=numElements) {
-                _x.loadu(x+i);
-                _y.setZero();
-                _y = _intrinsic_addsub(_y, _intrinsic_mul(_real_alpha, _x));
-                _x = _intrinsic_swap_real_imag(_x);
-                _y = _intrinsic_add(_y, _intrinsic_mul(_imag_alpha, _x));
-                _y.storeu(y+i);
+                x_.loadu(x+i);
+                y_.setZero();
+                y_ = intrinsic_addsub_(y_, intrinsic_mul_(real_alpha_, x_));
+                x_ = intrinsic_swap_real_imag_(x_);
+                y_ = intrinsic_add_(y_, intrinsic_mul_(imag_alpha_, x_));
+                y_.storeu(y+i);
             }
         } else {
             for (; i+numElements-1<n; i+=numElements) {
-                _x.loadu(x+i);
-                _y.loadu(y+i);
+                x_.loadu(x+i);
+                y_.loadu(y+i);
 
-                _tmp = _intrinsic_mul(_real_beta, _y);
-                _y = _intrinsic_swap_real_imag(_y);
-                _y = _intrinsic_mul(_imag_beta, _y);
-                _y = _intrinsic_addsub(_tmp, _y);
+                tmp_ = intrinsic_mul_(real_beta_, y_);
+                y_ = intrinsic_swap_real_imag_(y_);
+                y_ = intrinsic_mul_(imag_beta_, y_);
+                y_ = intrinsic_addsub_(tmp_, y_);
 
-                _y = _intrinsic_addsub(_y, _intrinsic_mul(_real_alpha, _x));
-                _x = _intrinsic_swap_real_imag(_x);
-                _y = _intrinsic_add(_y, _intrinsic_mul(_imag_alpha, _x));
-                _y.storeu(y+i);
+                y_ = intrinsic_addsub_(y_, intrinsic_mul_(real_alpha_, x_));
+                x_ = intrinsic_swap_real_imag_(x_);
+                y_ = intrinsic_add_(y_, intrinsic_mul_(imag_alpha_, x_));
+                y_.storeu(y+i);
             }
         }
 

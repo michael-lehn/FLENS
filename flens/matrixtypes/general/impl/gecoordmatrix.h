@@ -88,14 +88,14 @@ class GeCoordMatrix
         // forbidden:
         GeCoordMatrix(const GeCoordMatrix &rhs);
 
-        Engine _engine;
+        Engine engine_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsGeCoordMatrix
 //
-struct _GeCoordMatrixChecker
+struct GeCoordMatrixChecker_
 {
 
     struct Two {
@@ -104,7 +104,7 @@ struct _GeCoordMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -115,7 +115,7 @@ template <typename T>
 struct IsGeCoordMatrix
 {
     static T var;
-    static const bool value = sizeof(_GeCoordMatrixChecker::check(var))==1;
+    static const bool value = sizeof(GeCoordMatrixChecker_::check(var))==1;
 };
 
 //

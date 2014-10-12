@@ -82,27 +82,27 @@ sv(MA              &&A,
 
     superlu_options_t   options;
     SuperLUStat_t       stat;
-    SuperMatrix         _A, _L, _U, _B;
-    Create_CompCol_Matrix(&_A,
+    SuperMatrix         A_, L_, U_, B_;
+    Create_CompCol_Matrix(&A_,
                           A.numRows(), A.numCols(), A.engine().numNonZeros(),
                           A.engine().values().data(),
                           A.engine().rows().data(),
                           A.engine().cols().data(),
                           SLU_NC, SLU_GE);
 
-    Create_Dense_Matrix(&_B, B.numRows(), B.numCols(),
+    Create_Dense_Matrix(&B_, B.numRows(), B.numCols(),
                         B.data(), B.leadingDimension(),
                         SLU_DN, SLU_GE);
 
     set_default_options(&options);
     options.ColPerm = NATURAL;
     StatInit(&stat);
-    int info = gssv<ElementType>(&options, &_A, pc.data(), pr.data(),
-                                 &_L, &_U, &_B, &stat);
-    Destroy_SuperMatrix_Store(&_A);
-    Destroy_SuperMatrix_Store(&_B);
-    Destroy_SuperNode_Matrix(&_L);
-    Destroy_CompCol_Matrix(&_U);
+    int info = gssv<ElementType>(&options, &A_, pc.data(), pr.data(),
+                                 &L_, &U_, &B_, &stat);
+    Destroy_SuperMatrix_Store(&A_);
+    Destroy_SuperMatrix_Store(&B_);
+    Destroy_SuperNode_Matrix(&L_);
+    Destroy_CompCol_Matrix(&U_);
     StatFree(&stat);
 
     // Reset base to original value
@@ -163,10 +163,10 @@ sv(MA              &&A,
 
     superlu_options_t   options;
     SuperLUStat_t       stat;
-    SuperMatrix         _A, _L, _U, _B;
+    SuperMatrix         A_, L_, U_, B_;
 
 
-    Create_CompCol_Matrix(&_A,
+    Create_CompCol_Matrix(&A_,
                           A.numCols(), A.numRows(), A.engine().numNonZeros(),
                           A.engine().values().data(),
                           A.engine().cols().data(),
@@ -175,19 +175,19 @@ sv(MA              &&A,
 
 
 
-    Create_Dense_Matrix(&_B, B.numRows(), B.numCols(),
+    Create_Dense_Matrix(&B_, B.numRows(), B.numCols(),
                         B.data(), B.leadingDimension(),
                         SLU_DN, SLU_GE);
 
     set_default_options(&options);
     options.ColPerm = NATURAL;
     StatInit(&stat);
-    int info = gssv<ElementType>(&options, &_A, pc.data(), pr.data(),
-                                 &_L, &_U, &_B, &stat);
-    Destroy_SuperMatrix_Store(&_A);
-    Destroy_SuperMatrix_Store(&_B);
-    Destroy_SuperNode_Matrix(&_L);
-    Destroy_CompCol_Matrix(&_U);
+    int info = gssv<ElementType>(&options, &A_, pc.data(), pr.data(),
+                                 &L_, &U_, &B_, &stat);
+    Destroy_SuperMatrix_Store(&A_);
+    Destroy_SuperMatrix_Store(&B_);
+    Destroy_SuperNode_Matrix(&L_);
+    Destroy_CompCol_Matrix(&U_);
     StatFree(&stat);
 
     // Reset base to original value

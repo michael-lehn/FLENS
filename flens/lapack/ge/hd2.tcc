@@ -134,8 +134,8 @@ hd2_impl(IndexType           iLo,
 //
 //      Apply H(i) to A(i+1:ihi,i+1:n) from the left
 //
-        auto _A = A(_(i+1,iHi),_(i+1,n));
-        larf(Left, A(_(i+1,iHi),i), cxxblas::conjugate(tau(i)), _A, work);
+        auto A_ = A(_(i+1,iHi),_(i+1,n));
+        larf(Left, A(_(i+1,iHi),i), cxxblas::conjugate(tau(i)), A_, work);
 
         A(i+1,i) = Aii;
     }
@@ -214,9 +214,9 @@ hd2(IndexType           iLo,
 //
 //  Make copies of output arguments
 //
-    typename MatrixA::NoView    _A = A;
-    typename VectorTau::NoView  _tau = tau;
-    typename VectorW::NoView    _work = work;
+    typename MatrixA::NoView    A_ = A;
+    typename VectorTau::NoView  tau_ = tau;
+    typename VectorW::NoView    work_ = work;
 #   endif
 
 //
@@ -228,23 +228,23 @@ hd2(IndexType           iLo,
 //
 //  Compare results
 //
-    external::hd2_impl(iLo, iHi, _A, _tau, _work);
+    external::hd2_impl(iLo, iHi, A_, tau_, work_);
 
-    if (! isIdentical(A, _A, "A", "A_")) {
+    if (! isIdentical(A, A_, "A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        std::cerr << "F77LAPACK: A_ = " << A_ << std::endl;
         ASSERT(0);
     }
 
-    if (! isIdentical(tau, _tau, "tau", "tau_")) {
+    if (! isIdentical(tau, tau_, "tau", "tau_")) {
         std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
-        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+        std::cerr << "F77LAPACK: tau_ = " << tau_ << std::endl;
         ASSERT(0);
     }
 
-    if (! isIdentical(work, _work, "work", "work_")) {
+    if (! isIdentical(work, work_, "work", "work_")) {
         std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        std::cerr << "F77LAPACK: work_ = " << work_ << std::endl;
         ASSERT(0);
     }
 #   endif
@@ -296,9 +296,9 @@ hd2(IndexType           iLo,
 //
 //  Make copies of output arguments
 //
-    typename MatrixA::NoView    _A = A;
-    typename VectorTau::NoView  _tau = tau;
-    typename VectorW::NoView    _work = work;
+    typename MatrixA::NoView    A_ = A;
+    typename VectorTau::NoView  tau_ = tau;
+    typename VectorW::NoView    work_ = work;
 #   endif
 
 //
@@ -310,23 +310,23 @@ hd2(IndexType           iLo,
 //
 //  Compare results
 //
-    external::hd2_impl(iLo, iHi, _A, _tau, _work);
+    external::hd2_impl(iLo, iHi, A_, tau_, work_);
 
-    if (! isIdentical(A, _A, "A", "A_")) {
+    if (! isIdentical(A, A_, "A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        std::cerr << "F77LAPACK: A_ = " << A_ << std::endl;
         ASSERT(0);
     }
 
-    if (! isIdentical(tau, _tau, "tau", "tau_")) {
+    if (! isIdentical(tau, tau_, "tau", "tau_")) {
         std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
-        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+        std::cerr << "F77LAPACK: tau_ = " << tau_ << std::endl;
         ASSERT(0);
     }
 
-    if (! isIdentical(work, _work, "work", "work_")) {
+    if (! isIdentical(work, work_, "work", "work_")) {
         std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        std::cerr << "F77LAPACK: work_ = " << work_ << std::endl;
         ASSERT(0);
     }
 #   endif

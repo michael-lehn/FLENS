@@ -134,10 +134,10 @@ class PackedStorageView
         changeIndexBase(IndexType indexBase);
 
     private:
-        ElementType  *_data;
-        Allocator    _allocator;
-        IndexType    _dim;
-        IndexType    _indexBase;
+        ElementType  *data_;
+        Allocator    allocator_;
+        IndexType    dim_;
+        IndexType    indexBase_;
 };
 
 } // namespace flens

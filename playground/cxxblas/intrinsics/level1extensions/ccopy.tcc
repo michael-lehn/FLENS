@@ -64,18 +64,18 @@ ccopy(IndexType n, const T *x,
 
         IndexType i=0;
 
-        IntrinsicType _x, _y;
-        IntrinsicPrimitiveType _tmp;
+        IntrinsicType x_, y_;
+        IntrinsicPrimitiveType tmp_;
         PT tmp[2*numElements];
         for (IndexType i=0; i<2*numElements; i+=2) {
             tmp[i  ] = PT(1);
             tmp[i+1] = PT(-1);
         }
-        _tmp.loadu(tmp);
+        tmp_.loadu(tmp);
         for (; i+numElements-1<n; i+=numElements) {
-            _x.loadu(x+i);
-            _y = _intrinsic_mul(_tmp, _x);
-            _y.storeu(y+i);
+            x_.loadu(x+i);
+            y_ = intrinsic_mul_(tmp_, x_);
+            y_.storeu(y+i);
         }
 
         for (; i<n; ++i) {

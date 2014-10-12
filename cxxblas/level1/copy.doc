@@ -81,10 +81,9 @@ Complex Single Precision
 |           ComplexFloat *y, IndexType incY);                               |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [O#c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@C@comple]
-                         [x>#f#S0_#*S2_#S0_#templatetypenameIndexTypetypenam]
-                         [eIfIndexTypeisBlasCompatibleInteger               ]
-
+                         [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@N@__1@C@co]
+                         [mplex>#f#S0_#*S2_#S0_#templatetypenameIndexTypetyp]
+                         [enameIfIndexTypeisBlasCompatibleInteger           ]
 
 
 Complex Double Precision
@@ -98,56 +97,12 @@ Complex Double Precision
 |           ComplexDouble *y, IndexType incY);                              |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [O#c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@C@comple]
-                         [x>#d#S0_#*S2_#S0_#templatetypenameIndexTypetypenam]
-                         [eIfIndexTypeisBlasCompatibleInteger               ]
+                         [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@N@__1@C@co]
+                         [mplex>#d#S0_#*S2_#S0_#templatetypenameIndexTypetyp]
+                         [enameIfIndexTypeisBlasCompatibleInteger           ]
 
 
 :links: __CBLAS__    -> http://www.netlib.org/blas/
         __ATLAS__    -> http://math-atlas.sourceforge.net
         __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
-
-
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
-
-
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  template <typename IndexType>                                            |
-|      typename If<IndexType>::isBlasCompatibleInteger                      |
-|      copy(IndexType n,                                                    |
-|           const ComplexFloat *x, IndexType incX,                          |
-|           ComplexFloat *y, IndexType incY);                               |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@N@__1@C@co]
-                         [mplex>#f#S0_#*S2_#S0_#templatetypenameIndexTypetyp]
-                         [enameIfIndexTypeisBlasCompatibleInteger           ]
-
-    Defined in namespace `cxxblas`.
-    Function `copy` with 1 template parameters.
-
-
-
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  template <typename IndexType>                                            |
-|      typename If<IndexType>::isBlasCompatibleInteger                      |
-|      copy(IndexType n,                                                    |
-|           const ComplexDouble *x, IndexType incX,                         |
-|           ComplexDouble *y, IndexType incY);                              |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@N@__1@C@co]
-                         [mplex>#d#S0_#*S2_#S0_#templatetypenameIndexTypetyp]
-                         [enameIfIndexTypeisBlasCompatibleInteger           ]
-
-    Defined in namespace `cxxblas`.
-    Function `copy` with 1 template parameters.
-
-
 

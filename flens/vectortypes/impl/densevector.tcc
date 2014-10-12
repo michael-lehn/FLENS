@@ -46,61 +46,61 @@ namespace flens {
 
 template <typename A>
 DenseVector<A>::DenseVector()
-    : _stride(_array.stride())
+    : stride_(array_.stride())
 {
 }
 
 template <typename A>
 DenseVector<A>::DenseVector(IndexType length)
-    : _array(length), _stride(_array.stride())
+    : array_(length), stride_(array_.stride())
 {
     ASSERT(length>=0);
 }
 
 template <typename A>
 DenseVector<A>::DenseVector(IndexType length, IndexType firstIndex)
-    : _array(length, firstIndex), _stride(_array.stride())
+    : array_(length, firstIndex), stride_(array_.stride())
 {
     ASSERT(length>=0);
 }
 
 template <typename A>
 DenseVector<A>::DenseVector(const Range<IndexType> &range)
-    : _array(range.numTicks(), range.firstIndex()), _stride(_array.stride())
+    : array_(range.numTicks(), range.firstIndex()), stride_(array_.stride())
 {
     ASSERT(range.stride()>0);
 }
 
 template <typename A>
 DenseVector<A>::DenseVector(const Engine &engine, bool reverse)
-    : _array(engine), _stride(reverse ? -_array.stride() : _array.stride())
+    : array_(engine), stride_(reverse ? -array_.stride() : array_.stride())
 {
 }
 
 template <typename A>
 DenseVector<A>::DenseVector(const DenseVector &rhs)
-    : Vector<DenseVector>(), _array(rhs._array), _stride(rhs._stride)
+    : Vector<DenseVector>(), array_(rhs.array_), stride_(rhs.stride_)
 {
 }
 
 template <typename A>
 template <typename RHS>
 DenseVector<A>::DenseVector(const DenseVector<RHS> &rhs)
-    : _array(rhs.engine()), _stride(_array.stride())
+    : array_(rhs.engine()), stride_(array_.stride())
 {
 }
 
 template <typename A>
 template <typename RHS>
 DenseVector<A>::DenseVector(DenseVector<RHS> &rhs)
-    : _array(rhs.engine()), _stride(_array.stride())
+    : array_(rhs.engine()), stride_(array_.stride())
 {
 }
 
 template <typename A>
 template <typename RHS>
 DenseVector<A>::DenseVector(const Vector<RHS> &rhs)
-    : _stride(_array.stride())
+    : stride_(array_.stride())
 {
     assign(rhs, *this);
 }
@@ -110,7 +110,7 @@ template <typename A>
 typename DenseVector<A>::Initializer
 DenseVector<A>::operator=(const ElementType &value)
 {
-    _array.fill(value);
+    array_.fill(value);
     return Initializer(*this, firstIndex());
 }
 
@@ -199,14 +199,14 @@ template <typename A>
 const typename DenseVector<A>::ElementType &
 DenseVector<A>::operator()(IndexType index) const
 {
-    return _array(index);
+    return array_(index);
 }
 
 template <typename A>
 typename DenseVector<A>::ElementType &
 DenseVector<A>::operator()(IndexType index)
 {
-    return _array(index);
+    return array_(index);
 }
 
 template <typename A>
@@ -241,7 +241,7 @@ DenseVector<A>::operator()(const Range<IndexType> &range) const
 {
     ASSERT(range.firstIndex()>=firstIndex());
     ASSERT(range.lastIndex()<=lastIndex());
-    return _array.view(range.firstIndex(), range.lastIndex(), range.stride(),
+    return array_.view(range.firstIndex(), range.lastIndex(), range.stride(),
                        firstIndex());
 }
 
@@ -251,62 +251,62 @@ DenseVector<A>::operator()(const Range<IndexType> &range)
 {
     ASSERT(range.firstIndex()>=firstIndex());
     ASSERT(range.lastIndex()<=lastIndex());
-    return _array.view(range.firstIndex(), range.lastIndex(), range.stride(),
+    return array_.view(range.firstIndex(), range.lastIndex(), range.stride(),
                        firstIndex());
 }
 
 template <typename A>
 const typename DenseVector<A>::ConstView
 DenseVector<A>::operator()(const Range<IndexType> &range,
-                           IndexType _firstViewIndex) const
+                           IndexType firstViewIndex_) const
 {
     ASSERT(range.firstIndex()>=firstIndex());
     ASSERT(range.lastIndex()<=lastIndex());
-    return _array.view(range.firstIndex(), range.lastIndex(), range.stride(),
-                       _firstViewIndex);
+    return array_.view(range.firstIndex(), range.lastIndex(), range.stride(),
+                       firstViewIndex_);
 }
 
 template <typename A>
 typename DenseVector<A>::View
 DenseVector<A>::operator()(const Range<IndexType> &range,
-                           IndexType _firstViewIndex)
+                           IndexType firstViewIndex_)
 {
     ASSERT(range.firstIndex()>=firstIndex());
     ASSERT(range.lastIndex()<=lastIndex());
-    return _array.view(range.firstIndex(), range.lastIndex(), range.stride(),
-                       _firstViewIndex);
+    return array_.view(range.firstIndex(), range.lastIndex(), range.stride(),
+                       firstViewIndex_);
 }
 
 template <typename A>
 const typename DenseVector<A>::ConstView
 DenseVector<A>::operator()(const Underscore<IndexType> &/*all*/,
-                           IndexType _firstViewIndex) const
+                           IndexType firstViewIndex_) const
 {
-    return _array.view(_array.firstIndex(), _array.lastIndex(), _array.stride(),
-                       _firstViewIndex);
+    return array_.view(array_.firstIndex(), array_.lastIndex(), array_.stride(),
+                       firstViewIndex_);
 }
 
 template <typename A>
 typename DenseVector<A>::View
 DenseVector<A>::operator()(const Underscore<IndexType> &/*all*/,
-                           IndexType _firstViewIndex)
+                           IndexType firstViewIndex_)
 {
-    return _array.view(_array.firstIndex(), _array.lastIndex(), _array.stride(),
-                       _firstViewIndex);
+    return array_.view(array_.firstIndex(), array_.lastIndex(), array_.stride(),
+                       firstViewIndex_);
 }
 
 template <typename A>
 const typename DenseVector<A>::ConstView
 DenseVector<A>::reverse() const
 {
-    return ConstView(_array, !reversed());
+    return ConstView(array_, !reversed());
 }
 
 template <typename A>
 typename DenseVector<A>::View
 DenseVector<A>::reverse()
 {
-    return View(_array, !reversed());
+    return View(array_, !reversed());
 }
 
 // -- methods ------------------------------------------------------------------
@@ -315,41 +315,41 @@ template <typename A>
 Range<typename DenseVector<A>::IndexType>
 DenseVector<A>::range() const
 {
-    return Range<IndexType>(_array.firstIndex(),_array.lastIndex());
+    return Range<IndexType>(array_.firstIndex(),array_.lastIndex());
 }
 
 template <typename A>
 typename DenseVector<A>::IndexType
 DenseVector<A>::firstIndex() const
 {
-    if (_stride<0) {
-        return _array.lastIndex();
+    if (stride_<0) {
+        return array_.lastIndex();
     }
-    return _array.firstIndex();
+    return array_.firstIndex();
 }
 
 template <typename A>
 typename DenseVector<A>::IndexType
 DenseVector<A>::lastIndex() const
 {
-    if (_stride<0) {
-        return _array.firstIndex();
+    if (stride_<0) {
+        return array_.firstIndex();
     }
-    return _array.lastIndex();
+    return array_.lastIndex();
 }
 
 template <typename A>
 typename DenseVector<A>::IndexType
 DenseVector<A>::length() const
 {
-    return _array.length();
+    return array_.length();
 }
 
 template <typename A>
 typename DenseVector<A>::IndexType
 DenseVector<A>::inc() const
 {
-    if (_stride<0) {
+    if (stride_<0) {
         return -1;
     }
     return 1;
@@ -366,14 +366,14 @@ template <typename A>
 const typename DenseVector<A>::ElementType *
 DenseVector<A>::data() const
 {
-    return _array.data();
+    return array_.data();
 }
 
 template <typename A>
 typename DenseVector<A>::ElementType *
 DenseVector<A>::data()
 {
-    return _array.data();
+    return array_.data();
 }
 
 template <typename A>
@@ -382,20 +382,20 @@ DenseVector<A>::stride() const
 {
 #   ifndef NDEBUG
     if (!reversed()) {
-        ASSERT(_stride==_array.stride());
+        ASSERT(stride_==array_.stride());
     } else {
-        ASSERT(_stride==-_array.stride());
+        ASSERT(stride_==-array_.stride());
     }
 #   endif
 
-    return _stride;
+    return stride_;
 }
 
 template <typename A>
 typename DenseVector<A>::IndexType
 DenseVector<A>::indexBase() const
 {
-    return _array.firstIndex();
+    return array_.firstIndex();
 }
 
 template <typename A>
@@ -403,7 +403,7 @@ template <typename RHS>
 bool
 DenseVector<A>::resize(const DenseVector<RHS> &rhs, const ElementType &value)
 {
-    bool resized = _array.resize(rhs.engine(), value);
+    bool resized = array_.resize(rhs.engine(), value);
     return resized;
 }
 
@@ -412,21 +412,21 @@ bool
 DenseVector<A>::resize(IndexType length, IndexType firstIndex,
                        const ElementType &value)
 {
-    return _array.resize(length, firstIndex, value);
+    return array_.resize(length, firstIndex, value);
 }
 
 template <typename A>
 bool
 DenseVector<A>::fill(const ElementType &value)
 {
-    return _array.fill(value);
+    return array_.fill(value);
 }
 
 template <typename A>
 void
 DenseVector<A>::changeIndexBase(IndexType firstIndex)
 {
-    _array.changeIndexBase(firstIndex);
+    array_.changeIndexBase(firstIndex);
 }
 
 // -- implementation -----------------------------------------------------------
@@ -434,21 +434,21 @@ template <typename A>
 const A &
 DenseVector<A>::engine() const
 {
-    return _array;
+    return array_;
 }
 
 template <typename A>
 A &
 DenseVector<A>::engine()
 {
-    return _array;
+    return array_;
 }
 
 template <typename A>
 bool
 DenseVector<A>::reversed() const
 {
-    return (_stride<0);
+    return (stride_<0);
 }
 
 //-- DenseVector specific functions --------------------------------------------

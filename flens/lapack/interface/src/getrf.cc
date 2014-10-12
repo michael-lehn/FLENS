@@ -38,10 +38,10 @@ LAPACK_DECL(dgetrf)(const INTEGER    *M,
 //
     INTEGER MN = min(*M,*N);
 
-    DGeMatrixView       _A      = DFSView(*M, *N, A, *LDA);
-    IDenseVectorView    _IPIV   = IArrayView(MN, IPIV, 1);
+    DGeMatrixView       A_      = DFSView(*M, *N, A, *LDA);
+    IDenseVectorView    IPIV_   = IArrayView(MN, IPIV, 1);
 
-    *INFO = trf(_A, _IPIV);
+    *INFO = trf(A_, IPIV_);
 }
 
 //-- zgetrf --------------------------------------------------------------------
@@ -78,10 +78,10 @@ LAPACK_DECL(zgetrf)(const INTEGER    *M,
     auto zA = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
     INTEGER MN = min(*M,*N);
 
-    ZGeMatrixView    _A    = ZFSView(*M, *N, zA, *LDA);
-    IDenseVectorView _IPIV = IArrayView(MN, IPIV, 1);
+    ZGeMatrixView    A_    = ZFSView(*M, *N, zA, *LDA);
+    IDenseVectorView IPIV_ = IArrayView(MN, IPIV, 1);
 
-    *INFO = trf(_A, _IPIV);
+    *INFO = trf(A_, IPIV_);
 }
 
 } // extern "C"

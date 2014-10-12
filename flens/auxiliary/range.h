@@ -61,7 +61,7 @@ class Range
         length() const;
 
     private:
-        IndexType _firstIndex, _stride, _lastIndex;
+        IndexType firstIndex_, stride_, lastIndex_;
 };
 
 template <typename IndexType>

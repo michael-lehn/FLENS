@@ -566,7 +566,7 @@ lan(Norm      norm,
 
     work = work_org;
 
-    PT _result = external::lan_impl(norm, A, work);
+    PT result_ = external::lan_impl(norm, A, work);
 
     bool failed = false;
     if (! isIdentical(work, work_generic, "work", "work_generic")) {
@@ -575,7 +575,7 @@ lan(Norm      norm,
         failed = true;
     }
 
-    if (! isIdentical(result, _result, " result", "_result")) {
+    if (! isIdentical(result, result_, " result", "result_")) {
         failed = true;
     }
 
@@ -645,7 +645,7 @@ lan(Norm      norm,
 
     work = work_org;
 
-    PT _result = external::lan_impl(norm, A, work);
+    PT result_ = external::lan_impl(norm, A, work);
 
     bool failed = false;
     if (! isIdentical(work, work_generic, "work", "work_generic")) {
@@ -654,7 +654,7 @@ lan(Norm      norm,
         failed = true;
     }
 
-    if (! isIdentical(result, _result, " result", "_result")) {
+    if (! isIdentical(result, result_, " result", "result_")) {
         failed = true;
     }
 
@@ -726,7 +726,7 @@ lan(Norm      norm,
 
     work = work_org;
 
-    PT _result = external::lan_impl(norm, A, work);
+    PT result_ = external::lan_impl(norm, A, work);
 
     bool failed = false;
     if (! isIdentical(work, work_generic, " work", "work_generic")) {
@@ -735,7 +735,7 @@ lan(Norm      norm,
         failed = true;
     }
 
-    if (! isIdentical(result, _result, " result", "_result")) {
+    if (! isIdentical(result, result_, " result", "result_")) {
         failed = true;
     }
 

@@ -224,16 +224,16 @@ class TpMatrix
         engine();
 
     private:
-        Engine       _engine;
-        StorageUpLo  _upLo;
-        Diag         _diag;
+        Engine       engine_;
+        StorageUpLo  upLo_;
+        Diag         diag_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsTpMatrix
 //
-struct _TpMatrixChecker
+struct TpMatrixChecker_
 {
 
     struct Two {
@@ -242,7 +242,7 @@ struct _TpMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -253,7 +253,7 @@ template <typename T>
 struct IsTpMatrix
 {
     static T var;
-    static const bool value = sizeof(_TpMatrixChecker::check(var))==1;
+    static const bool value = sizeof(TpMatrixChecker_::check(var))==1;
 };
 
 //

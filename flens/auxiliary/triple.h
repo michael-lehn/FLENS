@@ -49,7 +49,7 @@ class Triple
 
         Triple();
 
-        Triple(const First &_first, const Second &_second, const Third &_third);
+        Triple(const First &first_, const Second &second_, const Third &third_);
 
         template <typename RhsFirst,
                   typename RhsSecond,

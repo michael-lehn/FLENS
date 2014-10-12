@@ -121,10 +121,10 @@ class ConstPackedStorageView
 
 
     private:
-        const ElementType    *_data;
-        Allocator            _allocator;
-        IndexType            _dim;
-        IndexType            _indexBase;
+        const ElementType    *data_;
+        Allocator            allocator_;
+        IndexType            dim_;
+        IndexType            indexBase_;
 };
 
 } // namespace flens

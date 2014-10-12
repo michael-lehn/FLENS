@@ -43,9 +43,8 @@
 #ifndef FLENS_LAPACK_LA_LANST_TCC
 #define FLENS_LAPACK_LA_LANST_TCC 1
 
-#include <flens/lapack/typedefs.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
@@ -168,9 +167,9 @@ lanst(Norm      norm,
 //
 //  Compare results
 //
-    T _result = external::lanst_impl(norm, d, e);
+    T result_ = external::lanst_impl(norm, d, e);
 
-    if (! isIdentical(result, _result, " result", "_result")) {
+    if (! isIdentical(result, result_, " result", "result_")) {
         ASSERT(0);
     }
 #   endif

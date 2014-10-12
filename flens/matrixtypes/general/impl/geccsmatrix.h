@@ -94,14 +94,14 @@ class GeCCSMatrix
 
     private:
 
-        Engine _engine;
+        Engine engine_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsGeCCSMatrix
 //
-struct _GeCCSMatrixChecker
+struct GeCCSMatrixChecker_
 {
 
     struct Two {
@@ -110,7 +110,7 @@ struct _GeCCSMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -121,7 +121,7 @@ template <typename T>
 struct IsGeCCSMatrix
 {
     static T var;
-    static const bool value = sizeof(_GeCCSMatrixChecker::check(var))==1;
+    static const bool value = sizeof(GeCCSMatrixChecker_::check(var))==1;
 };
 
 //

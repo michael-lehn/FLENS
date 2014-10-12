@@ -35,14 +35,14 @@
 
 namespace flens {
 
-struct _AnyConversion
+struct AnyConversion_
 {
     template <typename A>
-        _AnyConversion(const volatile A &);
+        AnyConversion_(const volatile A &);
 };
 
 template<typename A>
-struct _Checker
+struct Checker_
 {
     struct Two
     {
@@ -51,7 +51,7 @@ struct _Checker
     };
 
     static Two
-    check(_AnyConversion ...);
+    check(AnyConversion_ ...);
 
     static char
     check(A, int);
@@ -61,7 +61,7 @@ template <typename From, typename To>
 struct IsConvertible
 {
     static From from;
-    static const bool value = sizeof(_Checker<To>::check(from, 0)) == 1;
+    static const bool value = sizeof(Checker_<To>::check(from, 0)) == 1;
 };
 
 } // namespace flens

@@ -68,8 +68,8 @@ class ElementClosure
         value();
 
     private:
-        Vector         &_vector;
-        IndexVariable  &_index;
+        Vector         &vector_;
+        IndexVariable  &index_;
 };
 
 } } // namespace densevector, flens

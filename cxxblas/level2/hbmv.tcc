@@ -64,11 +64,11 @@ hbmv_generic(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
 
                 y[iY] += alpha*cxxblas::real(A[ldA*i])*x[iX];
 
-                VY _y;
+                VY y_;
                 dot_generic(len-1, A+ldA*i+1, IndexType(1),
                                    x+iX+incX, IndexType(incX),
-                                   _y);
-                y[iY] += alpha*_y;
+                                   y_);
+                y[iY] += alpha*y_;
 
                 axpy_generic(len-1, x[iX] * alpha,
                                     A+ldA*i+1, IndexType(1),
@@ -80,11 +80,11 @@ hbmv_generic(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
 
                 y[iY] += alpha*cxxblas::real(A[ldA*i])*x[iX];
 
-                VY _y;
+                VY y_;
                 dotu_generic(len-1, A+ldA*i+1, IndexType(1),
                                     x+iX+incX, IndexType(incX),
-                                    _y);
-                y[iY] += alpha*_y;
+                                    y_);
+                y[iY] += alpha*y_;
 
                 acxpy_generic(len-1, x[iX] * alpha,
                                      A+ldA*i+1, IndexType(1),
@@ -96,37 +96,37 @@ hbmv_generic(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
             for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
                 IndexType iA = max(k-i, IndexType(0));
                 IndexType len = min(k, i) + 1;
-                IndexType _i = max(i-k, IndexType(0));
+                IndexType i_ = max(i-k, IndexType(0));
 
                 y[iY] += alpha*cxxblas::real(A[ldA*i+iA+ len-1])*x[i*incX];
 
-                VY _y;
+                VY y_;
                 dot_generic(len-1, A+ldA*i+iA, IndexType(1),
-                                   x+_i*incX, IndexType(incX),
-                                   _y);
-                y[iY] += alpha*_y;
+                                   x+i_*incX, IndexType(incX),
+                                   y_);
+                y[iY] += alpha*y_;
 
                 axpy_generic(len-1, x[i*incX] * alpha,
                                     A+ldA*i+iA, IndexType(1),
-                                    y+_i*incY, incY);
+                                    y+i_*incY, incY);
             }
         } else {
             for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
                 IndexType iA = max(k-i, IndexType(0));
                 IndexType len = min(k, i) + 1;
-                IndexType _i = max(i-k, IndexType(0));
+                IndexType i_ = max(i-k, IndexType(0));
 
                 y[iY] += alpha*cxxblas::real(A[ldA*i+iA+ len-1])*x[i*incX];
 
-                VY _y;
+                VY y_;
                 dotu_generic(len-1, A+ldA*i+iA, IndexType(1),
-                                    x+_i*incX, IndexType(incX),
-                                    _y);
-                y[iY] += alpha*_y;
+                                    x+i_*incX, IndexType(incX),
+                                    y_);
+                y[iY] += alpha*y_;
 
                 acxpy_generic(len-1, x[i*incX] * alpha,
                                      A+ldA*i+iA, IndexType(1),
-                                     y+_i*incY, incY);
+                                     y+i_*incY, incY);
             }
         }
     }

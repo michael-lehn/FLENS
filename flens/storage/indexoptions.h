@@ -43,11 +43,11 @@
 
 namespace flens {
 
-template <typename I = FLENS_DEFAULT_INDEXTYPE, I _defaultIndexBase = I(1)>
+template <typename I = FLENS_DEFAULT_INDEXTYPE, I defaultIndexBase_ = I(1)>
 struct IndexOptions
 {
     typedef I       IndexType;
-    static const I  defaultIndexBase = _defaultIndexBase;
+    static const I  defaultIndexBase = defaultIndexBase_;
 };
 
 template <typename I = FLENS_DEFAULT_INDEXTYPE>

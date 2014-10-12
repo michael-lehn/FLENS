@@ -52,7 +52,7 @@ struct ImagMatrixClosure
         void
         operator=(const Matrix<RHS> &rhs);
 
-    MZ &&_Z;
+    MZ &&Z_;
 };
 
 template <typename MZ>
@@ -68,7 +68,7 @@ struct ImagConstMatrixClosure
         void
         operator=(const Matrix<RHS> &rhs);
 
-    const MZ &_Z;
+    const MZ &Z_;
 };
 
 } // namespace flens

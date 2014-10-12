@@ -104,25 +104,25 @@ LAPACK_DECL(dgesvx)(const char       *FACT,
 //
 //  Call FLENS implementation
 //
-    SVX::Fact          _FACT  = SVX::Fact(*FACT);
-    Transpose          _TRANS = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
-    DGeMatrixView      _A     = DFSView(*N, *N, A, *LDA);
-    DGeMatrixView      _AF    = DFSView(*N, *N, AF, *LDAF);
-    IDenseVectorView   _IPIV  = IArrayView(*N, IPIV, 1);
-    SVX::Equilibration _EQUED = SVX::Equilibration(*EQUED);
-    DDenseVectorView   _R     = DArrayView(*N, R, 1);
-    DDenseVectorView   _C     = DArrayView(*N, C, 1);
-    DGeMatrixView      _B     = DFSView(*N, *NRHS, B, *LDB);
-    DGeMatrixView      _X     = DFSView(*N, *NRHS, X, *LDX);
-    DDenseVectorView   _FERR  = DArrayView(*NRHS, FERR, 1);
-    DDenseVectorView   _BERR  = DArrayView(*NRHS, BERR, 1);
-    DDenseVectorView   _WORK  = DArrayView(*N*4, WORK, 1);
-    IDenseVectorView   _IWORK = IArrayView(*N, IWORK, 1);
+    SVX::Fact          FACT_  = SVX::Fact(*FACT);
+    Transpose          TRANS_ = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
+    DGeMatrixView      A_     = DFSView(*N, *N, A, *LDA);
+    DGeMatrixView      AF_    = DFSView(*N, *N, AF, *LDAF);
+    IDenseVectorView   IPIV_  = IArrayView(*N, IPIV, 1);
+    SVX::Equilibration EQUED_ = SVX::Equilibration(*EQUED);
+    DDenseVectorView   R_     = DArrayView(*N, R, 1);
+    DDenseVectorView   C_     = DArrayView(*N, C, 1);
+    DGeMatrixView      B_     = DFSView(*N, *NRHS, B, *LDB);
+    DGeMatrixView      X_     = DFSView(*N, *NRHS, X, *LDX);
+    DDenseVectorView   FERR_  = DArrayView(*NRHS, FERR, 1);
+    DDenseVectorView   BERR_  = DArrayView(*NRHS, BERR, 1);
+    DDenseVectorView   WORK_  = DArrayView(*N*4, WORK, 1);
+    IDenseVectorView   IWORK_ = IArrayView(*N, IWORK, 1);
 
-    *INFO = svx(_FACT, _TRANS, _A, _AF, _IPIV, _EQUED, _R, _C, _B, _X, *RCOND,
-                _FERR, _BERR, _WORK, _IWORK);
+    *INFO = svx(FACT_, TRANS_, A_, AF_, IPIV_, EQUED_, R_, C_, B_, X_, *RCOND,
+                FERR_, BERR_, WORK_, IWORK_);
 
-    *EQUED = char(_EQUED);
+    *EQUED = char(EQUED_);
 }
 
 } // extern "C"

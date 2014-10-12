@@ -115,8 +115,8 @@ lassq(const DenseVector<VX> &x, T &scale, T &sumsq)
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    T _scale = scale;
-    T _sumsq = sumsq;
+    T scale_ = scale;
+    T sumsq_ = sumsq;
 #   endif
 
 //
@@ -128,18 +128,18 @@ lassq(const DenseVector<VX> &x, T &scale, T &sumsq)
 //
 //  Compare results
 //
-    external::lassq_impl(x, _scale, _sumsq);
+    external::lassq_impl(x, scale_, sumsq_);
 
     bool failed = false;
-    if (! isIdentical(scale, _scale, " scale", "_scale")) {
+    if (! isIdentical(scale, scale_, " scale", "scale_")) {
         std::cerr << "CXXLAPACK:  scale = " << scale << std::endl;
-        std::cerr << "F77LAPACK: _scale = " << _scale << std::endl;
+        std::cerr << "F77LAPACK: scale_ = " << scale_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(sumsq, _sumsq, " sumsq", "_sumsq")) {
+    if (! isIdentical(sumsq, sumsq_, " sumsq", "sumsq_")) {
         std::cerr << "CXXLAPACK:  sumsq = " << sumsq << std::endl;
-        std::cerr << "F77LAPACK: _sumsq = " << _sumsq << std::endl;
+        std::cerr << "F77LAPACK: sumsq_ = " << sumsq_ << std::endl;
         failed = true;
     }
 

@@ -40,7 +40,7 @@ namespace flens { namespace densevector {
 template <typename V, typename I>
 ConstElementClosure<V, I>::ConstElementClosure(const Vector &vector,
                                                const IndexVariable &index)
-    : _vector(vector), _index(index)
+    : vector_(vector), index_(index)
 {
 }
 
@@ -48,7 +48,7 @@ template <typename V, typename I>
 const typename ConstElementClosure<V, I>::ElementType &
 ConstElementClosure<V, I>::value() const
 {
-    return _vector(_index.impl().value());
+    return vector_(index_.impl().value());
 }
 
 } } // namespace densevector, flens

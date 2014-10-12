@@ -136,8 +136,8 @@ unmrz_impl(Side                     side,
 //
 //      Use unblocked code
 //
-        auto _work = (side==Left) ? work(_(1,n)) : work(_(1,m));
-        unmr3(side, trans, l, A, tau, C, _work);
+        auto work_ = (side==Left) ? work(_(1,n)) : work(_(1,m));
+        unmr3(side, trans, l, A, tau, C, work_);
     } else {
 //
 //      Use blocked code
@@ -175,9 +175,9 @@ unmrz_impl(Side                     side,
 //          Form the triangular factor of the block reflector
 //          H = H(i+ib-1) . . . H(i+1) H(i)
 //
-            auto       _A   = A(_(i,i+ib-1),_(ja,ja+l-1));
-            const auto _tau = tau(_(i,i+ib-1));
-            larzt(Backward, RowWise, _A, _tau, Tr.lower());
+            auto       A_   = A(_(i,i+ib-1),_(ja,ja+l-1));
+            const auto tau_ = tau(_(i,i+ib-1));
+            larzt(Backward, RowWise, A_, tau_, Tr.lower());
 
             if (side==Left) {
 //
@@ -193,9 +193,9 @@ unmrz_impl(Side                     side,
 //
 //          Apply H or H**H
 //
-            auto       _C    = C(_(ic,m),_(jc,n));
-            auto       _Work = Work(_,_(1,ib));
-            larzb(side, transT, Backward, RowWise, _A, Tr.lower(), _C, _Work);
+            auto       C_    = C(_(ic,m),_(jc,n));
+            auto       Work_ = Work(_,_(1,ib));
+            larzb(side, transT, Backward, RowWise, A_, Tr.lower(), C_, Work_);
         }
 
     }

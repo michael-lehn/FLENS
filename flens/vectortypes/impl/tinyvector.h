@@ -127,7 +127,7 @@ class TinyVector
         engine();
 
     private:
-        TA    _array;
+        TA    array_;
 };
 
 //-- Traits --------------------------------------------------------------------
@@ -136,7 +136,7 @@ class TinyVector
 //  IsTinyVector
 //
 
-struct _TinyVectorChecker
+struct TinyVectorChecker_
 {
 
     struct Two
@@ -146,7 +146,7 @@ struct _TinyVectorChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -157,7 +157,7 @@ template <typename T>
 struct IsTinyVector
 {
     static T var;
-    static const bool value = sizeof(_TinyVectorChecker::check(var))==1;
+    static const bool value = sizeof(TinyVectorChecker_::check(var))==1;
 };
 
 //

@@ -231,23 +231,23 @@ copySum(Transpose trans,
         const MatrixClosure<OpMult, MAL2, MAR2> &A2, MB &B)
 {
 
-    typedef typename PruneConjTrans<MAR2>::Remainder  _MAR2;
+    typedef typename PruneConjTrans<MAR2>::Remainder  MAR2_;
 
     ASSERT(alpha==ALPHA(1) || alpha==ALPHA(-1));
 
     ASSERT(!DebugClosure::search(A2, B));
 
-    Transpose _trans = Transpose(trans^PruneConjTrans<MAR2>::trans);
-    const _MAR2 &_A2  = PruneConjTrans<MAR2>::remainder(A2.right());
+    Transpose trans_ = Transpose(trans^PruneConjTrans<MAR2>::trans);
+    const MAR2_ &A2_  = PruneConjTrans<MAR2>::remainder(A2.right());
 //
 //  B = A1
 //
     if (DEBUGCLOSURE::identical(A1.right().impl(), B)) {
-        blas::axpby(_trans, A2.left().value(), _A2, A1.left().value(), B);
+        blas::axpby(trans_, A2.left().value(), A2_, A1.left().value(), B);
     } else {
         blas::copy(trans, A1.right(), B);
         blas::scal(A1.left().value(), B);
-        blas::axpy(_trans, A2.left().value(), _A2, B);
+        blas::axpy(trans_, A2.left().value(), A2_, B);
     }
 
 }

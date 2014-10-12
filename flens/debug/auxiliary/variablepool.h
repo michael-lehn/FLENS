@@ -62,9 +62,9 @@ class VariablePool
         bool tmpTron;
 
     private:
-        std::map<std::string, int> _id;
-        std::map<std::string, int> _typeCount;
-        std::map<std::string, int> _isTmp;
+        std::map<std::string, int> id_;
+        std::map<std::string, int> typeCount_;
+        std::map<std::string, int> isTmp_;
 };
 
 } } // namespace verbose, namespace flens

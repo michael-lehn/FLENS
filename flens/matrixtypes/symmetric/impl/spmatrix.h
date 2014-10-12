@@ -227,15 +227,15 @@ class SpMatrix
         engine();
 
     private:
-        Engine      _engine;
-        StorageUpLo _upLo;
+        Engine      engine_;
+        StorageUpLo upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsSpMatrix
 //
-struct _SpMatrixChecker
+struct SpMatrixChecker_
 {
 
     struct Two {
@@ -244,7 +244,7 @@ struct _SpMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -255,7 +255,7 @@ template <typename T>
 struct IsSpMatrix
 {
     static T var;
-    static const bool value = sizeof(_SpMatrixChecker::check(var))==1;
+    static const bool value = sizeof(SpMatrixChecker_::check(var))==1;
 };
 
 //

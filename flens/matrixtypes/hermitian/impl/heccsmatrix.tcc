@@ -43,7 +43,7 @@ namespace flens {
 // -- constructors -------------------------------------------------------------
 template <typename CCS>
 HeCCSMatrix<CCS>::HeCCSMatrix()
-    : _upLo(Upper)
+    : upLo_(Upper)
 {
 }
 
@@ -69,70 +69,70 @@ typename HeCCSMatrix<CCS>::IndexType
 HeCCSMatrix<CCS>::dim() const
 {
     ASSERT(numRows()==numCols());
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename CCS>
 typename HeCCSMatrix<CCS>::IndexType
 HeCCSMatrix<CCS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename CCS>
 typename HeCCSMatrix<CCS>::IndexType
 HeCCSMatrix<CCS>::indexBase() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename CCS>
 typename HeCCSMatrix<CCS>::IndexType
 HeCCSMatrix<CCS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename CCS>
 typename HeCCSMatrix<CCS>::IndexType
 HeCCSMatrix<CCS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename CCS>
 typename HeCCSMatrix<CCS>::IndexType
 HeCCSMatrix<CCS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename CCS>
 typename HeCCSMatrix<CCS>::IndexType
 HeCCSMatrix<CCS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename CCS>
 typename HeCCSMatrix<CCS>::IndexType
 HeCCSMatrix<CCS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 template <typename CCS>
 StorageUpLo
 HeCCSMatrix<CCS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename CCS>
 StorageUpLo &
 HeCCSMatrix<CCS>::upLo()
 {
-    return _upLo;
+    return upLo_;
 }
 
 // -- implementation -----------------------------------------------------------
@@ -140,14 +140,14 @@ template <typename CCS>
 const typename HeCCSMatrix<CCS>::Engine &
 HeCCSMatrix<CCS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename CCS>
 typename HeCCSMatrix<CCS>::Engine &
 HeCCSMatrix<CCS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

@@ -198,12 +198,12 @@ class ConstBandStorageView
                 IndexType firstViewIndex = I::defaultIndexBase) const;
 
     private:
-        const ElementType  *_data;
-        Allocator            _allocator;
-        IndexType            _numRows, _numCols;
-        IndexType            _numSubDiags, _numSuperDiags;
-        IndexType            _firstIndex;
-        IndexType            _leadingDimension;
+        const ElementType  *data_;
+        Allocator            allocator_;
+        IndexType            numRows_, numCols_;
+        IndexType            numSubDiags_, numSuperDiags_;
+        IndexType            firstIndex_;
+        IndexType            leadingDimension_;
 };
 
 } // namespace flens

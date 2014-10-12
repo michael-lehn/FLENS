@@ -58,13 +58,13 @@ rscal(IndexType n, const T &alpha, T *y, IndexType incY)
 
         IndexType i=0;
 
-        IntrinsicType _alpha(alpha);
-        IntrinsicType _y;
+        IntrinsicType alpha_(alpha);
+        IntrinsicType y_;
 
         for(;i+numElements-1<n;i+=numElements) {
-            _y.loadu(y+i);
-            _y = _intrinsic_div(_y, _alpha);
-            _y.storeu(y+i);
+            y_.loadu(y+i);
+            y_ = intrinsic_div_(y_, alpha_);
+            y_.storeu(y+i);
         }
 
 
@@ -109,20 +109,20 @@ rscal(IndexType n, const T &alpha, T *y, IndexType incY)
 
         PT alpha2 = real(alpha)*real(alpha) + imag(alpha)*imag(alpha);
 
-        IntrinsicPrimitiveType _real_alpha(real(alpha));
-        IntrinsicPrimitiveType _imag_alpha(-imag(alpha));
-        IntrinsicPrimitiveType _alpha2(alpha2);
+        IntrinsicPrimitiveType real_alpha_(real(alpha));
+        IntrinsicPrimitiveType imag_alpha_(-imag(alpha));
+        IntrinsicPrimitiveType alpha2_(alpha2);
 
-        IntrinsicType _y, _tmp;
+        IntrinsicType y_, tmp_;
 
         for(;i+numElements-1<n;i+=numElements) {
-            _y.loadu(y+i);
-            _tmp = _intrinsic_mul(_real_alpha, _y);
-            _y = _intrinsic_swap_real_imag(_y);
-            _y = _intrinsic_mul(_imag_alpha, _y);
-            _y = _intrinsic_addsub(_tmp, _y);
-            _y = _intrinsic_div(_y,_alpha2);
-            _y.storeu(y+i);
+            y_.loadu(y+i);
+            tmp_ = intrinsic_mul_(real_alpha_, y_);
+            y_ = intrinsic_swap_real_imag_(y_);
+            y_ = intrinsic_mul_(imag_alpha_, y_);
+            y_ = intrinsic_addsub_(tmp_, y_);
+            y_ = intrinsic_div_(y_,alpha2_);
+            y_.storeu(y+i);
         }
 
         for (;i<n;++i) {

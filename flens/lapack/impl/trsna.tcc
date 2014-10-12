@@ -62,8 +62,8 @@ trsna_impl(TRSNA::Job                    job,
            TRSNA::HowMany                howMany,
            const DenseVector<VSELECT>    &select,
            const GeMatrix<MT>            &T,
-           const GeMatrix<MVL>           &_VL,
-           const GeMatrix<MVR>           &_VR,
+           const GeMatrix<MVL>           &VL_,
+           const GeMatrix<MVR>           &VR_,
            DenseVector<VS>               &s,
            DenseVector<VSEP>             &sep,
            const MM                      &mm,
@@ -133,15 +133,15 @@ trsna_impl(TRSNA::Job                    job,
     }
 
     if (wantSP) {
-        ASSERT(_VL.numCols()>=m);
-        ASSERT(_VR.numCols()>=m);
+        ASSERT(VL_.numCols()>=m);
+        ASSERT(VR_.numCols()>=m);
     }
     // TODO: if one forgets to make this auto views const you get
     //       some error that is hard to understand for newbies ...
     //       Idea: disallow the creation of non-const views from
     //       const matrices/vectors.
-    const auto VL = _VL(_,_(1,m));
-    const auto VR = _VR(_,_(1,m));
+    const auto VL = VL_(_,_(1,m));
+    const auto VR = VR_(_,_(1,m));
 
 //
 //  Quick return if possible
@@ -243,11 +243,11 @@ trsna_impl(TRSNA::Job                    job,
 //          Copy the matrix T to the array WORK and swap the diagonal
 //          block beginning at T(k,k) to the (1,1) position.
 //
-            auto _T = Work(_,_(1,n));
-            _T = T;
+            auto T_ = Work(_,_(1,n));
+            T_ = T;
             IndexType iFirst =k;
             IndexType iLast = 1;
-            IndexType iErr = trexc(false, _T, _T, iFirst, iLast, Work(_,n+1));
+            IndexType iErr = trexc(false, T_, T_, iFirst, iLast, Work(_,n+1));
 
             ElementType est, mu, scale;
             IndexType   n2, nn;
@@ -316,10 +316,10 @@ trsna_impl(TRSNA::Job                    job,
                 est = Zero;
                 IndexType kase = 0;
                 do {
-                    auto _v = Work(_,_(n+2,n+3)).vectorView(1,nn);
-                    auto _x = Work(_,_(n+4,n+5)).vectorView(1,nn);
-                    auto _iSgn = iWork(_(1,nn));
-                    lacn2(_v, _x, _iSgn, est, kase, iSave);
+                    auto v_ = Work(_,_(n+2,n+3)).vectorView(1,nn);
+                    auto x_ = Work(_,_(n+4,n+5)).vectorView(1,nn);
+                    auto iSgn_ = iWork(_(1,nn));
+                    lacn2(v_, x_, iSgn_, est, kase, iSave);
                     if (kase==0) {
                         break;
                     } else {
@@ -399,11 +399,11 @@ trsna_impl(TRSNA::Job                    job,
 {
     typedef typename GeMatrix<MT>::IndexType     IndexType;
 
-    DenseVector<Array<IndexType> > _select = select;
+    DenseVector<Array<IndexType> > select_ = select;
 
     cxxlapack::trsna<IndexType>(getF77Char(job),
                                 getF77Char(howMany),
-                                _select.data(),
+                                select_.data(),
                                 T.numRows(),
                                 T.data(),
                                 T.leadingDimension(),

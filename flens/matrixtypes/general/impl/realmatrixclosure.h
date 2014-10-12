@@ -52,7 +52,7 @@ struct RealMatrixClosure
         void
         operator=(const Matrix<RHS> &rhs);
 
-    MZ &&_Z;
+    MZ &&Z_;
 };
 
 template <typename MZ>
@@ -68,7 +68,7 @@ struct RealConstMatrixClosure
         void
         operator=(const Matrix<RHS> &rhs);
 
-    const MZ &_Z;
+    const MZ &Z_;
 };
 
 

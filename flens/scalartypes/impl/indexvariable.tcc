@@ -46,14 +46,14 @@ template <typename IndexType>
 const typename IndexVariable<IndexType>::ElementType &
 IndexVariable<IndexType>::value() const
 {
-    return _value;
+    return value_;
 }
 
 template <typename IndexType>
 typename IndexVariable<IndexType>::ElementType &
 IndexVariable<IndexType>::value()
 {
-    return _value;
+    return value_;
 }
 
 } // namespace flens

@@ -50,21 +50,21 @@ GeTinyMatrix<TFS>::GeTinyMatrix()
 
 template <typename TFS>
 GeTinyMatrix<TFS>::GeTinyMatrix(const Engine &engine)
-    : _engine(engine)
+    : engine_(engine)
 {
 }
 
 template <typename TFS>
 template <typename RHS>
 GeTinyMatrix<TFS>::GeTinyMatrix(const GeTinyMatrix<RHS> &rhs)
-    : _engine(rhs.engine)
+    : engine_(rhs.engine)
 {
 }
 
 template <typename TFS>
 template <typename RHS>
 GeTinyMatrix<TFS>::GeTinyMatrix(GeTinyMatrix<RHS> &rhs)
-    : _engine(rhs.engine)
+    : engine_(rhs.engine)
 {
 }
 
@@ -158,14 +158,14 @@ template <typename TFS>
 const typename GeTinyMatrix<TFS>::ElementType &
 GeTinyMatrix<TFS>::operator()(IndexType row, IndexType col) const
 {
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 template <typename TFS>
 typename GeTinyMatrix<TFS>::ElementType &
 GeTinyMatrix<TFS>::operator()(IndexType row, IndexType col)
 {
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 // -- methods ------------------------------------------------------------------
@@ -215,14 +215,14 @@ template <typename TFS>
 const typename GeTinyMatrix<TFS>::ElementType *
 GeTinyMatrix<TFS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename TFS>
 typename GeTinyMatrix<TFS>::ElementType *
 GeTinyMatrix<TFS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename TFS>
@@ -236,7 +236,7 @@ template <typename TFS>
 void
 GeTinyMatrix<TFS>::fill(const ElementType &value)
 {
-    _engine.fill(value);
+    engine_.fill(value);
 }
 
 // -- implementation -----------------------------------------------------------
@@ -244,14 +244,14 @@ template <typename TFS>
 const typename GeTinyMatrix<TFS>::Engine &
 GeTinyMatrix<TFS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename TFS>
 typename GeTinyMatrix<TFS>::Engine &
 GeTinyMatrix<TFS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

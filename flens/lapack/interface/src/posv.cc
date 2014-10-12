@@ -44,10 +44,10 @@ LAPACK_DECL(dposv)(const char           *UPLO,
 //
     StorageUpLo    upLo = StorageUpLo(*UPLO);
     DFSView        AFS  = DFSView(*N, *N, A, *LDA);
-    DSyMatrixView  _A   = DSyMatrixView(AFS, upLo);
-    DGeMatrixView  _B   = DFSView(*N, *NRHS, B, *LDB);
+    DSyMatrixView  A_   = DSyMatrixView(AFS, upLo);
+    DGeMatrixView  B_   = DFSView(*N, *NRHS, B, *LDB);
 
-    posv(_A, _B);
+    posv(A_, B_);
 }
 
 //-- zposv ---------------------------------------------------------------------
@@ -90,10 +90,10 @@ LAPACK_DECL(zposv)(const char           *UPLO,
 
     StorageUpLo    upLo = StorageUpLo(*UPLO);
     ZFSView        AFS  = ZFSView(*N, *N, zA, *LDA);
-    ZHeMatrixView  _A   = ZHeMatrixView(AFS, upLo);
-    ZGeMatrixView  _B   = ZFSView(*N, *NRHS, zB, *LDB);
+    ZHeMatrixView  A_   = ZHeMatrixView(AFS, upLo);
+    ZGeMatrixView  B_   = ZFSView(*N, *NRHS, zB, *LDB);
 
-    posv(_A, _B);
+    posv(A_, B_);
 }
 
 } // extern "C"

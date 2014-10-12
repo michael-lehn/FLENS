@@ -40,7 +40,7 @@ namespace flens {
 
 template <typename MZ>
 ImagMatrixClosure<MZ>::ImagMatrixClosure(MZ &&Z)
-    : _Z(Z)
+    : Z_(Z)
 {
 }
 
@@ -54,7 +54,7 @@ ImagMatrixClosure<MZ>::operator=(const Matrix<RHS> &rhs)
 
 template <typename MZ>
 ImagConstMatrixClosure<MZ>::ImagConstMatrixClosure(const MZ &Z)
-    : _Z(Z)
+    : Z_(Z)
 {
 }
 

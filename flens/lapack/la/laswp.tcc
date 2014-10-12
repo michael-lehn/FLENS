@@ -142,7 +142,7 @@ laswp(GeMatrix<MA> &A, const DenseVector<VP> &piv)
 //  Make copies of output arguments
 //
     typename GeMatrix<MA>::NoView       org_A   = A;
-    typename GeMatrix<MA>::NoView       _A      = A;
+    typename GeMatrix<MA>::NoView       A_      = A;
 #   endif
 
 //
@@ -154,12 +154,12 @@ laswp(GeMatrix<MA> &A, const DenseVector<VP> &piv)
 //
 //  Compare results
 //
-    external::laswp_impl(_A, piv);
+    external::laswp_impl(A_, piv);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "_A")) {
+    if (! isIdentical(A, A_, " A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        std::cerr << "F77LAPACK: A_ = " << A_ << std::endl;
         failed = true;
     }
 

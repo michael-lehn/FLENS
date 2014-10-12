@@ -58,8 +58,8 @@ main()
 //
 //      This would work (but it might be inconvenient):
 //
-//      auto _b = b(_(1,n));
-//      mylapack::trs(NoTrans, A, piv, _b);
+//      auto b_ = b(_(1,n));
+//      mylapack::trs(NoTrans, A, piv, b_);
 //
 
         cerr << "x = " << b << endl;

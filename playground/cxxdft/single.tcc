@@ -173,12 +173,12 @@ dft_single(IndexType n,
                               reinterpret_cast<fftwf_complex*>(y),
                               direction, FFTW_PLANNER_FLAG);
     } else {
-        fftwf_complex *_x = reinterpret_cast<fftwf_complex*>(x);
-        fftwf_complex *_y = reinterpret_cast<fftwf_complex*>(y);
+        fftwf_complex *x_ = reinterpret_cast<fftwf_complex*>(x);
+        fftwf_complex *y_ = reinterpret_cast<fftwf_complex*>(y);
 
         p = fftwf_plan_many_dft(1, &n, 1,
-                                _x, NULL, incX, 0,
-                                _y, NULL, incY, 0,
+                                x_, NULL, incX, 0,
+                                y_, NULL, incY, 0,
                                 direction, FFTW_PLANNER_FLAG);
     }
 
@@ -217,12 +217,12 @@ dft_single(IndexType n,
                              reinterpret_cast<fftw_complex*>(y),
                              direction, FFTW_PLANNER_FLAG);
     } else {
-        fftw_complex *_x = reinterpret_cast<fftw_complex*>(x);
-        fftw_complex *_y = reinterpret_cast<fftw_complex*>(y);
+        fftw_complex *x_ = reinterpret_cast<fftw_complex*>(x);
+        fftw_complex *y_ = reinterpret_cast<fftw_complex*>(y);
 
         p = fftw_plan_many_dft(1, &n, 1,
-                               _x, NULL, incX, 0,
-                               _y, NULL, incY, 0,
+                               x_, NULL, incX, 0,
+                               y_, NULL, incY, 0,
                                direction, FFTW_PLANNER_FLAG);
     }
 
@@ -261,12 +261,12 @@ dft_single(IndexType n,
                               reinterpret_cast<fftwl_complex*>(y),
                               direction, FFTW_PLANNER_FLAG);
     } else {
-        fftwl_complex *_x = reinterpret_cast<fftwl_complex *>(x);
-        fftwl_complex *_y = reinterpret_cast<fftwl_complex *>(y);
+        fftwl_complex *x_ = reinterpret_cast<fftwl_complex *>(x);
+        fftwl_complex *y_ = reinterpret_cast<fftwl_complex *>(y);
 
         p = fftwl_plan_many_dft(1, &n, 1,
-                                _x, NULL, incX, 0,
-                                _y, NULL, incY, 0,
+                                x_, NULL, incX, 0,
+                                y_, NULL, incY, 0,
                                 direction, FFTW_PLANNER_FLAG);
     }
 
@@ -306,12 +306,12 @@ dft_single(IndexType n,
                               reinterpret_cast<fftwq_complex*>(y),
                               direction, FFTW_PLANNER_FLAG);
     } else {
-        fftwq_complex *_x = reinterpret_cast<fftwq_complex *>(x);
-        fftwq_complex *_y = reinterpret_cast<fftwq_complex *>(y);
+        fftwq_complex *x_ = reinterpret_cast<fftwq_complex *>(x);
+        fftwq_complex *y_ = reinterpret_cast<fftwq_complex *>(y);
 
         p = fftwq_plan_many_dft(1, &n, 1,
-                                _x, NULL, incX, 0,
-                                _y, NULL, incY, 0,
+                                x_, NULL, incX, 0,
+                                y_, NULL, incY, 0,
                                 direction, FFTW_PLANNER_FLAG);
     }
 

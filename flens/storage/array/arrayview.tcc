@@ -46,37 +46,37 @@ template <typename T, typename I, typename A>
 ArrayView<T, I, A>::ArrayView(IndexType length, ElementType *data,
                               IndexType stride, IndexType firstIndex,
                               const Allocator &allocator)
-    : _data(data),
-      _allocator(allocator),
-      _length(length),
-      _stride(stride),
-      _firstIndex(firstIndex)
+    : data_(data),
+      allocator_(allocator),
+      length_(length),
+      stride_(stride),
+      firstIndex_(firstIndex)
 {
-    ASSERT(_length>=0);
-    ASSERT(_stride>0);
+    ASSERT(length_>=0);
+    ASSERT(stride_>0);
 }
 
 template <typename T, typename I, typename A>
 ArrayView<T, I, A>::ArrayView(const ArrayView &rhs)
-    : _data(rhs._data),
-      _allocator(rhs.allocator()),
-      _length(rhs.length()),
-      _stride(rhs.stride()),
-      _firstIndex(rhs.firstIndex())
+    : data_(rhs.data_),
+      allocator_(rhs.allocator()),
+      length_(rhs.length()),
+      stride_(rhs.stride()),
+      firstIndex_(rhs.firstIndex())
 {
-    ASSERT(_stride>0);
+    ASSERT(stride_>0);
 }
 
 template <typename T, typename I, typename A>
 template <typename RHS>
 ArrayView<T, I, A>::ArrayView(RHS &rhs)
-    : _data(rhs.data()),
-      _allocator(rhs.allocator()),
-      _length(rhs.length()),
-      _stride(rhs.stride()),
-      _firstIndex(rhs.firstIndex())
+    : data_(rhs.data()),
+      allocator_(rhs.allocator()),
+      length_(rhs.length()),
+      stride_(rhs.stride()),
+      firstIndex_(rhs.firstIndex())
 {
-    ASSERT(_stride>0);
+    ASSERT(stride_>0);
 }
 
 template <typename T, typename I, typename A>
@@ -97,7 +97,7 @@ ArrayView<T, I, A>::operator()(IndexType index) const
     }
 #   endif
 
-    return _data[_stride*(index-_firstIndex)];
+    return data_[stride_*(index-firstIndex_)];
 }
 
 template <typename T, typename I, typename A>
@@ -111,56 +111,56 @@ ArrayView<T, I, A>::operator()(IndexType index)
     }
 #   endif
 
-    return _data[_stride*(index-_firstIndex)];
+    return data_[stride_*(index-firstIndex_)];
 }
 
 template <typename T, typename I, typename A>
 typename ArrayView<T, I, A>::IndexType
 ArrayView<T, I, A>::firstIndex() const
 {
-    return _firstIndex;
+    return firstIndex_;
 }
 
 template <typename T, typename I, typename A>
 typename ArrayView<T, I, A>::IndexType
 ArrayView<T, I, A>::lastIndex() const
 {
-    return _firstIndex+_length-1;
+    return firstIndex_+length_-1;
 }
 
 template <typename T, typename I, typename A>
 typename ArrayView<T, I, A>::IndexType
 ArrayView<T, I, A>::length() const
 {
-    return _length;
+    return length_;
 }
 
 template <typename T, typename I, typename A>
 typename ArrayView<T, I, A>::IndexType
 ArrayView<T, I, A>::stride() const
 {
-    return _stride;
+    return stride_;
 }
 
 template <typename T, typename I, typename A>
 const typename ArrayView<T, I, A>::ElementType *
 ArrayView<T, I, A>::data() const
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, typename I, typename A>
 typename ArrayView<T, I, A>::ElementType *
 ArrayView<T, I, A>::data()
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, typename I, typename A>
 const typename ArrayView<T, I, A>::Allocator &
 ArrayView<T, I, A>::allocator() const
 {
-    return _allocator;
+    return allocator_;
 }
 
 template <typename T, typename I, typename A>
@@ -169,7 +169,7 @@ ArrayView<T, I, A>::resize(IndexType DEBUG_VAR(length),
                            IndexType firstIndex,
                            const ElementType &)
 {
-    ASSERT(length==_length);
+    ASSERT(length==length_);
 
     changeIndexBase(firstIndex);
     return false;
@@ -197,7 +197,7 @@ template <typename T, typename I, typename A>
 void
 ArrayView<T, I, A>::changeIndexBase(IndexType firstIndex)
 {
-    _firstIndex = firstIndex;
+    firstIndex_ = firstIndex;
 }
 
 template <typename T, typename I, typename A>
@@ -212,7 +212,7 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     if (length==0) {
         return ConstView(length,                // length
                          0,                     // data
-                         stride*_stride,        // stride
+                         stride*stride_,        // stride
                          firstViewIndex,        // firstIndex in view
                          allocator());          // allocator
     }
@@ -224,7 +224,7 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     ASSERT(stride>0);
     return ConstView(length,                // length
                      &operator()(from),     // data
-                     stride*_stride,        // stride
+                     stride*stride_,        // stride
                      firstViewIndex,        // firstIndex in view
                      allocator());          // allocator
 }
@@ -241,7 +241,7 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     if (length==0) {
         return ArrayView(length,                // length
                          0,                     // data
-                         stride*_stride,        // stride
+                         stride*stride_,        // stride
                          firstViewIndex,        // firstIndex in view
                          allocator());          // allocator
     } else {
@@ -258,7 +258,7 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     ASSERT(stride>0);
     return ArrayView(length,                // length
                      &operator()(from),     // data
-                     stride*_stride,        // stride
+                     stride*stride_,        // stride
                      firstViewIndex,        // firstIndex in view
                      allocator());          // allocator
 }

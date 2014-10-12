@@ -96,7 +96,7 @@ hrd_impl(IndexType           iLo,
     const IndexType     nbMax = 64;
     const IndexType     ldt = nbMax + 1;
     T                   trBuffer[nbMax*ldt];
-    GeView              _Tr = GeViewEngine(ldt, nbMax, trBuffer, ldt);
+    GeView              Tr_ = GeViewEngine(ldt, nbMax, trBuffer, ldt);
 //
 //  Perform and apply workspace query
 //
@@ -167,7 +167,7 @@ hrd_impl(IndexType           iLo,
 //
         for (i=iLo; i<=iHi-1-nx; i+=nb) {
             const IndexType ib = min(nb, iHi-i);
-            auto  Tr = _Tr(_(1,ib),_(1,ib)).upper();
+            auto  Tr = Tr_(_(1,ib),_(1,ib)).upper();
             GeView  Y(iHi, ib, work, ldWork);
 //
 //          Reduce columns i:i+ib-1 to Hessenberg form, returning the
@@ -326,9 +326,9 @@ hrd(IndexType               iLo,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename MatrixA::NoView       _A = A;
-    typename VectorTau::NoView   _tau = tau;
-    typename VectorWork::NoView  _work = work;
+    typename MatrixA::NoView       A_ = A;
+    typename VectorTau::NoView   tau_ = tau;
+    typename VectorWork::NoView  work_ = work;
 #   endif
 
 //
@@ -340,27 +340,27 @@ hrd(IndexType               iLo,
 //
 //  Compare results
 //
-    if (_work.length()==0) {
-        _work.resize(work.length());
+    if (work_.length()==0) {
+        work_.resize(work.length());
     }
-    external::hrd_impl(iLo, iHi, _A, _tau, _work);
+    external::hrd_impl(iLo, iHi, A_, tau_, work_);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "_A")) {
+    if (! isIdentical(A, A_, " A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        std::cerr << "F77LAPACK: A_ = " << A_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(tau, _tau, " tau", "_tau")) {
+    if (! isIdentical(tau, tau_, " tau", "tau_")) {
         std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
-        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+        std::cerr << "F77LAPACK: tau_ = " << tau_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
+    if (! isIdentical(work, work_, " work", "work_")) {
         std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        std::cerr << "F77LAPACK: work_ = " << work_ << std::endl;
         failed = true;
     }
 
@@ -429,9 +429,9 @@ hrd(IndexType               iLo,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename MatrixA::NoView       _A = A;
-    typename VectorTau::NoView   _tau = tau;
-    typename VectorWork::NoView  _work = work;
+    typename MatrixA::NoView       A_ = A;
+    typename VectorTau::NoView   tau_ = tau;
+    typename VectorWork::NoView  work_ = work;
 #   endif
 
 //
@@ -443,27 +443,27 @@ hrd(IndexType               iLo,
 //
 //  Compare results
 //
-    if (_work.length()==0) {
-        _work.resize(work.length());
+    if (work_.length()==0) {
+        work_.resize(work.length());
     }
-    external::hrd_impl(iLo, iHi, _A, _tau, _work);
+    external::hrd_impl(iLo, iHi, A_, tau_, work_);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "_A")) {
+    if (! isIdentical(A, A_, " A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        std::cerr << "F77LAPACK: A_ = " << A_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(tau, _tau, " tau", "_tau")) {
+    if (! isIdentical(tau, tau_, " tau", "tau_")) {
         std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
-        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+        std::cerr << "F77LAPACK: tau_ = " << tau_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
+    if (! isIdentical(work, work_, " work", "work_")) {
         std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        std::cerr << "F77LAPACK: work_ = " << work_ << std::endl;
         failed = true;
     }
 
@@ -506,9 +506,9 @@ hrd_wsq(IndexType           iLo,
 //
 //  Compare results
 //
-    IndexType _info = external::hrd_wsq_impl(iLo, iHi, A);
+    IndexType info_ = external::hrd_wsq_impl(iLo, iHi, A);
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         ASSERT(0);
     }
 #   endif

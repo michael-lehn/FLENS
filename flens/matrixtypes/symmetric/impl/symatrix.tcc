@@ -43,20 +43,20 @@ namespace flens {
 
 template <typename FS>
 SyMatrix<FS>::SyMatrix(StorageUpLo upLo)
-    : _upLo(upLo)
+    : upLo_(upLo)
 {
 }
 
 template <typename FS>
 SyMatrix<FS>::SyMatrix(IndexType dim, StorageUpLo upLo)
-    : _engine(dim, dim), _upLo(upLo)
+    : engine_(dim, dim), upLo_(upLo)
 {
     ASSERT(dim>=0);
 }
 
 template <typename FS>
 SyMatrix<FS>::SyMatrix(IndexType dim, IndexType firstIndex, StorageUpLo upLo)
-    : _engine(dim, dim, firstIndex, firstIndex), _upLo(upLo)
+    : engine_(dim, dim, firstIndex, firstIndex), upLo_(upLo)
 {
     ASSERT(dim>=0);
 }
@@ -64,36 +64,36 @@ SyMatrix<FS>::SyMatrix(IndexType dim, IndexType firstIndex, StorageUpLo upLo)
 template <typename FS>
 SyMatrix<FS>::SyMatrix(IndexType dim, IndexType firstRow, IndexType firstCol,
                        StorageUpLo upLo)
-    : _engine(dim, dim, firstRow, firstCol), _upLo(upLo)
+    : engine_(dim, dim, firstRow, firstCol), upLo_(upLo)
 {
     ASSERT(dim>=0);
 }
 
 template <typename FS>
 SyMatrix<FS>::SyMatrix(const Engine &engine, StorageUpLo upLo)
-    : _engine(engine), _upLo(upLo)
+    : engine_(engine), upLo_(upLo)
 {
-    ASSERT(_engine.numRows()==_engine.numCols());
+    ASSERT(engine_.numRows()==engine_.numCols());
 }
 
 template <typename FS>
 SyMatrix<FS>::SyMatrix(const SyMatrix &rhs)
     : SymmetricMatrix<SyMatrix<FS> >(),
-      _engine(rhs.engine()), _upLo(rhs.upLo())
+      engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 SyMatrix<FS>::SyMatrix(const SyMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 SyMatrix<FS>::SyMatrix(SyMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -110,7 +110,7 @@ template <typename FS>
 void
 SyMatrix<FS>::operator=(const ElementType &value)
 {
-    engine().fill(_upLo, value);
+    engine().fill(upLo_, value);
 }
 
 template <typename FS>
@@ -155,13 +155,13 @@ const typename SyMatrix<FS>::ElementType &
 SyMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
-    if (_upLo==Upper) {
+    if (upLo_==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
     }
 #   endif
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 template <typename FS>
@@ -169,13 +169,13 @@ typename SyMatrix<FS>::ElementType &
 SyMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
-    if (_upLo==Upper) {
+    if (upLo_==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
     }
 #   endif
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 // rectangular views
@@ -293,86 +293,86 @@ template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::dim() const
 {
-    ASSERT(_engine.numRows()==_engine.numCols());
+    ASSERT(engine_.numRows()==engine_.numCols());
 
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 template <typename FS>
 const typename SyMatrix<FS>::ElementType *
 SyMatrix<FS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename SyMatrix<FS>::ElementType *
 SyMatrix<FS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::leadingDimension() const
 {
-    return _engine.leadingDimension();
+    return engine_.leadingDimension();
 }
 
 template <typename FS>
 StorageOrder
 SyMatrix<FS>::order() const
 {
-    return _engine.order;
+    return engine_.order;
 }
 
 template <typename FS>
 bool
 SyMatrix<FS>::fill(const ElementType &value)
 {
-    return _engine.fill(_upLo, value);
+    return engine_.fill(upLo_, value);
 }
 
 template <typename FS>
@@ -381,7 +381,7 @@ bool
 SyMatrix<FS>::resize(const SyMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return engine_.resize(rhs.engine(), value);
 }
 
 template <typename FS>
@@ -389,7 +389,7 @@ bool
 SyMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
                      const ElementType &value)
 {
-    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+    return engine_.resize(dim, dim, firstIndex, firstIndex, value);
 }
 
 template <typename FS>
@@ -397,8 +397,8 @@ bool
 SyMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
                      const ElementType &value)
 {
-    _upLo = upLo;
-    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+    upLo_ = upLo;
+    return engine_.resize(dim, dim, firstIndex, firstIndex, value);
 }
 
 // -- views --------------------------------------------------------------------
@@ -408,14 +408,14 @@ template <typename FS>
 const typename SyMatrix<FS>::ConstGeneralView
 SyMatrix<FS>::general() const
 {
-    return ConstGeneralView(_engine);
+    return ConstGeneralView(engine_);
 }
 
 template <typename FS>
 typename SyMatrix<FS>::GeneralView
 SyMatrix<FS>::general()
 {
-    return GeneralView(_engine);
+    return GeneralView(engine_);
 }
 
 // hermitian views
@@ -423,14 +423,14 @@ template <typename FS>
 const typename SyMatrix<FS>::ConstHermitianView
 SyMatrix<FS>::hermitian() const
 {
-    return ConstHermitianView(_engine, upLo());
+    return ConstHermitianView(engine_, upLo());
 }
 
 template <typename FS>
 typename SyMatrix<FS>::HermitianView
 SyMatrix<FS>::hermitian()
 {
-    return HermitianView(_engine, upLo());
+    return HermitianView(engine_, upLo());
 }
 
 // triangular views
@@ -492,28 +492,28 @@ template <typename FS>
 const typename SyMatrix<FS>::Engine &
 SyMatrix<FS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename FS>
 typename SyMatrix<FS>::Engine &
 SyMatrix<FS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename FS>
 StorageUpLo
 SyMatrix<FS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename FS>
 StorageUpLo &
 SyMatrix<FS>::upLo()
 {
-    return _upLo;
+    return upLo_;
 }
 
 //-- SyMatrix specific functions -----------------------------------------------

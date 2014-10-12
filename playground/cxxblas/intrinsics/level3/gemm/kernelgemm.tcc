@@ -55,81 +55,81 @@ kernel_gemm_2numElementsx4(IndexType k,
     typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL> IntrinsicType;
     const int numElements = IntrinsicType::numElements;
 
-    IntrinsicType  _c_00_c_10,    _c_01_c_11,    _c_02_c_12,    _c_03_c_13,
-                   _c_20_c_30,    _c_21_c_31,    _c_22_c_32,    _c_23_c_33,
-                   _a_0p_a_1p,    _a_2p_a_3p,
-                   _b_p0,         _b_p1,         _b_p2,         _b_p3;
+    IntrinsicType  c_00_c_10_,    c_01_c_11_,    c_02_c_12_,    c_03_c_13_,
+                   c_20_c_30_,    c_21_c_31_,    c_22_c_32_,    c_23_c_33_,
+                   a_0p_a_1p_,    a_2p_a_3p_,
+                   b_p0_,         b_p1_,         b_p2_,         b_p3_;
 
-    _c_00_c_10.setZero();
-    _c_01_c_11.setZero();
-    _c_02_c_12.setZero();
-    _c_03_c_13.setZero();
-    _c_20_c_30.setZero();
-    _c_21_c_31.setZero();
-    _c_22_c_32.setZero();
-    _c_23_c_33.setZero();
+    c_00_c_10_.setZero();
+    c_01_c_11_.setZero();
+    c_02_c_12_.setZero();
+    c_03_c_13_.setZero();
+    c_20_c_30_.setZero();
+    c_21_c_31_.setZero();
+    c_22_c_32_.setZero();
+    c_23_c_33_.setZero();
 
     IndexType p=0;
     for ( ; p<k; p++ ){
-        _a_0p_a_1p.loadu( A );
-        _a_2p_a_3p.loadu( A+numElements );
+        a_0p_a_1p_.loadu( A );
+        a_2p_a_3p_.loadu( A+numElements );
         A += 2*numElements;
 
-        _b_p0.fill( B[0] );   /* load and duplicate */
-        _b_p1.fill( B[1] );   /* load and duplicate */
-        _b_p2.fill( B[2] );   /* load and duplicate */
-        _b_p3.fill( B[3] );   /* load and duplicate */
+        b_p0_.fill( B[0] );   /* load and duplicate */
+        b_p1_.fill( B[1] );   /* load and duplicate */
+        b_p2_.fill( B[2] );   /* load and duplicate */
+        b_p3_.fill( B[3] );   /* load and duplicate */
 
         B += 4;
 
         /* First row and second rows */
-        _c_00_c_10 = _intrinsic_add(_c_00_c_10, _intrinsic_mul(_a_0p_a_1p, _b_p0));
-        _c_01_c_11 = _intrinsic_add(_c_01_c_11, _intrinsic_mul(_a_0p_a_1p, _b_p1));
-        _c_02_c_12 = _intrinsic_add(_c_02_c_12, _intrinsic_mul(_a_0p_a_1p, _b_p2));
-        _c_03_c_13 = _intrinsic_add(_c_03_c_13, _intrinsic_mul(_a_0p_a_1p, _b_p3));
+        c_00_c_10_ = intrinsic_add_(c_00_c_10_, intrinsic_mul_(a_0p_a_1p_, b_p0_));
+        c_01_c_11_ = intrinsic_add_(c_01_c_11_, intrinsic_mul_(a_0p_a_1p_, b_p1_));
+        c_02_c_12_ = intrinsic_add_(c_02_c_12_, intrinsic_mul_(a_0p_a_1p_, b_p2_));
+        c_03_c_13_ = intrinsic_add_(c_03_c_13_, intrinsic_mul_(a_0p_a_1p_, b_p3_));
 
         /* Third and fourth rows */
-        _c_20_c_30 = _intrinsic_add(_c_20_c_30, _intrinsic_mul(_a_2p_a_3p, _b_p0));
-        _c_21_c_31 = _intrinsic_add(_c_21_c_31, _intrinsic_mul(_a_2p_a_3p, _b_p1));
-        _c_22_c_32 = _intrinsic_add(_c_22_c_32, _intrinsic_mul(_a_2p_a_3p, _b_p2));
-        _c_23_c_33 = _intrinsic_add(_c_23_c_33, _intrinsic_mul(_a_2p_a_3p, _b_p3));
+        c_20_c_30_ = intrinsic_add_(c_20_c_30_, intrinsic_mul_(a_2p_a_3p_, b_p0_));
+        c_21_c_31_ = intrinsic_add_(c_21_c_31_, intrinsic_mul_(a_2p_a_3p_, b_p1_));
+        c_22_c_32_ = intrinsic_add_(c_22_c_32_, intrinsic_mul_(a_2p_a_3p_, b_p2_));
+        c_23_c_33_ = intrinsic_add_(c_23_c_33_, intrinsic_mul_(a_2p_a_3p_, b_p3_));
 
     }
 
-    IntrinsicType _tmp0, _tmp1, _tmp2, _tmp3, _tmp4, _tmp5, _tmp6, _tmp7;
-    IntrinsicType _alpha(alpha);
+    IntrinsicType tmp0_, tmp1_, tmp2_, tmp3_, tmp4_, tmp5_, tmp6_, tmp7_;
+    IntrinsicType alpha_(alpha);
 
-    _tmp0.loadu(C);
-    _tmp1.loadu(C+ldC);
-    _tmp2.loadu(C+2*ldC);
-    _tmp3.loadu(C+3*ldC);
+    tmp0_.loadu(C);
+    tmp1_.loadu(C+ldC);
+    tmp2_.loadu(C+2*ldC);
+    tmp3_.loadu(C+3*ldC);
 
-    _c_00_c_10 = _intrinsic_add(_tmp0, _intrinsic_mul(_c_00_c_10, _alpha));
-    _c_01_c_11 = _intrinsic_add(_tmp1, _intrinsic_mul(_c_01_c_11, _alpha));
-    _c_02_c_12 = _intrinsic_add(_tmp2, _intrinsic_mul(_c_02_c_12, _alpha));
-    _c_03_c_13 = _intrinsic_add(_tmp3, _intrinsic_mul(_c_03_c_13, _alpha));
-
-
-    _c_00_c_10.storeu(C);
-    _c_01_c_11.storeu(C+ldC);
-    _c_02_c_12.storeu(C+2*ldC);
-    _c_03_c_13.storeu(C+3*ldC);
+    c_00_c_10_ = intrinsic_add_(tmp0_, intrinsic_mul_(c_00_c_10_, alpha_));
+    c_01_c_11_ = intrinsic_add_(tmp1_, intrinsic_mul_(c_01_c_11_, alpha_));
+    c_02_c_12_ = intrinsic_add_(tmp2_, intrinsic_mul_(c_02_c_12_, alpha_));
+    c_03_c_13_ = intrinsic_add_(tmp3_, intrinsic_mul_(c_03_c_13_, alpha_));
 
 
-    _tmp4.loadu(C+numElements);
-    _tmp5.loadu(C+numElements+ldC);
-    _tmp6.loadu(C+numElements+2*ldC);
-    _tmp7.loadu(C+numElements+3*ldC);
+    c_00_c_10_.storeu(C);
+    c_01_c_11_.storeu(C+ldC);
+    c_02_c_12_.storeu(C+2*ldC);
+    c_03_c_13_.storeu(C+3*ldC);
 
-    _c_20_c_30 = _intrinsic_add(_tmp4, _intrinsic_mul(_c_20_c_30, _alpha));
-    _c_21_c_31 = _intrinsic_add(_tmp5, _intrinsic_mul(_c_21_c_31, _alpha));
-    _c_22_c_32 = _intrinsic_add(_tmp6, _intrinsic_mul(_c_22_c_32, _alpha));
-    _c_23_c_33 = _intrinsic_add(_tmp7, _intrinsic_mul(_c_23_c_33, _alpha));
 
-    _c_20_c_30.storeu(C+numElements);
-    _c_21_c_31.storeu(C+numElements+ldC);
-    _c_22_c_32.storeu(C+numElements+2*ldC);
-    _c_23_c_33.storeu(C+numElements+3*ldC);
+    tmp4_.loadu(C+numElements);
+    tmp5_.loadu(C+numElements+ldC);
+    tmp6_.loadu(C+numElements+2*ldC);
+    tmp7_.loadu(C+numElements+3*ldC);
+
+    c_20_c_30_ = intrinsic_add_(tmp4_, intrinsic_mul_(c_20_c_30_, alpha_));
+    c_21_c_31_ = intrinsic_add_(tmp5_, intrinsic_mul_(c_21_c_31_, alpha_));
+    c_22_c_32_ = intrinsic_add_(tmp6_, intrinsic_mul_(c_22_c_32_, alpha_));
+    c_23_c_33_ = intrinsic_add_(tmp7_, intrinsic_mul_(c_23_c_33_, alpha_));
+
+    c_20_c_30_.storeu(C+numElements);
+    c_21_c_31_.storeu(C+numElements+ldC);
+    c_22_c_32_.storeu(C+numElements+2*ldC);
+    c_23_c_33_.storeu(C+numElements+3*ldC);
 
 }
 
@@ -153,120 +153,120 @@ kernel_gemm_2numElementsx4(IndexType k,
 
     const int numElements = IntrinsicType::numElements;
 
-    IntrinsicType  _c_00_c_10,    _c_01_c_11,    _c_02_c_12,    _c_03_c_13,
-                   _c_20_c_30,    _c_21_c_31,    _c_22_c_32,    _c_23_c_33,
-                   _a_0p_a_1p,    _a_2p_a_3p;
-    IntrinsicPrimitiveType  _real_b_p0,   _real_b_p1,   _real_b_p2,   _real_b_p3,
-                            _imag_b_p0,   _imag_b_p1,   _imag_b_p2,   _imag_b_p3;
+    IntrinsicType  c_00_c_10_,    c_01_c_11_,    c_02_c_12_,    c_03_c_13_,
+                   c_20_c_30_,    c_21_c_31_,    c_22_c_32_,    c_23_c_33_,
+                   a_0p_a_1p_,    a_2p_a_3p_;
+    IntrinsicPrimitiveType  real_b_p0_,   real_b_p1_,   real_b_p2_,   real_b_p3_,
+                            imag_b_p0_,   imag_b_p1_,   imag_b_p2_,   imag_b_p3_;
 
-    _c_00_c_10.setZero();
-    _c_01_c_11.setZero();
-    _c_02_c_12.setZero();
-    _c_03_c_13.setZero();
-    _c_20_c_30.setZero();
-    _c_21_c_31.setZero();
-    _c_22_c_32.setZero();
-    _c_23_c_33.setZero();
+    c_00_c_10_.setZero();
+    c_01_c_11_.setZero();
+    c_02_c_12_.setZero();
+    c_03_c_13_.setZero();
+    c_20_c_30_.setZero();
+    c_21_c_31_.setZero();
+    c_22_c_32_.setZero();
+    c_23_c_33_.setZero();
 
     IndexType p=0;
     for ( ; p<k; p++ ){
-        _a_0p_a_1p.loadu( A );
-        _a_2p_a_3p.loadu( A+numElements );
+        a_0p_a_1p_.loadu( A );
+        a_2p_a_3p_.loadu( A+numElements );
 
         A += 2*numElements;
 
-        _real_b_p0.fill( real(B[0]) );
-        _imag_b_p0.fill( imag(B[0]) );
-        _real_b_p1.fill( real(B[1]) );
-        _imag_b_p1.fill( imag(B[1]) );
-        _real_b_p2.fill( real(B[2]) );
-        _imag_b_p2.fill( imag(B[2]) );
-        _real_b_p3.fill( real(B[3]) );
-        _imag_b_p3.fill( imag(B[3]) );
+        real_b_p0_.fill( real(B[0]) );
+        imag_b_p0_.fill( imag(B[0]) );
+        real_b_p1_.fill( real(B[1]) );
+        imag_b_p1_.fill( imag(B[1]) );
+        real_b_p2_.fill( real(B[2]) );
+        imag_b_p2_.fill( imag(B[2]) );
+        real_b_p3_.fill( real(B[3]) );
+        imag_b_p3_.fill( imag(B[3]) );
 
         B += 4;
 
         /* First row and second rows */
-        _c_00_c_10 = _intrinsic_add(_c_00_c_10, _intrinsic_mul(_a_0p_a_1p, _real_b_p0));
-        _c_01_c_11 = _intrinsic_add(_c_01_c_11, _intrinsic_mul(_a_0p_a_1p, _real_b_p1));
-        _c_02_c_12 = _intrinsic_add(_c_02_c_12, _intrinsic_mul(_a_0p_a_1p, _real_b_p2));
-        _c_03_c_13 = _intrinsic_add(_c_03_c_13, _intrinsic_mul(_a_0p_a_1p, _real_b_p3));
+        c_00_c_10_ = intrinsic_add_(c_00_c_10_, intrinsic_mul_(a_0p_a_1p_, real_b_p0_));
+        c_01_c_11_ = intrinsic_add_(c_01_c_11_, intrinsic_mul_(a_0p_a_1p_, real_b_p1_));
+        c_02_c_12_ = intrinsic_add_(c_02_c_12_, intrinsic_mul_(a_0p_a_1p_, real_b_p2_));
+        c_03_c_13_ = intrinsic_add_(c_03_c_13_, intrinsic_mul_(a_0p_a_1p_, real_b_p3_));
 
-        _a_0p_a_1p = _intrinsic_swap_real_imag(_a_0p_a_1p);
+        a_0p_a_1p_ = intrinsic_swap_real_imag_(a_0p_a_1p_);
 
-        _c_00_c_10 = _intrinsic_addsub(_c_00_c_10, _intrinsic_mul(_a_0p_a_1p, _imag_b_p0));
-        _c_01_c_11 = _intrinsic_addsub(_c_01_c_11, _intrinsic_mul(_a_0p_a_1p, _imag_b_p1));
-        _c_02_c_12 = _intrinsic_addsub(_c_02_c_12, _intrinsic_mul(_a_0p_a_1p, _imag_b_p2));
-        _c_03_c_13 = _intrinsic_addsub(_c_03_c_13, _intrinsic_mul(_a_0p_a_1p, _imag_b_p3));
+        c_00_c_10_ = intrinsic_addsub_(c_00_c_10_, intrinsic_mul_(a_0p_a_1p_, imag_b_p0_));
+        c_01_c_11_ = intrinsic_addsub_(c_01_c_11_, intrinsic_mul_(a_0p_a_1p_, imag_b_p1_));
+        c_02_c_12_ = intrinsic_addsub_(c_02_c_12_, intrinsic_mul_(a_0p_a_1p_, imag_b_p2_));
+        c_03_c_13_ = intrinsic_addsub_(c_03_c_13_, intrinsic_mul_(a_0p_a_1p_, imag_b_p3_));
 
         /* Third and fourth rows */
-        _c_20_c_30 = _intrinsic_add(_c_20_c_30, _intrinsic_mul(_a_2p_a_3p, _real_b_p0));
-        _c_21_c_31 = _intrinsic_add(_c_21_c_31, _intrinsic_mul(_a_2p_a_3p, _real_b_p1));
-        _c_22_c_32 = _intrinsic_add(_c_22_c_32, _intrinsic_mul(_a_2p_a_3p, _real_b_p2));
-        _c_23_c_33 = _intrinsic_add(_c_23_c_33, _intrinsic_mul(_a_2p_a_3p, _real_b_p3));
+        c_20_c_30_ = intrinsic_add_(c_20_c_30_, intrinsic_mul_(a_2p_a_3p_, real_b_p0_));
+        c_21_c_31_ = intrinsic_add_(c_21_c_31_, intrinsic_mul_(a_2p_a_3p_, real_b_p1_));
+        c_22_c_32_ = intrinsic_add_(c_22_c_32_, intrinsic_mul_(a_2p_a_3p_, real_b_p2_));
+        c_23_c_33_ = intrinsic_add_(c_23_c_33_, intrinsic_mul_(a_2p_a_3p_, real_b_p3_));
 
-        _a_2p_a_3p = _intrinsic_swap_real_imag(_a_2p_a_3p);
+        a_2p_a_3p_ = intrinsic_swap_real_imag_(a_2p_a_3p_);
 
-        _c_20_c_30 = _intrinsic_addsub(_c_20_c_30, _intrinsic_mul(_a_2p_a_3p, _imag_b_p0));
-        _c_21_c_31 = _intrinsic_addsub(_c_21_c_31, _intrinsic_mul(_a_2p_a_3p, _imag_b_p1));
-        _c_22_c_32 = _intrinsic_addsub(_c_22_c_32, _intrinsic_mul(_a_2p_a_3p, _imag_b_p2));
-        _c_23_c_33 = _intrinsic_addsub(_c_23_c_33, _intrinsic_mul(_a_2p_a_3p, _imag_b_p3));
+        c_20_c_30_ = intrinsic_addsub_(c_20_c_30_, intrinsic_mul_(a_2p_a_3p_, imag_b_p0_));
+        c_21_c_31_ = intrinsic_addsub_(c_21_c_31_, intrinsic_mul_(a_2p_a_3p_, imag_b_p1_));
+        c_22_c_32_ = intrinsic_addsub_(c_22_c_32_, intrinsic_mul_(a_2p_a_3p_, imag_b_p2_));
+        c_23_c_33_ = intrinsic_addsub_(c_23_c_33_, intrinsic_mul_(a_2p_a_3p_, imag_b_p3_));
 
     }
 
-    IntrinsicType _tmp0, _tmp1, _tmp2, _tmp3, _tmp4, _tmp5, _tmp6, _tmp7;
-    IntrinsicPrimitiveType _real_alpha(real(alpha)), _imag_alpha(imag(alpha));
+    IntrinsicType tmp0_, tmp1_, tmp2_, tmp3_, tmp4_, tmp5_, tmp6_, tmp7_;
+    IntrinsicPrimitiveType real_alpha_(real(alpha)), imag_alpha_(imag(alpha));
 
-    _tmp0.loadu(C);
-    _tmp1.loadu(C+ldC);
-    _tmp2.loadu(C+2*ldC);
-    _tmp3.loadu(C+3*ldC);
+    tmp0_.loadu(C);
+    tmp1_.loadu(C+ldC);
+    tmp2_.loadu(C+2*ldC);
+    tmp3_.loadu(C+3*ldC);
 
-    _tmp0 = _intrinsic_add(_tmp0, _intrinsic_mul(_c_00_c_10, _real_alpha));
-    _tmp1 = _intrinsic_add(_tmp1, _intrinsic_mul(_c_01_c_11, _real_alpha));
-    _tmp2 = _intrinsic_add(_tmp2, _intrinsic_mul(_c_02_c_12, _real_alpha));
-    _tmp3 = _intrinsic_add(_tmp3, _intrinsic_mul(_c_03_c_13, _real_alpha));
+    tmp0_ = intrinsic_add_(tmp0_, intrinsic_mul_(c_00_c_10_, real_alpha_));
+    tmp1_ = intrinsic_add_(tmp1_, intrinsic_mul_(c_01_c_11_, real_alpha_));
+    tmp2_ = intrinsic_add_(tmp2_, intrinsic_mul_(c_02_c_12_, real_alpha_));
+    tmp3_ = intrinsic_add_(tmp3_, intrinsic_mul_(c_03_c_13_, real_alpha_));
 
-    _c_00_c_10 = _intrinsic_swap_real_imag(_c_00_c_10);
-    _c_01_c_11 = _intrinsic_swap_real_imag(_c_01_c_11);
-    _c_02_c_12 = _intrinsic_swap_real_imag(_c_02_c_12);
-    _c_03_c_13 = _intrinsic_swap_real_imag(_c_03_c_13);
+    c_00_c_10_ = intrinsic_swap_real_imag_(c_00_c_10_);
+    c_01_c_11_ = intrinsic_swap_real_imag_(c_01_c_11_);
+    c_02_c_12_ = intrinsic_swap_real_imag_(c_02_c_12_);
+    c_03_c_13_ = intrinsic_swap_real_imag_(c_03_c_13_);
 
-    _tmp0 = _intrinsic_addsub(_tmp0, _intrinsic_mul(_c_00_c_10, _imag_alpha));
-    _tmp1 = _intrinsic_addsub(_tmp1, _intrinsic_mul(_c_01_c_11, _imag_alpha));
-    _tmp2 = _intrinsic_addsub(_tmp2, _intrinsic_mul(_c_02_c_12, _imag_alpha));
-    _tmp3 = _intrinsic_addsub(_tmp3, _intrinsic_mul(_c_03_c_13, _imag_alpha));
+    tmp0_ = intrinsic_addsub_(tmp0_, intrinsic_mul_(c_00_c_10_, imag_alpha_));
+    tmp1_ = intrinsic_addsub_(tmp1_, intrinsic_mul_(c_01_c_11_, imag_alpha_));
+    tmp2_ = intrinsic_addsub_(tmp2_, intrinsic_mul_(c_02_c_12_, imag_alpha_));
+    tmp3_ = intrinsic_addsub_(tmp3_, intrinsic_mul_(c_03_c_13_, imag_alpha_));
 
-    _tmp0.storeu(C);
-    _tmp1.storeu(C+ldC);
-    _tmp2.storeu(C+2*ldC);
-    _tmp3.storeu(C+3*ldC);
+    tmp0_.storeu(C);
+    tmp1_.storeu(C+ldC);
+    tmp2_.storeu(C+2*ldC);
+    tmp3_.storeu(C+3*ldC);
 
 
-    _tmp4.loadu(C+numElements);
-    _tmp5.loadu(C+numElements+ldC);
-    _tmp6.loadu(C+numElements+2*ldC);
-    _tmp7.loadu(C+numElements+3*ldC);
+    tmp4_.loadu(C+numElements);
+    tmp5_.loadu(C+numElements+ldC);
+    tmp6_.loadu(C+numElements+2*ldC);
+    tmp7_.loadu(C+numElements+3*ldC);
 
-    _tmp4 = _intrinsic_add(_tmp4, _intrinsic_mul(_c_20_c_30, _real_alpha));
-    _tmp5 = _intrinsic_add(_tmp5, _intrinsic_mul(_c_21_c_31, _real_alpha));
-    _tmp6 = _intrinsic_add(_tmp6, _intrinsic_mul(_c_22_c_32, _real_alpha));
-    _tmp7 = _intrinsic_add(_tmp7, _intrinsic_mul(_c_23_c_33, _real_alpha));
+    tmp4_ = intrinsic_add_(tmp4_, intrinsic_mul_(c_20_c_30_, real_alpha_));
+    tmp5_ = intrinsic_add_(tmp5_, intrinsic_mul_(c_21_c_31_, real_alpha_));
+    tmp6_ = intrinsic_add_(tmp6_, intrinsic_mul_(c_22_c_32_, real_alpha_));
+    tmp7_ = intrinsic_add_(tmp7_, intrinsic_mul_(c_23_c_33_, real_alpha_));
 
-    _c_20_c_30 = _intrinsic_swap_real_imag(_c_20_c_30);
-    _c_21_c_31 = _intrinsic_swap_real_imag(_c_21_c_31);
-    _c_22_c_32 = _intrinsic_swap_real_imag(_c_22_c_32);
-    _c_23_c_33 = _intrinsic_swap_real_imag(_c_23_c_33);
+    c_20_c_30_ = intrinsic_swap_real_imag_(c_20_c_30_);
+    c_21_c_31_ = intrinsic_swap_real_imag_(c_21_c_31_);
+    c_22_c_32_ = intrinsic_swap_real_imag_(c_22_c_32_);
+    c_23_c_33_ = intrinsic_swap_real_imag_(c_23_c_33_);
 
-    _tmp4 = _intrinsic_addsub(_tmp4, _intrinsic_mul(_c_20_c_30, _imag_alpha));
-    _tmp5 = _intrinsic_addsub(_tmp5, _intrinsic_mul(_c_21_c_31, _imag_alpha));
-    _tmp6 = _intrinsic_addsub(_tmp6, _intrinsic_mul(_c_22_c_32, _imag_alpha));
-    _tmp7 = _intrinsic_addsub(_tmp7, _intrinsic_mul(_c_23_c_33, _imag_alpha));
+    tmp4_ = intrinsic_addsub_(tmp4_, intrinsic_mul_(c_20_c_30_, imag_alpha_));
+    tmp5_ = intrinsic_addsub_(tmp5_, intrinsic_mul_(c_21_c_31_, imag_alpha_));
+    tmp6_ = intrinsic_addsub_(tmp6_, intrinsic_mul_(c_22_c_32_, imag_alpha_));
+    tmp7_ = intrinsic_addsub_(tmp7_, intrinsic_mul_(c_23_c_33_, imag_alpha_));
 
-    _tmp4.storeu(C+numElements);
-    _tmp5.storeu(C+numElements+ldC);
-    _tmp6.storeu(C+numElements+2*ldC);
-    _tmp7.storeu(C+numElements+3*ldC);
+    tmp4_.storeu(C+numElements);
+    tmp5_.storeu(C+numElements+ldC);
+    tmp6_.storeu(C+numElements+2*ldC);
+    tmp7_.storeu(C+numElements+3*ldC);
 
 }
 
@@ -289,42 +289,42 @@ kernel_gemm_2numElementsx4(IndexType k,
 
     const int numElements = IntrinsicType::numElements;
 
-    IntrinsicPrimitiveType  _c_00_c_10,    _c_01_c_11,    _c_02_c_12,    _c_03_c_13,
-                            _a_0p_a_1p,    _a_2p_a_3p;
-    IntrinsicPrimitiveType  _real_b_p0,   _real_b_p1,   _real_b_p2,   _real_b_p3;
+    IntrinsicPrimitiveType  c_00_c_10_,    c_01_c_11_,    c_02_c_12_,    c_03_c_13_,
+                            a_0p_a_1p_,    a_2p_a_3p_;
+    IntrinsicPrimitiveType  real_b_p0_,   real_b_p1_,   real_b_p2_,   real_b_p3_;
 
-    _c_00_c_10.setZero();
-    _c_01_c_11.setZero();
-    _c_02_c_12.setZero();
-    _c_03_c_13.setZero();
+    c_00_c_10_.setZero();
+    c_01_c_11_.setZero();
+    c_02_c_12_.setZero();
+    c_03_c_13_.setZero();
 
     IndexType p=0;
     for ( ; p<k; p++ ){
-        _a_0p_a_1p.loadu( A );
+        a_0p_a_1p_.loadu( A );
 
         A += 2*numElements;
 
-        _real_b_p0.fill( B[0] );
-        _real_b_p1.fill( B[1] );
-        _real_b_p2.fill( B[2] );
-        _real_b_p3.fill( B[3] );
+        real_b_p0_.fill( B[0] );
+        real_b_p1_.fill( B[1] );
+        real_b_p2_.fill( B[2] );
+        real_b_p3_.fill( B[3] );
 
         B += 4;
 
         /* First row and second rows */
-        _c_00_c_10 = _intrinsic_add(_c_00_c_10, _intrinsic_mul(_a_0p_a_1p, _real_b_p0));
-        _c_01_c_11 = _intrinsic_add(_c_01_c_11, _intrinsic_mul(_a_0p_a_1p, _real_b_p1));
-        _c_02_c_12 = _intrinsic_add(_c_02_c_12, _intrinsic_mul(_a_0p_a_1p, _real_b_p2));
-        _c_03_c_13 = _intrinsic_add(_c_03_c_13, _intrinsic_mul(_a_0p_a_1p, _real_b_p3));
+        c_00_c_10_ = intrinsic_add_(c_00_c_10_, intrinsic_mul_(a_0p_a_1p_, real_b_p0_));
+        c_01_c_11_ = intrinsic_add_(c_01_c_11_, intrinsic_mul_(a_0p_a_1p_, real_b_p1_));
+        c_02_c_12_ = intrinsic_add_(c_02_c_12_, intrinsic_mul_(a_0p_a_1p_, real_b_p2_));
+        c_03_c_13_ = intrinsic_add_(c_03_c_13_, intrinsic_mul_(a_0p_a_1p_, real_b_p3_));
 
     }
 
     T *tmp = new T[4*2*numElements];
 
-    _c_00_c_10.storeu(tmp);
-    _c_01_c_11.storeu(tmp+2*numElements);
-    _c_02_c_12.storeu(tmp+4*numElements);
-    _c_03_c_13.storeu(tmp+6*numElements);
+    c_00_c_10_.storeu(tmp);
+    c_01_c_11_.storeu(tmp+2*numElements);
+    c_02_c_12_.storeu(tmp+4*numElements);
+    c_03_c_13_.storeu(tmp+6*numElements);
 
     for (IndexType i=0; i<4; ++i) {
         for (IndexType j=0; j<2*numElements; ++j) {
@@ -354,101 +354,101 @@ kernel_gemm_2numElementsx4(IndexType k,
 
     const int numElements = IntrinsicType::numElements;
 
-    IntrinsicType  _c_00_c_10,    _c_01_c_11,    _c_02_c_12,    _c_03_c_13,
-                   _c_20_c_30,    _c_21_c_31,    _c_22_c_32,    _c_23_c_33,
-                   _a_0p_a_1p,    _a_2p_a_3p;
-    IntrinsicPrimitiveType  _real_b_p0,   _real_b_p1,   _real_b_p2,   _real_b_p3;
+    IntrinsicType  c_00_c_10_,    c_01_c_11_,    c_02_c_12_,    c_03_c_13_,
+                   c_20_c_30_,    c_21_c_31_,    c_22_c_32_,    c_23_c_33_,
+                   a_0p_a_1p_,    a_2p_a_3p_;
+    IntrinsicPrimitiveType  real_b_p0_,   real_b_p1_,   real_b_p2_,   real_b_p3_;
 
-    _c_00_c_10.setZero();
-    _c_01_c_11.setZero();
-    _c_02_c_12.setZero();
-    _c_03_c_13.setZero();
-    _c_20_c_30.setZero();
-    _c_21_c_31.setZero();
-    _c_22_c_32.setZero();
-    _c_23_c_33.setZero();
+    c_00_c_10_.setZero();
+    c_01_c_11_.setZero();
+    c_02_c_12_.setZero();
+    c_03_c_13_.setZero();
+    c_20_c_30_.setZero();
+    c_21_c_31_.setZero();
+    c_22_c_32_.setZero();
+    c_23_c_33_.setZero();
 
     IndexType p=0;
     for ( ; p<k; p++ ){
-        _a_0p_a_1p.loadu( A );
-        _a_2p_a_3p.loadu( A+numElements );
+        a_0p_a_1p_.loadu( A );
+        a_2p_a_3p_.loadu( A+numElements );
 
         A += 2*numElements;
 
-        _real_b_p0.fill( B[0] );
-        _real_b_p1.fill( B[1] );
-        _real_b_p2.fill( B[2] );
-        _real_b_p3.fill( B[3] );
+        real_b_p0_.fill( B[0] );
+        real_b_p1_.fill( B[1] );
+        real_b_p2_.fill( B[2] );
+        real_b_p3_.fill( B[3] );
 
         B += 4;
 
         /* First row and second rows */
-        _c_00_c_10 = _intrinsic_add(_c_00_c_10, _intrinsic_mul(_a_0p_a_1p, _real_b_p0));
-        _c_01_c_11 = _intrinsic_add(_c_01_c_11, _intrinsic_mul(_a_0p_a_1p, _real_b_p1));
-        _c_02_c_12 = _intrinsic_add(_c_02_c_12, _intrinsic_mul(_a_0p_a_1p, _real_b_p2));
-        _c_03_c_13 = _intrinsic_add(_c_03_c_13, _intrinsic_mul(_a_0p_a_1p, _real_b_p3));
+        c_00_c_10_ = intrinsic_add_(c_00_c_10_, intrinsic_mul_(a_0p_a_1p_, real_b_p0_));
+        c_01_c_11_ = intrinsic_add_(c_01_c_11_, intrinsic_mul_(a_0p_a_1p_, real_b_p1_));
+        c_02_c_12_ = intrinsic_add_(c_02_c_12_, intrinsic_mul_(a_0p_a_1p_, real_b_p2_));
+        c_03_c_13_ = intrinsic_add_(c_03_c_13_, intrinsic_mul_(a_0p_a_1p_, real_b_p3_));
 
         /* Third and fourth rows */
-        _c_20_c_30 = _intrinsic_add(_c_20_c_30, _intrinsic_mul(_a_2p_a_3p, _real_b_p0));
-        _c_21_c_31 = _intrinsic_add(_c_21_c_31, _intrinsic_mul(_a_2p_a_3p, _real_b_p1));
-        _c_22_c_32 = _intrinsic_add(_c_22_c_32, _intrinsic_mul(_a_2p_a_3p, _real_b_p2));
-        _c_23_c_33 = _intrinsic_add(_c_23_c_33, _intrinsic_mul(_a_2p_a_3p, _real_b_p3));
+        c_20_c_30_ = intrinsic_add_(c_20_c_30_, intrinsic_mul_(a_2p_a_3p_, real_b_p0_));
+        c_21_c_31_ = intrinsic_add_(c_21_c_31_, intrinsic_mul_(a_2p_a_3p_, real_b_p1_));
+        c_22_c_32_ = intrinsic_add_(c_22_c_32_, intrinsic_mul_(a_2p_a_3p_, real_b_p2_));
+        c_23_c_33_ = intrinsic_add_(c_23_c_33_, intrinsic_mul_(a_2p_a_3p_, real_b_p3_));
 
     }
 
-    IntrinsicType _tmp0, _tmp1, _tmp2, _tmp3, _tmp4, _tmp5, _tmp6, _tmp7;
-    IntrinsicPrimitiveType _real_alpha(real(alpha)), _imag_alpha(imag(alpha));
+    IntrinsicType tmp0_, tmp1_, tmp2_, tmp3_, tmp4_, tmp5_, tmp6_, tmp7_;
+    IntrinsicPrimitiveType real_alpha_(real(alpha)), imag_alpha_(imag(alpha));
 
-    _tmp0.loadu(C);
-    _tmp1.loadu(C+ldC);
-    _tmp2.loadu(C+2*ldC);
-    _tmp3.loadu(C+3*ldC);
+    tmp0_.loadu(C);
+    tmp1_.loadu(C+ldC);
+    tmp2_.loadu(C+2*ldC);
+    tmp3_.loadu(C+3*ldC);
 
-    _tmp0 = _intrinsic_add(_tmp0, _intrinsic_mul(_c_00_c_10, _real_alpha));
-    _tmp1 = _intrinsic_add(_tmp1, _intrinsic_mul(_c_01_c_11, _real_alpha));
-    _tmp2 = _intrinsic_add(_tmp2, _intrinsic_mul(_c_02_c_12, _real_alpha));
-    _tmp3 = _intrinsic_add(_tmp3, _intrinsic_mul(_c_03_c_13, _real_alpha));
+    tmp0_ = intrinsic_add_(tmp0_, intrinsic_mul_(c_00_c_10_, real_alpha_));
+    tmp1_ = intrinsic_add_(tmp1_, intrinsic_mul_(c_01_c_11_, real_alpha_));
+    tmp2_ = intrinsic_add_(tmp2_, intrinsic_mul_(c_02_c_12_, real_alpha_));
+    tmp3_ = intrinsic_add_(tmp3_, intrinsic_mul_(c_03_c_13_, real_alpha_));
 
-    _c_00_c_10 = _intrinsic_swap_real_imag(_c_00_c_10);
-    _c_01_c_11 = _intrinsic_swap_real_imag(_c_01_c_11);
-    _c_02_c_12 = _intrinsic_swap_real_imag(_c_02_c_12);
-    _c_03_c_13 = _intrinsic_swap_real_imag(_c_03_c_13);
+    c_00_c_10_ = intrinsic_swap_real_imag_(c_00_c_10_);
+    c_01_c_11_ = intrinsic_swap_real_imag_(c_01_c_11_);
+    c_02_c_12_ = intrinsic_swap_real_imag_(c_02_c_12_);
+    c_03_c_13_ = intrinsic_swap_real_imag_(c_03_c_13_);
 
-    _tmp0 = _intrinsic_addsub(_tmp0, _intrinsic_mul(_c_00_c_10, _imag_alpha));
-    _tmp1 = _intrinsic_addsub(_tmp1, _intrinsic_mul(_c_01_c_11, _imag_alpha));
-    _tmp2 = _intrinsic_addsub(_tmp2, _intrinsic_mul(_c_02_c_12, _imag_alpha));
-    _tmp3 = _intrinsic_addsub(_tmp3, _intrinsic_mul(_c_03_c_13, _imag_alpha));
+    tmp0_ = intrinsic_addsub_(tmp0_, intrinsic_mul_(c_00_c_10_, imag_alpha_));
+    tmp1_ = intrinsic_addsub_(tmp1_, intrinsic_mul_(c_01_c_11_, imag_alpha_));
+    tmp2_ = intrinsic_addsub_(tmp2_, intrinsic_mul_(c_02_c_12_, imag_alpha_));
+    tmp3_ = intrinsic_addsub_(tmp3_, intrinsic_mul_(c_03_c_13_, imag_alpha_));
 
-    _tmp0.storeu(C);
-    _tmp1.storeu(C+ldC);
-    _tmp2.storeu(C+2*ldC);
-    _tmp3.storeu(C+3*ldC);
+    tmp0_.storeu(C);
+    tmp1_.storeu(C+ldC);
+    tmp2_.storeu(C+2*ldC);
+    tmp3_.storeu(C+3*ldC);
 
 
-    _tmp4.loadu(C+numElements);
-    _tmp5.loadu(C+numElements+ldC);
-    _tmp6.loadu(C+numElements+2*ldC);
-    _tmp7.loadu(C+numElements+3*ldC);
+    tmp4_.loadu(C+numElements);
+    tmp5_.loadu(C+numElements+ldC);
+    tmp6_.loadu(C+numElements+2*ldC);
+    tmp7_.loadu(C+numElements+3*ldC);
 
-    _tmp4 = _intrinsic_add(_tmp4, _intrinsic_mul(_c_20_c_30, _real_alpha));
-    _tmp5 = _intrinsic_add(_tmp5, _intrinsic_mul(_c_21_c_31, _real_alpha));
-    _tmp6 = _intrinsic_add(_tmp6, _intrinsic_mul(_c_22_c_32, _real_alpha));
-    _tmp7 = _intrinsic_add(_tmp7, _intrinsic_mul(_c_23_c_33, _real_alpha));
+    tmp4_ = intrinsic_add_(tmp4_, intrinsic_mul_(c_20_c_30_, real_alpha_));
+    tmp5_ = intrinsic_add_(tmp5_, intrinsic_mul_(c_21_c_31_, real_alpha_));
+    tmp6_ = intrinsic_add_(tmp6_, intrinsic_mul_(c_22_c_32_, real_alpha_));
+    tmp7_ = intrinsic_add_(tmp7_, intrinsic_mul_(c_23_c_33_, real_alpha_));
 
-    _c_20_c_30 = _intrinsic_swap_real_imag(_c_20_c_30);
-    _c_21_c_31 = _intrinsic_swap_real_imag(_c_21_c_31);
-    _c_22_c_32 = _intrinsic_swap_real_imag(_c_22_c_32);
-    _c_23_c_33 = _intrinsic_swap_real_imag(_c_23_c_33);
+    c_20_c_30_ = intrinsic_swap_real_imag_(c_20_c_30_);
+    c_21_c_31_ = intrinsic_swap_real_imag_(c_21_c_31_);
+    c_22_c_32_ = intrinsic_swap_real_imag_(c_22_c_32_);
+    c_23_c_33_ = intrinsic_swap_real_imag_(c_23_c_33_);
 
-    _tmp4 = _intrinsic_addsub(_tmp4, _intrinsic_mul(_c_20_c_30, _imag_alpha));
-    _tmp5 = _intrinsic_addsub(_tmp5, _intrinsic_mul(_c_21_c_31, _imag_alpha));
-    _tmp6 = _intrinsic_addsub(_tmp6, _intrinsic_mul(_c_22_c_32, _imag_alpha));
-    _tmp7 = _intrinsic_addsub(_tmp7, _intrinsic_mul(_c_23_c_33, _imag_alpha));
+    tmp4_ = intrinsic_addsub_(tmp4_, intrinsic_mul_(c_20_c_30_, imag_alpha_));
+    tmp5_ = intrinsic_addsub_(tmp5_, intrinsic_mul_(c_21_c_31_, imag_alpha_));
+    tmp6_ = intrinsic_addsub_(tmp6_, intrinsic_mul_(c_22_c_32_, imag_alpha_));
+    tmp7_ = intrinsic_addsub_(tmp7_, intrinsic_mul_(c_23_c_33_, imag_alpha_));
 
-    _tmp4.storeu(C+numElements);
-    _tmp5.storeu(C+numElements+ldC);
-    _tmp6.storeu(C+numElements+2*ldC);
-    _tmp7.storeu(C+numElements+3*ldC);
+    tmp4_.storeu(C+numElements);
+    tmp5_.storeu(C+numElements+ldC);
+    tmp6_.storeu(C+numElements+2*ldC);
+    tmp7_.storeu(C+numElements+3*ldC);
 
 }
 
@@ -472,61 +472,61 @@ kernel_gemm_2numElementsx4(IndexType k,
 
     const int numElements = IntrinsicType::numElements;
 
-    IntrinsicPrimitiveType  _real_c_00_c_10,    _real_c_01_c_11,    _real_c_02_c_12,    _real_c_03_c_13,
-                            _imag_c_00_c_10,    _imag_c_01_c_11,    _imag_c_02_c_12,    _imag_c_03_c_13,
-                             _a_0p_a_1p;
-    IntrinsicPrimitiveType  _real_b_p0,   _real_b_p1,   _real_b_p2,   _real_b_p3,
-                            _imag_b_p0,   _imag_b_p1,   _imag_b_p2,   _imag_b_p3;
+    IntrinsicPrimitiveType  real_c_00_c_10_,    real_c_01_c_11_,    real_c_02_c_12_,    real_c_03_c_13_,
+                            imag_c_00_c_10_,    imag_c_01_c_11_,    imag_c_02_c_12_,    imag_c_03_c_13_,
+                             a_0p_a_1p_;
+    IntrinsicPrimitiveType  real_b_p0_,   real_b_p1_,   real_b_p2_,   real_b_p3_,
+                            imag_b_p0_,   imag_b_p1_,   imag_b_p2_,   imag_b_p3_;
 
-    _real_c_00_c_10.setZero();
-    _real_c_01_c_11.setZero();
-    _real_c_02_c_12.setZero();
-    _real_c_03_c_13.setZero();
-    _imag_c_00_c_10.setZero();
-    _imag_c_01_c_11.setZero();
-    _imag_c_02_c_12.setZero();
-    _imag_c_03_c_13.setZero();
+    real_c_00_c_10_.setZero();
+    real_c_01_c_11_.setZero();
+    real_c_02_c_12_.setZero();
+    real_c_03_c_13_.setZero();
+    imag_c_00_c_10_.setZero();
+    imag_c_01_c_11_.setZero();
+    imag_c_02_c_12_.setZero();
+    imag_c_03_c_13_.setZero();
 
     IndexType p=0;
     for ( ; p<k; p++ ){
-        _a_0p_a_1p.loadu( A );
+        a_0p_a_1p_.loadu( A );
         A += 2*numElements;
 
-        _real_b_p0.fill( real(B[0]) );
-        _imag_b_p0.fill( imag(B[0]) );
-        _real_b_p1.fill( real(B[1]) );
-        _imag_b_p1.fill( imag(B[1]) );
-        _real_b_p2.fill( real(B[2]) );
-        _imag_b_p2.fill( imag(B[2]) );
-        _real_b_p3.fill( real(B[3]) );
-        _imag_b_p3.fill( imag(B[3]) );
+        real_b_p0_.fill( real(B[0]) );
+        imag_b_p0_.fill( imag(B[0]) );
+        real_b_p1_.fill( real(B[1]) );
+        imag_b_p1_.fill( imag(B[1]) );
+        real_b_p2_.fill( real(B[2]) );
+        imag_b_p2_.fill( imag(B[2]) );
+        real_b_p3_.fill( real(B[3]) );
+        imag_b_p3_.fill( imag(B[3]) );
 
         B += 4;
 
         /* First row and second rows */
-        _real_c_00_c_10 = _intrinsic_add(_real_c_00_c_10, _intrinsic_mul(_a_0p_a_1p, _real_b_p0));
-        _real_c_01_c_11 = _intrinsic_add(_real_c_01_c_11, _intrinsic_mul(_a_0p_a_1p, _real_b_p1));
-        _real_c_02_c_12 = _intrinsic_add(_real_c_02_c_12, _intrinsic_mul(_a_0p_a_1p, _real_b_p2));
-        _real_c_03_c_13 = _intrinsic_add(_real_c_03_c_13, _intrinsic_mul(_a_0p_a_1p, _real_b_p3));
+        real_c_00_c_10_ = intrinsic_add_(real_c_00_c_10_, intrinsic_mul_(a_0p_a_1p_, real_b_p0_));
+        real_c_01_c_11_ = intrinsic_add_(real_c_01_c_11_, intrinsic_mul_(a_0p_a_1p_, real_b_p1_));
+        real_c_02_c_12_ = intrinsic_add_(real_c_02_c_12_, intrinsic_mul_(a_0p_a_1p_, real_b_p2_));
+        real_c_03_c_13_ = intrinsic_add_(real_c_03_c_13_, intrinsic_mul_(a_0p_a_1p_, real_b_p3_));
 
-        _imag_c_00_c_10 = _intrinsic_add(_imag_c_00_c_10, _intrinsic_mul(_a_0p_a_1p, _imag_b_p0));
-        _imag_c_01_c_11 = _intrinsic_add(_imag_c_01_c_11, _intrinsic_mul(_a_0p_a_1p, _imag_b_p1));
-        _imag_c_02_c_12 = _intrinsic_add(_imag_c_02_c_12, _intrinsic_mul(_a_0p_a_1p, _imag_b_p2));
-        _imag_c_03_c_13 = _intrinsic_add(_imag_c_03_c_13, _intrinsic_mul(_a_0p_a_1p, _imag_b_p3));
+        imag_c_00_c_10_ = intrinsic_add_(imag_c_00_c_10_, intrinsic_mul_(a_0p_a_1p_, imag_b_p0_));
+        imag_c_01_c_11_ = intrinsic_add_(imag_c_01_c_11_, intrinsic_mul_(a_0p_a_1p_, imag_b_p1_));
+        imag_c_02_c_12_ = intrinsic_add_(imag_c_02_c_12_, intrinsic_mul_(a_0p_a_1p_, imag_b_p2_));
+        imag_c_03_c_13_ = intrinsic_add_(imag_c_03_c_13_, intrinsic_mul_(a_0p_a_1p_, imag_b_p3_));
 
     }
     T *real_tmp = new T[4*2*numElements];
     T *imag_tmp = new T[4*2*numElements];
 
-    _real_c_00_c_10.storeu(real_tmp);
-    _real_c_01_c_11.storeu(real_tmp+2*numElements);
-    _real_c_02_c_12.storeu(real_tmp+4*numElements);
-    _real_c_03_c_13.storeu(real_tmp+6*numElements);
+    real_c_00_c_10_.storeu(real_tmp);
+    real_c_01_c_11_.storeu(real_tmp+2*numElements);
+    real_c_02_c_12_.storeu(real_tmp+4*numElements);
+    real_c_03_c_13_.storeu(real_tmp+6*numElements);
 
-    _imag_c_00_c_10.storeu(imag_tmp);
-    _imag_c_01_c_11.storeu(imag_tmp+2*numElements);
-    _imag_c_02_c_12.storeu(imag_tmp+4*numElements);
-    _imag_c_03_c_13.storeu(imag_tmp+6*numElements);
+    imag_c_00_c_10_.storeu(imag_tmp);
+    imag_c_01_c_11_.storeu(imag_tmp+2*numElements);
+    imag_c_02_c_12_.storeu(imag_tmp+4*numElements);
+    imag_c_03_c_13_.storeu(imag_tmp+6*numElements);
 
     for (IndexType i=0; i<4; ++i) {
         for (IndexType j=0; j<2*numElements; ++j) {

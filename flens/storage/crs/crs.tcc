@@ -40,8 +40,8 @@ namespace flens {
 
 template <typename T, typename I>
 CRS<T,I>::CRS()
-    : _numRows(0), _numCols(0),
-      _indexBase(I::defaultIndexBase)
+    : numRows_(0), numCols_(0),
+      indexBase_(I::defaultIndexBase)
 {
 }
 
@@ -57,7 +57,7 @@ template <typename T2, typename I2>
 void
 CRS<T,I>::operator=(const CoordStorage<T2, CoordRowColCmp, I2> &coordStorage)
 {
-    _compress(coordStorage);
+    compress_(coordStorage);
 }
 
 //-- methods -------------------------------------------------------------------
@@ -66,108 +66,108 @@ template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::indexBase() const
 {
-    return _indexBase;
+    return indexBase_;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::firstRow() const
 {
-    return _indexBase;
+    return indexBase_;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::lastRow() const
 {
-    return _indexBase+_numRows-1;
+    return indexBase_+numRows_-1;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::firstCol() const
 {
-    return _indexBase;
+    return indexBase_;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::lastCol() const
 {
-    return _indexBase+_numCols-1;
+    return indexBase_+numCols_-1;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::numRows() const
 {
-    return _numRows;
+    return numRows_;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::numCols() const
 {
-    return _numCols;
+    return numCols_;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::numNonZeros() const
 {
-    return _values.length();
+    return values_.length();
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexTypeVector &
 CRS<T,I>::rows() const
 {
-    return _rows;
+    return rows_;
 }
 
 template <typename T, typename I>
 typename CRS<T,I>::IndexTypeVector &
 CRS<T,I>::rows()
 {
-    return _rows;
+    return rows_;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexTypeVector &
 CRS<T,I>::cols() const
 {
-    return _cols;
+    return cols_;
 }
 
 template <typename T, typename I>
 typename CRS<T,I>::IndexTypeVector &
 CRS<T,I>::cols()
 {
-    return _cols;
+    return cols_;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::ElementTypeVector &
 CRS<T,I>::values() const
 {
-    return _values;
+    return values_;
 }
 
 template <typename T, typename I>
 typename CRS<T,I>::ElementTypeVector &
 CRS<T,I>::values()
 {
-    return _values;
+    return values_;
 }
 
 template <typename T, typename I>
 template <typename T2, typename I2>
 void
-CRS<T,I>::_compress(const CoordStorage<T2, CoordRowColCmp, I2> &coordStorage)
+CRS<T,I>::compress_(const CoordStorage<T2, CoordRowColCmp, I2> &coordStorage)
 {
-    _numRows  = coordStorage.numRows();
-    _numCols  = coordStorage.numCols();
-    _indexBase = coordStorage.indexBase();
+    numRows_  = coordStorage.numRows();
+    numCols_  = coordStorage.numCols();
+    indexBase_ = coordStorage.indexBase();
 
 //
 //  Accumulate coords and get number of non zeros
@@ -179,25 +179,25 @@ CRS<T,I>::_compress(const CoordStorage<T2, CoordRowColCmp, I2> &coordStorage)
 //
 //  Allocate memory for the CRS format
 //
-    _rows.resize(_numRows+1, _indexBase);
-    _cols.resize(nnz, _indexBase);
-    _values.resize(nnz, _indexBase);
+    rows_.resize(numRows_+1, indexBase_);
+    cols_.resize(nnz, indexBase_);
+    values_.resize(nnz, indexBase_);
 
     const auto &coord = coordStorage.coordVector();
 
-    IndexType r = _indexBase;
-    _rows(r) = _indexBase;
+    IndexType r = indexBase_;
+    rows_(r) = indexBase_;
 
     for (size_t k=0; k<coord.size(); ++k) {
         while (coord[k].row>r) {
-            _rows(r+1) = _indexBase + k;
+            rows_(r+1) = indexBase_ + k;
             ++r;
         }
-        _cols(_indexBase+k)   = coord[k].col;
-        _values(_indexBase+k) = coord[k].value;
+        cols_(indexBase_+k)   = coord[k].col;
+        values_(indexBase_+k) = coord[k].value;
     }
     while (r<=lastRow()) {
-        _rows(r+1) = _indexBase + coord.size();
+        rows_(r+1) = indexBase_ + coord.size();
         ++r;
     }
 }

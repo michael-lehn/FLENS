@@ -60,10 +60,10 @@ laein(bool                  rightv,
     CXXLAPACK_DEBUG_OUT("slaein");
 
     IndexType info;
-    IndexType _rightv = rightv;
-    IndexType _noinit = noinit;
-    LAPACK_IMPL(slaein)(&_rightv,
-                        &_noinit,
+    IndexType rightv_ = rightv;
+    IndexType noinit_ = noinit;
+    LAPACK_IMPL(slaein)(&rightv_,
+                        &noinit_,
                         &n,
                         H,
                         &ldH,
@@ -109,10 +109,10 @@ laein(bool                  rightv,
     CXXLAPACK_DEBUG_OUT("dlaein");
 
     IndexType info;
-    IndexType _rightv = rightv;
-    IndexType _noinit = noinit;
-    LAPACK_IMPL(dlaein)(&_rightv,
-                        &_noinit,
+    IndexType rightv_ = rightv;
+    IndexType noinit_ = noinit;
+    LAPACK_IMPL(dlaein)(&rightv_,
+                        &noinit_,
                         &n,
                         H,
                         &ldH,
@@ -155,10 +155,10 @@ laein(bool                        rightv,
     CXXLAPACK_DEBUG_OUT("claein");
 
     IndexType info;
-    IndexType _rightv = rightv;
-    IndexType _noinit = noinit;
-    LAPACK_IMPL(claein)(&_rightv,
-                        &_noinit,
+    IndexType rightv_ = rightv;
+    IndexType noinit_ = noinit;
+    LAPACK_IMPL(claein)(&rightv_,
+                        &noinit_,
                         &n,
                         reinterpret_cast<const float  *>(H),
                         &ldH,
@@ -199,10 +199,10 @@ laein(bool                        rightv,
     CXXLAPACK_DEBUG_OUT("zlaein");
 
     IndexType info;
-    IndexType _rightv = rightv;
-    IndexType _noinit = noinit;
-    LAPACK_IMPL(zlaein)(&_rightv,
-                        &_noinit,
+    IndexType rightv_ = rightv;
+    IndexType noinit_ = noinit;
+    LAPACK_IMPL(zlaein)(&rightv_,
+                        &noinit_,
                         &n,
                         reinterpret_cast<const double *>(H),
                         &ldH,

@@ -54,9 +54,9 @@ class ConstElementClosure
         value() const;
 
     private:
-        const Vector         &_vector;
-        const IndexVariable  &_index;
-        int _id;
+        const Vector         &vector_;
+        const IndexVariable  &index_;
+        int id_;
 };
 
 } } // namespace densevector, flens

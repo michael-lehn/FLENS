@@ -42,10 +42,10 @@ template <typename T, typename Cmp, typename I>
 CoordStorage<T,Cmp,I>::CoordStorage(IndexType numRows, IndexType numCols,
                                     IndexType densityEstimate,
                                     IndexType indexBase)
-    : _numRows(numRows), _numCols(numCols), _indexBase(indexBase),
-      _lastSortedCoord(0), _isSorted(true), _isAccumulated(true)
+    : numRows_(numRows), numCols_(numCols), indexBase_(indexBase),
+      lastSortedCoord_(0), isSorted_(true), isAccumulated_(true)
 {
-    _coord.reserve(densityEstimate*_numRows);
+    coord_.reserve(densityEstimate*numRows_);
 }
 
 template <typename T, typename Cmp, typename I>
@@ -59,29 +59,29 @@ template <typename T, typename Cmp, typename I>
 typename CoordStorage<T,Cmp,I>::ElementProxy
 CoordStorage<T,Cmp,I>::operator()(IndexType row, IndexType col)
 {
-    ASSERT(row>=_indexBase);
-    ASSERT(row<_indexBase+_numRows);
-    ASSERT(col>=_indexBase);
-    ASSERT(col<_indexBase+_numCols);
+    ASSERT(row>=indexBase_);
+    ASSERT(row<indexBase_+numRows_);
+    ASSERT(col>=indexBase_);
+    ASSERT(col<indexBase_+numCols_);
 
-    if (_coord.size()>=_coord.capacity()) {
+    if (coord_.size()>=coord_.capacity()) {
         accumulate();
-        _coord.reserve(_coord.capacity() + _numRows);
+        coord_.reserve(coord_.capacity() + numRows_);
     }
 
-    _coord.push_back(CoordType(row, col, ElementType(0)));
-    _isAccumulated = false;
+    coord_.push_back(CoordType(row, col, ElementType(0)));
+    isAccumulated_ = false;
 
-    size_t lastIndex = _coord.size()-1;
-    if ((lastIndex>0) && _isSorted) {
-        if (_less(_coord[lastIndex-1], _coord[lastIndex])) {
-            _lastSortedCoord = lastIndex;
+    size_t lastIndex = coord_.size()-1;
+    if ((lastIndex>0) && isSorted_) {
+        if (less_(coord_[lastIndex-1], coord_[lastIndex])) {
+            lastSortedCoord_ = lastIndex;
         } else {
-            _isSorted = false;
+            isSorted_ = false;
         }
     }
 
-    return &_coord[lastIndex].value;
+    return &coord_[lastIndex].value;
 }
 
 //-- methods -------------------------------------------------------------------
@@ -90,49 +90,49 @@ template <typename T, typename Cmp, typename I>
 const typename CoordStorage<T,Cmp,I>::IndexType
 CoordStorage<T,Cmp,I>::indexBase() const
 {
-    return _indexBase;
+    return indexBase_;
 }
 
 template <typename T, typename Cmp, typename I>
 const typename CoordStorage<T,Cmp,I>::IndexType
 CoordStorage<T,Cmp,I>::firstRow() const
 {
-    return _indexBase;
+    return indexBase_;
 }
 
 template <typename T, typename Cmp, typename I>
 const typename CoordStorage<T,Cmp,I>::IndexType
 CoordStorage<T,Cmp,I>::lastRow() const
 {
-    return _indexBase+_numRows-1;
+    return indexBase_+numRows_-1;
 }
 
 template <typename T, typename Cmp, typename I>
 const typename CoordStorage<T,Cmp,I>::IndexType
 CoordStorage<T,Cmp,I>::firstCol() const
 {
-    return _indexBase;
+    return indexBase_;
 }
 
 template <typename T, typename Cmp, typename I>
 const typename CoordStorage<T,Cmp,I>::IndexType
 CoordStorage<T,Cmp,I>::lastCol() const
 {
-    return _indexBase+_numCols-1;
+    return indexBase_+numCols_-1;
 }
 
 template <typename T, typename Cmp, typename I>
 const typename CoordStorage<T,Cmp,I>::IndexType
 CoordStorage<T,Cmp,I>::numRows() const
 {
-    return _numRows;
+    return numRows_;
 }
 
 template <typename T, typename Cmp, typename I>
 const typename CoordStorage<T,Cmp,I>::IndexType
 CoordStorage<T,Cmp,I>::numCols() const
 {
-    return _numCols;
+    return numCols_;
 }
 
 template <typename T, typename Cmp, typename I>
@@ -142,86 +142,86 @@ CoordStorage<T,Cmp,I>::accumulate() const
 //
 //  Quick return if possible
 //
-    if (_isAccumulated) {
-        ASSERT(_isSorted);
+    if (isAccumulated_) {
+        ASSERT(isSorted_);
         return;
     }
 
 //
 //  sort
 //
-    if (!_isSorted) {
-        std::sort(_coord.begin()+_lastSortedCoord+1, _coord.end(), _less);
+    if (!isSorted_) {
+        std::sort(coord_.begin()+lastSortedCoord_+1, coord_.end(), less_);
     }
-    if (_lastSortedCoord<_coord.size()) {
-        std::inplace_merge(_coord.begin(),
-                           _coord.begin() + _lastSortedCoord+1,
-                           _coord.end(),
-                           _less);
+    if (lastSortedCoord_<coord_.size()) {
+        std::inplace_merge(coord_.begin(),
+                           coord_.begin() + lastSortedCoord_+1,
+                           coord_.end(),
+                           less_);
     }
-    _isSorted = true;
+    isSorted_ = true;
 
 //
 //  accumulate values
 //
     size_t k, K;
-    for (k=0, K=1; K<_coord.size(); ++k, ++K) {
-        while ((K<_coord.size()) && (!_less(_coord[k], _coord[K]))) {
-            _coord[k].value += _coord[K].value;
-            _coord[K].value = ElementType(0);
+    for (k=0, K=1; K<coord_.size(); ++k, ++K) {
+        while ((K<coord_.size()) && (!less_(coord_[k], coord_[K]))) {
+            coord_[k].value += coord_[K].value;
+            coord_[K].value = ElementType(0);
             ++K;
         }
-        if (K<_coord.size()) {
-            _coord[k+1] = _coord[K];
+        if (K<coord_.size()) {
+            coord_[k+1] = coord_[K];
         }
     }
-    if ((k<_coord.size()) && (K-k-1>0)) {
+    if ((k<coord_.size()) && (K-k-1>0)) {
 #       ifndef NDEBUG
-        size_t oldCapacity = _coord.capacity();
+        size_t oldCapacity = coord_.capacity();
 #       endif
 
-        _coord.erase(_coord.end()-(K-k-1), _coord.end());
+        coord_.erase(coord_.end()-(K-k-1), coord_.end());
 
 #       ifndef NDEBUG
-        if (oldCapacity!=_coord.capacity()) {
+        if (oldCapacity!=coord_.capacity()) {
             std::cerr << "[WARNING] Possible performance bottleneck in "
                       << "CoordStorage<T,Cmp,I>::accumulate()"
                       << std::endl;
         }
 #       endif
     }
-    _lastSortedCoord = _coord.size()-1;
-    _isAccumulated = true;
+    lastSortedCoord_ = coord_.size()-1;
+    isAccumulated_ = true;
 }
 
 template <typename T, typename Cmp, typename I>
 const typename CoordStorage<T,Cmp,I>::CoordVector &
 CoordStorage<T,Cmp,I>::coordVector() const
 {
-    return _coord;
+    return coord_;
 }
 
 template <typename T, typename Cmp, typename I>
 const typename CoordStorage<T,Cmp,I>::IndexType
 CoordStorage<T,Cmp,I>::numNonZeros() const
 {
-    return _coord.size();
+    return coord_.size();
 }
 
 
 //-- Coord ---------------------------------------------------------------------
 
 template <typename T, typename IndexType>
-Coord<T,IndexType>::Coord(IndexType _row, IndexType _col, const T &_value)
-    : row(_row), col(_col), value(_value)
+Coord<T,IndexType>::Coord(IndexType row_, IndexType col_, const T &value_)
+    : row(row_), col(col_), value(value_)
 {
 }
 
 //-- CoordProxy ----------------------------------------------------------------
 
 template <typename T>
-CoordProxy<T>::CoordProxy(T *_value)
-    : value(_value)
+CoordProxy<T>::CoordProxy(T *value_)
+    : value(value_)
 {
 }
 

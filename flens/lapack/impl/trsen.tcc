@@ -154,9 +154,9 @@ trsen_impl(TRSEN::Job                job,
 //  .. Local Arrays ..
 //  this array is used to save variables between calls to lacn2
 //
-    IndexType _isaveData[3] = {0, 0, 0};
+    IndexType isaveData_[3] = {0, 0, 0};
     DenseVectorView<IndexType>
-        isave = typename DenseVectorView<IndexType>::Engine(3, _isaveData);
+        isave = typename DenseVectorView<IndexType>::Engine(3, isaveData_);
 //
 //  Decode and test the input parameters
 //
@@ -290,11 +290,11 @@ trsen_impl(TRSEN::Job                job,
         IndexType   kase = 0;
 
         do {
-            auto _v     = work(_(nn+1,nn+nn));
-            auto _x     = work(_(1,nn));
-            auto _isgn  = iwork(_(1,nn));
+            auto v_     = work(_(nn+1,nn+nn));
+            auto x_     = work(_(1,nn));
+            auto isgn_  = iwork(_(1,nn));
 
-            lacn2(_v, _x, _isgn, est, kase, isave);
+            lacn2(v_, x_, isgn_, est, kase, isave);
             if (kase==0) {
                 break;
             }
@@ -486,7 +486,7 @@ trsen(TRSEN::Job                job,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info =  external::trsen_impl(job, computeQ, select,
+    IndexType info_ =  external::trsen_impl(job, computeQ, select,
                                             T, Q, wr, wi,
                                             m, s, sep, work, iwork);
     bool failed = false;
@@ -536,9 +536,9 @@ trsen(TRSEN::Job                job,
         std::cerr << "F77LAPACK: iwork = " << iwork << std::endl;
         failed = true;
     }
-    if (! isIdentical(info, _info, "info", "_info")) {
+    if (! isIdentical(info, info_, "info", "info_")) {
         std::cerr << "CXXLAPACK: info =  " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

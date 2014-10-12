@@ -104,7 +104,7 @@ pocon_impl(const SyMatrix<MA>  &A,
 
     auto x     = work(_(1,n));
     auto v     = work(_(n+1,2*n));
-    auto _work = work(_(2*n+1,3*n));
+    auto work_ = work(_(2*n+1,3*n));
 
     while (true) {
         lacn2(v, x, iwork, normInvA, kase, iSave);
@@ -117,22 +117,22 @@ pocon_impl(const SyMatrix<MA>  &A,
 //
 //          Multiply by inv(U**T).
 //
-            latrs(Trans, normIn, A.triangular(), x, scaleL, _work);
+            latrs(Trans, normIn, A.triangular(), x, scaleL, work_);
             normIn = true;
 //
 //          Multiply by inv(U).
 //
-            latrs(NoTrans, normIn, A.triangular(), x, scaleU, _work);
+            latrs(NoTrans, normIn, A.triangular(), x, scaleU, work_);
         } else {
 //
 //          Multiply by inv(L).
 //
-            latrs(NoTrans, normIn, A.triangular(), x, scaleL, _work);
+            latrs(NoTrans, normIn, A.triangular(), x, scaleL, work_);
             normIn = true;
 //
 //          Multiply by inv(L**T).
 //
-            latrs(Trans, normIn, A.triangular(), x, scaleU, _work);
+            latrs(Trans, normIn, A.triangular(), x, scaleU, work_);
         }
 //
 //      Multiply by 1/SCALE if doing so will not cause overflow.

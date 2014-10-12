@@ -62,9 +62,9 @@ Create_Dense_Matrix(SuperMatrix *A, int m, int n,
 {
     typedef typename superlu_complex_float::complex  slu_complex_float;
 
-    slu_complex_float *_dataA = reinterpret_cast<slu_complex_float *>(dataA);
+    slu_complex_float *dataA_ = reinterpret_cast<slu_complex_float *>(dataA);
 
-    superlu_complex_float::cCreate_Dense_Matrix(A, m, n, _dataA, ldA,
+    superlu_complex_float::cCreate_Dense_Matrix(A, m, n, dataA_, ldA,
                                                 stype, SLU_C, mtype);
 };
 
@@ -75,9 +75,9 @@ Create_Dense_Matrix(SuperMatrix *A, int m, int n,
 {
     typedef typename superlu_complex_double::doublecomplex  slu_complex_double;
 
-    slu_complex_double *_dataA = reinterpret_cast<slu_complex_double *>(dataA);
+    slu_complex_double *dataA_ = reinterpret_cast<slu_complex_double *>(dataA);
 
-    superlu_complex_double::zCreate_Dense_Matrix(A, m, n, _dataA, ldA,
+    superlu_complex_double::zCreate_Dense_Matrix(A, m, n, dataA_, ldA,
                                                  stype, SLU_D, mtype);
 
 };

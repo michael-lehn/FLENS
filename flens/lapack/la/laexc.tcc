@@ -80,14 +80,14 @@ laexc_impl(bool                          computeQ,
 //
 //    .. Local Arrays ..
 //
-    ElementType _dData[16], _xData[4];
-    GeMatrixView  D = typename GeMatrixView::Engine(4, 4, _dData, 4);
-    GeMatrixView  X = typename GeMatrixView::Engine(2, 2, _xData, 2);
+    ElementType dData_[16], xData_[4];
+    GeMatrixView  D = typename GeMatrixView::Engine(4, 4, dData_, 4);
+    GeMatrixView  X = typename GeMatrixView::Engine(2, 2, xData_, 2);
 
-    ElementType _uData[3], _u1Data[3], _u2Data[3];
-    DenseVectorView u  = typename DenseVectorView::Engine(3, _uData);
-    DenseVectorView u1 = typename DenseVectorView::Engine(3, _u1Data);
-    DenseVectorView u2 = typename DenseVectorView::Engine(3, _u2Data);
+    ElementType uData_[3], u1Data_[3], u2Data_[3];
+    DenseVectorView u  = typename DenseVectorView::Engine(3, uData_);
+    DenseVectorView u1 = typename DenseVectorView::Engine(3, u1Data_);
+    DenseVectorView u2 = typename DenseVectorView::Engine(3, u2Data_);
 //
 //  Quick return if possible
 //
@@ -141,10 +141,10 @@ laexc_impl(bool                          computeQ,
 //      and compute its norm.
 //
         const IndexType nd = n1 + n2;
-        auto _D = D(_(1,nd),_(1,nd));
+        auto D_ = D(_(1,nd),_(1,nd));
 
-        _D = T(_(j1,j1+nd-1),_(j1,j1+nd-1));
-        ElementType normD = lan(MaximumNorm, _D);
+        D_ = T(_(j1,j1+nd-1),_(j1,j1+nd-1));
+        ElementType normD = lan(MaximumNorm, D_);
 
         ElementType cs, sn, wr1, wr2, wi1, wi2;
 
@@ -163,9 +163,9 @@ laexc_impl(bool                          computeQ,
         const auto T12 = D(_(1,n1),_(n1+1,nd));
         const auto T22 = D(_(n1+1,nd),_(n1+1,nd));
 
-        auto _X = X(_(1,n1),_(1,n2));
+        auto X_ = X(_(1,n1),_(1,n2));
 
-        lasy2(false, false, IndexType(-1), T11, T22, T12, scale, _X, normX);
+        lasy2(false, false, IndexType(-1), T11, T22, T12, scale, X_, normX);
 //
 //      Swap the adjacent diagonal blocks.
 //
@@ -187,8 +187,8 @@ laexc_impl(bool                          computeQ,
 //
 //          Perform swap provisionally on diagonal block in D.
 //
-            larfx(Left, u, tau, _D, work(_(1,3)));
-            larfx(Right, u, tau, _D, work(_(1,3)));
+            larfx(Left, u, tau, D_, work(_(1,3)));
+            larfx(Right, u, tau, D_, work(_(1,3)));
 //
 //          Test whether to reject swap.
 //
@@ -466,7 +466,7 @@ laexc(bool                          computeQ,
 //  Compare generic results with results from the native implementation
 //
 
-    IndexType _info = external::laexc_impl(computeQ, T, Q, j1, n1, n2, work);
+    IndexType info_ = external::laexc_impl(computeQ, T, Q, j1, n1, n2, work);
 
     bool failed = false;
     if (! isIdentical(T_generic, T, "T_generic", "T")) {
@@ -487,9 +487,9 @@ laexc(bool                          computeQ,
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

@@ -58,10 +58,10 @@ hemv_generic(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
             for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
                 y[iY] += alpha*cxxblas::real(A[i*ldA+i]) * x[iX];
 
-                VY _y = VY(0);
+                VY y_ = VY(0);
                 dot_generic(n-i-1, A+i*ldA+i+1, IndexType(1),
-                                   x+iX+incX, incX, _y);
-                y[iY] += alpha*_y;
+                                   x+iX+incX, incX, y_);
+                y[iY] += alpha*y_;
 
                 axpy_generic(n-i-1, alpha*x[iX], A+i*ldA+i+1, IndexType(1),
                                                  y+iY+incY, incY);
@@ -70,10 +70,10 @@ hemv_generic(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
             for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
                 y[iY] += alpha*cxxblas::real(A[i*ldA+i]) * x[iX];
 
-                VY _y = VY(0);
+                VY y_ = VY(0);
                 dotu_generic(n-i-1, A+i*ldA+i+1, IndexType(1),
-                                    x+iX+incX, incX, _y);
-                y[iY] += alpha*_y;
+                                    x+iX+incX, incX, y_);
+                y[iY] += alpha*y_;
 
                 acxpy_generic(n-i-1, alpha*x[iX], A+i*ldA+i+1, IndexType(1),
                                                   y+iY+incY, incY);
@@ -84,9 +84,9 @@ hemv_generic(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
             for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
                 y[iY] += alpha*cxxblas::real(A[i*ldA+i]) * x[iX];
 
-                VY _y = VY(0);
-                dot_generic(i, A+i*ldA, IndexType(1), x, incX, _y);
-                y[iY] += alpha*_y;
+                VY y_ = VY(0);
+                dot_generic(i, A+i*ldA, IndexType(1), x, incX, y_);
+                y[iY] += alpha*y_;
 
                 axpy_generic(i, alpha*x[iX], A+i*ldA, IndexType(1), y, incY);
             }
@@ -94,9 +94,9 @@ hemv_generic(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
             for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
                 y[iY] += alpha*cxxblas::real(A[i*ldA+i]) * x[iX];
 
-                VY _y = VY(0);
-                dotu_generic(i, A+i*ldA, IndexType(1), x, incX, _y);
-                y[iY] += alpha*_y;
+                VY y_ = VY(0);
+                dotu_generic(i, A+i*ldA, IndexType(1), x, incX, y_);
+                y[iY] += alpha*y_;
 
                 acxpy_generic(i, alpha*x[iX], A+i*ldA, IndexType(1), y, incY);
             }

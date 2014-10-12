@@ -68,9 +68,9 @@ class ElementClosure
         value();
 
     private:
-        Matrix         &_matrix;
-        IndexVariable  &_row;
-        IndexVariable  &_col;
+        Matrix         &matrix_;
+        IndexVariable  &row_;
+        IndexVariable  &col_;
 };
 
 } } // namespace gematrix, flens

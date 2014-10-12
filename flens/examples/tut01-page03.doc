@@ -57,7 +57,7 @@ Compile and Run
 
 More on Matrix View Types
 =========================
-You saw that there are different ways to define a matrix view types
+You saw that there are different ways to define matrix view types
 
 - Get the matrix view types through typedefs in `GeMatrix`, e.g. by
   `GeMatrix<MA>::View` or `GeMatrix<MA>::ConstView` were `MA` denotes

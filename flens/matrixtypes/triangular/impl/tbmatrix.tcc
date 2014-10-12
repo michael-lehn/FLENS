@@ -45,36 +45,36 @@ namespace flens {
 template <typename FS>
 TbMatrix<FS>::TbMatrix(IndexType dim, StorageUpLo upLo,
                        IndexType numOffDiags, Diag diag)
-    : _engine(dim, dim, (upLo==Upper) ? 0 : numOffDiags,
+    : engine_(dim, dim, (upLo==Upper) ? 0 : numOffDiags,
                         (upLo==Upper) ? numOffDiags : 0),
-      _upLo(upLo), _diag(diag)
+      upLo_(upLo), diag_(diag)
 {
 }
 
 template <typename FS>
 TbMatrix<FS>::TbMatrix(const Engine &engine, StorageUpLo upLo, Diag diag)
-    : _engine(engine), _upLo(upLo), _diag(diag)
+    : engine_(engine), upLo_(upLo), diag_(diag)
 {
 }
 
 template <typename FS>
 TbMatrix<FS>::TbMatrix(const TbMatrix &rhs)
     : TriangularMatrix<TbMatrix<FS> >(),
-      _engine(rhs.engine()), _upLo(rhs.upLo()), _diag(rhs.diag())
+      engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 TbMatrix<FS>::TbMatrix(const TbMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo()), _diag(rhs.diag())
+    : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 TbMatrix<FS>::TbMatrix(TbMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo()), _diag(rhs.diag())
+    : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
 
@@ -128,9 +128,9 @@ template <typename FS>
 TbMatrix<FS> &
 TbMatrix<FS>::operator=(const ElementType &alpha)
 {
-    ASSERT(_diag!=NonUnit);
+    ASSERT(diag_!=NonUnit);
 
-    if (_upLo==Lower) {
+    if (upLo_==Lower) {
         for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).diag(i) = alpha;
     } else {
@@ -144,9 +144,9 @@ template <typename FS>
 TbMatrix<FS> &
 TbMatrix<FS>::operator+=(const ElementType &alpha)
 {
-    ASSERT(_diag!=NonUnit);
+    ASSERT(diag_!=NonUnit);
 
-    if (_upLo==Lower) {
+    if (upLo_==Lower) {
         for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).diag(i) += alpha;
     } else {
@@ -160,9 +160,9 @@ template <typename FS>
 TbMatrix<FS> &
 TbMatrix<FS>::operator-=(const ElementType &alpha)
 {
-    ASSERT(_diag!=NonUnit);
+    ASSERT(diag_!=NonUnit);
 
-    if (_upLo==Lower) {
+    if (upLo_==Lower) {
         for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).diag(i) -= alpha;
     } else {
@@ -176,9 +176,9 @@ template <typename FS>
 TbMatrix<FS> &
 TbMatrix<FS>::operator*=(const ElementType &alpha)
 {
-    ASSERT(_diag!=NonUnit);
+    ASSERT(diag_!=NonUnit);
 
-    if (_upLo==Lower) {
+    if (upLo_==Lower) {
         for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).diag(i) *= alpha;
     } else {
@@ -192,9 +192,9 @@ template <typename FS>
 TbMatrix<FS> &
 TbMatrix<FS>::operator/=(const ElementType &alpha)
 {
-    ASSERT(_diag!=NonUnit);
+    ASSERT(diag_!=NonUnit);
 
-    if (_upLo==Lower) {
+    if (upLo_==Lower) {
         for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).diag(i) /= alpha;
     } else {
@@ -209,14 +209,14 @@ const typename TbMatrix<FS>::ElementType &
 TbMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
-    if (_upLo==Upper) {
+    if (upLo_==Upper) {
         ASSERT(col>=row);
     } else {
         ASSERT(col<=row);
     }
-    ASSERT(!((_diag==Unit) && (col==row)));
+    ASSERT(!((diag_==Unit) && (col==row)));
 #   endif
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 template <typename FS>
@@ -224,14 +224,14 @@ typename TbMatrix<FS>::ElementType &
 TbMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
-    if (_upLo==Upper) {
+    if (upLo_==Upper) {
         ASSERT(col>=row);
     } else {
         ASSERT(col<=row);
     }
-    ASSERT(!((_diag==Unit) && (col==row)));
+    ASSERT(!((diag_==Unit) && (col==row)));
 #   endif
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 // -- views --------------------------------------------------------------------
@@ -240,14 +240,14 @@ template <typename FS>
 const typename TbMatrix<FS>::ConstGeneralView
 TbMatrix<FS>::general() const
 {
-    return ConstGeneralView(_engine);
+    return ConstGeneralView(engine_);
 }
 
 template <typename FS>
 typename TbMatrix<FS>::GeneralView
 TbMatrix<FS>::general()
 {
-    return GeneralView(_engine);
+    return GeneralView(engine_);
 }
 
 // hermitian views
@@ -255,16 +255,16 @@ template <typename FS>
 const typename TbMatrix<FS>::ConstHermitianView
 TbMatrix<FS>::hermitian() const
 {
-    ASSERT(_diag==NonUnit);
-    return ConstHermitianView(_engine, _upLo);
+    ASSERT(diag_==NonUnit);
+    return ConstHermitianView(engine_, upLo_);
 }
 
 template <typename FS>
 typename TbMatrix<FS>::HermitianView
 TbMatrix<FS>::hermitian()
 {
-    ASSERT(_diag==NonUnit);
-    return HermitianView(_engine, _upLo);
+    ASSERT(diag_==NonUnit);
+    return HermitianView(engine_, upLo_);
 }
 
 // symmetric views
@@ -272,16 +272,16 @@ template <typename FS>
 const typename TbMatrix<FS>::ConstSymmetricView
 TbMatrix<FS>::symmetric() const
 {
-    ASSERT(_diag==NonUnit);
-    return ConstSymmetricView(_engine, _upLo);
+    ASSERT(diag_==NonUnit);
+    return ConstSymmetricView(engine_, upLo_);
 }
 
 template <typename FS>
 typename TbMatrix<FS>::SymmetricView
 TbMatrix<FS>::symmetric()
 {
-    ASSERT(_diag==NonUnit);
-    return SymmetricView(_engine, _upLo);
+    ASSERT(diag_==NonUnit);
+    return SymmetricView(engine_, upLo_);
 }
 
 // triangular views
@@ -289,14 +289,14 @@ template <typename FS>
 const typename TbMatrix<FS>::ConstView
 TbMatrix<FS>::triangular() const
 {
-    return ConstView(_engine, _upLo);
+    return ConstView(engine_, upLo_);
 }
 
 template <typename FS>
 typename TbMatrix<FS>::View
 TbMatrix<FS>::triangular()
 {
-    return View(_engine, _upLo);
+    return View(engine_, upLo_);
 }
 
 
@@ -305,14 +305,14 @@ template <typename FS>
 const typename TbMatrix<FS>::ConstVectorView
 TbMatrix<FS>::diag(IndexType diag) const
 {
-    return ConstVectorView(_engine.viewDiag(diag, _engine.firstIndex()));
+    return ConstVectorView(engine_.viewDiag(diag, engine_.firstIndex()));
 }
 
 template <typename FS>
 typename TbMatrix<FS>::VectorView
 TbMatrix<FS>::diag(IndexType diag)
 {
-    return VectorView(_engine.viewDiag(diag, _engine.firstIndex()));
+    return VectorView(engine_.viewDiag(diag, engine_.firstIndex()));
 }
 
 // -- methods ------------------------------------------------------------------
@@ -320,89 +320,89 @@ template <typename FS>
 typename TbMatrix<FS>::IndexType
 TbMatrix<FS>::dim() const
 {
-    ASSERT(_engine.numRows()==_engine.numCols());
+    ASSERT(engine_.numRows()==engine_.numCols());
 
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename FS>
 typename TbMatrix<FS>::IndexType
 TbMatrix<FS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename FS>
 typename TbMatrix<FS>::IndexType
 TbMatrix<FS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename FS>
 typename TbMatrix<FS>::IndexType
 TbMatrix<FS>::firstIndex() const
 {
-    ASSERT(_engine.firstRow()==_engine.firstCol());
-    return _engine.firstRow();
+    ASSERT(engine_.firstRow()==engine_.firstCol());
+    return engine_.firstRow();
 }
 
 template <typename FS>
 typename TbMatrix<FS>::IndexType
 TbMatrix<FS>::lastIndex() const
 {
-    return _engine.lastIndex();
+    return engine_.lastIndex();
 }
 
 template <typename FS>
 typename TbMatrix<FS>::IndexType
 TbMatrix<FS>::numOffDiags() const
 {
-    return (_upLo==Upper)
-             ? _engine.numSuperDiags()
-             : _engine.numSubDiags();
+    return (upLo_==Upper)
+             ? engine_.numSuperDiags()
+             : engine_.numSubDiags();
 }
 
 template <typename FS>
 typename TbMatrix<FS>::IndexType
 TbMatrix<FS>::numSubDiags() const
 {
-    return _engine.numSubDiags();
+    return engine_.numSubDiags();
 }
 
 template <typename FS>
 typename TbMatrix<FS>::IndexType
 TbMatrix<FS>::numSuperDiags() const
 {
-    return _engine.numSuperDiags();
+    return engine_.numSuperDiags();
 }
 
 template <typename FS>
 const typename TbMatrix<FS>::ElementType *
 TbMatrix<FS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename TbMatrix<FS>::ElementType *
 TbMatrix<FS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename TbMatrix<FS>::IndexType
 TbMatrix<FS>::leadingDimension() const
 {
-    return _engine.leadingDimension();
+    return engine_.leadingDimension();
 }
 
 template <typename FS>
 StorageOrder
 TbMatrix<FS>::order() const
 {
-    return _engine.order;
+    return engine_.order;
 }
 
 template <typename FS>
@@ -411,7 +411,7 @@ bool
 TbMatrix<FS>::resize(const TbMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return engine_.resize(rhs.engine(), value);
 }
 
 template <typename FS>
@@ -420,9 +420,9 @@ TbMatrix<FS>::resize(IndexType dim, IndexType numOffDiags,
                      IndexType firstIndex,
                      const ElementType &value)
 {
-    const IndexType numSubDiags = (_upLo == Upper) ? 0 : numOffDiags;
-    const IndexType numSuperDiags = (_upLo == Upper) ? numOffDiags : 0;
-    return _engine.resize(dim, dim, numSubDiags, numSuperDiags,
+    const IndexType numSubDiags = (upLo_ == Upper) ? 0 : numOffDiags;
+    const IndexType numSuperDiags = (upLo_ == Upper) ? numOffDiags : 0;
+    return engine_.resize(dim, dim, numSubDiags, numSuperDiags,
                           firstIndex, value);
 }
 
@@ -431,14 +431,14 @@ template <typename FS>
 bool
 TbMatrix<FS>::fill(const ElementType &value)
 {
-    return _engine.fill(value);
+    return engine_.fill(value);
 }
 
 template <typename FS>
 bool
 TbMatrix<FS>::fillRandom()
 {
-    return _engine.fillRandom();
+    return engine_.fillRandom();
 }
 
 // -- implementation -----------------------------------------------------------
@@ -446,42 +446,42 @@ template <typename FS>
 const typename TbMatrix<FS>::Engine &
 TbMatrix<FS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename FS>
 typename TbMatrix<FS>::Engine &
 TbMatrix<FS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename FS>
 StorageUpLo
 TbMatrix<FS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename FS>
 StorageUpLo &
 TbMatrix<FS>::upLo()
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename FS>
 Diag
 TbMatrix<FS>::diag() const
 {
-    return _diag;
+    return diag_;
 }
 
 template <typename FS>
 Diag &
 TbMatrix<FS>::diag()
 {
-    return _diag;
+    return diag_;
 }
 
 } // namespace flens

@@ -184,7 +184,7 @@ sv(MA &&A, VPIV &&piv, MB &&B)
     piv = piv_org;
     B   = B_org;
 
-    IndexType _info = external::sv_impl(A, piv, B);
+    IndexType info_ = external::sv_impl(A, piv, B);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -208,9 +208,9 @@ sv(MA &&A, VPIV &&piv, MB &&B)
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
     if (failed) {

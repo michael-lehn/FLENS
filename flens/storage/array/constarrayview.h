@@ -109,9 +109,9 @@ class ConstArrayView
         ConstArrayView &
         operator=(const ConstArrayView &rhs);
 
-        const ElementType *_data;
-        Allocator         _allocator;
-        IndexType         _length, _stride, _firstIndex;
+        const ElementType *data_;
+        Allocator         allocator_;
+        IndexType         length_, stride_, firstIndex_;
 };
 
 } // namespace flens

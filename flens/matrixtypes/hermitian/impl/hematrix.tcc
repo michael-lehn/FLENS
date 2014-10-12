@@ -43,20 +43,20 @@ namespace flens {
 
 template <typename FS>
 HeMatrix<FS>::HeMatrix(StorageUpLo upLo)
-    : _upLo(upLo)
+    : upLo_(upLo)
 {
 }
 
 template <typename FS>
 HeMatrix<FS>::HeMatrix(IndexType dim, StorageUpLo upLo)
-    : _engine(dim, dim), _upLo(upLo)
+    : engine_(dim, dim), upLo_(upLo)
 {
     ASSERT(dim>=0);
 }
 
 template <typename FS>
 HeMatrix<FS>::HeMatrix(IndexType dim, IndexType firstIndex, StorageUpLo upLo)
-    : _engine(dim, dim, firstIndex, firstIndex), _upLo(upLo)
+    : engine_(dim, dim, firstIndex, firstIndex), upLo_(upLo)
 {
     ASSERT(dim>=0);
 }
@@ -64,36 +64,36 @@ HeMatrix<FS>::HeMatrix(IndexType dim, IndexType firstIndex, StorageUpLo upLo)
 template <typename FS>
 HeMatrix<FS>::HeMatrix(IndexType dim, IndexType firstRow, IndexType firstCol,
                        StorageUpLo upLo)
-    : _engine(dim, dim, firstRow, firstCol), _upLo(upLo)
+    : engine_(dim, dim, firstRow, firstCol), upLo_(upLo)
 {
     ASSERT(dim>=0);
 }
 
 template <typename FS>
 HeMatrix<FS>::HeMatrix(const Engine &engine, StorageUpLo upLo)
-    : _engine(engine), _upLo(upLo)
+    : engine_(engine), upLo_(upLo)
 {
-    ASSERT(_engine.numRows()==_engine.numCols());
+    ASSERT(engine_.numRows()==engine_.numCols());
 }
 
 template <typename FS>
 HeMatrix<FS>::HeMatrix(const HeMatrix &rhs)
     : HermitianMatrix<HeMatrix<FS> >(),
-      _engine(rhs.engine()), _upLo(rhs.upLo())
+      engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 HeMatrix<FS>::HeMatrix(const HeMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 HeMatrix<FS>::HeMatrix(HeMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -110,7 +110,7 @@ template <typename FS>
 void
 HeMatrix<FS>::operator=(const ElementType &value)
 {
-    engine().fill(_upLo, value);
+    engine().fill(upLo_, value);
 }
 
 template <typename FS>
@@ -155,13 +155,13 @@ const typename HeMatrix<FS>::ElementType &
 HeMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
-    if (_upLo==Upper) {
+    if (upLo_==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
     }
 #   endif
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 template <typename FS>
@@ -169,13 +169,13 @@ typename HeMatrix<FS>::ElementType &
 HeMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
-    if (_upLo==Upper) {
+    if (upLo_==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
     }
 #   endif
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 // rectangular views
@@ -293,79 +293,79 @@ template <typename FS>
 typename HeMatrix<FS>::IndexType
 HeMatrix<FS>::dim() const
 {
-    ASSERT(_engine.numRows()==_engine.numCols());
+    ASSERT(engine_.numRows()==engine_.numCols());
 
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename FS>
 typename HeMatrix<FS>::IndexType
 HeMatrix<FS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename FS>
 typename HeMatrix<FS>::IndexType
 HeMatrix<FS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename FS>
 typename HeMatrix<FS>::IndexType
 HeMatrix<FS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename FS>
 typename HeMatrix<FS>::IndexType
 HeMatrix<FS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename FS>
 typename HeMatrix<FS>::IndexType
 HeMatrix<FS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename FS>
 typename HeMatrix<FS>::IndexType
 HeMatrix<FS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 template <typename FS>
 const typename HeMatrix<FS>::ElementType *
 HeMatrix<FS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename HeMatrix<FS>::ElementType *
 HeMatrix<FS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename HeMatrix<FS>::IndexType
 HeMatrix<FS>::leadingDimension() const
 {
-    return _engine.leadingDimension();
+    return engine_.leadingDimension();
 }
 
 template <typename FS>
 StorageOrder
 HeMatrix<FS>::order() const
 {
-    return _engine.order;
+    return engine_.order;
 }
 
 template <typename FS>
@@ -373,7 +373,7 @@ bool
 HeMatrix<FS>::fill(const ElementType &value)
 {
     ASSERT(cxxblas::imag(value)==0);
-    return _engine.fill(_upLo, value);
+    return engine_.fill(upLo_, value);
 }
 
 template <typename FS>
@@ -382,7 +382,7 @@ bool
 HeMatrix<FS>::resize(const HeMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return engine_.resize(rhs.engine(), value);
 }
 
 template <typename FS>
@@ -390,7 +390,7 @@ bool
 HeMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
                      const ElementType &value)
 {
-    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+    return engine_.resize(dim, dim, firstIndex, firstIndex, value);
 }
 
 template <typename FS>
@@ -398,8 +398,8 @@ bool
 HeMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
                      const ElementType &value)
 {
-    _upLo = upLo;
-    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+    upLo_ = upLo;
+    return engine_.resize(dim, dim, firstIndex, firstIndex, value);
 }
 
 // -- views --------------------------------------------------------------------
@@ -409,14 +409,14 @@ template <typename FS>
 const typename HeMatrix<FS>::ConstGeneralView
 HeMatrix<FS>::general() const
 {
-    return ConstGeneralView(_engine);
+    return ConstGeneralView(engine_);
 }
 
 template <typename FS>
 typename HeMatrix<FS>::GeneralView
 HeMatrix<FS>::general()
 {
-    return GeneralView(_engine);
+    return GeneralView(engine_);
 }
 
 // symmetric views
@@ -424,14 +424,14 @@ template <typename FS>
 const typename HeMatrix<FS>::ConstSymmetricView
 HeMatrix<FS>::symmetric() const
 {
-    return ConstSymmetricView(_engine, upLo());
+    return ConstSymmetricView(engine_, upLo());
 }
 
 template <typename FS>
 typename HeMatrix<FS>::SymmetricView
 HeMatrix<FS>::symmetric()
 {
-    return SymmetricView(_engine, upLo());
+    return SymmetricView(engine_, upLo());
 }
 
 // triangular views
@@ -493,28 +493,28 @@ template <typename FS>
 const typename HeMatrix<FS>::Engine &
 HeMatrix<FS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename FS>
 typename HeMatrix<FS>::Engine &
 HeMatrix<FS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename FS>
 StorageUpLo
 HeMatrix<FS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename FS>
 StorageUpLo &
 HeMatrix<FS>::upLo()
 {
-    return _upLo;
+    return upLo_;
 }
 
 //-- HeMatrix specific functions -----------------------------------------------

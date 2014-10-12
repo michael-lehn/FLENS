@@ -216,16 +216,16 @@ lanv2(T &a, T &b, T &c, T &d, T &rt1r, T &rt1i, T &rt2r, T &rt2i, T &cs, T &sn)
 //
 //  Make copies of output arguments
 //
-    T _a    = a;
-    T _b    = b;
-    T _c    = c;
-    T _d    = d;
-    T _rt1r = rt1r;
-    T _rt1i = rt1i;
-    T _rt2r = rt2r;
-    T _rt2i = rt2i;
-    T _cs   = cs;
-    T _sn   = sn;
+    T a_    = a;
+    T b_    = b;
+    T c_    = c;
+    T d_    = d;
+    T rt1r_ = rt1r;
+    T rt1i_ = rt1i;
+    T rt2r_ = rt2r;
+    T rt2i_ = rt2i;
+    T cs_   = cs;
+    T sn_   = sn;
 #   endif
 
 //
@@ -237,66 +237,66 @@ lanv2(T &a, T &b, T &c, T &d, T &rt1r, T &rt1i, T &rt2r, T &rt2i, T &cs, T &sn)
 //
 //  Compare results
 //
-    external::lanv2_impl(_a, _b, _c, _d, _rt1r, _rt1i, _rt2r, _rt2i, _cs, _sn);
+    external::lanv2_impl(a_, b_, c_, d_, rt1r_, rt1i_, rt2r_, rt2i_, cs_, sn_);
 
     bool failed = false;
-    if (! isIdentical(a, _a, " a", "_a")) {
+    if (! isIdentical(a, a_, " a", "a_")) {
         std::cerr << "CXXLAPACK:  a = " << a << std::endl;
-        std::cerr << "F77LAPACK: _a = " << _a << std::endl;
+        std::cerr << "F77LAPACK: a_ = " << a_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(b, _b, " b", "_b")) {
+    if (! isIdentical(b, b_, " b", "b_")) {
         std::cerr << "CXXLAPACK:  b = " << b << std::endl;
-        std::cerr << "F77LAPACK: _b = " << _b << std::endl;
+        std::cerr << "F77LAPACK: b_ = " << b_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(c, _c, " c", "_c")) {
+    if (! isIdentical(c, c_, " c", "c_")) {
         std::cerr << "CXXLAPACK:  c = " << c << std::endl;
-        std::cerr << "F77LAPACK: _c = " << _c << std::endl;
+        std::cerr << "F77LAPACK: c_ = " << c_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(d, _d, " d", "_d")) {
+    if (! isIdentical(d, d_, " d", "d_")) {
         std::cerr << "CXXLAPACK:  d = " << d << std::endl;
-        std::cerr << "F77LAPACK: _d = " << _d << std::endl;
+        std::cerr << "F77LAPACK: d_ = " << d_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(rt1r, _rt1r, " rt1r", "_rt1r")) {
+    if (! isIdentical(rt1r, rt1r_, " rt1r", "rt1r_")) {
         std::cerr << "CXXLAPACK:  rt1r = " << rt1r << std::endl;
-        std::cerr << "F77LAPACK: _rt1r = " << _rt1r << std::endl;
+        std::cerr << "F77LAPACK: rt1r_ = " << rt1r_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(rt1i, _rt1i, " rt1i", "_rt1i")) {
+    if (! isIdentical(rt1i, rt1i_, " rt1i", "rt1i_")) {
         std::cerr << "CXXLAPACK:  rt1i = " << rt1i << std::endl;
-        std::cerr << "F77LAPACK: _rt1i = " << _rt1i << std::endl;
+        std::cerr << "F77LAPACK: rt1i_ = " << rt1i_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(rt2r, _rt2r, " rt2r", "_rt2r")) {
+    if (! isIdentical(rt2r, rt2r_, " rt2r", "rt2r_")) {
         std::cerr << "CXXLAPACK:  rt2r = " << rt2r << std::endl;
-        std::cerr << "F77LAPACK: _rt2r = " << _rt2r << std::endl;
+        std::cerr << "F77LAPACK: rt2r_ = " << rt2r_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(rt2i, _rt2i, " rt2i", "_rt2i")) {
+    if (! isIdentical(rt2i, rt2i_, " rt2i", "rt2i_")) {
         std::cerr << "CXXLAPACK:  rt2i = " << rt2i << std::endl;
-        std::cerr << "F77LAPACK: _rt2i = " << _rt2i << std::endl;
+        std::cerr << "F77LAPACK: rt2i_ = " << rt2i_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(cs, _cs, " cs", "_cs")) {
+    if (! isIdentical(cs, cs_, " cs", "cs_")) {
         std::cerr << "CXXLAPACK:  cs = " << cs << std::endl;
-        std::cerr << "F77LAPACK: _cs = " << _cs << std::endl;
+        std::cerr << "F77LAPACK: cs_ = " << cs_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(sn, _sn, " sn", "_sn")) {
+    if (! isIdentical(sn, sn_, " sn", "sn_")) {
         std::cerr << "CXXLAPACK:  sn = " << sn << std::endl;
-        std::cerr << "F77LAPACK: _sn = " << _sn << std::endl;
+        std::cerr << "F77LAPACK: sn_ = " << sn_ << std::endl;
         failed = true;
     }
 

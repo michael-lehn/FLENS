@@ -110,12 +110,12 @@ lapy2(const T &x, const T &y)
 //
 //  Compare results
 //
-    const T _result = external::lapy2_impl(x, y);
+    const T result_ = external::lapy2_impl(x, y);
 
     bool failed = false;
-    if (! isIdentical(result, _result, " result", "_result")) {
+    if (! isIdentical(result, result_, " result", "result_")) {
         std::cerr << "CXXLAPACK:  result = " << result << std::endl;
-        std::cerr << "F77LAPACK: _result = " << _result << std::endl;
+        std::cerr << "F77LAPACK: result_ = " << result_ << std::endl;
         failed = true;
     }
 
@@ -127,7 +127,7 @@ lapy2(const T &x, const T &y)
         std::cerr << "hex(y) = " << hex(y) << std::endl;
 
         std::cerr << "hex(result)  = " << hex(result) << std::endl;
-        std::cerr << "hex(_result) = " << hex(_result) << std::endl;
+        std::cerr << "hex(result_) = " << hex(result_) << std::endl;
         ASSERT(0);
     }
 #   endif

@@ -44,10 +44,10 @@ LAPACK_DECL(dpotrs)(const char       *UPLO,
 //
     StorageUpLo         upLo = StorageUpLo(*UPLO);
     DConstFSView        AFS  = DConstFSView(*N, *N, A, *LDA);
-    DConstSyMatrixView  _A   = DConstSyMatrixView(AFS, upLo);
-    DGeMatrixView       _B   = DFSView(*N, *NRHS, B, *LDB);
+    DConstSyMatrixView  A_   = DConstSyMatrixView(AFS, upLo);
+    DGeMatrixView       B_   = DFSView(*N, *NRHS, B, *LDB);
 
-    potrs(_A, _B);
+    potrs(A_, B_);
 }
 
 //-- zpotrs --------------------------------------------------------------------
@@ -90,10 +90,10 @@ LAPACK_DECL(zpotrs)(const char               *UPLO,
 
     StorageUpLo         upLo = StorageUpLo(*UPLO);
     ZConstFSView        AFS  = ZConstFSView(*N, *N, zA, *LDA);
-    ZConstHeMatrixView  _A   = ZConstHeMatrixView(AFS, upLo);
-    ZGeMatrixView       _B   = ZFSView(*N, *NRHS, zB, *LDB);
+    ZConstHeMatrixView  A_   = ZConstHeMatrixView(AFS, upLo);
+    ZGeMatrixView       B_   = ZFSView(*N, *NRHS, zB, *LDB);
 
-    potrs(_A, _B);
+    potrs(A_, B_);
 }
 
 } // extern "C"

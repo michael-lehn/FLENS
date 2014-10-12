@@ -56,7 +56,7 @@ la_syrCond_c(char                        uplo,
 {
     CXXLAPACK_DEBUG_OUT("cla_syrcond_c");
 
-    IndexType _capply = capply;
+    IndexType capply_ = capply;
     return LAPACK_IMPL(cla_syrcond_c)(&uplo,
                                       &n,
                                       reinterpret_cast<const float  *>(A),
@@ -65,7 +65,7 @@ la_syrCond_c(char                        uplo,
                                       &ldAf,
                                       iPiv,
                                       c,
-                                      &_capply,
+                                      &capply_,
                                       &info,
                                       reinterpret_cast<float  *>(work),
                                       rWork);
@@ -89,7 +89,7 @@ la_syrCond_c(char                        uplo,
 {
     CXXLAPACK_DEBUG_OUT("zla_syrcond_c");
 
-    IndexType _capply = capply;
+    IndexType capply_ = capply;
     return LAPACK_IMPL(zla_syrcond_c)(&uplo,
                                       &n,
                                       reinterpret_cast<const double *>(A),
@@ -98,7 +98,7 @@ la_syrCond_c(char                        uplo,
                                       &ldAf,
                                       iPiv,
                                       c,
-                                      &_capply,
+                                      &capply_,
                                       &info,
                                       reinterpret_cast<double *>(work),
                                       rWork);

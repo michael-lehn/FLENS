@@ -145,20 +145,20 @@ ormhr_impl(Side                      side,
         return;
     }
 
-    const auto _tau = tau(_(iLo,iHi-1));
-    auto       _A  = A(_(iLo+1,iHi),_(iLo,iHi-1));
+    const auto tau_ = tau(_(iLo,iHi-1));
+    auto       A_  = A(_(iLo+1,iHi),_(iLo,iHi-1));
 
     if (side==Left) {
 
-        auto _C  = C(_(iLo+1,iHi),_);
+        auto C_  = C(_(iLo+1,iHi),_);
 
-        ormqr(Left, trans, _A, _tau, _C, work);
+        ormqr(Left, trans, A_, tau_, C_, work);
 
     } else {
 
-        auto _C  = C(_,_(iLo+1,iHi));
+        auto C_  = C(_,_(iLo+1,iHi));
 
-        ormqr(Right, trans, _A, _tau, _C, work);
+        ormqr(Right, trans, A_, tau_, C_, work);
     }
 
     work(1) = lWorkOpt;
@@ -289,11 +289,11 @@ ormhr_wsq(Side                      side,
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    IndexType _ws = external::ormhr_wsq_impl(side, trans, iLo, iHi, C);
+    IndexType ws_ = external::ormhr_wsq_impl(side, trans, iLo, iHi, C);
 
-    if (ws!=_ws) {
+    if (ws!=ws_) {
         std::cerr << "CXXLAPACK:  ws = " << ws << std::endl;
-        std::cerr << "F77LAPACK: _ws = " << _ws << std::endl;
+        std::cerr << "F77LAPACK: ws_ = " << ws_ << std::endl;
         ASSERT(0);
     }
 #   endif

@@ -39,7 +39,7 @@ namespace flens {
 
 template <typename T, int n, int inc, int indexBase>
 TinyArrayView<T,n,inc,indexBase>::TinyArrayView(ElementType *data)
-    : _data(data)
+    : data_(data)
 {
 }
 
@@ -54,14 +54,14 @@ template <typename T, int n, int inc, int indexBase>
 const typename TinyArrayView<T,n,inc,indexBase>::ElementType &
 TinyArrayView<T,n,inc,indexBase>::operator()(IndexType index) const
 {
-    return _data[inc*(index-indexBase)];
+    return data_[inc*(index-indexBase)];
 }
 
 template <typename T, int n, int inc, int indexBase>
 typename TinyArrayView<T,n,inc,indexBase>::ElementType &
 TinyArrayView<T,n,inc,indexBase>::operator()(IndexType index)
 {
-    return _data[inc*(index-indexBase)];
+    return data_[inc*(index-indexBase)];
 }
 
 //-- methods -------------------------------------------------------------------
@@ -70,14 +70,14 @@ template <typename T, int n, int inc, int indexBase>
 const typename TinyArrayView<T,n,inc,indexBase>::ElementType *
 TinyArrayView<T,n,inc,indexBase>::data() const
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, int n, int inc, int indexBase>
 typename TinyArrayView<T,n,inc,indexBase>::ElementType *
 TinyArrayView<T,n,inc,indexBase>::data()
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, int n, int inc, int indexBase>
@@ -85,7 +85,7 @@ void
 TinyArrayView<T,n,inc,indexBase>::fill(const ElementType &value)
 {
     for (int i=0, I=0; i<n; ++i, I+=inc) {
-        _data[I] = value;
+        data_[I] = value;
     }
 }
 

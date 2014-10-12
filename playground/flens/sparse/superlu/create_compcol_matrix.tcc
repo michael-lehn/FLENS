@@ -66,11 +66,11 @@ Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
 {
     typedef typename superlu_complex_float::complex  slu_complex_float;
 
-    slu_complex_float *_value = reinterpret_cast<slu_complex_float *>(values);
+    slu_complex_float *value_ = reinterpret_cast<slu_complex_float *>(values);
 
     superlu_complex_float::cCreate_CompCol_Matrix(A, numRows, numCols,
                                                   numNonZeros,
-                                                  _values, rows, cols,
+                                                  values_, rows, cols,
                                                   order, SLU_C, shape);
 };
 
@@ -81,11 +81,11 @@ Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
 {
     typedef typename superlu_complex_double::doublecomplex  slu_complex_double;
 
-    slu_complex_double *_value = reinterpret_cast<slu_complex_double *>(values);
+    slu_complex_double *value_ = reinterpret_cast<slu_complex_double *>(values);
 
     superlu_complex_double::zCreate_CompCol_Matrix(A, numRows, numCols,
                                                    numNonZeros,
-                                                   _values, rows, cols,
+                                                   values_, rows, cols,
                                                    order, SLU_Z, shape);
 };
 

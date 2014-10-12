@@ -214,8 +214,8 @@ tf2(MA &&A, VPIV &&piv)
 //
 //  Make copies of output arguments
 //
-    typename MatrixA::NoView    _A      = A;
-    typename VectorPiv::NoView  _piv    = piv;
+    typename MatrixA::NoView    A_      = A;
+    typename VectorPiv::NoView  piv_    = piv;
 #   endif
 
 //
@@ -227,24 +227,24 @@ tf2(MA &&A, VPIV &&piv)
 //
 //  Compare results
 //
-    IndexType _info = external::tf2_impl(_A, _piv);
+    IndexType info_ = external::tf2_impl(A_, piv_);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "_A")) {
+    if (! isIdentical(A, A_, " A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        std::cerr << "F77LAPACK: A_ = " << A_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(piv, _piv, " piv", "_piv")) {
+    if (! isIdentical(piv, piv_, " piv", "piv_")) {
         std::cerr << "CXXLAPACK:  piv = " << piv << std::endl;
-        std::cerr << "F77LAPACK: _piv = " << _piv << std::endl;
+        std::cerr << "F77LAPACK: piv_ = " << piv_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

@@ -42,7 +42,7 @@ dgssvx(GeCRSMatrix<MA>  &A,
 
     superlu_options_t   options;
     SuperLUStat_t       stat;
-    SuperMatrix         _A, _L, _U, _B, _X;
+    SuperMatrix         A_, L_, U_, B_, X_;
 
 ///
 /// Set the transpose flag so that we solve $A^T X = B$.  Check the SuperLU
@@ -61,14 +61,14 @@ dgssvx(GeCRSMatrix<MA>  &A,
 /// Because `A` has *CRS* format first pass `A.engine().cols().data()`and then
 /// `A.engine().rows().data()`.  After creation `A_` holds a reference of $A^T$.
 ///
-    dCreate_CompCol_Matrix(&_A, n, n, A.engine().numNonZeros(),
+    dCreate_CompCol_Matrix(&A_, n, n, A.engine().numNonZeros(),
                            A.engine().values().data(),
                            A.engine().cols().data(),
                            A.engine().rows().data(),
                            SLU_NC, SLU_D, SLU_GE);
-    dCreate_Dense_Matrix(&_B, n, 1, b.data(), b.length(),
+    dCreate_Dense_Matrix(&B_, n, 1, b.data(), b.length(),
                          SLU_DN, SLU_D, SLU_GE);
-    dCreate_Dense_Matrix(&_X,
+    dCreate_Dense_Matrix(&X_,
                          x.length(), 1, x.data(), x.length(),
                          SLU_DN, SLU_D, SLU_GE);
 
@@ -86,8 +86,8 @@ dgssvx(GeCRSMatrix<MA>  &A,
 /// ignores most of these computations.  However, in a real application some
 /// of this stuff could be really useful (e.g. `rcond`!).
 ///
-    dgssvx(&options, &_A, pc.data(), pr.data(), etree.data(), &equed,
-           r.data(), c.data(), &_L, &_U, work, lwork, &_B, &_X,
+    dgssvx(&options, &A_, pc.data(), pr.data(), etree.data(), &equed,
+           r.data(), c.data(), &L_, &U_, work, lwork, &B_, &X_,
            &rpg, &rcond, ferr.data(), berr.data(), &mem_usage, &stat, &info);
 
 ///
@@ -95,10 +95,10 @@ dgssvx(GeCRSMatrix<MA>  &A,
 ///
     b = x;
 
-    Destroy_SuperMatrix_Store(&_A);
-    Destroy_SuperMatrix_Store(&_B);
-    Destroy_SuperNode_Matrix(&_L);
-    Destroy_CompCol_Matrix(&_U);
+    Destroy_SuperMatrix_Store(&A_);
+    Destroy_SuperMatrix_Store(&B_);
+    Destroy_SuperNode_Matrix(&L_);
+    Destroy_CompCol_Matrix(&U_);
     StatFree(&stat);
     return info;
 }

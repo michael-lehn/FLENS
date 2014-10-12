@@ -45,10 +45,10 @@ rot_generic(IndexType n, X *x, IndexType incX, Y *y, IndexType incY, T c, T s)
     CXXBLAS_DEBUG_OUT("rot_generic");
 
     for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
-        X _x =  c*x[iX] + s*y[iY];
-        Y _y = -s*x[iX] + c*y[iY];
-        x[iX] = _x;
-        y[iY] = _y;
+        X x_ =  c*x[iX] + s*y[iY];
+        Y y_ = -s*x[iX] + c*y[iY];
+        x[iX] = x_;
+        y[iY] = y_;
     }
 }
 

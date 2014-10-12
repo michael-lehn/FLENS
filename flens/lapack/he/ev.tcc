@@ -157,10 +157,10 @@ ev_impl(bool                  computeV,
 //
 //  Call ZHETRD to reduce Hermitian matrix to tridiagonal form.
 //
-    auto _e    = rWork(_(1,n-1));
-    auto _tau  = work(_(1,n-1));
-    auto _work = work(_(n+1, lWork));
-    trd(A, w, _e, _tau, _work);
+    auto e_    = rWork(_(1,n-1));
+    auto tau_  = work(_(1,n-1));
+    auto work_ = work(_(n+1, lWork));
+    trd(A, w, e_, tau_, work_);
 //
 //  For eigenvalues only, call DSTERF.  For eigenvectors, first call
 //  ZUNGTR to generate the unitary matrix, then call ZSTEQR.
@@ -168,17 +168,17 @@ ev_impl(bool                  computeV,
     IndexType info = 0;
 
     if (!computeV) {
-        info = sterf(w, _e);
+        info = sterf(w, e_);
     } else {
-        ungtr(A, _tau, _work);
+        ungtr(A, tau_, work_);
 
-        auto _rWork = rWork(_(n+1, 3*n-2));
+        auto rWork_ = rWork(_(n+1, 3*n-2));
 
         STEQR::ComputeZ   jobZ = (computeV)
                                ? STEQR::Orig
                                : STEQR::No;
 
-        steqr(jobZ, w, _e, A.general(), _rWork);
+        steqr(jobZ, w, e_, A.general(), rWork_);
     }
 //
 //  If matrix was scaled, then rescale eigenvalues appropriately.
@@ -376,7 +376,7 @@ ev(bool     computeV,
     work  = work_org;
     rWork = rWork_org;
 
-    IndexType _result = external::ev_impl(computeV, A, w, work, rWork);
+    IndexType result_ = external::ev_impl(computeV, A, w, work, rWork);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -405,9 +405,9 @@ ev(bool     computeV,
         failed = true;
     }
 
-    if (! isIdentical(result, _result, " result", "_result")) {
+    if (! isIdentical(result, result_, " result", "result_")) {
         std::cerr << "CXXLAPACK:  result = " << result << std::endl;
-        std::cerr << "F77LAPACK: _result = " << _result << std::endl;
+        std::cerr << "F77LAPACK: result_ = " << result_ << std::endl;
         failed = true;
     }
 

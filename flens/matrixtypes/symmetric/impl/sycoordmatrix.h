@@ -96,15 +96,15 @@ class SyCoordMatrix
         // forbidden:
         SyCoordMatrix(const SyCoordMatrix &rhs);
 
-        Engine       _engine;
-        StorageUpLo  _upLo;
+        Engine       engine_;
+        StorageUpLo  upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsSyCoordMatrix
 //
-struct _SyCoordMatrixChecker
+struct SyCoordMatrixChecker_
 {
 
     struct Two {
@@ -113,7 +113,7 @@ struct _SyCoordMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -124,7 +124,7 @@ template <typename T>
 struct IsSyCoordMatrix
 {
     static T var;
-    static const bool value = sizeof(_SyCoordMatrixChecker::check(var))==1;
+    static const bool value = sizeof(SyCoordMatrixChecker_::check(var))==1;
 };
 
 //

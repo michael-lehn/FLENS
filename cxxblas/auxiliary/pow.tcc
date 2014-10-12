@@ -42,17 +42,6 @@
 
 namespace cxxblas {
 
-/*
-template <typename B, typename E>
-typename RestrictTo<IsMpfrReal<B>::value
-                 || IsMpfrReal<E>::value,
-         typename mpfr::result_type2<B, E>::type>::Type
-pow(const B &base, const E &exponent)
-{
-    mpfr::pow(base, exponent);
-}
-*/
-
 template <typename T>
 typename RestrictTo<IsSame<T,int>::value,
          T>::Type
@@ -80,9 +69,6 @@ typename RestrictTo<!IsSame<T,int>::value
          T>::Type
 pow(const T &base, int exponent)
 {
-    typedef typename ComplexTrait<T>::PrimitiveType PT;
-    using std::pow;
-
 //
 //  TODO: Make this more general and call an external Fortran routine
 //        that computes 'pow(base, exponent)' for comparison
@@ -92,7 +78,7 @@ pow(const T &base, int exponent)
         return base*base;
     }
 #   endif
-    return std::pow(base, PT(exponent));
+    return std::pow(base, T(exponent));
 }
 #else
 template <typename T>
@@ -101,9 +87,6 @@ typename RestrictTo<!IsSame<T,int>::value
          T>::Type
 pow(const T &base, int exponent)
 {
-    typedef typename ComplexTrait<T>::PrimitiveType PT;
-    using std::pow;
-
 //
 //  TODO: Make this more general and call an external Fortran routine
 //        that computes 'pow(base, exponent)' for comparison
@@ -113,7 +96,7 @@ pow(const T &base, int exponent)
         return base*base;
     }
 #   endif
-    return std::pow(base, PT(exponent));
+    return std::pow(base, T(exponent));
 }
 #endif
 
@@ -121,8 +104,6 @@ template <typename T>
 std::complex<T>
 pow(const std::complex<T> &base, int exponent)
 {
-    typedef typename ComplexTrait<T>::PrimitiveType PT;
-    using std::pow;
 //
 //  TODO: Make this more general and call an external Fortran routine
 //        that computes 'pow(base, exponent)' for comparison
@@ -132,7 +113,7 @@ pow(const std::complex<T> &base, int exponent)
         return base*base;
     }
 #   endif
-    return std::pow(base, PT(exponent));
+    return std::pow(base, T(exponent));
 }
 
 } // namespace cxxblas

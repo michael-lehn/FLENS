@@ -37,7 +37,7 @@
 #include <flens/hacks/mpfr_real.h>
 
 /*
- * NOTE: This hack requires that in the mpfr::real class the '_x' attribute
+ * NOTE: This hack requires that in the mpfr::real class the 'x_' attribute
  *       is made public!
  */
 
@@ -47,23 +47,23 @@ namespace mpfr {
 // aux-functions used in numeric_limits
 //
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-const mpfr::real<_prec,_rnd>
-nextabove(const mpfr::real<_prec,_rnd> &x)
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+const mpfr::real<prec_,rnd_>
+nextabove(const mpfr::real<prec_,rnd_> &x)
 {
-    mpfr::real<_prec,_rnd> tmp = x;
-    mpfr_nextabove(tmp._x);
+    mpfr::real<prec_,rnd_> tmp = x;
+    mpfr_nextabove(tmp.x_);
     return tmp;
 }
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-const mpfr::real<_prec,_rnd>
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+const mpfr::real<prec_,rnd_>
 get_max()
 {
     const unsigned long emax = mpfr_get_emax();
-    mpfr::real<_prec,_rnd> tmp(1);
+    mpfr::real<prec_,rnd_> tmp(1);
 
-    mpfr_mul_2ui(tmp._x, tmp._x, emax-1, _rnd);
+    mpfr_mul_2ui(tmp.x_, tmp.x_, emax-1, rnd_);
     return tmp;
 }
 
@@ -75,74 +75,61 @@ get_max()
 
 namespace std {
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-    const mpfr::real<_prec,_rnd>
-    numeric_limits<mpfr::real<_prec,_rnd> >::_max
-        = mpfr::get_max<_prec,_rnd>();
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+    const mpfr::real<prec_,rnd_>
+    numeric_limits<mpfr::real<prec_,rnd_> >::max_
+        = mpfr::get_max<prec_,rnd_>();
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-    const mpfr::real<_prec,_rnd>
-    numeric_limits<mpfr::real<_prec,_rnd> >::_min
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+    const mpfr::real<prec_,rnd_>
+    numeric_limits<mpfr::real<prec_,rnd_> >::min_
         = mpfr::nextabove(T(0));
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-    const mpfr::real<_prec,_rnd>
-    numeric_limits<mpfr::real<_prec,_rnd> >::_eps
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+    const mpfr::real<prec_,rnd_>
+    numeric_limits<mpfr::real<prec_,rnd_> >::eps_
         = mpfr::nextabove(T(1)) - T(1);
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-const mpfr::real<_prec,_rnd>
-numeric_limits<mpfr::real<_prec,_rnd> >::epsilon()
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+const mpfr::real<prec_,rnd_>
+numeric_limits<mpfr::real<prec_,rnd_> >::epsilon()
 {
-     return _eps;
+     return eps_;
 }
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-const mpfr::real<_prec,_rnd>
-numeric_limits<mpfr::real<_prec,_rnd> >::max()
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+const mpfr::real<prec_,rnd_>
+numeric_limits<mpfr::real<prec_,rnd_> >::max()
 {
-    return _max;
+    return max_;
 }
 
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
-const mpfr::real<_prec,_rnd>
-numeric_limits<mpfr::real<_prec,_rnd> >::min()
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
+const mpfr::real<prec_,rnd_>
+numeric_limits<mpfr::real<prec_,rnd_> >::min()
 {
-    return _min;
+    return min_;
 }
 
 //
 // import isnan to namespace std
 //
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
 bool
-isnan(const mpfr::real<_prec,_rnd> &x)
+isnan(const mpfr::real<prec_,rnd_> &x)
 {
-    //
-    // TODO: There seems to be a bug in clang++ because
-    //
-    //          return mpfr::isnan(x);
-    //
-    //       does not compile (but is fine with g++4.7)
-    return mpfr_nan_p(x._x);
+    return mpfr_nan_p(x.x_);
 }
 
 //
 // import mpfr_real to namespace std
 //
-template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+template <mpfr::real_prec_t prec_, mpfr::real_rnd_t rnd_>
 int
-signbit(const mpfr::real<_prec,_rnd> &x)
+signbit(const mpfr::real<prec_,rnd_> &x)
 {
-    //
-    // TODO: There seems to be a bug in clang++ because
-    //
-    //          return mpfr::signbit(x);
-    //
-    //       does not compile (but is fine with g++4.7)
-    return mpfr_signbit(x._x);
+    return mpfr_signbit(x.x_);
 }
-
 
 } // namespace std
 

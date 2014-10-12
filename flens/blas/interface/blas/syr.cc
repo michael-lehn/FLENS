@@ -11,30 +11,30 @@ BLAS(ssyr)(const char      *UPLO,
            const float     *ALPHA,
            const float     *X,
            const INTEGER   *INCX,
-           float           *_A,
+           float           *A_,
            const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
+        char    UPLO_   = toupper(*UPLO);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
 
         cblas_ssyr(CBLAS_ORDER::CblasColMajor,
                    cxxblas::CBLAS::getCblasType(upLo),
                    *N, *ALPHA,
-                   X, *INCX, _A, *LDA);
+                   X, *INCX, A_, *LDA);
 
 #   else
 
         using std::abs;
         using std::max;
 
-        char    _UPLO = toupper(*UPLO);
+        char    UPLO_ = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
             } else if (*N<0) {
                 info = 2;
@@ -49,10 +49,10 @@ BLAS(ssyr)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
 
         SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-        SSyMatrixView         A(SFullView(*N, *N, _A, *LDA), upLo);
+        SSyMatrixView         A(SFullView(*N, *N, A_, *LDA), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -70,29 +70,29 @@ BLAS(dsyr)(const char      *UPLO,
            const double    *ALPHA,
            const double    *X,
            const INTEGER   *INCX,
-           double          *_A,
+           double          *A_,
            const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
+        char    UPLO_   = toupper(*UPLO);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
 
         cblas_dsyr(CBLAS_ORDER::CblasColMajor,
                    cxxblas::CBLAS::getCblasType(upLo),
                    *N, *ALPHA,
-                   X, *INCX, _A, *LDA);
+                   X, *INCX, A_, *LDA);
 
 #   else
         using std::abs;
         using std::max;
 
-        char    _UPLO = toupper(*UPLO);
+        char    UPLO_ = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
             } else if (*N<0) {
                 info = 2;
@@ -107,10 +107,10 @@ BLAS(dsyr)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
 
         DDenseVectorConstView x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-        DSyMatrixView         A(DFullView(*N, *N, _A, *LDA), upLo);
+        DSyMatrixView         A(DFullView(*N, *N, A_, *LDA), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;

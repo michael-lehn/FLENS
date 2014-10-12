@@ -45,7 +45,7 @@ TrCoordMatrix<CS>::TrCoordMatrix(IndexType   dim,
                                  StorageUpLo upLo,
                                  IndexType   densityEstimate,
                                  IndexType   indexBase)
-    : _engine(dim, dim, densityEstimate, indexBase), _upLo(upLo)
+    : engine_(dim, dim, densityEstimate, indexBase), upLo_(upLo)
 {
 }
 
@@ -55,14 +55,14 @@ typename TrCoordMatrix<CS>::ElementProxy
 TrCoordMatrix<CS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
-    if (_upLo==Upper) {
+    if (upLo_==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
     }
 #   endif
 
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 // -- methods ------------------------------------------------------------------
@@ -71,63 +71,63 @@ typename TrCoordMatrix<CS>::IndexType
 TrCoordMatrix<CS>::dim() const
 {
     ASSERT(numRows()==numCols());
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename CS>
 typename TrCoordMatrix<CS>::IndexType
 TrCoordMatrix<CS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename CS>
 typename TrCoordMatrix<CS>::IndexType
 TrCoordMatrix<CS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename CS>
 typename TrCoordMatrix<CS>::IndexType
 TrCoordMatrix<CS>::indexBase() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename CS>
 typename TrCoordMatrix<CS>::IndexType
 TrCoordMatrix<CS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename CS>
 typename TrCoordMatrix<CS>::IndexType
 TrCoordMatrix<CS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename CS>
 typename TrCoordMatrix<CS>::IndexType
 TrCoordMatrix<CS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename CS>
 typename TrCoordMatrix<CS>::IndexType
 TrCoordMatrix<CS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 template <typename CS>
 StorageUpLo
 TrCoordMatrix<CS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 // -- implementation -----------------------------------------------------------
@@ -135,7 +135,7 @@ template <typename CS>
 const typename TrCoordMatrix<CS>::Engine &
 TrCoordMatrix<CS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

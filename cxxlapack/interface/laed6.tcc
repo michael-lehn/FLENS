@@ -52,9 +52,9 @@ laed6(IndexType             kniter,
     CXXLAPACK_DEBUG_OUT("slaed6");
 
     IndexType info;
-    IndexType _orgati = orgati;
+    IndexType orgati_ = orgati;
     LAPACK_IMPL(slaed6)(&kniter,
-                        &_orgati,
+                        &orgati_,
                         &rho,
                         d,
                         z,
@@ -84,9 +84,9 @@ laed6(IndexType             kniter,
     CXXLAPACK_DEBUG_OUT("dlaed6");
 
     IndexType info;
-    IndexType _orgati = orgati;
+    IndexType orgati_ = orgati;
     LAPACK_IMPL(dlaed6)(&kniter,
-                        &_orgati,
+                        &orgati_,
                         &rho,
                         d,
                         z,

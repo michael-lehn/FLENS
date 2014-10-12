@@ -247,7 +247,7 @@ tri(MA &&A)
 
     A = A_org;
 
-    const IndexType _info = external::tri_impl(A);
+    const IndexType info_ = external::tri_impl(A);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -256,9 +256,9 @@ tri(MA &&A)
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

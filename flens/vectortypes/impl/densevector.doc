@@ -695,15 +695,14 @@ Related Trait-Classes
 =====================
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
-|  struct _DenseVectorChecker;                                              |
+|  struct DenseVectorChecker_;                                              |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@S@_DenseVectorCheckerstruct_DenseVector]
-                         [Checker;                                          ]
+                         [c:@N@flens@S@DenseVectorChecker_structDenseVectorC]
+                         [hecker_;                                          ]
 
     Defined in namespace `flens`.
     Class _DenseVectorCheckerstruct_DenseVectorChecker;.
-
 
 
 *--[CODEREF]----------------------------------------------------------------*
@@ -711,7 +710,8 @@ Related Trait-Classes
 |  struct Two;                                                              |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                           [c:@N@flens@S@_DenseVectorChecker@S@TwostructTwo;]
+                           [c:@N@flens@S@DenseVectorChecker_@S@TwostructTwo;]
+
 
     Defined in namespace `flens`.
     Class _DenseVectorChecker.
@@ -924,6 +924,4 @@ Related Trait-Classes
 
     Defined in namespace `flens`.
     Class IsBooleanDenseVectortemplatetypenameTstructIsBooleanDenseVector; with 1 template parameters.
-
-
 

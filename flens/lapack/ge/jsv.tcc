@@ -238,9 +238,9 @@ jsv_generic(JSV::Accuracy             accuracy,
 //          computing all M left singular vectors of the M x 1 matrix
             if (nu!=n) {
                 auto tau   = work(_(1,n));
-                auto _work = work(_(n+1,lWork));
-                qrf(U1, tau, _work);
-                orgqr(1, U, tau, _work);
+                auto work_ = work(_(n+1,lWork));
+                qrf(U1, tau, work_);
+                orgqr(1, U, tau, work_);
                 U1 = A;
             }
         }
@@ -334,9 +334,9 @@ jsv_generic(JSV::Accuracy             accuracy,
 
         entra = Zero
         for (IndexType p=1; p<=n; ++p) {
-            const ElementType _big = pow(sva(p)/xsc, 2) * tmp;
-            if (_big!=Zero) {
-                entra += _big * log(_big);
+            const ElementType big_ = pow(sva(p)/xsc, 2) * tmp;
+            if (big_!=Zero) {
+                entra += big_ * log(big_);
             }
         }
         entra = - entra / log(ElementType(n));
@@ -349,9 +349,9 @@ jsv_generic(JSV::Accuracy             accuracy,
 //
         entrat = Zero
         for (IndexType p=n+1; p<=n+m; ++p) {
-            const ElementType _big = pow(work(p)/xsc, 2) * tmp;
-            if (_big!=Zero) {
-                entrat += _big * log(_big);
+            const ElementType big_ = pow(work(p)/xsc, 2) * tmp;
+            if (big_!=Zero) {
+                entrat += big_ * log(big_);
             }
         }
         entrat = -entrat / log(ElementType(m));
@@ -483,14 +483,14 @@ jsv_generic(JSV::Accuracy             accuracy,
 //  Any improvement of DGEQP3 improves overal performance of DGEJSV.
 //
 //  A * P1 = Q1 * [ R1^t 0]^t:
-    auto _tau   = work(_(1,n));
-    auto _work  = work(_(n+1,lWork));
-    auto _iwork = iwork(_(1,n));
+    auto tau_   = work(_(1,n));
+    auto work_  = work(_(n+1,lWork));
+    auto iwork_ = iwork(_(1,n));
 
 //      .. all columns are free columns
-    _iwork = 0;
+    iwork_ = 0;
 
-    qp3(A, _iwork, _tau, _work);
+    qp3(A, iwork_, tau_, work_);
 //
 //  The upper triangular matrix R1 from the first QRF is inspected for
 //  rank deficiency and possibilities for deflation, or possible
@@ -571,25 +571,25 @@ jsv_generic(JSV::Accuracy             accuracy,
                     tmp = sva(iwork(p));
                     V(_(1,p),p) *= One/tmp;
                 }
-                auto _work  = work(_(n+1, 4*n));
-                auto _iwork = iwork(_(2*n+m+1, 3*n+m));
-                pocon(V.upper(), One, tmp, _work, _iwork);
+                auto work_  = work(_(n+1, 4*n));
+                auto iwork_ = iwork(_(2*n+m+1, 3*n+m));
+                pocon(V.upper(), One, tmp, work_, iwork_);
             } else if (lsvec) {
 //              .. U is available as workspace
-                auto _U = U(_(1,n),_(1,n));
-                _U.upper() = A(_(1,n),_).upper();
+                auto U_ = U(_(1,n),_(1,n));
+                U_.upper() = A(_(1,n),_).upper();
                 for (IndexType p=1; p<=n; ++p) {
                     tmp = sva(iwork(p));
                     U(_(1,p),p) *= One/tmp;
                 }
-                auto _work  = work(_(n+1, 4*n));
-                auto _iwork = iwork(_(2*n+m+1, 3*n+m));
-                pocon(_U.upper(), One, tmp, _work, _iwork);
+                auto work_  = work(_(n+1, 4*n));
+                auto iwork_ = iwork(_(2*n+m+1, 3*n+m));
+                pocon(U_.upper(), One, tmp, work_, iwork_);
             } else {
-                auto                       _work1 = work(_(n+1,n+n*n));
-                auto                       _work2 = work(_(n+n*n+1,n+n*n+3*n));
-                auto                       _iwork = work(_(2*n+m+1,3*n+m));
-                GeMatrixView<ElementType>  Work(n, n, _work1, n);
+                auto                       work1_ = work(_(n+1,n+n*n));
+                auto                       work2_ = work(_(n+n*n+1,n+n*n+3*n));
+                auto                       iwork_ = work(_(2*n+m+1,3*n+m));
+                GeMatrixView<ElementType>  Work(n, n, work1_, n);
 
                 Work.upper() = A(_(1,n),_).upper();
                 for (IndexType p=1; p<=n; ++p) {
@@ -597,7 +597,7 @@ jsv_generic(JSV::Accuracy             accuracy,
                     Work(_(1,p),p) *= One/tmp;
                 }
 //              .. the columns of R are scaled to have unit Euclidean lengths.
-                pocon(Work.upper(), One, tmp, _work2, _iwork);
+                pocon(Work.upper(), One, tmp, work2_, iwork_);
             }
             sconda = One/sqrt(tmp);
 //          SCONDA is an estimate of DSQRT(||(R^t * R)^(-1)||_1).
@@ -652,10 +652,10 @@ jsv_generic(JSV::Accuracy             accuracy,
 //
 //          .. second preconditioning using the QR factorization
 //
-            auto _A    = A(_(1,n),_(1,nr));
-            auto _tau  = work(_(1,nr));
-            auto _work = work(_(n+1,lWork));
-            qrf(_A, _tau, _work);
+            auto A_    = A(_(1,n),_(1,nr));
+            auto tau_  = work(_(1,nr));
+            auto work_ = work(_(n+1,lWork));
+            qrf(A_, tau_, work_);
 //
 //          .. and transpose upper to lower triangular
             for (IndexType p=1; p<=nr-1; ++p) {
@@ -687,10 +687,10 @@ jsv_generic(JSV::Accuracy             accuracy,
 //      triangular matrix (plus perturbation which is ignored in
 //      the part which destroys triangular form (confusing?!))
 //
-        auto _A    = A(_(1,nr),_(1,nr));
-        auto _sva  = sva(_(1,nr));
+        auto A_    = A(_(1,nr),_(1,nr));
+        auto sva_  = sva(_(1,nr));
 
-        svj(SVJ::Lower, SVJ::NoU, SVJ::NoV, _A, _sva, V, work);
+        svj(SVJ::Lower, SVJ::NoU, SVJ::NoV, A_, sva_, V, work);
 
         scaleM  = work(1);
         numRank = nint(work(2));
@@ -708,9 +708,9 @@ jsv_generic(JSV::Accuracy             accuracy,
                 V(_(p,n),p) = A(p,_(p,n));
             }
 
-            auto _V = V(_,_(1,nr));
-            _V.strictUpper() = Zero;
-            svj(SVJ::Lower, SVJ::ComputeU, SVJ::NoV, _V, sva, A, work);
+            auto V_ = V(_,_(1,nr));
+            V_.strictUpper() = Zero;
+            svj(SVJ::Lower, SVJ::ComputeU, SVJ::NoV, V_, sva, A, work);
 
             scaleM  = work(1);
             numRank = nint(work(2));
@@ -722,26 +722,26 @@ jsv_generic(JSV::Accuracy             accuracy,
 //
             A(_(1,nr),_(1,nr)).strictLower() = Zero;
 
-            auto _A     = A(_(1,nr),_);
-            auto _tau1  = work(_(1,nr));
-            auto _work1 = work(_(n+1,lWork));
-            lqf(_A, _tau1, _work1);
+            auto A_     = A(_(1,nr),_);
+            auto tau1_  = work(_(1,nr));
+            auto work1_ = work(_(n+1,lWork));
+            lqf(A_, tau1_, work1_);
 
-            auto _V = V(_(1,nr),_(1,nr))
-            _V.lower()       = _A(_,_(1,nr)).lower();
-            _V.strictUpper() = Zero;
+            auto V_ = V(_(1,nr),_(1,nr))
+            V_.lower()       = A_(_,_(1,nr)).lower();
+            V_.strictUpper() = Zero;
 
-            auto _tau2  = work(_(n+1,n+nr));
-            auto _work2 = work(_(2*n+1,lWork));
-            qrf(_V, _tau2, _work2);
+            auto tau2_  = work(_(n+1,n+nr));
+            auto work2_ = work(_(2*n+1,lWork));
+            qrf(V_, tau2_, work2_);
 
             for (IndexType p=1; p<=nr; ++p) {
                 V(_(p,nr),p) = V(p,_(p,nr));
             }
-            _V.strictUpper() = Zero;
+            V_.strictUpper() = Zero;
 
-            auto _sva  = sva(_(1,nr));
-            svj(SVJ::Lower, SVJ::ComputeU, SVJ::NoV, _V, _sva, U, _work1);
+            auto sva_  = sva(_(1,nr));
+            svj(SVJ::Lower, SVJ::ComputeU, SVJ::NoV, V_, sva_, U, work1_);
 
             scaleM  = work(n+1);
             numRank = nint(work(n+2));
@@ -753,7 +753,7 @@ jsv_generic(JSV::Accuracy             accuracy,
                 V(_(nr+1,n),_(nr+1,n)).diag(0) = One;
             }
 
-            ormlq(Left, Trans, _A, _tau1, V, _work1);
+            ormlq(Left, Trans, A_, tau1_, V, work1_);
 
         }
 
@@ -773,25 +773,25 @@ jsv_generic(JSV::Accuracy             accuracy,
 //      .. second preconditioning step to avoid need to accumulate
 //      Jacobi rotations in the Jacobi iterations.
 
-        auto _U = U(_(1,nr),_(1,nr));
-        auto _tau   = work(_(n+1,n+nr));
-        auto _sva   = sva(_(1,nr));
-        auto _work1 = work(_(n+1,lWork));
-        auto _work2 = work(_(2*n+1,lWork));
+        auto U_ = U(_(1,nr),_(1,nr));
+        auto tau_   = work(_(n+1,n+nr));
+        auto sva_   = sva(_(1,nr));
+        auto work1_ = work(_(n+1,lWork));
+        auto work2_ = work(_(2*n+1,lWork));
 
         for (IndexType p=1; p<=nr; ++p) {
             A(p,_(p,nr)) = U(_(p,nr),p);
         }
-        _U.strictUpper() = Zero;
+        U_.strictUpper() = Zero;
 
-        qrf(U(_(1,n),_(1,nr)), _tau, _work2);
+        qrf(U(_(1,n),_(1,nr)), tau_, work2_);
 
         for (IndexType p=1; p<=nr-1; ++p) {
             U(p,_(p+1,nr)) = U(_(p+1,nr),p);
         }
-        _U.strictUpper() = Zero;
+        U_.strictUpper() = Zero;
 
-        svj(SVJ::Lower, SVJ::ComputeU, SVJ::NoV, _U, _sva, A, _work1);
+        svj(SVJ::Lower, SVJ::ComputeU, SVJ::NoV, U_, sva_, A, work1_);
         scaleM  = work(n+1);
         numRank = nint(work(n+2));
 
@@ -873,17 +873,17 @@ jsv_generic(JSV::Accuracy             accuracy,
 //              (If R1 is rectangular, N > NR, then the condition number
 //              of the leading NR x NR submatrix is estimated.)
 //
-                auto          _work1 = work(_(2*n+1,2*n+nr*nr));
-                auto          _work2 = work(_(2*n+nr*nr+1, 2*n+nr*nr+3*nr));
-                auto          _iwork = iwork(_(m+2*n+1,m+2*n+nr));
-                GeMatrixView<ElementType>  Work(nr, nr, _work1, nr);
+                auto          work1_ = work(_(2*n+1,2*n+nr*nr));
+                auto          work2_ = work(_(2*n+nr*nr+1, 2*n+nr*nr+3*nr));
+                auto          iwork_ = iwork(_(m+2*n+1,m+2*n+nr));
+                GeMatrixView<ElementType>  Work(nr, nr, work1_, nr);
 
                 Work.lower() = V.lower();
                 for (IndexType p=1; p<=nr; ++p) {
                     tmp = blas::nrm2(Work(_(p,nr),p));
                     Work(_(p,nr),p) *= One/tmp;
                 }
-                pocon(Work, One, tmp, _work2, _iwork);
+                pocon(Work, One, tmp, work2_, iwork_);
                 condr1 = One / sqrt(tmp);
 //              .. here need a second oppinion on the condition number
 //              .. then assume worst case scenario
@@ -899,9 +899,9 @@ jsv_generic(JSV::Accuracy             accuracy,
 //                  of a lower triangular matrix.
 //                  R1^t = Q2 * R2
                     auto tau    = work(_(n+1,n+nr));
-                    auto _work  = work(_(2*n+1,lWork));
+                    auto work_  = work(_(2*n+1,lWork));
 
-                    qrf(V(_,_(1,nr)), tau, _work);
+                    qrf(V(_,_(1,nr)), tau, work_);
 
                     if (l2pert) {
                         xsc = sqrt(small) / Eps;
@@ -916,16 +916,16 @@ jsv_generic(JSV::Accuracy             accuracy,
                     }
 //
                     if (nr!=n) {
-                        auto _work = work(_(2*n+1, 2*n+n*nr));
-                        GeMatrixView<ElementType>  Work(n, nr, _work, n);
+                        auto work_ = work(_(2*n+1, 2*n+n*nr));
+                        GeMatrixView<ElementType>  Work(n, nr, work_, n);
 
                         Work = V(_,_(1,nr));
                     }
 //                  .. save ...
 //
 //               .. this transposed copy should be better than naive
-//                  TODO:  auto _V = V(_(1,nr),_(1,nr));
-//                         _V.lower() = transpose(_V.upper());
+//                  TODO:  auto V_ = V(_(1,nr),_(1,nr));
+//                         V_.lower() = transpose(V_.upper());
 //
                     for (IndexType p=1; p<=nr-1; ++p) {
                         V(_(p+1,nr),p) = V(p,_(p+1,nr));
@@ -943,13 +943,13 @@ jsv_generic(JSV::Accuracy             accuracy,
 //                  with properly (carefully) chosen parameters.
 //
 //                  R1^t * P2 = Q2 * R2
-                    auto _V    = V(_,_(1,nr));
+                    auto V_    = V(_,_(1,nr));
                     auto piv   = iwork(_(n+1,n+nr));
                     auto tau   = work(_(n+1,,n+nr));
-                    auto _work = work(_(2*n+1, lWork));
+                    auto work_ = work(_(2*n+1, lWork));
 
                     piv = 0;
-                    qp3(_V, piv, tau, _work);
+                    qp3(V_, piv, tau, work_);
                     if (l2pert) {
                         xsc = sqrt(small);
                         for (IndexType p=2; p<=nr; ++p) {
@@ -962,8 +962,8 @@ jsv_generic(JSV::Accuracy             accuracy,
                         }
                     }
 
-                    auto  _work1 = work(_(2*n+1, 2*n+n*nr));
-                    GeMatrixView<ElementType>  Work1(n, nr, _work1, n);
+                    auto  work1_ = work(_(2*n+1, 2*n+n*nr));
+                    GeMatrixView<ElementType>  Work1(n, nr, work1_, n);
 
                     Work1 = V(_,_(1,nr));
 
@@ -979,25 +979,25 @@ jsv_generic(JSV::Accuracy             accuracy,
                         V(_(1,nr),_(1,nr)).strictLower() = Zero;
                     }
 //                  Now, compute R2 = L3 * Q3, the LQ factorization.
-                    auto _V     = V(_(1,nr),_(1,nr));
+                    auto V_     = V(_(1,nr),_(1,nr));
                     auto tau    = work(_(2*n+n*nr+1,2*n+n*nr+nr));
-                    auto _work2 = work(_(2*n+n*nr+nr+1,lWork));
+                    auto work2_ = work(_(2*n+n*nr+nr+1,lWork));
 
-                    lqf(_V, tau, _work2);
+                    lqf(V_, tau, work2_);
 //                  .. and estimate the condition number
-                    auto  _work3 = work(_(2*n+n*nr+nr+1,2*n+n*nr+nr+nr*nr));
-                    GeMatrixView<ElementType>  Work3(nr, nr, _work3, nr);
+                    auto  work3_ = work(_(2*n+n*nr+nr+1,2*n+n*nr+nr+nr*nr));
+                    GeMatrixView<ElementType>  Work3(nr, nr, work3_, nr);
 
-                    Work3.lower() = _V.lower();
+                    Work3.lower() = V_.lower();
 
                     for (IndexType p=1; p<=nr; ++p) {
                         tmp = blas::nrm2(Work3(p,_(1,p)));
                         Work3(p,_(1,p)) *= One/tmp;
                     }
-                    auto _work4 = work(_(2*n+n*nr+nr+nr*nr+1,
+                    auto work4_ = work(_(2*n+n*nr+nr+nr*nr+1,
                                          2*n+n*nr+nr+nr*nr+3*nr));
-                    auto _iwork = iwork(_(m+2*n+1, m+2*n+nr));
-                    pocon(Work3.lower(), One, tmp, _work4, _iwork);
+                    auto iwork_ = iwork(_(m+2*n+1, m+2*n+nr));
+                    pocon(Work3.lower(), One, tmp, work4_, iwork_);
                     condr2 = One / sqrt(tmp);
 
                     if (condr2>=cond_ok) {
@@ -1032,19 +1032,19 @@ jsv_generic(JSV::Accuracy             accuracy,
 //              conditioned triangular matrix equation.
 //
                 if (condr1<cond_ok) {
-                    auto _U    = U(_(1,nr),_(1,nr));
-                    auto _V    = V(_(1,nr),_(1,nr));
-                    auto _sva  = sva(_(1,nr));
-                    auto _work = work(_(2*n+n*nr+nr+1,lWork));
+                    auto U_    = U(_(1,nr),_(1,nr));
+                    auto V_    = V(_(1,nr),_(1,nr));
+                    auto sva_  = sva(_(1,nr));
+                    auto work_ = work(_(2*n+n*nr+nr+1,lWork));
 
                     svj(SVJ::Lower, SVJ::ComputeU, SVJ::NoV,
-                        _V, _sva, U, _work);
-                    scaleM = _work(1);
-                    numRank = nint(_work(2));
+                        V_, sva_, U, work_);
+                    scaleM = work_(1);
+                    numRank = nint(work_(2));
 
                     for (IndexType p=1; p<=nr; ++p) {
-                        _U(_,p) = _V(_,p);
-                        _V(_,p) *= sva(p);
+                        U_(_,p) = V_(_,p);
+                        V_(_,p) *= sva(p);
                     }
 
 //                  .. pick the right matrix equation and solve it
@@ -1054,19 +1054,19 @@ jsv_generic(JSV::Accuracy             accuracy,
 //                      matrix equation is Q2*V2 = the product of the Jacobi
 //                      rotations used in DGESVJ, premultiplied with the
 //                      orthogonal matrix  from the second QR factorization.
-                        const auto _A = A(_(1,nr),_(1,nr));
-                        blas::sm(Left, NoTrans, One, _A.upper(), _V);
+                        const auto A_ = A(_(1,nr),_(1,nr));
+                        blas::sm(Left, NoTrans, One, A_.upper(), V_);
                     } else {
 //                      .. R1 is well conditioned, but non-square. Transpose(R2)
 //                      is inverted to get the product of the Jacobi rotations
 //                      used in DGESVJ. The Q-factor from the second QR
 //                      factorization is then built in explicitly.
 
-                        auto  _work = work(_(2*n+1, 2*n+n*nr));
-                        GeMatrixView<ElementType>  Work1(nr, nr, _work, n);
-                        GeMatrixView<ElementType>  Work(n, nr, _work, n);
+                        auto  work_ = work(_(2*n+1, 2*n+n*nr));
+                        GeMatrixView<ElementType>  Work1(nr, nr, work_, n);
+                        GeMatrixView<ElementType>  Work(n, nr, work_, n);
 
-                        blas::sm(Left, NoTrans, One, Work1.upper(), _V);
+                        blas::sm(Left, NoTrans, One, Work1.upper(), V_);
                         if (nr<n) {
                             V(_(nr+1,n),_(1,nr)) = Zero;
                             V(_(1,nr),_(nr+1,n)) = Zero;
@@ -1074,8 +1074,8 @@ jsv_generic(JSV::Accuracy             accuracy,
                             V(_(nr+1,n),_(nr+1,n)).diag(0) = One;
                         }
                         auto tau = work(_(n+1,n+nr));
-                        auto _work_ormqr = work(_(2*n+n*nr+nr+1,lWork));
-                        ormqr(Left, NoTrans, Work, tau, V, _work_ormqr);
+                        auto work_ormqr_ = work(_(2*n+n*nr+nr+1,lWork));
+                        ormqr(Left, NoTrans, Work, tau, V, work_ormqr_);
                     }
 //
                 } else if (condr2<cond_ok) {
@@ -1536,7 +1536,7 @@ jsv(JSV::Accuracy             accuracy,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = external::jsv_impl(accuracy, jobU, jobV, restrictedRange,
+    IndexType info_ = external::jsv_impl(accuracy, jobU, jobV, restrictedRange,
                                          considerTransA, perturb,
                                          A, sva, U, V, work, iwork);
     bool failed = false;
@@ -1565,9 +1565,9 @@ jsv(JSV::Accuracy             accuracy,
         std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
     }
-    if (! isIdentical(info, _info, "info", "_info")) {
+    if (! isIdentical(info, info_, "info", "info_")) {
         std::cerr << "CXXLAPACK: info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

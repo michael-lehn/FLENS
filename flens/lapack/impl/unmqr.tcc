@@ -197,8 +197,8 @@ unmqr_impl(Side                      side,
 //
 //      Use unblocked code
 //
-        auto _work = (side==Left) ? work(_(1,n)) : work(_(1,m));
-        unm2r(side, trans, A, tau, C, _work);
+        auto work_ = (side==Left) ? work(_(1,n)) : work(_(1,m));
+        unm2r(side, trans, A, tau, C, work_);
     } else {
 //
 //      Use blocked code
@@ -573,9 +573,9 @@ unmqr_wsq(Side        side,
 //
 //  Compare generic results with results from the native implementation
 //
-    const IndexType _info = external::unmqr_wsq_impl(side, trans, A, C);
+    const IndexType info_ = external::unmqr_wsq_impl(side, trans, A, C);
 
-    ASSERT(info==_info);
+    ASSERT(info==info_);
 #   endif
 
     return info;

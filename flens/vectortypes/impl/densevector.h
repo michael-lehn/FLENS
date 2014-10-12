@@ -245,8 +245,8 @@ class DenseVector
         reversed() const;
 
     private:
-        A                _array;
-        const IndexType  _stride;
+        A                array_;
+        const IndexType  stride_;
 };
 
 //-- Traits --------------------------------------------------------------------
@@ -255,7 +255,7 @@ class DenseVector
 //  IsDenseVector
 //
 
-struct _DenseVectorChecker
+struct DenseVectorChecker_
 {
 
     struct Two
@@ -265,7 +265,7 @@ struct _DenseVectorChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -276,7 +276,7 @@ template <typename T>
 struct IsDenseVector
 {
     static T var;
-    static const bool value = sizeof(_DenseVectorChecker::check(var))==1;
+    static const bool value = sizeof(DenseVectorChecker_::check(var))==1;
 };
 
 //

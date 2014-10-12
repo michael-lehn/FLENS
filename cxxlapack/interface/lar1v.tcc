@@ -65,7 +65,7 @@ lar1v(IndexType             n,
 {
     CXXLAPACK_DEBUG_OUT("slaq1v");
 
-    bool _wantnc = wantnc;
+    bool wantnc_ = wantnc;
     LAPACK_IMPL(slar1v)(&n,
                         &b1,
                         &bn,
@@ -77,7 +77,7 @@ lar1v(IndexType             n,
                         &pivmin,
                         &gaptol,
                         z,
-                        &_wantnc,
+                        &wantnc_,
                         &negcnt,
                         &ztz,
                         &mingma,
@@ -116,7 +116,7 @@ lar1v(IndexType             n,
 {
     CXXLAPACK_DEBUG_OUT("dlaq1v");
 
-    bool _wantnc = wantnc;
+    bool wantnc_ = wantnc;
     LAPACK_IMPL(dlar1v)(&n,
                         &b1,
                         &bn,
@@ -128,7 +128,7 @@ lar1v(IndexType             n,
                         &pivmin,
                         &gaptol,
                         z,
-                        &_wantnc,
+                        &wantnc_,
                         &negcnt,
                         &ztz,
                         &mingma,
@@ -166,7 +166,7 @@ lar1v(IndexType             n,
 {
     CXXLAPACK_DEBUG_OUT("claq1v");
 
-    bool _wantnc = wantnc;
+    bool wantnc_ = wantnc;
     LAPACK_IMPL(clar1v)(&n,
                         &b1,
                         &bn,
@@ -178,7 +178,7 @@ lar1v(IndexType             n,
                         &pivmin,
                         &gaptol,
                         reinterpret_cast<float  *>(z),
-                        &_wantnc,
+                        &wantnc_,
                         &negcnt,
                         &ztz,
                         &mingma,
@@ -216,7 +216,7 @@ lar1v(IndexType             n,
 {
     CXXLAPACK_DEBUG_OUT("zlaq1v");
 
-    bool _wantnc = wantnc;
+    bool wantnc_ = wantnc;
     LAPACK_IMPL(zlar1v)(&n,
                         &b1,
                         &bn,
@@ -228,7 +228,7 @@ lar1v(IndexType             n,
                         &pivmin,
                         &gaptol,
                         reinterpret_cast<double *>(z),
-                        &_wantnc,
+                        &wantnc_,
                         &negcnt,
                         &ztz,
                         &mingma,

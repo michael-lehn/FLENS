@@ -46,35 +46,35 @@ namespace flens {
 
 template <typename PS>
 TpMatrix<PS>::TpMatrix(IndexType dim, StorageUpLo upLo, Diag diag)
-    : _engine(dim), _upLo(upLo), _diag(diag)
+    : engine_(dim), upLo_(upLo), diag_(diag)
 {
 }
 
 
 template <typename PS>
 TpMatrix<PS>::TpMatrix(const Engine &engine, StorageUpLo upLo, Diag diag)
-    : _engine(engine), _upLo(upLo), _diag(diag)
+    : engine_(engine), upLo_(upLo), diag_(diag)
 {
 }
 
 template <typename PS>
 TpMatrix<PS>::TpMatrix(const TpMatrix &rhs)
     : TriangularMatrix<TpMatrix<PS> >(),
-      _engine(rhs.engine()), _upLo(upLo), _diag(rhs.diag())
+      engine_(rhs.engine()), upLo_(upLo), diag_(rhs.diag())
 {
 }
 
 template <typename PS>
 template <typename RHS>
 TpMatrix<PS>::TpMatrix(const TpMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(upLo), _diag(rhs.diag())
+    : engine_(rhs.engine()), upLo_(upLo), diag_(rhs.diag())
 {
 }
 
 template <typename PS>
 template <typename RHS>
 TpMatrix<PS>::TpMatrix(TpMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _upLo(upLo), _diag(rhs.diag())
+    : engine_(rhs.engine()), upLo_(upLo), diag_(rhs.diag())
 {
 }
 
@@ -91,9 +91,9 @@ template <typename PS>
 void
 TpMatrix<PS>::operator=(const ElementType &alpha)
 {
-    ASSERT(_diag==NonUnit);
+    ASSERT(diag_==NonUnit);
 
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x = alpha;
     return *this;
@@ -128,9 +128,9 @@ TpMatrix<PS>::operator()(IndexType row, IndexType col) const
     } else {
         ASSERT(col<=row);
     }
-    ASSERT(!((_diag==Unit) && (col==row)));
+    ASSERT(!((diag_==Unit) && (col==row)));
 #   endif
-    return _engine(upLo(), row, col);
+    return engine_(upLo(), row, col);
 }
 
 template <typename PS>
@@ -143,18 +143,18 @@ TpMatrix<PS>::operator()(IndexType row, IndexType col)
     } else {
         ASSERT(col<=row);
     }
-    ASSERT(!((_diag==Unit) && (col==row)));
+    ASSERT(!((diag_==Unit) && (col==row)));
 #   endif
-    return _engine(upLo(), row, col);
+    return engine_(upLo(), row, col);
 }
 
 template <typename PS>
 TpMatrix<PS> &
 TpMatrix<PS>::operator+=(const ElementType &alpha)
 {
-    ASSERT(_diag==NonUnit);
+    ASSERT(diag_==NonUnit);
 
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x += alpha;
     return *this;
@@ -164,9 +164,9 @@ template <typename PS>
 TpMatrix<PS> &
 TpMatrix<PS>::operator-=(const ElementType &alpha)
 {
-    ASSERT(_diag==NonUnit);
+    ASSERT(diag_==NonUnit);
 
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x -= alpha;
     return *this;
@@ -176,9 +176,9 @@ template <typename PS>
 TpMatrix<PS> &
 TpMatrix<PS>::operator*=(const ElementType &alpha)
 {
-    ASSERT(_diag==NonUnit);
+    ASSERT(diag_==NonUnit);
 
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x *= alpha;
     return *this;
@@ -188,9 +188,9 @@ template <typename PS>
 TpMatrix<PS> &
 TpMatrix<PS>::operator/=(const ElementType &alpha)
 {
-    ASSERT(_diag==NonUnit);
+    ASSERT(diag_==NonUnit);
 
-    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+    VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
     x /= alpha;
     return *this;
@@ -201,28 +201,28 @@ template <typename PS>
 typename TpMatrix<PS>::IndexType
 TpMatrix<PS>::numRows() const
 {
-    return _engine.dim();
+    return engine_.dim();
 }
 
 template <typename PS>
 typename TpMatrix<PS>::IndexType
 TpMatrix<PS>::numCols() const
 {
-    return _engine.dim();
+    return engine_.dim();
 }
 
 template <typename PS>
 typename TpMatrix<PS>::IndexType
 TpMatrix<PS>::dim() const
 {
-    return _engine.dim();
+    return engine_.dim();
 }
 
 template <typename PS>
 typename TpMatrix<PS>::IndexType
 TpMatrix<PS>::firstRow() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename PS>
@@ -236,7 +236,7 @@ template <typename PS>
 typename TpMatrix<PS>::IndexType
 TpMatrix<PS>::firstCol() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename PS>
@@ -250,7 +250,7 @@ template <typename PS>
 typename TpMatrix<PS>::IndexType
 TpMatrix<PS>::indexBase() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 
@@ -258,56 +258,56 @@ template <typename PS>
 StorageUpLo
 TpMatrix<PS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename PS>
 StorageUpLo &
 TpMatrix<PS>::upLo()
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename PS>
 Diag
 TpMatrix<PS>::diag() const
 {
-    return _diag;
+    return diag_;
 }
 
 template <typename PS>
 Diag &
 TpMatrix<PS>::diag()
 {
-    return _diag;
+    return diag_;
 }
 
 template <typename PS>
 const typename TpMatrix<PS>::ElementType *
 TpMatrix<PS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename PS>
 typename TpMatrix<PS>::ElementType *
 TpMatrix<PS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename PS>
 StorageOrder
 TpMatrix<PS>::order() const
 {
-    return _engine.order;
+    return engine_.order;
 }
 
 template <typename PS>
 bool
 TpMatrix<PS>::fill(const ElementType &value)
 {
-    return _engine.fill(value);
+    return engine_.fill(value);
 }
 
 template <typename PS>
@@ -325,7 +325,7 @@ TpMatrix<PS>::resize(IndexType dim,
                      IndexType indexBase,
                      const ElementType &value)
 {
-    return _engine.resize(dim, indexBase,
+    return engine_.resize(dim, indexBase,
                           value);
 }
 
@@ -336,14 +336,14 @@ template <typename PS>
 const typename TpMatrix<PS>::ConstHermitianView
 TpMatrix<PS>::hermitian() const
 {
-    return ConstHermitianView(_engine, upLo());
+    return ConstHermitianView(engine_, upLo());
 }
 
 template <typename PS>
 typename TpMatrix<PS>::HermitianView
 TpMatrix<PS>::hermitian()
 {
-    return HermitianView(_engine, upLo());
+    return HermitianView(engine_, upLo());
 }
 
 // symmetric views
@@ -351,14 +351,14 @@ template <typename PS>
 const typename TpMatrix<PS>::ConstSymmetricView
 TpMatrix<PS>::symmetric() const
 {
-    return ConstSymmetricView(_engine, upLo());
+    return ConstSymmetricView(engine_, upLo());
 }
 
 template <typename PS>
 typename TpMatrix<PS>::SymmetricView
 TpMatrix<PS>::symmetric()
 {
-    return SymmetricView(_engine, upLo());
+    return SymmetricView(engine_, upLo());
 }
 
 // triangular views
@@ -366,14 +366,14 @@ template <typename PS>
 const typename TpMatrix<PS>::ConstView
 TpMatrix<PS>::triangular() const
 {
-    return ConstView(_engine, upLo(), diag());
+    return ConstView(engine_, upLo(), diag());
 }
 
 template <typename PS>
 typename TpMatrix<PS>::View
 TpMatrix<PS>::triangular()
 {
-    return View(_engine, upLo(), diag());
+    return View(engine_, upLo(), diag());
 }
 
 
@@ -383,14 +383,14 @@ template <typename PS>
 const typename TpMatrix<PS>::Engine &
 TpMatrix<PS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename PS>
 typename TpMatrix<PS>::Engine &
 TpMatrix<PS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

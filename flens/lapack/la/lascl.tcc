@@ -289,16 +289,16 @@ lascl(LASCL::Type type, Int kl, Int ku, const T &cFrom, const T &cTo, MA &&A)
 
 #   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MA>::Type  MatrixA;
-    typename MatrixA::NoView _A = A;
+    typename MatrixA::NoView A_ = A;
 #   endif
 
     LAPACK_SELECT::lascl_impl(type, kl, ku, cFrom, cTo, A);
 
 #   ifdef CHECK_CXXLAPACK
-    external::lascl_impl(type, kl, ku, cFrom, cTo, _A);
-    if (! isIdentical(A, _A, " A", "A_")) {
+    external::lascl_impl(type, kl, ku, cFrom, cTo, A_);
+    if (! isIdentical(A, A_, " A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        std::cerr << "F77LAPACK: A_ = " << A_ << std::endl;
         ASSERT(0);
     }
 #   endif

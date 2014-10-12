@@ -405,7 +405,7 @@ svx(SVX::Fact           fact,
     work    = work_org;
     iwork   = iwork_org;
 
-    IndexType _info = external::svx_impl(fact, trans, A, AF, piv, equed,
+    IndexType info_ = external::svx_impl(fact, trans, A, AF, piv, equed,
                                          r, c, B, X, rCond, fErr, bErr,
                                          work, iwork);
 
@@ -504,9 +504,9 @@ svx(SVX::Fact           fact,
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

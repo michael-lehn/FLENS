@@ -39,31 +39,31 @@
 
 //--- Add
 Intrinsics<float, IntrinsicsLevel::SSE>
-inline _intrinsic_add(const Intrinsics<float, IntrinsicsLevel::SSE> &x,
+inline intrinsic_add_(const Intrinsics<float, IntrinsicsLevel::SSE> &x,
                       const Intrinsics<float, IntrinsicsLevel::SSE> &y)
 {
-    return Intrinsics<float, IntrinsicsLevel::SSE>(_mm_add_ps(x.get(), y.get()));
+    return Intrinsics<float, IntrinsicsLevel::SSE>(mm_add_ps_(x.get(), y.get()));
 }
 
 Intrinsics<double, IntrinsicsLevel::SSE>
-inline _intrinsic_add(const Intrinsics<double, IntrinsicsLevel::SSE> &x,
+inline intrinsic_add_(const Intrinsics<double, IntrinsicsLevel::SSE> &x,
                       const Intrinsics<double, IntrinsicsLevel::SSE> &y)
 {
-    return Intrinsics<double, IntrinsicsLevel::SSE>(_mm_add_pd(x.get(), y.get()));
+    return Intrinsics<double, IntrinsicsLevel::SSE>(mm_add_pd_(x.get(), y.get()));
 }
 
 Intrinsics<std::complex<float>, IntrinsicsLevel::SSE>
-inline _intrinsic_add(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x,
+inline intrinsic_add_(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x,
                       const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &y)
 {
-    return Intrinsics<std::complex<float>, IntrinsicsLevel::SSE>(_mm_add_ps(x.get(), y.get()));
+    return Intrinsics<std::complex<float>, IntrinsicsLevel::SSE>(mm_add_ps_(x.get(), y.get()));
 }
 
 Intrinsics<std::complex<double>, IntrinsicsLevel::SSE>
-inline _intrinsic_add(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x,
+inline intrinsic_add_(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x,
                       const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &y)
 {
-    return Intrinsics<std::complex<double>, IntrinsicsLevel::SSE>(_mm_add_pd(x.get(), y.get()));
+    return Intrinsics<std::complex<double>, IntrinsicsLevel::SSE>(mm_add_pd_(x.get(), y.get()));
 }
 
 #endif // HAVE_SSE
@@ -73,31 +73,31 @@ inline _intrinsic_add(const Intrinsics<std::complex<double>, IntrinsicsLevel::SS
 
 //--- Add
 Intrinsics<float, IntrinsicsLevel::AVX>
-inline _intrinsic_add(const Intrinsics<float, IntrinsicsLevel::AVX> &x,
+inline intrinsic_add_(const Intrinsics<float, IntrinsicsLevel::AVX> &x,
                       const Intrinsics<float, IntrinsicsLevel::AVX> &y)
 {
-    return Intrinsics<float, IntrinsicsLevel::AVX>(_mm256_add_ps(x.get(), y.get()));
+    return Intrinsics<float, IntrinsicsLevel::AVX>(mm256_add_ps_(x.get(), y.get()));
 }
 
 Intrinsics<double, IntrinsicsLevel::AVX>
-inline _intrinsic_add(const Intrinsics<double, IntrinsicsLevel::AVX> &x,
+inline intrinsic_add_(const Intrinsics<double, IntrinsicsLevel::AVX> &x,
                       const Intrinsics<double, IntrinsicsLevel::AVX> &y)
 {
-    return Intrinsics<double, IntrinsicsLevel::AVX>(_mm256_add_pd(x.get(), y.get()));
+    return Intrinsics<double, IntrinsicsLevel::AVX>(mm256_add_pd_(x.get(), y.get()));
 }
 
 Intrinsics<std::complex<float>, IntrinsicsLevel::AVX>
-inline _intrinsic_add(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x,
+inline intrinsic_add_(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x,
                       const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &y)
 {
-    return Intrinsics<std::complex<float>, IntrinsicsLevel::AVX>(_mm256_add_ps(x.get(), y.get()));
+    return Intrinsics<std::complex<float>, IntrinsicsLevel::AVX>(mm256_add_ps_(x.get(), y.get()));
 }
 
 Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>
-inline _intrinsic_add(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x,
+inline intrinsic_add_(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x,
                       const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &y)
 {
-    return Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>(_mm256_add_pd(x.get(), y.get()));
+    return Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>(mm256_add_pd_(x.get(), y.get()));
 }
 
 #endif // HAVE_AVX

@@ -38,7 +38,7 @@
 
 namespace flens {
 
-struct _HermitianMatrixChecker
+struct HermitianMatrixChecker_
 {
 
     struct Two
@@ -48,7 +48,7 @@ struct _HermitianMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -59,7 +59,7 @@ template <typename T>
 struct IsHermitianMatrix
 {
     static T var;
-    static const bool value = sizeof(_HermitianMatrixChecker::check(var))==1;
+    static const bool value = sizeof(HermitianMatrixChecker_::check(var))==1;
 };
 
 } // namespace flens

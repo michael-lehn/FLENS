@@ -187,11 +187,11 @@ class ConstFullStorageView
                      IndexType firstViewIndex = I::defaultIndexBase) const;
 
     private:
-        const ElementType    *_data;
-        Allocator            _allocator;
-        IndexType            _numRows, _numCols;
-        IndexType            _leadingDimension;
-        IndexType            _firstRow, _firstCol;
+        const ElementType    *data_;
+        Allocator            allocator_;
+        IndexType            numRows_, numCols_;
+        IndexType            leadingDimension_;
+        IndexType            firstRow_, firstCol_;
 };
 
 } // namespace flens

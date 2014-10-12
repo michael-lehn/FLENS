@@ -45,11 +45,11 @@ LAPACK_DECL(dgetrs)(const char       *TRANS,
 //  Call FLENS implementation
 //
     Transpose              trans  = convertTo<Transpose>(*TRANS);
-    DConstGeMatrixView     _A     = DConstFSView(*N, *N, A, *LDA);
-    IConstDenseVectorView  _IPIV  = IConstArrayView(*N, IPIV, 1);
-    DGeMatrixView          _B     = DFSView(*N, *NRHS, B, *LDB);
+    DConstGeMatrixView     A_     = DConstFSView(*N, *N, A, *LDA);
+    IConstDenseVectorView  IPIV_  = IConstArrayView(*N, IPIV, 1);
+    DGeMatrixView          B_     = DFSView(*N, *NRHS, B, *LDB);
 
-    trs(trans, _A, _IPIV, _B);
+    trs(trans, A_, IPIV_, B_);
 }
 
 //-- zgetrs --------------------------------------------------------------------
@@ -92,10 +92,10 @@ LAPACK_DECL(zgetrs)(const char               *TRANS,
     auto zB       = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(B);
 
     Transpose              trans  = convertTo<Transpose>(*TRANS);
-    ZConstGeMatrixView     _A     = ZConstFSView(*N, *N, zA, *LDA);
-    IConstDenseVectorView  _IPIV  = IConstArrayView(*N, IPIV, 1);
-    ZGeMatrixView          _B     = ZFSView(*N, *NRHS, zB, *LDB);
-    trs(trans, _A, _IPIV, _B);
+    ZConstGeMatrixView     A_     = ZConstFSView(*N, *N, zA, *LDA);
+    IConstDenseVectorView  IPIV_  = IConstArrayView(*N, IPIV, 1);
+    ZGeMatrixView          B_     = ZFSView(*N, *NRHS, zB, *LDB);
+    trs(trans, A_, IPIV_, B_);
 }
 
 } // extern "C"

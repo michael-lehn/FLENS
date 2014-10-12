@@ -67,49 +67,49 @@ template <typename CRS>
 typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename CRS>
 typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename CRS>
 typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::indexBase() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename CRS>
 typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename CRS>
 typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename CRS>
 typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename CRS>
 typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 //-- implementation ------------------------------------------------------------
@@ -117,14 +117,14 @@ template <typename CRS>
 const typename GeCRSMatrix<CRS>::Engine &
 GeCRSMatrix<CRS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename CRS>
 typename GeCRSMatrix<CRS>::Engine &
 GeCRSMatrix<CRS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

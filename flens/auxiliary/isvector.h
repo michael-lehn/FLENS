@@ -38,7 +38,7 @@
 
 namespace flens {
 
-struct _VectorChecker
+struct VectorChecker_
 {
 
     struct Two
@@ -48,7 +48,7 @@ struct _VectorChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
 
     template <typename Any>
@@ -60,7 +60,7 @@ template <typename T>
 struct IsVector
 {
     static T var;
-    static const bool value = sizeof(_VectorChecker::check(var))==1;
+    static const bool value = sizeof(VectorChecker_::check(var))==1;
 };
 
 } // namespace flens

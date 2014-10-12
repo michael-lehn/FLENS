@@ -49,21 +49,21 @@ TinyVector<TA>::TinyVector()
 
 template <typename TA>
 TinyVector<TA>::TinyVector(const Engine &engine)
-    : _array(engine)
+    : array_(engine)
 {
 }
 
 template <typename TA>
 template <typename RHS>
 TinyVector<TA>::TinyVector(const TinyVector<RHS> &rhs)
-    : _array(rhs.engine())
+    : array_(rhs.engine())
 {
 }
 
 template <typename TA>
 template <typename RHS>
 TinyVector<TA>::TinyVector(TinyVector<RHS> &rhs)
-    : _array(rhs.engine())
+    : array_(rhs.engine())
 {
 }
 
@@ -153,14 +153,14 @@ template <typename TA>
 const typename TinyVector<TA>::ElementType &
 TinyVector<TA>::operator()(IndexType index) const
 {
-    return _array(index);
+    return array_(index);
 }
 
 template <typename TA>
 typename TinyVector<TA>::ElementType &
 TinyVector<TA>::operator()(IndexType index)
 {
-    return _array(index);
+    return array_(index);
 }
 
 //-- methods -------------------------------------------------------------------
@@ -190,14 +190,14 @@ template <typename TA>
 const typename TinyVector<TA>::ElementType *
 TinyVector<TA>::data() const
 {
-    return _array.data();
+    return array_.data();
 }
 
 template <typename TA>
 typename TinyVector<TA>::ElementType *
 TinyVector<TA>::data()
 {
-    return _array.data();
+    return array_.data();
 }
 
 template <typename TA>
@@ -219,14 +219,14 @@ template <typename TA>
 const typename TinyVector<TA>::Engine &
 TinyVector<TA>::engine() const
 {
-    return _array;
+    return array_;
 }
 
 template <typename TA>
 typename TinyVector<TA>::Engine &
 TinyVector<TA>::engine()
 {
-    return _array;
+    return array_;
 }
 
 } // namespace flens

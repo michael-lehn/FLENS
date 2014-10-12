@@ -60,9 +60,9 @@ scal(IndexType n, const T &alpha, T *y, IndexType incY)
 
         if (alpha==T(0)) {
 
-            IntrinsicType _zero(T(0));
+            IntrinsicType zero_(T(0));
             for(;i+numElements-1<n;i+=numElements) {
-                _zero.storeu(y+i);
+                zero_.storeu(y+i);
             }
 
             for (;i<n;++i) {
@@ -72,12 +72,12 @@ scal(IndexType n, const T &alpha, T *y, IndexType incY)
 
         } else {
 
-            IntrinsicType _alpha(alpha);
-            IntrinsicType _y;
+            IntrinsicType alpha_(alpha);
+            IntrinsicType y_;
             for(;i+numElements-1<n;i+=numElements) {
-                _y.loadu(y+i);
-                _y = _intrinsic_mul(_alpha, _y);
-                _y.storeu(y+i);
+                y_.loadu(y+i);
+                y_ = intrinsic_mul_(alpha_, y_);
+                y_.storeu(y+i);
             }
 
 
@@ -122,9 +122,9 @@ scal(IndexType n, const T &alpha, T *y, IndexType incY)
 
         if (alpha==T(0)) {
 
-            IntrinsicType _zero(PT(0));
+            IntrinsicType zero_(PT(0));
             for(;i+numElements-1<n;i+=numElements) {
-                _zero.storeu(y+i);
+                zero_.storeu(y+i);
             }
 
             for (;i<n;++i) {
@@ -133,17 +133,17 @@ scal(IndexType n, const T &alpha, T *y, IndexType incY)
 
         } else {
 
-            IntrinsicPrimitiveType _real_alpha(real(alpha));
-            IntrinsicPrimitiveType _imag_alpha(imag(alpha));
-            IntrinsicType _y, _tmp;
+            IntrinsicPrimitiveType real_alpha_(real(alpha));
+            IntrinsicPrimitiveType imag_alpha_(imag(alpha));
+            IntrinsicType y_, tmp_;
 
             for(;i+numElements-1<n;i+=numElements) {
-                _y.loadu(y+i);
-                _tmp = _intrinsic_mul(_real_alpha, _y);
-                _y = _intrinsic_swap_real_imag(_y);
-                _y = _intrinsic_mul(_imag_alpha, _y);
-                _y = _intrinsic_addsub(_tmp, _y);
-                _y.storeu(y+i);
+                y_.loadu(y+i);
+                tmp_ = intrinsic_mul_(real_alpha_, y_);
+                y_ = intrinsic_swap_real_imag_(y_);
+                y_ = intrinsic_mul_(imag_alpha_, y_);
+                y_ = intrinsic_addsub_(tmp_, y_);
+                y_.storeu(y+i);
             }
 
             for (;i<n;++i) {

@@ -57,8 +57,8 @@ lags2(bool                  upper,
 {
     CXXLAPACK_DEBUG_OUT("slags2");
 
-    LOGICAL _upper = upper;
-    LAPACK_IMPL(slags2)(&_upper,
+    LOGICAL upper_ = upper;
+    LAPACK_IMPL(slags2)(&upper_,
                         &a1,
                         &a2,
                         &a3,
@@ -93,8 +93,8 @@ lags2(bool                  upper,
 {
     CXXLAPACK_DEBUG_OUT("dlags2");
 
-    LOGICAL _upper = upper;
-    LAPACK_IMPL(dlags2)(&_upper,
+    LOGICAL upper_ = upper;
+    LAPACK_IMPL(dlags2)(&upper_,
                         &a1,
                         &a2,
                         &a3,
@@ -129,8 +129,8 @@ lags2(bool                  upper,
 
     CXXLAPACK_DEBUG_OUT("clags2");
 
-    LOGICAL _upper = upper;
-    LAPACK_IMPL(clags2)(&_upper,
+    LOGICAL upper_ = upper;
+    LAPACK_IMPL(clags2)(&upper_,
                         &a1,
                         reinterpret_cast<const float  *>(&a2),
                         &a3,
@@ -164,8 +164,8 @@ lags2(bool                  upper,
 {
     CXXLAPACK_DEBUG_OUT("zlags2");
 
-    LOGICAL _upper = upper;
-    LAPACK_IMPL(zlags2)(&_upper,
+    LOGICAL upper_ = upper;
+    LAPACK_IMPL(zlags2)(&upper_,
                         &a1,
                         reinterpret_cast<const double *>(&a2),
                         &a3,

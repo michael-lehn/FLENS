@@ -545,7 +545,7 @@ trexc(bool                          computeQ,
 //
 //  Compare results
 //
-    IndexType _info = external::trexc_impl(computeQ, T, Q,
+    IndexType info_ = external::trexc_impl(computeQ, T, Q,
                                            iFirst, iLast, work);
 
     bool failed = false;
@@ -582,9 +582,9 @@ trexc(bool                          computeQ,
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 
@@ -673,7 +673,7 @@ trexc(bool                          computeQ,
 //
 //  Compare results
 //
-    IndexType _info = external::trexc_impl(computeQ, T, Q, iFirst, iLast);
+    IndexType info_ = external::trexc_impl(computeQ, T, Q, iFirst, iLast);
 
     bool failed = false;
     if (! isIdentical(T_generic, T, "T_generic", "T")) {
@@ -703,9 +703,9 @@ trexc(bool                          computeQ,
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

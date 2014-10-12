@@ -89,31 +89,31 @@ lasy2_impl(bool                  transLeft,
 //
 //    .. Local Arrays ..
 //
-    IndexType  _jPivData[4],
-               _locU12Data[4] = { 3, 4, 1, 2},
-               _locL21Data[4] = { 2, 1, 4, 3},
-               _locU22Data[4] = { 4, 3, 2, 1};
+    IndexType  jPivData_[4],
+               locU12Data_[4] = { 3, 4, 1, 2},
+               locL21Data_[4] = { 2, 1, 4, 3},
+               locU22Data_[4] = { 4, 3, 2, 1};
     DenseVectorView<IndexType>
-        jPiv   = typename DenseVectorView<IndexType>::Engine(4, _jPivData),
-        locU12 = typename DenseVectorView<IndexType>::Engine(4, _locU12Data),
-        locL21 = typename DenseVectorView<IndexType>::Engine(4, _locL21Data),
-        locU22 = typename DenseVectorView<IndexType>::Engine(4, _locU22Data);
+        jPiv   = typename DenseVectorView<IndexType>::Engine(4, jPivData_),
+        locU12 = typename DenseVectorView<IndexType>::Engine(4, locU12Data_),
+        locL21 = typename DenseVectorView<IndexType>::Engine(4, locL21Data_),
+        locU22 = typename DenseVectorView<IndexType>::Engine(4, locU22Data_);
 
-    ElementType   _bTmpData[4], _tmpData[4], _x2Data[2];
+    ElementType   bTmpData_[4], tmpData_[4], x2Data_[2];
     DenseVectorView<ElementType>
-        bTmp = typename DenseVectorView<ElementType>::Engine(4, _bTmpData),
-        tmp  = typename DenseVectorView<ElementType>::Engine(4, _tmpData),
-        x2   = typename DenseVectorView<ElementType>::Engine(2, _x2Data);
+        bTmp = typename DenseVectorView<ElementType>::Engine(4, bTmpData_),
+        tmp  = typename DenseVectorView<ElementType>::Engine(4, tmpData_),
+        x2   = typename DenseVectorView<ElementType>::Engine(2, x2Data_);
 
-    bool  _xSwapPivData[4] = {false, false, true, true},
-          _bSwapPivData[4] = {false, true, false, true};
+    bool  xSwapPivData_[4] = {false, false, true, true},
+          bSwapPivData_[4] = {false, true, false, true};
     DenseVectorView<bool>
-        xSwapPiv  = typename DenseVectorView<bool>::Engine(4, _xSwapPivData),
-        bSwapPiv  = typename DenseVectorView<bool>::Engine(4, _bSwapPivData);
+        xSwapPiv  = typename DenseVectorView<bool>::Engine(4, xSwapPivData_),
+        bSwapPiv  = typename DenseVectorView<bool>::Engine(4, bSwapPivData_);
 
-    ElementType  _t16Data[16];
+    ElementType  t16Data_[16];
     GeMatrixView<ElementType>
-        T16 = typename GeMatrixView<ElementType>::Engine(4, 4, _t16Data, 4);
+        T16 = typename GeMatrixView<ElementType>::Engine(4, 4, t16Data_, 4);
 
 //
 //  Quick return if possible
@@ -495,7 +495,7 @@ lasy2(bool                  transLeft,
 //  Compare generic results with results from the native implementation
 //
 
-    IndexType _info = external::lasy2_impl(transLeft, transRight, sign,
+    IndexType info_ = external::lasy2_impl(transLeft, transRight, sign,
                                            TL, TR, B,
                                            scale, X, xNorm);
 
@@ -518,9 +518,9 @@ lasy2(bool                  transLeft,
         std::cerr << "F77LAPACK: xNorm = " << xNorm << std::endl;
         failed = true;
     }
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

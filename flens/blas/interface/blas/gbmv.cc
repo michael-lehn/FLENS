@@ -12,7 +12,7 @@ BLAS(sgbmv)(const char      *TRANS,
             const INTEGER   *KL,
             const INTEGER   *KU,
             const float     *ALPHA,
-            const float     *_A,
+            const float     *A_,
             const INTEGER   *LDA,
             const float     *X,
             const INTEGER   *INCX,
@@ -22,12 +22,12 @@ BLAS(sgbmv)(const char      *TRANS,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        const char         _TRANS = toupper(*TRANS);
-        const Transpose    trans  = convertTo<Transpose>(_TRANS);
+        const char         TRANS_ = toupper(*TRANS);
+        const Transpose    trans  = convertTo<Transpose>(TRANS_);
 
         cblas_sgbmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(trans),
-                    *M, *N, *KL, *KU, *ALPHA, _A, *LDA, X, *INCX,
+                    *M, *N, *KL, *KU, *ALPHA, A_, *LDA, X, *INCX,
                     *BETA, Y, *INCY);
 
 #   else
@@ -36,11 +36,11 @@ BLAS(sgbmv)(const char      *TRANS,
         using std::max;
 
 
-        char    _TRANS = toupper(*TRANS);
+        char    TRANS_ = toupper(*TRANS);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info   = 0;
-            if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 1;
             } else if (*M<0) {
                 info = 2;
@@ -63,7 +63,7 @@ BLAS(sgbmv)(const char      *TRANS,
             }
 #       endif
 
-        Transpose    trans = convertTo<Transpose>(_TRANS);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
         const bool   noTrans = (trans==NoTrans || trans==Conj);
         INTEGER      lenX, lenY;
 
@@ -75,7 +75,7 @@ BLAS(sgbmv)(const char      *TRANS,
             lenY = *N;
         }
 
-        SGbMatrixConstView    A = SBandConstView(*M, *N, *KL, *KU,  _A, *LDA);
+        SGbMatrixConstView    A = SBandConstView(*M, *N, *KL, *KU,  A_, *LDA);
         SDenseVectorConstView x(SConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
         SDenseVectorView      y(SArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 
@@ -103,7 +103,7 @@ BLAS(dgbmv)(const char      *TRANS,
             const INTEGER   *KL,
             const INTEGER   *KU,
             const double    *ALPHA,
-            const double    *_A,
+            const double    *A_,
             const INTEGER   *LDA,
             const double    *X,
             const INTEGER   *INCX,
@@ -114,12 +114,12 @@ BLAS(dgbmv)(const char      *TRANS,
 
 #   ifdef TEST_DIRECT_CBLAS
 
-        const char         _TRANS = toupper(*TRANS);
-        const Transpose    trans  = convertTo<Transpose>(_TRANS);
+        const char         TRANS_ = toupper(*TRANS);
+        const Transpose    trans  = convertTo<Transpose>(TRANS_);
 
         cblas_dgbmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(trans),
-                    *M, *N, *KL, *KU, *ALPHA, _A, *LDA, X, *INCX,
+                    *M, *N, *KL, *KU, *ALPHA, A_, *LDA, X, *INCX,
                     *BETA, Y, *INCY);
 
 
@@ -128,11 +128,11 @@ BLAS(dgbmv)(const char      *TRANS,
         using std::abs;
         using std::max;
 
-        char    _TRANS = toupper(*TRANS);
+        char    TRANS_ = toupper(*TRANS);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info   = 0;
-            if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 1;
             } else if (*M<0) {
                 info = 2;
@@ -155,7 +155,7 @@ BLAS(dgbmv)(const char      *TRANS,
             }
 #       endif
 
-        Transpose    trans = convertTo<Transpose>(_TRANS);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
         const bool   noTrans = (trans==NoTrans || trans==Conj);
         INTEGER      lenX, lenY;
 
@@ -167,7 +167,7 @@ BLAS(dgbmv)(const char      *TRANS,
             lenY = *N;
         }
 
-        DGbMatrixConstView    A = DBandConstView(*M, *N, *KL, *KU,  _A, *LDA);
+        DGbMatrixConstView    A = DBandConstView(*M, *N, *KL, *KU,  A_, *LDA);
         DDenseVectorConstView x(DConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
         DDenseVectorView      y(DArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 
@@ -195,7 +195,7 @@ BLAS(cgbmv)(const char      *TRANS,
             const INTEGER   *KL,
             const INTEGER   *KU,
             const cfloat    *ALPHA,
-            const cfloat    *_A,
+            const cfloat    *A_,
             const INTEGER   *LDA,
             const cfloat    *X,
             const INTEGER   *INCX,
@@ -206,14 +206,14 @@ BLAS(cgbmv)(const char      *TRANS,
 
 #   ifdef TEST_DIRECT_CBLAS
 
-        const char         _TRANS = toupper(*TRANS);
-        const Transpose    trans  = convertTo<Transpose>(_TRANS);
+        const char         TRANS_ = toupper(*TRANS);
+        const Transpose    trans  = convertTo<Transpose>(TRANS_);
 
         cblas_cgbmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(trans),
                     *M, *N, *KL, *KU,
                     reinterpret_cast<const float *>(ALPHA),
-                    reinterpret_cast<const float *>(_A), *LDA,
+                    reinterpret_cast<const float *>(A_), *LDA,
                     reinterpret_cast<const float *>(X), *INCX,
                     reinterpret_cast<const float *>(BETA),
                     reinterpret_cast<float *>(Y), *INCY);
@@ -223,11 +223,11 @@ BLAS(cgbmv)(const char      *TRANS,
         using std::abs;
         using std::max;
 
-        char    _TRANS = toupper(*TRANS);
+        char    TRANS_ = toupper(*TRANS);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info   = 0;
-            if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 1;
             } else if (*M<0) {
                 info = 2;
@@ -250,7 +250,7 @@ BLAS(cgbmv)(const char      *TRANS,
             }
 #       endif
 
-        Transpose    trans = convertTo<Transpose>(_TRANS);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
         const bool   noTrans = (trans==NoTrans || trans==Conj);
         INTEGER      lenX, lenY;
 
@@ -262,7 +262,7 @@ BLAS(cgbmv)(const char      *TRANS,
             lenY = *N;
         }
 
-        CGbMatrixConstView    A = CBandConstView(*M, *N, *KL, *KU,  _A, *LDA);
+        CGbMatrixConstView    A = CBandConstView(*M, *N, *KL, *KU,  A_, *LDA);
         CDenseVectorConstView x(CConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
         CDenseVectorView      y(CArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 
@@ -290,7 +290,7 @@ BLAS(zgbmv)(const char      *TRANS,
             const INTEGER   *KL,
             const INTEGER   *KU,
             const cdouble   *ALPHA,
-            const cdouble   *_A,
+            const cdouble   *A_,
             const INTEGER   *LDA,
             const cdouble   *X,
             const INTEGER   *INCX,
@@ -300,14 +300,14 @@ BLAS(zgbmv)(const char      *TRANS,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        const char         _TRANS = toupper(*TRANS);
-        const Transpose    trans  = convertTo<Transpose>(_TRANS);
+        const char         TRANS_ = toupper(*TRANS);
+        const Transpose    trans  = convertTo<Transpose>(TRANS_);
 
         cblas_zgbmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(trans),
                     *M, *N, *KL, *KU,
                     reinterpret_cast<const double *>(ALPHA),
-                    reinterpret_cast<const double *>(_A), *LDA,
+                    reinterpret_cast<const double *>(A_), *LDA,
                     reinterpret_cast<const double *>(X), *INCX,
                     reinterpret_cast<const double *>(BETA),
                     reinterpret_cast<double *>(Y), *INCY);
@@ -317,11 +317,11 @@ BLAS(zgbmv)(const char      *TRANS,
         using std::abs;
         using std::max;
 
-        char    _TRANS = toupper(*TRANS);
+        char    TRANS_ = toupper(*TRANS);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info   = 0;
-            if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 1;
             } else if (*M<0) {
                 info = 2;
@@ -343,7 +343,7 @@ BLAS(zgbmv)(const char      *TRANS,
                 return;
             }
 #       endif
-        Transpose    trans = convertTo<Transpose>(_TRANS);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
         const bool   noTrans = (trans==NoTrans || trans==Conj);
         INTEGER      lenX, lenY;
 
@@ -355,7 +355,7 @@ BLAS(zgbmv)(const char      *TRANS,
             lenY = *N;
         }
 
-        ZGbMatrixConstView    A = ZBandConstView(*M, *N, *KL, *KU,  _A, *LDA);
+        ZGbMatrixConstView    A = ZBandConstView(*M, *N, *KL, *KU,  A_, *LDA);
         ZDenseVectorConstView x(ZConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
         ZDenseVectorView      y(ZArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 

@@ -11,40 +11,40 @@ BLAS(ssyrk)(const char      *UPLO,
             const INTEGER   *N,
             const INTEGER   *K,
             const float     *ALPHA,
-            const float     *_A,
+            const float     *A_,
             const INTEGER   *LDA,
             const float     *BETA,
-            float           *_C,
+            float           *C_,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans  = convertTo<Transpose>(_TRANS);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans  = convertTo<Transpose>(TRANS_);
 
         cblas_ssyrk(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     *N, *K, *ALPHA,
-                    _A, *LDA, *BETA, _C, *LDC);
+                    A_, *LDA, *BETA, C_, *LDC);
 
 #   else
 
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        INTEGER nRowA  = (_TRANS=='N') ? *N : *K;
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        INTEGER nRowA  = (TRANS_=='N') ? *N : *K;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            } else if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 2;
             } else if (*N<0) {
                 info = 3;
@@ -61,17 +61,17 @@ BLAS(ssyrk)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo  = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
+        StorageUpLo  upLo  = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
 
         const bool noTrans = (trans==NoTrans || trans==Conj);
 
         SGeMatrixConstView  A = SFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               _A,
+                                               A_,
                                                *LDA);
 
-        SSyMatrixView       C(SFullView(*N, *N, _C, *LDC), upLo);
+        SSyMatrixView       C(SFullView(*N, *N, C_, *LDC), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -108,38 +108,38 @@ BLAS(dsyrk)(const char      *UPLO,
             const INTEGER   *N,
             const INTEGER   *K,
             const double    *ALPHA,
-            const double    *_A,
+            const double    *A_,
             const INTEGER   *LDA,
             const double    *BETA,
-            double          *_C,
+            double          *C_,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans  = convertTo<Transpose>(_TRANS);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans  = convertTo<Transpose>(TRANS_);
 
         cblas_dsyrk(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     *N, *K, *ALPHA,
-                    _A, *LDA, *BETA, _C, *LDC);
+                    A_, *LDA, *BETA, C_, *LDC);
 #   else
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        INTEGER nRowA  = (_TRANS=='N') ? *N : *K;
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        INTEGER nRowA  = (TRANS_=='N') ? *N : *K;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            } else if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 2;
             } else if (*N<0) {
                 info = 3;
@@ -156,17 +156,17 @@ BLAS(dsyrk)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo  = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
+        StorageUpLo  upLo  = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
 
         const bool noTrans = (trans==NoTrans || trans==Conj);
 
         DGeMatrixConstView  A = DFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               _A,
+                                               A_,
                                                *LDA);
 
-        DSyMatrixView       C(DFullView(*N, *N, _C, *LDC), upLo);
+        DSyMatrixView       C(DFullView(*N, *N, C_, *LDC), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -203,42 +203,42 @@ BLAS(csyrk)(const char      *UPLO,
             const INTEGER   *N,
             const INTEGER   *K,
             const cfloat    *ALPHA,
-            const cfloat    *_A,
+            const cfloat    *A_,
             const INTEGER   *LDA,
             const cfloat    *BETA,
-            cfloat          *_C,
+            cfloat          *C_,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans  = convertTo<Transpose>(_TRANS);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans  = convertTo<Transpose>(TRANS_);
 
         cblas_csyrk(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     *N, *K,
                     reinterpret_cast<const float *>(ALPHA),
-                    reinterpret_cast<const float *>(_A), *LDA,
+                    reinterpret_cast<const float *>(A_), *LDA,
                     reinterpret_cast<const float *>(BETA),
-                    reinterpret_cast<float *>(_C), *LDC);
+                    reinterpret_cast<float *>(C_), *LDC);
 #   else
 
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        INTEGER nRowA  = (_TRANS=='N') ? *N : *K;
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        INTEGER nRowA  = (TRANS_=='N') ? *N : *K;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T') {
+            } else if (TRANS_!='N' && TRANS_!='T') {
                 info = 2;
             } else if (*N<0) {
                 info = 3;
@@ -255,17 +255,17 @@ BLAS(csyrk)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo  = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
+        StorageUpLo  upLo  = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
 
         const bool noTrans = (trans==NoTrans || trans==Conj);
 
         CGeMatrixConstView  A = CFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               _A,
+                                               A_,
                                                *LDA);
 
-        CSyMatrixView       C(CFullView(*N, *N, _C, *LDC), upLo);
+        CSyMatrixView       C(CFullView(*N, *N, C_, *LDC), upLo);
 
 #   ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -302,42 +302,42 @@ BLAS(zsyrk)(const char      *UPLO,
             const INTEGER   *N,
             const INTEGER   *K,
             const cdouble   *ALPHA,
-            const cdouble   *_A,
+            const cdouble   *A_,
             const INTEGER   *LDA,
             const cdouble   *BETA,
-            cdouble         *_C,
+            cdouble         *C_,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans  = convertTo<Transpose>(_TRANS);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans  = convertTo<Transpose>(TRANS_);
 
         cblas_zsyrk(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     *N, *K,
                     reinterpret_cast<const double *>(ALPHA),
-                    reinterpret_cast<const double *>(_A), *LDA,
+                    reinterpret_cast<const double *>(A_), *LDA,
                     reinterpret_cast<const double *>(BETA),
-                    reinterpret_cast<double *>(_C), *LDC);
+                    reinterpret_cast<double *>(C_), *LDC);
 #   else
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        INTEGER nRowA  = (_TRANS=='N') ? *N : *K;
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        INTEGER nRowA  = (TRANS_=='N') ? *N : *K;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
 
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T') {
+            } else if (TRANS_!='N' && TRANS_!='T') {
                 info = 2;
             } else if (*N<0) {
                 info = 3;
@@ -354,17 +354,17 @@ BLAS(zsyrk)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo  = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
+        StorageUpLo  upLo  = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
 
         const bool noTrans = (trans==NoTrans || trans==Conj);
 
         ZGeMatrixConstView  A = ZFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               _A,
+                                               A_,
                                                *LDA);
 
-        ZSyMatrixView       C(ZFullView(*N, *N, _C, *LDC), upLo);
+        ZSyMatrixView       C(ZFullView(*N, *N, C_, *LDC), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;

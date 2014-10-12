@@ -78,7 +78,7 @@ laqr3_wsq_impl(IndexType                 kTop,
 //  ==== Estimate optimal workspace. ====
 //
     IndexType jw = min(nw, kBot-kTop+1);
-    auto  _T  = T(_(1,jw),_(1,jw));
+    auto  T_  = T(_(1,jw),_(1,jw));
 
     IndexType lWorkOpt;
     if (jw<=2) {
@@ -87,15 +87,15 @@ laqr3_wsq_impl(IndexType                 kTop,
 //
 //      ==== Workspace query call to DGEHRD ====
 //
-        IndexType lWork1 = hrd_wsq(IndexType(1), jw-1, _T);
+        IndexType lWork1 = hrd_wsq(IndexType(1), jw-1, T_);
 //
 //      ==== Workspace query call to DORMHR ====
 //
-        IndexType lWork2 = ormhr_wsq(Right, NoTrans, IndexType(1), jw-1, _T);
+        IndexType lWork2 = ormhr_wsq(Right, NoTrans, IndexType(1), jw-1, T_);
 //
 //      ==== Workspace query call to DLAQR4 ====
 //
-        IndexType lWork3 = laqr4_wsq(true, true, IndexType(1), jw, _T);
+        IndexType lWork3 = laqr4_wsq(true, true, IndexType(1), jw, T_);
 //
 //      ==== Optimal workspace ====
 //
@@ -124,7 +124,7 @@ laqr3_wsq_impl(IndexType                 kTop,
 //  ==== Estimate optimal workspace. ====
 //
     IndexType jw = min(nw, kBot-kTop+1);
-    auto  _T  = T(_(1,jw),_(1,jw));
+    auto  T_  = T(_(1,jw),_(1,jw));
 
     IndexType lWorkOpt;
     if (jw<=2) {
@@ -133,15 +133,15 @@ laqr3_wsq_impl(IndexType                 kTop,
 //
 //      ==== Workspace query call to ZGEHRD ====
 //
-        IndexType lWork1 = hrd_wsq(IndexType(1), jw-1, _T);
+        IndexType lWork1 = hrd_wsq(IndexType(1), jw-1, T_);
 //
 //      ==== Workspace query call to ZUNMHR ====
 //
-        IndexType lWork2 = unmhr_wsq(Right, NoTrans, IndexType(1), jw-1, _T);
+        IndexType lWork2 = unmhr_wsq(Right, NoTrans, IndexType(1), jw-1, T_);
 //
 //      ==== Workspace query call to ZLAQR4 ====
 //
-        IndexType lWork3 = laqr4_wsq(true, true, IndexType(1), jw, _T);
+        IndexType lWork3 = laqr4_wsq(true, true, IndexType(1), jw, T_);
 //
 //      ==== Optimal workspace ====
 //
@@ -490,11 +490,11 @@ laqr3_impl(bool                      wantT,
 
             T(_(3,jw),_(1,jw-2)).lower() = Zero;
 
-            const auto _v = work(_(1,ns));
+            const auto v_ = work(_(1,ns));
 
-            larf(Left,  _v, tau, T(_(1,ns),_(1,jw)), work(_(jw+1,jw+jw)));
-            larf(Right, _v, tau, T(_(1,ns),_(1,ns)), work(_(jw+1,jw+ns)));
-            larf(Right, _v, tau, V(_(1,jw),_(1,ns)), work(_(jw+1,jw+jw)));
+            larf(Left,  v_, tau, T(_(1,ns),_(1,jw)), work(_(jw+1,jw+jw)));
+            larf(Right, v_, tau, T(_(1,ns),_(1,ns)), work(_(jw+1,jw+ns)));
+            larf(Right, v_, tau, V(_(1,jw),_(1,ns)), work(_(jw+1,jw+jw)));
 
             hrd(IndexType(1), ns, T_jw, work(_(1,jw-1)), work(_(jw+1,lWork)));
         }
@@ -811,11 +811,11 @@ laqr3_impl(bool                      wantT,
 
             T(_(3,jw),_(1,jw-2)).lower() = Zero;
 
-            const auto _v = work(_(1,ns));
+            const auto v_ = work(_(1,ns));
 
-            larf(Left,  _v, conj(tau), T(_(1,ns),_(1,jw)), work(_(jw+1,jw+jw)));
-            larf(Right, _v, tau, T(_(1,ns),_(1,ns)), work(_(jw+1,jw+ns)));
-            larf(Right, _v, tau, V(_(1,jw),_(1,ns)), work(_(jw+1,jw+jw)));
+            larf(Left,  v_, conj(tau), T(_(1,ns),_(1,jw)), work(_(jw+1,jw+jw)));
+            larf(Right, v_, tau, T(_(1,ns),_(1,ns)), work(_(jw+1,jw+ns)));
+            larf(Right, v_, tau, V(_(1,jw),_(1,ns)), work(_(jw+1,jw+jw)));
 
             hrd(IndexType(1), ns, T_jw, work(_(1,jw-1)), work(_(jw+1,lWork)));
         }
@@ -1141,11 +1141,11 @@ laqr3_wsq(IndexType                 kTop,
 //
 //  Compare results
 //
-    IndexType _info = external::laqr3_wsq_impl(kTop, kBot, nw, T);
+    IndexType info_ = external::laqr3_wsq_impl(kTop, kBot, nw, T);
 
-    if (info!=_info) {
+    if (info!=info_) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         ASSERT(0);
     }
 #   endif

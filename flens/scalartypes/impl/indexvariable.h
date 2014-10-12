@@ -53,7 +53,7 @@ class IndexVariable
         value();
 
     private:
-        ElementType _value;
+        ElementType value_;
 };
 
 } // namespace flens

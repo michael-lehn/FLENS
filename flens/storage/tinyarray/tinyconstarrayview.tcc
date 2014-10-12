@@ -39,7 +39,7 @@ namespace flens {
 
 template <typename T, int n, int inc, int indexBase>
 TinyConstArrayView<T,n,inc,indexBase>::TinyConstArrayView(const ElementType *d)
-    : _data(d)
+    : data_(d)
 {
 }
 
@@ -54,7 +54,7 @@ template <typename T, int n, int inc, int indexBase>
 const typename TinyConstArrayView<T,n,inc,indexBase>::ElementType &
 TinyConstArrayView<T,n,inc,indexBase>::operator()(IndexType index) const
 {
-    return _data[inc*(index-indexBase)];
+    return data_[inc*(index-indexBase)];
 }
 
 //-- methods -------------------------------------------------------------------
@@ -63,7 +63,7 @@ template <typename T, int n, int inc, int indexBase>
 const typename TinyConstArrayView<T,n,inc,indexBase>::ElementType *
 TinyConstArrayView<T,n,inc,indexBase>::data() const
 {
-    return _data;
+    return data_;
 }
 
 } // namespace flens

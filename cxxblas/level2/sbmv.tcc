@@ -64,11 +64,11 @@ sbmv_generic(StorageOrder order, StorageUpLo upLo,
         for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
             IndexType len = min(k+1, n-i);
 
-            VY _y;
+            VY y_;
             dotu_generic(len, A+ldA*i, IndexType(1),
                              x+iX, IndexType(incX),
-                             _y);
-            y[iY] += alpha*_y;
+                             y_);
+            y[iY] += alpha*y_;
 
             axpy_generic(len-1, x[iX] * alpha,
                                 A+ldA*i+1, IndexType(1),
@@ -78,17 +78,17 @@ sbmv_generic(StorageOrder order, StorageUpLo upLo,
         for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
             IndexType iA = max(k-i, IndexType(0));
             IndexType len = min(k, i) + 1;
-            IndexType _i = max(i-k, IndexType(0));
+            IndexType i_ = max(i-k, IndexType(0));
 
-            VY _y;
+            VY y_;
             dotu_generic(len, A+ldA*i+iA, IndexType(1),
-                             x+_i*incX, IndexType(incX),
-                             _y);
-            y[iY] += alpha*_y;
+                             x+i_*incX, IndexType(incX),
+                             y_);
+            y[iY] += alpha*y_;
 
             axpy_generic(len-1, x[i*incX] * alpha,
                                 A+ldA*i+iA, IndexType(1),
-                                y+_i*incY, incY);
+                                y+i_*incY, incY);
         }
     }
 }

@@ -60,10 +60,10 @@ tgevc(char                  side,
     CXXLAPACK_DEBUG_OUT("stgevc");
 
     IndexType info;
-    IndexType _select = select;
+    IndexType select_ = select;
     LAPACK_IMPL(stgevc)(&side,
                         &howmny,
-                        &_select,
+                        &select_,
                         &n,
                         S,
                         &ldS,
@@ -107,10 +107,10 @@ tgevc(char                  side,
     CXXLAPACK_DEBUG_OUT("dtgevc");
 
     IndexType info;
-    IndexType _select = select;
+    IndexType select_ = select;
     LAPACK_IMPL(dtgevc)(&side,
                         &howmny,
-                        &_select,
+                        &select_,
                         &n,
                         S,
                         &ldS,
@@ -156,10 +156,10 @@ tgevc(char                        side,
     CXXLAPACK_DEBUG_OUT("ctgevc");
 
     IndexType info;
-    IndexType _select = select;
+    IndexType select_ = select;
     LAPACK_IMPL(ctgevc)(&side,
                         &howmny,
-                        &_select,
+                        &select_,
                         &n,
                         reinterpret_cast<const float  *>(S),
                         &ldS,
@@ -205,10 +205,10 @@ tgevc(char                        side,
     CXXLAPACK_DEBUG_OUT("ztgevc");
 
     IndexType info;
-    IndexType _select = select;
+    IndexType select_ = select;
     LAPACK_IMPL(ztgevc)(&side,
                         &howmny,
-                        &_select,
+                        &select_,
                         &n,
                         reinterpret_cast<const double *>(S),
                         &ldS,

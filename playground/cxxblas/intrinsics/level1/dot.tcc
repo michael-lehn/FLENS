@@ -61,19 +61,19 @@ dotu(IndexType n,
 
         IndexType i=0;
 
-        IntrinsicType _x, _y;
-        IntrinsicType _result;
-        _result.setZero();
+        IntrinsicType x_, y_;
+        IntrinsicType result_;
+        result_.setZero();
 
         for (; i+numElements-1<n; i+=numElements) {
-            _x.loadu(x+i);
-            _y.loadu(y+i);
+            x_.loadu(x+i);
+            y_.loadu(y+i);
 
-            _result = _intrinsic_add(_result, _intrinsic_mul(_x, _y));
+            result_ = intrinsic_add_(result_, intrinsic_mul_(x_, y_));
         }
 
         T tmp_result[numElements];
-        _result.storeu(tmp_result);
+        result_.storeu(tmp_result);
 
         for (IndexType k=0; k<numElements; ++k) {
             result += tmp_result[k];
@@ -115,28 +115,28 @@ dotu(IndexType n,
 
         IndexType i=0;
 
-        IntrinsicType _x, _y;
-        IntrinsicPrimitiveType _real_y, _imag_y;
-        IntrinsicType _result;
-        _result.setZero();
+        IntrinsicType x_, y_;
+        IntrinsicPrimitiveType real_y_, imag_y_;
+        IntrinsicType result_;
+        result_.setZero();
 
         for (; i+numElements-1<n; i+=numElements) {
 
-            _x.loadu(x+i);
-            _y.loadu(y+i);
+            x_.loadu(x+i);
+            y_.loadu(y+i);
 
-            _real_y = _intrinsic_real(_y);
-            _imag_y = _intrinsic_imag(_y);
+            real_y_ = intrinsic_real_(y_);
+            imag_y_ = intrinsic_imag_(y_);
 
-            _result = _intrinsic_add(_result, _intrinsic_mul(_x, _real_y));
+            result_ = intrinsic_add_(result_, intrinsic_mul_(x_, real_y_));
 
-            _x = _intrinsic_swap_real_imag(_x);
+            x_ = intrinsic_swap_real_imag_(x_);
 
-            _result = _intrinsic_addsub(_result, _intrinsic_mul(_x, _imag_y));
+            result_ = intrinsic_addsub_(result_, intrinsic_mul_(x_, imag_y_));
         }
 
         T tmp_result[numElements];
-        _result.storeu(tmp_result);
+        result_.storeu(tmp_result);
 
         for (IndexType k=0; k<numElements; ++k) {
             result += tmp_result[k];
@@ -194,29 +194,29 @@ dot(IndexType n,
 
         IndexType i=0;
 
-        IntrinsicType _x, _y;
-        IntrinsicPrimitiveType _real_y, _imag_y;
-        IntrinsicType _result;
-        _result.setZero();
+        IntrinsicType x_, y_;
+        IntrinsicPrimitiveType real_y_, imag_y_;
+        IntrinsicType result_;
+        result_.setZero();
 
         for (; i+numElements-1<n; i+=numElements) {
 
-            _x.loadu(x+i);
-            _y.loadu(y+i);
+            x_.loadu(x+i);
+            y_.loadu(y+i);
 
-            _real_y = _intrinsic_real(_y);
-            _imag_y = _intrinsic_imag(_y);
+            real_y_ = intrinsic_real_(y_);
+            imag_y_ = intrinsic_imag_(y_);
 
 
-            _result = _intrinsic_addsub(_result, _intrinsic_mul(_x, _real_y));
+            result_ = intrinsic_addsub_(result_, intrinsic_mul_(x_, real_y_));
 
-            _x = _intrinsic_swap_real_imag(_x);
+            x_ = intrinsic_swap_real_imag_(x_);
 
-            _result = _intrinsic_sub(_result, _intrinsic_mul(_x, _imag_y));
+            result_ = intrinsic_sub_(result_, intrinsic_mul_(x_, imag_y_));
         }
 
         T tmp_result[numElements];
-        _result.storeu(tmp_result);
+        result_.storeu(tmp_result);
 
         for (IndexType k=0; k<numElements; ++k) {
             result -= tmp_result[k];

@@ -45,6 +45,8 @@
 #define FLENS_LAPACK_LA_LAEV2_TCC 1
 
 #include <cxxstd/complex.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

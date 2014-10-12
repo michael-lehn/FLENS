@@ -43,7 +43,7 @@ namespace flens {
 // -- constructors -------------------------------------------------------------
 template <typename CRS>
 TrCRSMatrix<CRS>::TrCRSMatrix()
-    : _upLo(Upper)
+    : upLo_(Upper)
 {
 }
 
@@ -69,70 +69,70 @@ typename TrCRSMatrix<CRS>::IndexType
 TrCRSMatrix<CRS>::dim() const
 {
     ASSERT(numRows()==numCols());
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename CRS>
 typename TrCRSMatrix<CRS>::IndexType
 TrCRSMatrix<CRS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename CRS>
 typename TrCRSMatrix<CRS>::IndexType
 TrCRSMatrix<CRS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename CRS>
 typename TrCRSMatrix<CRS>::IndexType
 TrCRSMatrix<CRS>::indexBase() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename CRS>
 typename TrCRSMatrix<CRS>::IndexType
 TrCRSMatrix<CRS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename CRS>
 typename TrCRSMatrix<CRS>::IndexType
 TrCRSMatrix<CRS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename CRS>
 typename TrCRSMatrix<CRS>::IndexType
 TrCRSMatrix<CRS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename CRS>
 typename TrCRSMatrix<CRS>::IndexType
 TrCRSMatrix<CRS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 template <typename CRS>
 StorageUpLo
 TrCRSMatrix<CRS>::upLo() const
 {
-    return _upLo;
+    return upLo_;
 }
 
 template <typename CRS>
 StorageUpLo &
 TrCRSMatrix<CRS>::upLo()
 {
-    return _upLo;
+    return upLo_;
 }
 
 // -- implementation -----------------------------------------------------------
@@ -140,14 +140,14 @@ template <typename CRS>
 const typename TrCRSMatrix<CRS>::Engine &
 TrCRSMatrix<CRS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename CRS>
 typename TrCRSMatrix<CRS>::Engine &
 TrCRSMatrix<CRS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

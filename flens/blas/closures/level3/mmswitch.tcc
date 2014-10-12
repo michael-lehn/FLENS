@@ -77,7 +77,7 @@ mmSwitch(Transpose transA, Transpose transB, const ALPHA &alpha,
     typedef typename PruneConjTrans<MA>::Remainder RMA;
 
     transA = Transpose(transA^PruneConjTrans<MA>::trans);
-    const RMA  &_A = PruneConjTrans<MA>::remainder(A);
+    const RMA  &A_ = PruneConjTrans<MA>::remainder(A);
 //
 //  If B is a closure then prune arbitrary many OpTrans/OpConj
 //
@@ -88,18 +88,18 @@ mmSwitch(Transpose transA, Transpose transB, const ALPHA &alpha,
 //
     FLENS_BLASLOG_TMP_TRON;
     typedef typename PruneConjTrans<MB>::Remainder RMB;
-    const typename Result<RMB>::Type &_B = PruneConjTrans<MB>::remainder(B);
+    const typename Result<RMB>::Type &B_ = PruneConjTrans<MB>::remainder(B);
     FLENS_BLASLOG_TMP_TROFF;
 //
 //  Call mm implementation
 //
-    mmCase(transA, transB, alpha, _A, _B, beta, C);
+    mmCase(transA, transB, alpha, A_, B_, beta, C);
 //
 //  If a temporary was created and registered before we now unregister it
 //
 #   ifdef FLENS_DEBUG_CLOSURES
     if (!IsSame<RMB, typename Result<RMB>::Type>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(_B, PruneConjTrans<MB>::remainder(B));
+        FLENS_BLASLOG_TMP_REMOVE(B_, PruneConjTrans<MB>::remainder(B));
     }
 #   else
     const bool check = IsSame<RMB, typename Result<RMB>::Type>::value;
@@ -144,8 +144,8 @@ mmCase(Transpose transA, Transpose transB, const ALPHA &alpha,
 //  a temporary gets created.  Otherwise we only keep a reference
 //
     FLENS_BLASLOG_TMP_TRON;
-    const RMA &_A      = PruneConjTrans<MA>::remainder(scale_A.right());
-    const ResultRMA &A = _A;
+    const RMA &A_      = PruneConjTrans<MA>::remainder(scale_A.right());
+    const ResultRMA &A = A_;
     FLENS_BLASLOG_TMP_TROFF;
 
     mm(transA, transB, alpha*scale_A.left().value(), A, B, beta, C);
@@ -155,7 +155,7 @@ mmCase(Transpose transA, Transpose transB, const ALPHA &alpha,
 //
 #   ifdef FLENS_DEBUG_CLOSURES
     if (!IsSame<RMA, ResultRMA>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(A, _A);
+        FLENS_BLASLOG_TMP_REMOVE(A, A_);
     }
 #   else
     const bool check = IsSame<RMA, typename Result<RMA>::Type>::value;
@@ -182,17 +182,17 @@ mmCase(Transpose transA, Transpose transB, const ALPHA &alpha,
 //
     FLENS_BLASLOG_TMP_TRON;
     typedef typename Result<ClosureType>::Type  MA;
-    const MA &_A = A;
+    const MA &A_ = A;
     FLENS_BLASLOG_TMP_TROFF;
 
-    mm(transA, transB, alpha, _A, B, beta, C);
+    mm(transA, transB, alpha, A_, B, beta, C);
 
 //
 //  If a temporary was created and registered before we now unregister it
 //
 #   ifdef FLENS_DEBUG_CLOSURES
     if (!IsSame<ClosureType, MA>::value) {
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
     }
 #   else
     const bool check = IsSame<ClosureType, MA>::value;

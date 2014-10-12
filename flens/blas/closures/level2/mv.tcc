@@ -52,14 +52,14 @@ namespace flens { namespace blas {
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
 mv(Transpose trans,
-   const ALPHA &alpha, const TriangularMatrix<MA> &_A, const Vector<VX> &_x,
-   const BETA &DEBUG_VAR(beta), Vector<VY> &_y)
+   const ALPHA &alpha, const TriangularMatrix<MA> &A_, const Vector<VX> &x_,
+   const BETA &DEBUG_VAR(beta), Vector<VY> &y_)
 {
     using namespace DEBUGCLOSURE;
 
-    const typename TriangularMatrix<MA>::Impl  &A = _A.impl();
-    const typename Vector<VX>::Impl            &x = _x.impl();
-    typename Vector<VY>::Impl                  &y = _y.impl();
+    const typename TriangularMatrix<MA>::Impl  &A = A_.impl();
+    const typename Vector<VX>::Impl            &x = x_.impl();
+    typename Vector<VY>::Impl                  &y = y_.impl();
 
 //
 //  If beta is not Zero we need a temporary
@@ -107,13 +107,13 @@ mv(Transpose DEBUG_VAR(trans),
         typedef typename MA::Impl::ElementType        TA;
         typedef GeMatrix<FullStorage<TA, ColMajor> >  RMA;
 
-        RMA _A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        RMA A_;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, A, _A);
+        copy(trans, A, A_);
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
-        mv(NoTrans, alpha, _A, x.impl(), beta, y.impl());
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
+        mv(NoTrans, alpha, A_, x.impl(), beta, y.impl());
     }
 
 #   else
@@ -139,13 +139,13 @@ mv(Transpose DEBUG_VAR(trans),
         typedef typename MA::Impl::ElementType        TA;
         typedef GeMatrix<FullStorage<TA, ColMajor> >  RMA;
 
-        RMA _A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        RMA A_;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, A, _A);
+        copy(trans, A, A_);
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
-        mv(NoTrans, alpha, _A, x.impl(), beta, y.impl());
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
+        mv(NoTrans, alpha, A_, x.impl(), beta, y.impl());
     }
 
 #   else
@@ -178,14 +178,14 @@ mv(Transpose trans,
     typedef DenseVector<Array<TX> >               RVX;
 
     FLENS_BLASLOG_TMP_TRON;
-    RMA _A = A.impl();
-    RVX _x = x.impl();
+    RMA A_ = A.impl();
+    RVX x_ = x.impl();
     FLENS_BLASLOG_TMP_TROFF;
 
-    mv(trans, alpha, _A, _x, beta, y.impl());
+    mv(trans, alpha, A_, x_, beta, y.impl());
 
-    FLENS_BLASLOG_TMP_REMOVE(_A, A);
-    FLENS_BLASLOG_TMP_REMOVE(_x, x);
+    FLENS_BLASLOG_TMP_REMOVE(A_, A);
+    FLENS_BLASLOG_TMP_REMOVE(x_, x);
 
     FLENS_BLASLOG_END;
 }

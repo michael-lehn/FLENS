@@ -55,14 +55,14 @@ raxpy(IndexType n, const T &alpha, const T *x,
 
         IndexType i=0;
 
-        IntrinsicType _x, _y;
-        IntrinsicType _alpha(alpha);
+        IntrinsicType x_, y_;
+        IntrinsicType alpha_(alpha);
 
         for (; i+numElements-1<n; i+=numElements) {
-            _x.loadu(x+i);
-            _y.loadu(y+i);
-            _y = _intrinsic_add(_y, _intrinsic_div(_x, _alpha));
-            _y.storeu(y+i);
+            x_.loadu(x+i);
+            y_.loadu(y+i);
+            y_ = intrinsic_add_(y_, intrinsic_div_(x_, alpha_));
+            y_.storeu(y+i);
         }
 
         for (; i<n; ++i) {
@@ -99,7 +99,7 @@ raxpy(IndexType n, const T &alpha, const T *x,
 
         const int numElements = IntrinsicType::numElements;
 
-        IntrinsicType _x, _y, _tmp;
+        IntrinsicType x_, y_, tmp_;
 
         IndexType i=0;
 
@@ -108,19 +108,19 @@ raxpy(IndexType n, const T &alpha, const T *x,
             PT r   = real(alpha)/imag(alpha);
             PT den = imag(alpha) + r*real(alpha);
 
-            IntrinsicPrimitiveType _mr(-r);
-            IntrinsicPrimitiveType _den(den);
+            IntrinsicPrimitiveType mr_(-r);
+            IntrinsicPrimitiveType den_(den);
 
            for (; i+numElements-1<n; i+=numElements) {
-                _x.loadu(x+i);
-                _y.loadu(y+i);
+                x_.loadu(x+i);
+                y_.loadu(y+i);
 
-                _tmp = _intrinsic_mul(_mr, _x);
-                _x   = _intrinsic_swap_real_imag(_x);
-                _tmp = _intrinsic_addsub(_tmp, _x);
-                _y   = _intrinsic_sub(_y, _intrinsic_div(_tmp, _den));
+                tmp_ = intrinsic_mul_(mr_, x_);
+                x_   = intrinsic_swap_real_imag_(x_);
+                tmp_ = intrinsic_addsub_(tmp_, x_);
+                y_   = intrinsic_sub_(y_, intrinsic_div_(tmp_, den_));
 
-                _y.storeu(y+i);
+                y_.storeu(y+i);
             }
 
         } else {
@@ -128,18 +128,18 @@ raxpy(IndexType n, const T &alpha, const T *x,
             PT r   = imag(alpha)/real(alpha);
             PT den = real(alpha) + r*imag(alpha);
 
-            IntrinsicPrimitiveType _mr(-r);
-            IntrinsicPrimitiveType _den(den);
+            IntrinsicPrimitiveType mr_(-r);
+            IntrinsicPrimitiveType den_(den);
 
            for (; i+numElements-1<n; i+=numElements) {
-                _x.loadu(x+i);
-                _y.loadu(y+i);
+                x_.loadu(x+i);
+                y_.loadu(y+i);
 
-                _tmp = _intrinsic_mul(_mr,_intrinsic_swap_real_imag(_x));
-                _x   = _intrinsic_addsub(_x, _tmp);
-                _y   = _intrinsic_add(_y, _intrinsic_div(_x, _den));
+                tmp_ = intrinsic_mul_(mr_,intrinsic_swap_real_imag_(x_));
+                x_   = intrinsic_addsub_(x_, tmp_);
+                y_   = intrinsic_add_(y_, intrinsic_div_(x_, den_));
 
-                _y.storeu(y+i);
+                y_.storeu(y+i);
             }
 
 

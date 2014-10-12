@@ -40,27 +40,27 @@
 //--- Real
 
 Intrinsics<float, IntrinsicsLevel::SSE>
-inline _intrinsic_unpackhi(const Intrinsics<float, IntrinsicsLevel::SSE> &x, const Intrinsics<float, IntrinsicsLevel::SSE> &y)
+inline intrinsic_unpackhi_(const Intrinsics<float, IntrinsicsLevel::SSE> &x, const Intrinsics<float, IntrinsicsLevel::SSE> &y)
 {
-    return Intrinsics<float, IntrinsicsLevel::SSE>(_mm_unpackhi_ps(x.get(),y.get()));
+    return Intrinsics<float, IntrinsicsLevel::SSE>(mm_unpackhi_ps_(x.get(),y.get()));
 }
 
 Intrinsics<float, IntrinsicsLevel::SSE>
-inline _intrinsic_unpacklo(const Intrinsics<float, IntrinsicsLevel::SSE> &x, const Intrinsics<float, IntrinsicsLevel::SSE> &y)
+inline intrinsic_unpacklo_(const Intrinsics<float, IntrinsicsLevel::SSE> &x, const Intrinsics<float, IntrinsicsLevel::SSE> &y)
 {
-    return Intrinsics<float, IntrinsicsLevel::SSE>(_mm_unpacklo_ps(x.get(),y.get()));
+    return Intrinsics<float, IntrinsicsLevel::SSE>(mm_unpacklo_ps_(x.get(),y.get()));
 }
 
 Intrinsics<double, IntrinsicsLevel::SSE>
-inline _intrinsic_unpackhi(const Intrinsics<double, IntrinsicsLevel::SSE> &x, const Intrinsics<double, IntrinsicsLevel::SSE> &y)
+inline intrinsic_unpackhi_(const Intrinsics<double, IntrinsicsLevel::SSE> &x, const Intrinsics<double, IntrinsicsLevel::SSE> &y)
 {
-    return Intrinsics<double, IntrinsicsLevel::SSE>(_mm_unpackhi_pd(x.get(),y.get()));
+    return Intrinsics<double, IntrinsicsLevel::SSE>(mm_unpackhi_pd_(x.get(),y.get()));
 }
 
 Intrinsics<double, IntrinsicsLevel::SSE>
-inline _intrinsic_unpacklo(const Intrinsics<double, IntrinsicsLevel::SSE> &x, const Intrinsics<double, IntrinsicsLevel::SSE> &y)
+inline intrinsic_unpacklo_(const Intrinsics<double, IntrinsicsLevel::SSE> &x, const Intrinsics<double, IntrinsicsLevel::SSE> &y)
 {
-    return Intrinsics<double, IntrinsicsLevel::SSE>(_mm_unpacklo_pd(x.get(),y.get()));
+    return Intrinsics<double, IntrinsicsLevel::SSE>(mm_unpacklo_pd_(x.get(),y.get()));
 }
 
 #endif // HAVE_SSE
@@ -71,27 +71,27 @@ inline _intrinsic_unpacklo(const Intrinsics<double, IntrinsicsLevel::SSE> &x, co
 //--- Real
 
 Intrinsics<float, IntrinsicsLevel::AVX>
-inline _intrinsic_unpackhi(const Intrinsics<float, IntrinsicsLevel::AVX> &x, const Intrinsics<float, IntrinsicsLevel::AVX> &y)
+inline intrinsic_unpackhi_(const Intrinsics<float, IntrinsicsLevel::AVX> &x, const Intrinsics<float, IntrinsicsLevel::AVX> &y)
 {
-    return Intrinsics<float, IntrinsicsLevel::AVX>(_mm256_unpackhi_ps(x.get(),y.get()));
+    return Intrinsics<float, IntrinsicsLevel::AVX>(mm256_unpackhi_ps_(x.get(),y.get()));
 }
 
 Intrinsics<float, IntrinsicsLevel::AVX>
-inline _intrinsic_unpacklo(const Intrinsics<float, IntrinsicsLevel::AVX> &x, const Intrinsics<float, IntrinsicsLevel::AVX> &y)
+inline intrinsic_unpacklo_(const Intrinsics<float, IntrinsicsLevel::AVX> &x, const Intrinsics<float, IntrinsicsLevel::AVX> &y)
 {
-    return Intrinsics<float, IntrinsicsLevel::AVX>(_mm256_unpacklo_ps(x.get(),y.get()));
+    return Intrinsics<float, IntrinsicsLevel::AVX>(mm256_unpacklo_ps_(x.get(),y.get()));
 }
 
 Intrinsics<double, IntrinsicsLevel::AVX>
-inline _intrinsic_unpackhi(const Intrinsics<double, IntrinsicsLevel::AVX> &x, const Intrinsics<double, IntrinsicsLevel::AVX> &y)
+inline intrinsic_unpackhi_(const Intrinsics<double, IntrinsicsLevel::AVX> &x, const Intrinsics<double, IntrinsicsLevel::AVX> &y)
 {
-    return Intrinsics<double, IntrinsicsLevel::AVX>(_mm256_unpackhi_pd(x.get(),y.get()));
+    return Intrinsics<double, IntrinsicsLevel::AVX>(mm256_unpackhi_pd_(x.get(),y.get()));
 }
 
 Intrinsics<double, IntrinsicsLevel::AVX>
-inline _intrinsic_unpacklo(const Intrinsics<double, IntrinsicsLevel::AVX> &x, const Intrinsics<double, IntrinsicsLevel::AVX> &y)
+inline intrinsic_unpacklo_(const Intrinsics<double, IntrinsicsLevel::AVX> &x, const Intrinsics<double, IntrinsicsLevel::AVX> &y)
 {
-    return Intrinsics<double, IntrinsicsLevel::AVX>(_mm256_unpacklo_pd(x.get(),y.get()));
+    return Intrinsics<double, IntrinsicsLevel::AVX>(mm256_unpacklo_pd_(x.get(),y.get()));
 }
 
 #endif // HAVE_AVX

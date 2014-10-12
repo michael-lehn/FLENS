@@ -42,7 +42,7 @@ namespace flens { namespace densevector {
 
 template <typename V>
 Initializer<V>::Initializer(Vector &x, IndexType index)
-    : _x(x), _index(index)
+    : x_(x), index_(index)
 {
 }
 
@@ -50,11 +50,11 @@ template <typename A>
 Initializer<A>
 Initializer<A>::operator,(const ElementType &value)
 {
-    _index += _x.inc();
-    ASSERT(_index>=std::min(_x.firstIndex(), _x.lastIndex()));
-    ASSERT(_index<=std::max(_x.firstIndex(), _x.lastIndex()));
-    _x(_index) = value;
-    return Initializer(_x, _index);
+    index_ += x_.inc();
+    ASSERT(index_>=std::min(x_.firstIndex(), x_.lastIndex()));
+    ASSERT(index_<=std::max(x_.firstIndex(), x_.lastIndex()));
+    x_(index_) = value;
+    return Initializer(x_, index_);
 }
 
 } } // namespace densevector, flens

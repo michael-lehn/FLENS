@@ -55,10 +55,10 @@ laqtr(bool              trans,
     CXXLAPACK_DEBUG_OUT("slaqtr");
 
     IndexType info;
-    IndexType _trans = trans;
-    IndexType _real = real;
-    LAPACK_IMPL(slaqtr)(&_trans,
-                        &_real,
+    IndexType trans_ = trans;
+    IndexType real_ = real;
+    LAPACK_IMPL(slaqtr)(&trans_,
+                        &real_,
                         &n,
                         T,
                         &ldT,
@@ -93,10 +93,10 @@ laqtr(bool              trans,
     CXXLAPACK_DEBUG_OUT("dlaqtr");
 
     IndexType info;
-    IndexType _trans = trans;
-    IndexType _real = real;
-    LAPACK_IMPL(dlaqtr)(&_trans,
-                        &_real,
+    IndexType trans_ = trans;
+    IndexType real_ = real;
+    LAPACK_IMPL(dlaqtr)(&trans_,
+                        &real_,
                         &n,
                         T,
                         &ldT,

@@ -60,10 +60,10 @@ tgexc(bool                  wantq,
     CXXLAPACK_DEBUG_OUT("stgexc");
 
     IndexType info;
-    IndexType _wantq = wantq;
-    IndexType _wantz = wantz;
-    LAPACK_IMPL(stgexc)(&_wantq,
-                        &_wantz,
+    IndexType wantq_ = wantq;
+    IndexType wantz_ = wantz;
+    LAPACK_IMPL(stgexc)(&wantq_,
+                        &wantz_,
                         &n,
                         A,
                         &ldA,
@@ -108,10 +108,10 @@ tgexc(bool                  wantq,
     CXXLAPACK_DEBUG_OUT("dtgexc");
 
     IndexType info;
-    IndexType _wantq = wantq;
-    IndexType _wantz = wantz;
-    LAPACK_IMPL(dtgexc)(&_wantq,
-                        &_wantz,
+    IndexType wantq_ = wantq;
+    IndexType wantz_ = wantz;
+    LAPACK_IMPL(dtgexc)(&wantq_,
+                        &wantz_,
                         &n,
                         A,
                         &ldA,
@@ -155,10 +155,10 @@ tgexc(bool                  wantq,
     CXXLAPACK_DEBUG_OUT("ctgexc");
 
     IndexType info;
-    IndexType _wantq = wantq;
-    IndexType _wantz = wantz;
-    LAPACK_IMPL(ctgexc)(&_wantq,
-                        &_wantz,
+    IndexType wantq_ = wantq;
+    IndexType wantz_ = wantz;
+    LAPACK_IMPL(ctgexc)(&wantq_,
+                        &wantz_,
                         &n,
                         reinterpret_cast<float  *>(A),
                         &ldA,
@@ -199,10 +199,10 @@ tgexc(bool                  wantq,
     CXXLAPACK_DEBUG_OUT("ztgexc");
 
     IndexType info;
-    IndexType _wantq = wantq;
-    IndexType _wantz = wantz;
-    LAPACK_IMPL(ztgexc)(&_wantq,
-                        &_wantz,
+    IndexType wantq_ = wantq;
+    IndexType wantz_ = wantz;
+    LAPACK_IMPL(ztgexc)(&wantq_,
+                        &wantz_,
                         &n,
                         reinterpret_cast<double *>(A),
                         &ldA,

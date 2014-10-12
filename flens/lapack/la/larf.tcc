@@ -111,39 +111,39 @@ larf_impl(Side side, const DenseVector<VV> &v, const TAU &tau,
 //  Note that lastc.eq.0 renders the BLAS operations null; no special
 //  case is needed at this level.
 //
-    const auto _v = v(_(1,lastV));
+    const auto v_ = v(_(1,lastV));
 
     if (side==Left) {
 //
 //      Form  H * C
 //
         if (lastV>0) {
-            auto _work = work(_(1,lastC));
-            auto _C = C(_(1,lastV),_(1,lastC));
+            auto work_ = work(_(1,lastC));
+            auto C_ = C(_(1,lastV),_(1,lastC));
 //
 //          work(1:lastc,1) := C(1:lastv,1:lastc)' * v(1:lastv,1)
 //
-            blas::mv(Trans, One, _C, _v, Zero, _work);
+            blas::mv(Trans, One, C_, v_, Zero, work_);
 //
 //          C(1:lastv,1:lastc) := C(...) - v(1:lastv,1) * work(1:lastc,1)'
 //
-            blas::r(-tau, _v, _work, _C);
+            blas::r(-tau, v_, work_, C_);
         }
     } else {
 //
 //      Form  C * H
 //
         if (lastV>0) {
-            auto _work = work(_(1,lastC));
-            auto _C = C(_(1,lastC),_(1,lastV));
+            auto work_ = work(_(1,lastC));
+            auto C_ = C(_(1,lastC),_(1,lastV));
 //
 //          work(1:lastc,1) := C(1:lastc,1:lastv) * v(1:lastv,1)
 //
-            blas::mv(NoTrans, One, _C, _v, Zero, _work);
+            blas::mv(NoTrans, One, C_, v_, Zero, work_);
 //
 //          C(1:lastc,1:lastv) := C(...) - work(1:lastc,1) * v(1:lastv,1)'
 //
-            blas::r(-tau, _work, _v, _C);
+            blas::r(-tau, work_, v_, C_);
         }
     }
 }
@@ -207,39 +207,39 @@ larf_impl(Side side, const DenseVector<VV> &v, const TAU &tau,
 //  Note that lastc.eq.0 renders the BLAS operations null; no special
 //  case is needed at this level.
 //
-    const auto _v = v(_(1,lastV));
+    const auto v_ = v(_(1,lastV));
 
     if (side==Left) {
 //
 //      Form  H * C
 //
         if (lastV>0) {
-            auto _work = work(_(1,lastC));
-            auto _C = C(_(1,lastV),_(1,lastC));
+            auto work_ = work(_(1,lastC));
+            auto C_ = C(_(1,lastV),_(1,lastC));
 //
 //          work(1:lastc,1) := C(1:lastv,1:lastc)**H * v(1:lastv,1)
 //
-            blas::mv(ConjTrans, One, _C, _v, Zero, _work);
+            blas::mv(ConjTrans, One, C_, v_, Zero, work_);
 //
 //          C(1:lastv,1:lastc) := C(...) - v(1:lastv,1) * work(1:lastc,1)**H
 //
-            blas::rc(-tau, _v, _work, _C);
+            blas::rc(-tau, v_, work_, C_);
         }
     } else {
 //
 //      Form  C * H
 //
         if (lastV>0) {
-            auto _work = work(_(1,lastC));
-            auto _C = C(_(1,lastC),_(1,lastV));
+            auto work_ = work(_(1,lastC));
+            auto C_ = C(_(1,lastC),_(1,lastV));
 //
 //          work(1:lastc,1) := C(1:lastc,1:lastv) * v(1:lastv,1)
 //
-            blas::mv(NoTrans, One, _C, _v, Zero, _work);
+            blas::mv(NoTrans, One, C_, v_, Zero, work_);
 //
 //          C(1:lastc,1:lastv) := C(...) - work(1:lastc,1) * v(1:lastv,1)**H
 //
-            blas::rc(-tau, _work, _v, _C);
+            blas::rc(-tau, work_, v_, C_);
         }
     }
 }

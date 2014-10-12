@@ -93,8 +93,8 @@ latrz_impl(IndexType             l,
 //
 //      Apply H(i) to A(1:i-1,i:n) from the right
 //
-        auto _work = work(_(1,i-1));
-        larz(Right, A(i,_(n-l+1,n)), tau(i), A(_(1,i-1),_(i,n)), _work);
+        auto work_ = work(_(1,i-1));
+        larz(Right, A(i,_(n-l+1,n)), tau(i), A(_(1,i-1),_(i,n)), work_);
     }
 }
 
@@ -141,9 +141,9 @@ latrz_impl(IndexType             l,
 //
 //      Apply H(i) to A(1:i-1,i:n) from the right
 //
-        auto _work = work(_(1,i-1));
+        auto work_ = work(_(1,i-1));
         larz(Right, A(i,_(n-l+1,n)), cxxblas::conjugate(tau(i)),
-             A(_(1,i-1),_(i,n)), _work);
+             A(_(1,i-1),_(i,n)), work_);
         A(i,i) = cxxblas::conjugate(alpha);
     }
 }

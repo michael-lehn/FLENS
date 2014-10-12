@@ -47,33 +47,33 @@ DiagMatrix<FS>::DiagMatrix()
 
 template <typename FS>
 DiagMatrix<FS>::DiagMatrix(IndexType dim, IndexType firstIndex)
-      : _engine(dim, firstIndex)
+      : engine_(dim, firstIndex)
 {
 }
 
 template <typename FS>
 DiagMatrix<FS>::DiagMatrix(const Engine &engine)
-    : _engine(engine)
+    : engine_(engine)
 {
 }
 
 template <typename FS>
 DiagMatrix<FS>::DiagMatrix(const DiagMatrix &rhs)
-    : GeneralMatrix<DiagMatrix<FS> >(), _engine(rhs.engine())
+    : GeneralMatrix<DiagMatrix<FS> >(), engine_(rhs.engine())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 DiagMatrix<FS>::DiagMatrix(const DiagMatrix<RHS> &rhs)
-    : _engine(rhs.engine())
+    : engine_(rhs.engine())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 DiagMatrix<FS>::DiagMatrix(DiagMatrix<RHS> &rhs)
-    : _engine(rhs.engine())
+    : engine_(rhs.engine())
 {
 }
 
@@ -87,7 +87,7 @@ DiagMatrix<FS>::DiagMatrix(const Matrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 DiagMatrix<FS>::DiagMatrix(const DenseVector<RHS> &rhs)
-    : _engine(rhs.engine())
+    : engine_(rhs.engine())
 {
 
 }
@@ -192,7 +192,7 @@ DiagMatrix<FS>::operator()(IndexType row, IndexType DEBUG_VAR(col)) const
 {
     ASSERT( row==col );
 
-    return _engine(row);
+    return engine_(row);
 }
 
 template <typename FS>
@@ -201,7 +201,7 @@ DiagMatrix<FS>::operator()(IndexType row, IndexType DEBUG_VAR(col))
 {
     ASSERT( row==col );
 
-    return _engine(row);
+    return engine_(row);
 }
 
 // -- views --------------------------------------------------------------------
@@ -210,18 +210,18 @@ const typename DiagMatrix<FS>::ConstVectorView
 DiagMatrix<FS>::diag() const
 {
 
-    return ConstVectorView(_engine.view(_engine.firstIndex(),
-                                        _engine.lastIndex(),
-                                        _engine.stride()));
+    return ConstVectorView(engine_.view(engine_.firstIndex(),
+                                        engine_.lastIndex(),
+                                        engine_.stride()));
 }
 
 template <typename FS>
 typename DiagMatrix<FS>::VectorView
 DiagMatrix<FS>::diag()
 {
-    return VectorView(_engine.view(_engine.firstIndex(),
-                                   _engine.lastIndex(),
-                                   _engine.stride()));
+    return VectorView(engine_.view(engine_.firstIndex(),
+                                   engine_.lastIndex(),
+                                   engine_.stride()));
 }
 
 // -- methods ------------------------------------------------------------------
@@ -229,56 +229,56 @@ template <typename FS>
 typename DiagMatrix<FS>::IndexType
 DiagMatrix<FS>::dim() const
 {
-    return _engine.length();
+    return engine_.length();
 }
 
 template <typename FS>
 typename DiagMatrix<FS>::IndexType
 DiagMatrix<FS>::numCols() const
 {
-    return _engine.length();
+    return engine_.length();
 }
 
 template <typename FS>
 typename DiagMatrix<FS>::IndexType
 DiagMatrix<FS>::numRows() const
 {
-    return _engine.length();
+    return engine_.length();
 }
 
 template <typename FS>
 typename DiagMatrix<FS>::IndexType
 DiagMatrix<FS>::firstIndex() const
 {
-    return _engine.firstIndex();
+    return engine_.firstIndex();
 }
 
 template <typename FS>
 typename DiagMatrix<FS>::IndexType
 DiagMatrix<FS>::lastIndex() const
 {
-    return _engine.lastIndex();
+    return engine_.lastIndex();
 }
 
 template <typename FS>
 typename DiagMatrix<FS>::IndexType
 DiagMatrix<FS>::leadingDimension() const
 {
-    return _engine.stride();
+    return engine_.stride();
 }
 
 template <typename FS>
 const typename DiagMatrix<FS>::ElementType *
 DiagMatrix<FS>::data() const
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
 typename DiagMatrix<FS>::ElementType *
 DiagMatrix<FS>::data()
 {
-    return _engine.data();
+    return engine_.data();
 }
 
 template <typename FS>
@@ -287,7 +287,7 @@ bool
 DiagMatrix<FS>::resize(const DiagMatrix<RHS> &rhs,
                        const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return engine_.resize(rhs.engine(), value);
 }
 
 template <typename FS>
@@ -295,14 +295,14 @@ bool
 DiagMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
                        const ElementType &value)
 {
-    return _engine.resize(dim, firstIndex, value);
+    return engine_.resize(dim, firstIndex, value);
 }
 
 template <typename FS>
 bool
 DiagMatrix<FS>::fill(const ElementType &value)
 {
-    return _engine.fill(value);
+    return engine_.fill(value);
 }
 
 
@@ -312,14 +312,14 @@ template <typename FS>
 const typename DiagMatrix<FS>::Engine &
 DiagMatrix<FS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 template <typename FS>
 typename DiagMatrix<FS>::Engine &
 DiagMatrix<FS>::engine()
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

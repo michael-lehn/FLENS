@@ -45,7 +45,7 @@ GeCoordMatrix<CS>::GeCoordMatrix(IndexType numRows,
                                  IndexType numCols,
                                  IndexType densityEstimate,
                                  IndexType indexBase)
-    : _engine(numRows, numCols, densityEstimate, indexBase)
+    : engine_(numRows, numCols, densityEstimate, indexBase)
 {
 }
 
@@ -54,7 +54,7 @@ template <typename CS>
 typename GeCoordMatrix<CS>::ElementProxy
 GeCoordMatrix<CS>::operator()(IndexType row, IndexType col)
 {
-    return _engine(row, col);
+    return engine_(row, col);
 }
 
 // -- methods ------------------------------------------------------------------
@@ -62,49 +62,49 @@ template <typename CS>
 typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::numRows() const
 {
-    return _engine.numRows();
+    return engine_.numRows();
 }
 
 template <typename CS>
 typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::numCols() const
 {
-    return _engine.numCols();
+    return engine_.numCols();
 }
 
 template <typename CS>
 typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::indexBase() const
 {
-    return _engine.indexBase();
+    return engine_.indexBase();
 }
 
 template <typename CS>
 typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::firstRow() const
 {
-    return _engine.firstRow();
+    return engine_.firstRow();
 }
 
 template <typename CS>
 typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::lastRow() const
 {
-    return _engine.lastRow();
+    return engine_.lastRow();
 }
 
 template <typename CS>
 typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::firstCol() const
 {
-    return _engine.firstCol();
+    return engine_.firstCol();
 }
 
 template <typename CS>
 typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::lastCol() const
 {
-    return _engine.lastCol();
+    return engine_.lastCol();
 }
 
 // -- implementation -----------------------------------------------------------
@@ -112,7 +112,7 @@ template <typename CS>
 const typename GeCoordMatrix<CS>::Engine &
 GeCoordMatrix<CS>::engine() const
 {
-    return _engine;
+    return engine_;
 }
 
 } // namespace flens

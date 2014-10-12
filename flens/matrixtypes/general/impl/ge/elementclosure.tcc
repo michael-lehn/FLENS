@@ -42,7 +42,7 @@ namespace flens { namespace gematrix {
 template <typename M>
 ElementClosure<M>::ElementClosure(Matrix &matrix,
                                   IndexVariable &row, IndexVariable &col)
-    : _matrix(matrix), _row(row), _col(col)
+    : matrix_(matrix), row_(row), col_(col)
 {
 }
 
@@ -51,18 +51,18 @@ template <typename M>
 int
 ElementClosure<M>::operator=(const ElementType &rhs)
 {
-    typename IndexVariable::ElementType &i = _row.value();
-    typename IndexVariable::ElementType &j = _col.value();
+    typename IndexVariable::ElementType &i = row_.value();
+    typename IndexVariable::ElementType &j = col_.value();
 
     if (M::Engine::order==RowMajor) {
-        for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
+        for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
                 value() = rhs;
             }
         }
     } else {
-        for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
+        for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
                 value() = rhs;
             }
         }
@@ -75,18 +75,18 @@ template <typename S>
 void
 ElementClosure<M>::operator=(const Scalar<S> &rhs)
 {
-    typename IndexVariable::ElementType &i = _row.value();
-    typename IndexVariable::ElementType &j = _col.value();
+    typename IndexVariable::ElementType &i = row_.value();
+    typename IndexVariable::ElementType &j = col_.value();
 
     if (M::Engine::order==RowMajor) {
-        for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
+        for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
                 value() = rhs.impl().value();
             }
         }
     } else {
-        for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
+        for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
                 value() = rhs.impl().value();
             }
         }
@@ -97,18 +97,18 @@ template <typename M>
 void
 ElementClosure<M>::operator=(const ElementClosure &rhs)
 {
-    typename IndexVariable::ElementType &i = _row.value();
-    typename IndexVariable::ElementType &j = _col.value();
+    typename IndexVariable::ElementType &i = row_.value();
+    typename IndexVariable::ElementType &j = col_.value();
 
     if (M::Engine::order==RowMajor) {
-        for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
-            for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
+        for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
+            for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
                 value() = rhs.impl().value();
             }
         }
     } else {
-        for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
-            for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
+        for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
+            for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
                 value() = rhs.impl().value();
             }
         }
@@ -119,14 +119,14 @@ template <typename M>
 const typename ElementClosure<M>::ElementType &
 ElementClosure<M>::value() const
 {
-    return _matrix(_row.value(), _col.value());
+    return matrix_(row_.value(), col_.value());
 }
 
 template <typename M>
 typename ElementClosure<M>::ElementType &
 ElementClosure<M>::value()
 {
-    return _matrix(_row.value(), _col.value());
+    return matrix_(row_.value(), col_.value());
 }
 
 } } // namespace gematrix, flens

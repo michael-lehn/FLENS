@@ -10,44 +10,44 @@ BLAS(strsv)(const char      *UPLO,
             const char      *TRANS,
             const char      *DIAG,
             const INTEGER   *N,
-            const float     *_A,
+            const float     *A_,
             const INTEGER   *LDA,
             float           *X,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
-        char    _DIAG   = toupper(*DIAG);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
+        char    DIAG_   = toupper(*DIAG);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans  = convertTo<Transpose>(_TRANS);
-        Diag           diag   = Diag(_DIAG);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans  = convertTo<Transpose>(TRANS_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_strsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag),
                     *N,
-                    _A, *LDA, X, *INCX);
+                    A_, *LDA, X, *INCX);
 
 #   else
 
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        char    _DIAG  = toupper(*DIAG);
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        char    DIAG_  = toupper(*DIAG);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            } else if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 2;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 3;
             } else if (*N<0) {
                 info = 4;
@@ -62,11 +62,11 @@ BLAS(strsv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo  = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
-        Diag         diag  = Diag(_DIAG);
+        StorageUpLo  upLo  = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
+        Diag         diag  = Diag(DIAG_);
 
-        STrMatrixConstView  A(SFullConstView(*N, *N, _A, *LDA), upLo, diag);
+        STrMatrixConstView  A(SFullConstView(*N, *N, A_, *LDA), upLo, diag);
         SDenseVectorView    x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         // if you only want to test FLENS-BLAS just call
@@ -79,44 +79,44 @@ BLAS(dtrsv)(const char      *UPLO,
             const char      *TRANS,
             const char      *DIAG,
             const INTEGER   *N,
-            const double    *_A,
+            const double    *A_,
             const INTEGER   *LDA,
             double          *X,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
-        char    _DIAG   = toupper(*DIAG);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
+        char    DIAG_   = toupper(*DIAG);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans  = convertTo<Transpose>(_TRANS);
-        Diag           diag   = Diag(_DIAG);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans  = convertTo<Transpose>(TRANS_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_dtrsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag),
                     *N,
-                    _A, *LDA, X, *INCX);
+                    A_, *LDA, X, *INCX);
 
 #   else
 
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        char    _DIAG  = toupper(*DIAG);
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        char    DIAG_  = toupper(*DIAG);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            } else if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 2;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 3;
             } else if (*N<0) {
                 info = 4;
@@ -131,11 +131,11 @@ BLAS(dtrsv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo  = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
-        Diag         diag  = Diag(_DIAG);
+        StorageUpLo  upLo  = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
+        Diag         diag  = Diag(DIAG_);
 
-        DTrMatrixConstView  A(DFullConstView(*N, *N, _A, *LDA), upLo, diag);
+        DTrMatrixConstView  A(DFullConstView(*N, *N, A_, *LDA), upLo, diag);
         DDenseVectorView    x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         // if you only want to test FLENS-BLAS just call
@@ -148,27 +148,27 @@ BLAS(ctrsv)(const char      *UPLO,
             const char      *TRANS,
             const char      *DIAG,
             const INTEGER   *N,
-            const cfloat    *_A,
+            const cfloat    *A_,
             const INTEGER   *LDA,
             cfloat          *X,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
-        char    _DIAG   = toupper(*DIAG);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
+        char    DIAG_   = toupper(*DIAG);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans  = convertTo<Transpose>(_TRANS);
-        Diag           diag   = Diag(_DIAG);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans  = convertTo<Transpose>(TRANS_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_ctrsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag),
                     *N,
-                    reinterpret_cast<const float *>(_A), *LDA,
+                    reinterpret_cast<const float *>(A_), *LDA,
                     reinterpret_cast<float *>(X), *INCX);
 
 #   else
@@ -176,17 +176,17 @@ BLAS(ctrsv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        char    _DIAG  = toupper(*DIAG);
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        char    DIAG_  = toupper(*DIAG);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            } else if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 2;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 3;
             } else if (*N<0) {
                 info = 4;
@@ -201,11 +201,11 @@ BLAS(ctrsv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo  = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
-        Diag         diag  = Diag(_DIAG);
+        StorageUpLo  upLo  = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
+        Diag         diag  = Diag(DIAG_);
 
-        CTrMatrixConstView  A(CFullConstView(*N, *N, _A, *LDA), upLo, diag);
+        CTrMatrixConstView  A(CFullConstView(*N, *N, A_, *LDA), upLo, diag);
         CDenseVectorView    x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         // if you only want to test FLENS-BLAS just call
@@ -218,27 +218,27 @@ BLAS(ztrsv)(const char      *UPLO,
             const char      *TRANS,
             const char      *DIAG,
             const INTEGER   *N,
-            const cdouble   *_A,
+            const cdouble   *A_,
             const INTEGER   *LDA,
             cdouble         *X,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
-        char    _DIAG   = toupper(*DIAG);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
+        char    DIAG_   = toupper(*DIAG);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans  = convertTo<Transpose>(_TRANS);
-        Diag           diag   = Diag(_DIAG);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans  = convertTo<Transpose>(TRANS_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_ztrsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag),
                     *N,
-                    reinterpret_cast<const double *>(_A), *LDA,
+                    reinterpret_cast<const double *>(A_), *LDA,
                     reinterpret_cast<double *>(X), *INCX);
 
 #   else
@@ -246,17 +246,17 @@ BLAS(ztrsv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        char    _DIAG  = toupper(*DIAG);
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        char    DIAG_  = toupper(*DIAG);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            } else if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 2;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 3;
             } else if (*N<0) {
                 info = 4;
@@ -271,11 +271,11 @@ BLAS(ztrsv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo  = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
-        Diag         diag  = Diag(_DIAG);
+        StorageUpLo  upLo  = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
+        Diag         diag  = Diag(DIAG_);
 
-        ZTrMatrixConstView  A(ZFullConstView(*N, *N, _A, *LDA), upLo, diag);
+        ZTrMatrixConstView  A(ZFullConstView(*N, *N, A_, *LDA), upLo, diag);
         ZDenseVectorView    x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         // if you only want to test FLENS-BLAS just call

@@ -9,7 +9,7 @@ void
 BLAS(ssymv)(const char      *UPLO,
             const INTEGER   *N,
             const float     *ALPHA,
-            const float     *_A,
+            const float     *A_,
             const INTEGER   *LDA,
             const float     *X,
             const INTEGER   *INCX,
@@ -19,14 +19,14 @@ BLAS(ssymv)(const char      *UPLO,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
+        char    UPLO_   = toupper(*UPLO);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
 
         cblas_ssymv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N, *ALPHA,
-                    _A, *LDA, X, *INCX,
+                    A_, *LDA, X, *INCX,
                     *BETA, Y, *INCY);
 
 #   else
@@ -34,11 +34,11 @@ BLAS(ssymv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO = toupper(*UPLO);
+        char    UPLO_ = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
             } else if (*N<0) {
                 info = 2;
@@ -55,9 +55,9 @@ BLAS(ssymv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
 
-        SSyMatrixConstView    A(SFullConstView(*N, *N, _A, *LDA), upLo);
+        SSyMatrixConstView    A(SFullConstView(*N, *N, A_, *LDA), upLo);
         SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         SDenseVectorView      y(SArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
@@ -76,7 +76,7 @@ void
 BLAS(dsymv)(const char      *UPLO,
             const INTEGER   *N,
             const double    *ALPHA,
-            const double    *_A,
+            const double    *A_,
             const INTEGER   *LDA,
             const double    *X,
             const INTEGER   *INCX,
@@ -86,25 +86,25 @@ BLAS(dsymv)(const char      *UPLO,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
+        char    UPLO_   = toupper(*UPLO);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
 
         cblas_dsymv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N, *ALPHA,
-                    _A, *LDA, X, *INCX,
+                    A_, *LDA, X, *INCX,
                     *BETA, Y, *INCY);
 
 #   else
         using std::abs;
         using std::max;
 
-        char    _UPLO = toupper(*UPLO);
+        char    UPLO_ = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
             } else if (*N<0) {
                 info = 2;
@@ -121,9 +121,9 @@ BLAS(dsymv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
 
-        DSyMatrixConstView    A(DFullConstView(*N, *N, _A, *LDA), upLo);
+        DSyMatrixConstView    A(DFullConstView(*N, *N, A_, *LDA), upLo);
         DDenseVectorConstView x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         DDenseVectorView      y(DArrayView(*N, Y, abs(*INCY)), *INCY<0);
 

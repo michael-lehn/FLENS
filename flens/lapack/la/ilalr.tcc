@@ -130,11 +130,11 @@ ilalr(const GeMatrix<MA> &A)
     const IndexType info = LAPACK_SELECT::ilalr_impl(A);
 
 #   ifdef CHECK_CXXLAPACK
-    const IndexType _info = external::ilalr_impl(A);
+    const IndexType info_ = external::ilalr_impl(A);
 
-    if (info!=_info) {
+    if (info!=info_) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
 
         std::cerr << "A = " << A << std::endl;
 

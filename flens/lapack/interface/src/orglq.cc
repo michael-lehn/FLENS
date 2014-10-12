@@ -51,11 +51,11 @@ LAPACK_DECL(dorglq)(const INTEGER    *M,
 //
 //  Call FLENS implementation
 //
-    DGeMatrixView          _A      = DFSView(*M, *N, A, *LDA);
-    DConstDenseVectorView  _TAU    = DConstArrayView(*K, TAU, 1);
-    DDenseVectorView       _WORK   = DArrayView(*LWORK, WORK, 1);
+    DGeMatrixView          A_      = DFSView(*M, *N, A, *LDA);
+    DConstDenseVectorView  TAU_    = DConstArrayView(*K, TAU, 1);
+    DDenseVectorView       WORK_   = DArrayView(*LWORK, WORK, 1);
 
-    orglq(_A, _TAU, _WORK);
+    orglq(A_, TAU_, WORK_);
 }
 
 } // extern "C"

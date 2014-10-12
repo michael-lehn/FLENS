@@ -43,9 +43,8 @@
 #ifndef FLENS_LAPACK_HE_TD2_TCC
 #define FLENS_LAPACK_HE_TD2_TCC 1
 
-#include <flens/lapack/typedefs.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
@@ -102,21 +101,21 @@ td2_impl(HeMatrix<MA>        &A,
 //
 //              Compute  x := tau * A * v  storing x in TAU(1:i)
 //
-                auto       _A = A(_(1,i),_(1,i)).upper().hermitian();
-                const auto _v = A(_(1,i),i+1);
-                auto       _x = tau(_(1,i));
+                auto       A_ = A(_(1,i),_(1,i)).upper().hermitian();
+                const auto v_ = A(_(1,i),i+1);
+                auto       x_ = tau(_(1,i));
 
-                blas::mv(taui, _A, _v, Zero, _x);
+                blas::mv(taui, A_, v_, Zero, x_);
 //
 //              Compute  w := x - 1/2 * tau * (x**H * v) * v
 //
-                alpha = -Half * taui * blas::dotc(_x, _v);
-                _x += alpha*_v;
+                alpha = -Half * taui * blas::dotc(x_, v_);
+                x_ += alpha*v_;
 //
 //              Apply the transformation as a rank-2 update:
 //                 A := A - v * w**H - w * v**H
 //
-                blas::r2(-One, _v, _x, _A);
+                blas::r2(-One, v_, x_, A_);
 
             } else {
                 A(i,i) = real(A(i,i));
@@ -150,21 +149,21 @@ td2_impl(HeMatrix<MA>        &A,
 //
 //              Compute  x := tau * A * v  storing y in TAU(i:n-1)
 //
-                auto       _A = A(_(i+1,n),_(i+1,n)).lower().hermitian();
-                const auto _v = A(_(i+1,n),i);
-                auto       _x = tau(_(i,n-1));
+                auto       A_ = A(_(i+1,n),_(i+1,n)).lower().hermitian();
+                const auto v_ = A(_(i+1,n),i);
+                auto       x_ = tau(_(i,n-1));
 
-                blas::mv(taui, _A, _v, Zero, _x);
+                blas::mv(taui, A_, v_, Zero, x_);
 //
 //              Compute  w := x - 1/2 * tau * (x**H * v) * v
 //
-                alpha = -Half * taui * blas::dotc(_x, _v);
-                _x += alpha*_v;
+                alpha = -Half * taui * blas::dotc(x_, v_);
+                x_ += alpha*v_;
 //
 //              Apply the transformation as a rank-2 update:
 //                 A := A - v * w**H - w * v**H
 //
-                blas::r2(-One, _v, _x, _A);
+                blas::r2(-One, v_, x_, A_);
 
             } else {
                 A(i+1,i+1) = real(A(i+1,i+1));

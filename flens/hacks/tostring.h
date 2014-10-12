@@ -34,6 +34,7 @@
 #define FLENS_HACKS_TOSTRING_H 1
 
 #include <cxxstd/sstream.h>
+#include <cxxstd/string.h>
 
 namespace std {
 

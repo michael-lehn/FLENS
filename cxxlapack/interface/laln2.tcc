@@ -62,8 +62,8 @@ laln2(bool              trans,
     CXXLAPACK_DEBUG_OUT("slaln2");
 
     IndexType info;
-    IndexType _trans = trans;
-    LAPACK_IMPL(slaln2)(&_trans,
+    IndexType trans_ = trans;
+    LAPACK_IMPL(slaln2)(&trans_,
                         &na,
                         &nw,
                         &sMin,
@@ -113,8 +113,8 @@ laln2(bool              trans,
     CXXLAPACK_DEBUG_OUT("dlaln2");
 
     IndexType info;
-    IndexType _trans = trans;
-    LAPACK_IMPL(dlaln2)(&_trans,
+    IndexType trans_ = trans;
+    LAPACK_IMPL(dlaln2)(&trans_,
                         &na,
                         &nw,
                         &sMin,

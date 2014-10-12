@@ -63,7 +63,7 @@ namespace cxxlapack {
 //     CXXLAPACK_DEBUG_OUT("shsein");
 //
 //     IndexType info;
-//     //IndexType *_select = ???
+//     //IndexType *select_ = ???
 //
 //     LAPACK_IMPL(shsein)(&side,
 //                         &eigsrc,
@@ -116,7 +116,7 @@ namespace cxxlapack {
 //    CXXLAPACK_DEBUG_OUT("dhsein");
 //
 //     IndexType info;
-//     //IndexType *_select = ???
+//     //IndexType *select_ = ???
 //
 //     LAPACK_IMPL(dhsein)(&side,
 //                         &eigsrc,
@@ -170,7 +170,7 @@ namespace cxxlapack {
 //    CXXLAPACK_DEBUG_OUT("chsein");
 //
 //     IndexType info;
-//     //IndexType *_select = ???
+//     //IndexType *select_ = ???
 //     LAPACK_IMPL(chsein)(&side,
 //                         &eigsrc,
 //                         &initv,
@@ -222,7 +222,7 @@ namespace cxxlapack {
 //    CXXLAPACK_DEBUG_OUT("zhsein");
 //
 //     IndexType info;
-//     //IndexType *_select = ???
+//     //IndexType *select_ = ???
 //     LAPACK_IMPL(zhsein)(&side,
 //                         &eigsrc,
 //                         &initv,

@@ -13,7 +13,7 @@ BLAS(sger)(const INTEGER   *M,
            const INTEGER   *INCX,
            const float     *Y,
            const INTEGER   *INCY,
-           float           *_A,
+           float           *A_,
            const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
@@ -23,7 +23,7 @@ BLAS(sger)(const INTEGER   *M,
                    *ALPHA,
                    X, *INCX,
                    Y, *INCY,
-                   _A, *LDA);
+                   A_, *LDA);
 #   else
 
         using std::abs;
@@ -51,7 +51,7 @@ BLAS(sger)(const INTEGER   *M,
 
         SDenseVectorConstView x(SConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        SGeMatrixView         A = SFullView(*M, *N, _A, *LDA);
+        SGeMatrixView         A = SFullView(*M, *N, A_, *LDA);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -71,7 +71,7 @@ BLAS(dger)(const INTEGER   *M,
            const INTEGER   *INCX,
            const double    *Y,
            const INTEGER   *INCY,
-           double          *_A,
+           double          *A_,
            const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
@@ -81,7 +81,7 @@ BLAS(dger)(const INTEGER   *M,
                    *ALPHA,
                    X, *INCX,
                    Y, *INCY,
-                   _A, *LDA);
+                   A_, *LDA);
 #   else
 
         using std::abs;
@@ -109,7 +109,7 @@ BLAS(dger)(const INTEGER   *M,
 
         DDenseVectorConstView x(DConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         DDenseVectorConstView y(DConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        DGeMatrixView         A = DFullView(*M, *N, _A, *LDA);
+        DGeMatrixView         A = DFullView(*M, *N, A_, *LDA);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -130,7 +130,7 @@ BLAS(cgerc)(const INTEGER   *M,
             const INTEGER   *INCX,
             const cfloat    *Y,
             const INTEGER   *INCY,
-            cfloat          *_A,
+            cfloat          *A_,
             const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
@@ -140,7 +140,7 @@ BLAS(cgerc)(const INTEGER   *M,
                 reinterpret_cast<const float *>(ALPHA),
                 reinterpret_cast<const float *>(X), *INCX,
                 reinterpret_cast<const float *>(Y), *INCY,
-                reinterpret_cast<float *>(_A), *LDA);
+                reinterpret_cast<float *>(A_), *LDA);
 #   else
 
         using std::abs;
@@ -168,7 +168,7 @@ BLAS(cgerc)(const INTEGER   *M,
 
         CDenseVectorConstView x(CConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        CGeMatrixView         A = CFullView(*M, *N, _A, *LDA);
+        CGeMatrixView         A = CFullView(*M, *N, A_, *LDA);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -188,7 +188,7 @@ BLAS(cgeru)(const INTEGER   *M,
             const INTEGER   *INCX,
             const cfloat    *Y,
             const INTEGER   *INCY,
-            cfloat          *_A,
+            cfloat          *A_,
             const INTEGER   *LDA)
 {
 
@@ -199,7 +199,7 @@ BLAS(cgeru)(const INTEGER   *M,
                     reinterpret_cast<const float *>(ALPHA),
                     reinterpret_cast<const float *>(X), *INCX,
                     reinterpret_cast<const float *>(Y), *INCY,
-                    reinterpret_cast<float *>(_A), *LDA);
+                    reinterpret_cast<float *>(A_), *LDA);
 #   else
 
         using std::abs;
@@ -228,7 +228,7 @@ BLAS(cgeru)(const INTEGER   *M,
 
         CDenseVectorConstView x(CConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        CGeMatrixView         A = CFullView(*M, *N, _A, *LDA);
+        CGeMatrixView         A = CFullView(*M, *N, A_, *LDA);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -249,7 +249,7 @@ BLAS(zgerc)(const INTEGER   *M,
             const INTEGER   *INCX,
             const cdouble   *Y,
             const INTEGER   *INCY,
-            cdouble         *_A,
+            cdouble         *A_,
             const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
@@ -259,7 +259,7 @@ BLAS(zgerc)(const INTEGER   *M,
                 reinterpret_cast<const double *>(ALPHA),
                 reinterpret_cast<const double *>(X), *INCX,
                 reinterpret_cast<const double *>(Y), *INCY,
-                reinterpret_cast<double *>(_A), *LDA);
+                reinterpret_cast<double *>(A_), *LDA);
 #   else
 
         using std::abs;
@@ -285,7 +285,7 @@ BLAS(zgerc)(const INTEGER   *M,
 
         ZDenseVectorConstView x(ZConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         ZDenseVectorConstView y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        ZGeMatrixView         A = ZFullView(*M, *N, _A, *LDA);
+        ZGeMatrixView         A = ZFullView(*M, *N, A_, *LDA);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -305,7 +305,7 @@ BLAS(zgeru)(const INTEGER   *M,
             const INTEGER   *INCX,
             const cdouble   *Y,
             const INTEGER   *INCY,
-            cdouble         *_A,
+            cdouble         *A_,
             const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
@@ -315,7 +315,7 @@ BLAS(zgeru)(const INTEGER   *M,
                 reinterpret_cast<const double *>(ALPHA),
                 reinterpret_cast<const double *>(X), *INCX,
                 reinterpret_cast<const double *>(Y), *INCY,
-                reinterpret_cast<double *>(_A), *LDA);
+                reinterpret_cast<double *>(A_), *LDA);
 #   else
 
         using std::abs;
@@ -341,7 +341,7 @@ BLAS(zgeru)(const INTEGER   *M,
 
         ZDenseVectorConstView x(ZConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         ZDenseVectorConstView y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        ZGeMatrixView         A = ZFullView(*M, *N, _A, *LDA);
+        ZGeMatrixView         A = ZFullView(*M, *N, A_, *LDA);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;

@@ -56,21 +56,21 @@ VariablePool::name(const T &var)
     sstream.str("");
     sstream.clear();
 
-    if (_typeCount.count(type)==0) {
-        _typeCount[type] = 0;
+    if (typeCount_.count(type)==0) {
+        typeCount_[type] = 0;
     }
-    if (tmpTron && _id.count(key)==0) {
-        _isTmp[key] = 1;
+    if (tmpTron && id_.count(key)==0) {
+        isTmp_[key] = 1;
     }
-    if (_id.count(key)==0) {
-        _id[key] = ++_typeCount[type];
+    if (id_.count(key)==0) {
+        id_[key] = ++typeCount_[type];
     }
 
-    if (_isTmp.count(key)>0 && _isTmp[key]==1) {
+    if (isTmp_.count(key)>0 && isTmp_[key]==1) {
         sstream << "tmp_";
     }
 
-    sstream << basename(var) << _id[key];
+    sstream << basename(var) << id_[key];
     return sstream.str();
 }
 
@@ -87,14 +87,14 @@ VariablePool::name(const T &var) const
     sstream.str("");
     sstream.clear();
 
-    if (_typeCount.count(type)==0) {
+    if (typeCount_.count(type)==0) {
         return "unknown";
     }
-    if (_id.count(key)==0) {
+    if (id_.count(key)==0) {
         return "unkown";
     }
 
-    sstream << basename(var) << _id.find(key)->second;
+    sstream << basename(var) << id_.find(key)->second;
     return sstream.str();
 }
 
@@ -111,7 +111,7 @@ VariablePool::addTemporary(const T &var)
     sstream.str("");
     sstream.clear();
 
-    _isTmp[key] = 1;
+    isTmp_[key] = 1;
 }
 
 template <typename T>
@@ -127,8 +127,8 @@ VariablePool::removeTemporary(const T &var)
     sstream.str("");
     sstream.clear();
 
-    _isTmp.erase(key);
-    _id.erase(key);
+    isTmp_.erase(key);
+    id_.erase(key);
 }
 
 } } // namespace verbose, namespace flens

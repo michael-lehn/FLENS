@@ -107,19 +107,19 @@ class CCS
 
         template <typename T2, typename I2>
             void
-            _compress(const CoordStorage<T2, CoordColRowCmp, I2> &coordStorage);
+            compress_(const CoordStorage<T2, CoordColRowCmp, I2> &coordStorage);
 
     private:
         // Lehn:  I do not allow copying matrices with crs unless someone gives
         //        me a reason.
         CCS(const CCS &rhs);
 
-        IndexType  _numRows, _numCols;
-        IndexType  _indexBase;
+        IndexType  numRows_, numCols_;
+        IndexType  indexBase_;
 
-        DenseVector<Array<IndexType> >  _cols;
-        DenseVector<Array<IndexType> >  _rows;
-        DenseVector<Array<T> >          _values;
+        DenseVector<Array<IndexType> >  cols_;
+        DenseVector<Array<IndexType> >  rows_;
+        DenseVector<Array<T> >          values_;
 };
 
 } // namespace flens

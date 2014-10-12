@@ -43,7 +43,7 @@ typename RestrictTo<IsGeMatrix<MB>::value,
          void>::Type
 copy(Transpose trans, const ImagMatrixClosure<MA> &A, MB &&B)
 {
-    const auto &Z = A._Z;
+    const auto &Z = A.Z_;
 
     ASSERT(trans==NoTrans || trans==Trans);
 
@@ -111,7 +111,7 @@ typename RestrictTo<IsGeMatrix<MB>::value,
          void>::Type
 copy(Transpose trans, const ImagConstMatrixClosure<MA> &A, MB &&B)
 {
-    const auto &Z = A._Z;
+    const auto &Z = A.Z_;
 
     ASSERT(trans==NoTrans || trans==Trans);
 
@@ -178,7 +178,7 @@ template <typename MA, typename MB>
 void
 copy(Transpose trans, const GeMatrix<MA> &A, ImagMatrixClosure<MB> &B)
 {
-    auto &Z = B._Z;
+    auto &Z = B.Z_;
 
     ASSERT(trans==NoTrans || trans==Trans);
 

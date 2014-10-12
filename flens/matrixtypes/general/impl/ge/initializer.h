@@ -53,8 +53,8 @@ struct Initializer
     Initializer
     operator,(const T &value);
 
-    Matrix      &_A;
-    IndexType   _row, _col;
+    Matrix      &A_;
+    IndexType   row_, col_;
 };
 
 } } // namespace gematrix, flens

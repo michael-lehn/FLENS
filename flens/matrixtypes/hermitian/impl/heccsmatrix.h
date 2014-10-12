@@ -103,15 +103,15 @@ class HeCCSMatrix
 
     private:
 
-        Engine       _engine;
-        StorageUpLo  _upLo;
+        Engine       engine_;
+        StorageUpLo  upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsHeCCSMatrix
 //
-struct _HeCCSMatrixChecker
+struct HeCCSMatrixChecker_
 {
 
     struct Two {
@@ -120,7 +120,7 @@ struct _HeCCSMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -131,7 +131,7 @@ template <typename T>
 struct IsHeCCSMatrix
 {
     static T var;
-    static const bool value = sizeof(_HeCCSMatrixChecker::check(var))==1;
+    static const bool value = sizeof(HeCCSMatrixChecker_::check(var))==1;
 };
 
 //

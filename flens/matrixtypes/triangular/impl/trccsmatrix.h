@@ -103,15 +103,15 @@ class TrCCSMatrix
 
     private:
 
-        Engine       _engine;
-        StorageUpLo  _upLo;
+        Engine       engine_;
+        StorageUpLo  upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsTrCCSMatrix
 //
-struct _TrCCSMatrixChecker
+struct TrCCSMatrixChecker_
 {
 
     struct Two {
@@ -120,7 +120,7 @@ struct _TrCCSMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -131,7 +131,7 @@ template <typename T>
 struct IsTrCCSMatrix
 {
     static T var;
-    static const bool value = sizeof(_TrCCSMatrixChecker::check(var))==1;
+    static const bool value = sizeof(TrCCSMatrixChecker_::check(var))==1;
 };
 
 //

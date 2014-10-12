@@ -314,16 +314,16 @@ class TrMatrix
         engine();
 
     private:
-        Engine       _engine;
-        StorageUpLo  _upLo;
-        Diag         _diag;
+        Engine       engine_;
+        StorageUpLo  upLo_;
+        Diag         diag_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsTrMatrix
 //
-struct _TrMatrixChecker
+struct TrMatrixChecker_
 {
 
     struct Two {
@@ -332,7 +332,7 @@ struct _TrMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -343,7 +343,7 @@ template <typename T>
 struct IsTrMatrix
 {
     static T var;
-    static const bool value = sizeof(_TrMatrixChecker::check(var))==1;
+    static const bool value = sizeof(TrMatrixChecker_::check(var))==1;
 };
 
 //

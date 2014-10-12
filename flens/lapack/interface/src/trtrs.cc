@@ -52,10 +52,10 @@ LAPACK_DECL(dtrtrs)(const char       *UPLO,
     StorageUpLo         upLo   = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
     Transpose           trans  = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
     Diag                diag   = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
-    DConstTrMatrixView  _A(DConstFSView(*N, *N, A, *LDA), upLo, diag);
-    DGeMatrixView       _B     = DFSView(*N, *NRHS, B, *LDB);
+    DConstTrMatrixView  A_(DConstFSView(*N, *N, A, *LDA), upLo, diag);
+    DGeMatrixView       B_     = DFSView(*N, *NRHS, B, *LDB);
 
-    trs(trans, _A, _B);
+    trs(trans, A_, B_);
 }
 
 //-- ztrtrs --------------------------------------------------------------------
@@ -106,10 +106,10 @@ LAPACK_DECL(ztrtrs)(const char               *UPLO,
     StorageUpLo         upLo   = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
     Transpose           trans  = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
     Diag                diag   = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
-    ZConstTrMatrixView  _A(ZConstFSView(*N, *N, zA, *LDA), upLo, diag);
-    ZGeMatrixView       _B     = ZFSView(*N, *NRHS, zB, *LDB);
+    ZConstTrMatrixView  A_(ZConstFSView(*N, *N, zA, *LDA), upLo, diag);
+    ZGeMatrixView       B_     = ZFSView(*N, *NRHS, zB, *LDB);
 
-    trs(trans, _A, _B);
+    trs(trans, A_, B_);
 }
 
 } // extern "C"

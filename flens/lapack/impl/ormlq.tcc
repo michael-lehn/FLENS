@@ -194,8 +194,8 @@ ormlq_impl(Side                      side,
 //
 //      Use unblocked code
 //
-        auto _work = (side==Left) ? work(_(1,n)) : work(_(1,m));
-        orml2(side, trans, A, tau, C, _work);
+        auto work_ = (side==Left) ? work(_(1,n)) : work(_(1,m));
+        orml2(side, trans, A, tau, C, work_);
     } else {
 //
 //      Use blocked code
@@ -570,9 +570,9 @@ ormlq_wsq(Side        side,
 //
 //  Compare generic results with results from the native implementation
 //
-    const IndexType _info = external::ormlq_wsq_impl(side, trans, A, C);
+    const IndexType info_ = external::ormlq_wsq_impl(side, trans, A, C);
 
-    ASSERT(info==_info);
+    ASSERT(info==info_);
 #   endif
     return info;
 }

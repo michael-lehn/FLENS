@@ -51,10 +51,10 @@ class Quadruple
 
         Quadruple();
 
-        Quadruple(const First &_first,
-                  const Second &_second,
-                  const Third &_third,
-                  const Forth &_forth);
+        Quadruple(const First &first_,
+                  const Second &second_,
+                  const Third &third_,
+                  const Forth &forth_);
 
         template <typename RhsFirst,
                   typename RhsSecond,

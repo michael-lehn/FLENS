@@ -18,9 +18,9 @@ BLAS(chpmv)(const char      *UPLO,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-    char    _UPLO   = toupper(*UPLO);
+    char    UPLO_   = toupper(*UPLO);
 
-    StorageUpLo    upLo   = StorageUpLo(_UPLO);
+    StorageUpLo    upLo   = StorageUpLo(UPLO_);
 
     cblas_chpmv(CBLAS_ORDER::CblasColMajor,
                 cxxblas::CBLAS::getCblasType(upLo),
@@ -36,11 +36,11 @@ BLAS(chpmv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO = toupper(*UPLO);
+        char    UPLO_ = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
             } else if (*N<0) {
                 info = 2;
@@ -55,7 +55,7 @@ BLAS(chpmv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
 
         CHpMatrixConstView    A(CPackedConstView(*N, AP), upLo);
         CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -85,9 +85,9 @@ BLAS(zhpmv)(const char      *UPLO,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
+        char    UPLO_   = toupper(*UPLO);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
 
         cblas_zhpmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -103,11 +103,11 @@ BLAS(zhpmv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO = toupper(*UPLO);
+        char    UPLO_ = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
             } else if (*N<0) {
                 info = 2;
@@ -122,7 +122,7 @@ BLAS(zhpmv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
 
         ZHpMatrixConstView    A(ZPackedConstView(*N, AP), upLo);
         ZDenseVectorConstView x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);

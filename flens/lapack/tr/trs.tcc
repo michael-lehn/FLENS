@@ -181,7 +181,7 @@ trs(Transpose trans, const MA &A, MB &&B)
 
     B   = B_org;
 
-    IndexType _info = external::trs_impl(trans, A, B);
+    IndexType info_ = external::trs_impl(trans, A, B);
 
     bool failed = false;
     if (! isIdentical(B_generic, B, "B_generic", "B")) {
@@ -190,9 +190,9 @@ trs(Transpose trans, const MA &A, MB &&B)
         failed = true;
     }
 
-    if (! isIdentical(info, _info, "info", "_info")) {
+    if (! isIdentical(info, info_, "info", "info_")) {
         std::cerr << "CXXLAPACK: info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

@@ -99,9 +99,9 @@ gecrsmm(Transpose        transA,
          return;
 
     }
-    char _transA = getF77BlasChar(transA);
+    char transA_ = getF77BlasChar(transA);
 
-    mkl_scsrmm(&_transA,
+    mkl_scsrmm(&transA_,
                &m, &n, &k,
                &alpha, &matdescra[0],
                A, ja, ia, ia+1,
@@ -140,7 +140,7 @@ gecrsmm(Transpose        transA,
          return;
 
     }
-    char _transA = getF77BlasChar(transA);
+    char transA_ = getF77BlasChar(transA);
 
     mkl_dcsrmm(&transA,
                &m, &n, &k,
@@ -181,11 +181,11 @@ gecrsmm(Transpose               transA,
          return;
 
     }
-    char _transA = getF77BlasChar(transA);
+    char transA_ = getF77BlasChar(transA);
 
     if (transA==Conj) {
-      _transA = 'C';
-      mkl_ccscmm(&_transA,
+      transA_ = 'C';
+      mkl_ccscmm(&transA_,
                  &m, &n, k,
                  reinterpret_cast<const float*>(&alpha), &matdescra[0],
                  reinterpret_cast<const float*>(A), ja, ia, ia+1,
@@ -193,7 +193,7 @@ gecrsmm(Transpose               transA,
                  reinterpret_cast<const float*>(&beta),
                  reinterpret_cast<float*>(C), ldC);
     } else {
-      mkl_ccsrmm(&_transA,
+      mkl_ccsrmm(&transA_,
                  &m, &n, &k,
                  reinterpret_cast<const float*>(&alpha), &matdescra[0],
                  reinterpret_cast<const float*>(A), ja, ia, ia+1,
@@ -235,11 +235,11 @@ gecrsmm(Transpose               transA,
 
     }
 
-    char _transA = getF77BlasChar(transA);
+    char transA_ = getF77BlasChar(transA);
 
     if (transA==Conj) {
-      _transA = 'C';
-      mkl_zcscmm(&_transA,
+      transA_ = 'C';
+      mkl_zcscmm(&transA_,
                  &m, &n, &k,
                  reinterpret_cast<const double*>(&alpha), &matdescra[0],
                  reinterpret_cast<const double*>(A), ja, ia, ia+1,
@@ -247,7 +247,7 @@ gecrsmm(Transpose               transA,
                  reinterpret_cast<const double*>(&beta),
                  reinterpret_cast<double*>(C), ldC);
     } else {
-      mkl_zcsrmm(&_transA,
+      mkl_zcsrmm(&transA_,
                  &m, &n, &k,
                  reinterpret_cast<const double*>(&alpha), &matdescra[0],
                  reinterpret_cast<const double*>(A), ja, ia, ia+1,

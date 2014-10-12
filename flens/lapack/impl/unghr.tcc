@@ -234,11 +234,11 @@ unghr_wsq(IndexType                 iLo,
 //
 //  Compare results
 //
-    IndexType _ws = external::unghr_wsq_impl(iLo, iHi, A, tau);
+    IndexType ws_ = external::unghr_wsq_impl(iLo, iHi, A, tau);
 
-    if (ws!=_ws) {
+    if (ws!=ws_) {
         std::cerr << "CXXLAPACK:  ws = " << ws << std::endl;
-        std::cerr << "F77LAPACK: _ws = " << _ws << std::endl;
+        std::cerr << "F77LAPACK: ws_ = " << ws_ << std::endl;
         ASSERT(0);
     }
 #   endif
@@ -289,8 +289,8 @@ unghr(IndexType                     iLo,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename MatrixA::NoView    _A    = A;
-    typename VectorW::NoView    _work = work;
+    typename MatrixA::NoView    A_    = A;
+    typename VectorW::NoView    work_ = work;
 #   endif
 
 //
@@ -302,21 +302,21 @@ unghr(IndexType                     iLo,
 //
 //  Compare results
 //
-    if (_work.length()==0) {
-        _work.resize(work.length());
+    if (work_.length()==0) {
+        work_.resize(work.length());
     }
-    external::unghr_impl(iLo, iHi, _A, tau, _work);
+    external::unghr_impl(iLo, iHi, A_, tau, work_);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "A_")) {
+    if (! isIdentical(A, A_, " A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        std::cerr << "F77LAPACK: A_ = " << A_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
+    if (! isIdentical(work, work_, " work", "work_")) {
         std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        std::cerr << "F77LAPACK: work_ = " << work_ << std::endl;
         failed = true;
     }
 

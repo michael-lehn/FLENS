@@ -16,13 +16,13 @@ BLAS(stpsv)(const char      *UPLO,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
-        char    _DIAG   = toupper(*DIAG);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
+        char    DIAG_   = toupper(*DIAG);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans = convertTo<Transpose>(_TRANS);
-        Diag           diag   = Diag(_DIAG);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans = convertTo<Transpose>(TRANS_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_stpsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -36,17 +36,17 @@ BLAS(stpsv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        char    _DIAG  = toupper(*DIAG);
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        char    DIAG_  = toupper(*DIAG);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            } else if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 2;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 3;
             } else if (*N<0) {
                 info = 4;
@@ -59,9 +59,9 @@ BLAS(stpsv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
-        Diag         diag  = Diag(_DIAG);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
+        Diag         diag  = Diag(DIAG_);
 
         STpMatrixConstView    A(SPackedConstView(*N, AP), upLo, diag);
         SDenseVectorView      x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -81,13 +81,13 @@ BLAS(dtpsv)(const char      *UPLO,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
-        char    _DIAG   = toupper(*DIAG);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
+        char    DIAG_   = toupper(*DIAG);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans = convertTo<Transpose>(_TRANS);
-        Diag           diag   = Diag(_DIAG);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans = convertTo<Transpose>(TRANS_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_dtpmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -101,17 +101,17 @@ BLAS(dtpsv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        char    _DIAG  = toupper(*DIAG);
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        char    DIAG_  = toupper(*DIAG);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            } else if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 2;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 3;
             } else if (*N<0) {
                 info = 4;
@@ -123,9 +123,9 @@ BLAS(dtpsv)(const char      *UPLO,
                 return;
             }
 #       endif
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
-        Diag         diag  = Diag(_DIAG);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
+        Diag         diag  = Diag(DIAG_);
 
         DTpMatrixConstView    A(DPackedConstView(*N, AP), upLo, diag);
         DDenseVectorView      x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -145,13 +145,13 @@ BLAS(ctpsv)(const char      *UPLO,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
-        char    _DIAG   = toupper(*DIAG);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
+        char    DIAG_   = toupper(*DIAG);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans = convertTo<Transpose>(_TRANS);
-        Diag           diag   = Diag(_DIAG);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans = convertTo<Transpose>(TRANS_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_ctpmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -165,17 +165,17 @@ BLAS(ctpsv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        char    _DIAG  = toupper(*DIAG);
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        char    DIAG_  = toupper(*DIAG);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            } else if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 2;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 3;
             } else if (*N<0) {
                 info = 4;
@@ -188,9 +188,9 @@ BLAS(ctpsv)(const char      *UPLO,
             }
 #       endif
 
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
-        Diag         diag  = Diag(_DIAG);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
+        Diag         diag  = Diag(DIAG_);
 
         CTpMatrixConstView    A(CPackedConstView(*N, AP), upLo, diag);
         CDenseVectorView      x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -210,13 +210,13 @@ BLAS(ztpsv)(const char      *UPLO,
 {
 #   ifdef TEST_DIRECT_CBLAS
 
-        char    _UPLO   = toupper(*UPLO);
-        char    _TRANS  = toupper(*TRANS);
-        char    _DIAG   = toupper(*DIAG);
+        char    UPLO_   = toupper(*UPLO);
+        char    TRANS_  = toupper(*TRANS);
+        char    DIAG_   = toupper(*DIAG);
 
-        StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        Transpose      trans = convertTo<Transpose>(_TRANS);
-        Diag           diag   = Diag(_DIAG);
+        StorageUpLo    upLo   = StorageUpLo(UPLO_);
+        Transpose      trans = convertTo<Transpose>(TRANS_);
+        Diag           diag   = Diag(DIAG_);
 
         cblas_ztpmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -230,17 +230,17 @@ BLAS(ztpsv)(const char      *UPLO,
         using std::abs;
         using std::max;
 
-        char    _UPLO  = toupper(*UPLO);
-        char    _TRANS = toupper(*TRANS);
-        char    _DIAG  = toupper(*DIAG);
+        char    UPLO_  = toupper(*UPLO);
+        char    TRANS_ = toupper(*TRANS);
+        char    DIAG_  = toupper(*DIAG);
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
-            if (_UPLO!='U' && _UPLO!='L') {
+            if (UPLO_!='U' && UPLO_!='L') {
                 info = 1;
-            } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+            } else if (TRANS_!='N' && TRANS_!='T' && TRANS_!='C') {
                 info = 2;
-            } else if (_DIAG!='U' && _DIAG!='N') {
+            } else if (DIAG_!='U' && DIAG_!='N') {
                 info = 3;
             } else if (*N<0) {
                 info = 4;
@@ -252,9 +252,9 @@ BLAS(ztpsv)(const char      *UPLO,
                 return;
             }
 #       endif
-        StorageUpLo  upLo = StorageUpLo(_UPLO);
-        Transpose    trans = convertTo<Transpose>(_TRANS);
-        Diag         diag  = Diag(_DIAG);
+        StorageUpLo  upLo = StorageUpLo(UPLO_);
+        Transpose    trans = convertTo<Transpose>(TRANS_);
+        Diag         diag  = Diag(DIAG_);
 
         ZTpMatrixConstView    A(ZPackedConstView(*N, AP), upLo, diag);
         ZDenseVectorView      x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);

@@ -133,18 +133,18 @@ class PackedStorage
     private:
 
         void
-        _raw_allocate();
+        raw_allocate_();
 
         void
-        _allocate(const ElementType &value = ElementType());
+        allocate_(const ElementType &value = ElementType());
 
         void
-        _release();
+        release_();
 
-        ElementType  *_data;
-        Allocator    _allocator;
-        IndexType    _dim;
-        IndexType    _indexBase;
+        ElementType  *data_;
+        Allocator    allocator_;
+        IndexType    dim_;
+        IndexType    indexBase_;
 };
 
 } // namespace flens

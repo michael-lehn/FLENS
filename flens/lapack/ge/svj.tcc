@@ -383,7 +383,7 @@ svj_impl(SVJ::TypeA                typeA,
         const IndexType q = (applyV) ? 0 : 1;
         const IndexType qm = (applyV) ? mv : 0;
 
-        auto _work = work(_(n+1,lWork));
+        auto work_ = work(_(n+1,lWork));
 
         if (lower) {
 //
@@ -427,12 +427,12 @@ svj_impl(SVJ::TypeA                typeA,
             auto sva12 = sva(_(   1,n2));
             auto sva34 = sva(_(n2+1, n));
 
-            svj0(jobV, A4, d4, sva4, V4, eps, safeMin, tol, 2, _work);
-            svj0(jobV, A3, d3, sva3, V3, eps, safeMin, tol, 2, _work);
-            svj1(jobV, n4, A34, d34, sva34, V34, eps, safeMin, tol, 1, _work);
-            svj0(jobV, A2, d2, sva2, V2, eps, safeMin, tol, 1, _work);
-            svj0(jobV, A1, d1, sva1, V1, eps, safeMin, tol, 1, _work);
-            svj1(jobV, n4, A12, d12, sva12, V12, eps, safeMin, tol, 1, _work);
+            svj0(jobV, A4, d4, sva4, V4, eps, safeMin, tol, 2, work_);
+            svj0(jobV, A3, d3, sva3, V3, eps, safeMin, tol, 2, work_);
+            svj1(jobV, n4, A34, d34, sva34, V34, eps, safeMin, tol, 1, work_);
+            svj0(jobV, A2, d2, sva2, V2, eps, safeMin, tol, 1, work_);
+            svj0(jobV, A1, d1, sva1, V1, eps, safeMin, tol, 1, work_);
+            svj1(jobV, n4, A12, d12, sva12, V12, eps, safeMin, tol, 1, work_);
 
         } else if (upper) {
 
@@ -460,10 +460,10 @@ svj_impl(SVJ::TypeA                typeA,
 
             auto sva12 = sva(_(1,n2));
 
-            svj0(jobV, A1, d1, sva1, V1, eps, safeMin, tol, 2, _work);
-            svj0(jobV, A2, d2, sva2, V2, eps, safeMin, tol, 1, _work);
-            svj1(jobV, n4, A12, d12, sva12, V12, eps, safeMin, tol, 1, _work);
-            svj0(jobV, A3, d3, sva3, V3, eps, safeMin, tol, 1, _work);
+            svj0(jobV, A1, d1, sva1, V1, eps, safeMin, tol, 2, work_);
+            svj0(jobV, A2, d2, sva2, V2, eps, safeMin, tol, 1, work_);
+            svj1(jobV, n4, A12, d12, sva12, V12, eps, safeMin, tol, 1, work_);
+            svj0(jobV, A3, d3, sva3, V3, eps, safeMin, tol, 1, work_);
 
         }
 
@@ -564,12 +564,12 @@ svj_impl(SVJ::TypeA                typeA,
                                aapq = (A(_,p)*A(_,q)*work(p)*work(q)/aaqq)
                                     / aapp;
                             } else {
-                               auto _work = work(_(n+1,n+m));
+                               auto work_ = work(_(n+1,n+m));
 
-                               _work = A(_,p);
+                               work_ = A(_,p);
                                lascl(LASCL::FullMatrix, 0, 0,
-                                     aapp, work(p), _work);
-                               aapq = _work*A(_,q)*work(q)/aaqq;
+                                     aapp, work(p), work_);
+                               aapq = work_*A(_,q)*work(q)/aaqq;
                             }
                          } else {
                             rotOk = (aapp<=aaqq/small);
@@ -577,12 +577,12 @@ svj_impl(SVJ::TypeA                typeA,
                                 aapq = (A(_,p)*A(_,q)*work(p)*work(q)/aaqq)
                                      / aapp;
                             } else {
-                               auto _work = work(_(n+1,n+m));
+                               auto work_ = work(_(n+1,n+m));
 
-                               _work = A(_,q);
+                               work_ = A(_,q);
                                lascl(LASCL::FullMatrix, 0, 0,
-                                     aaqq, work(q), _work);
-                               aapq = _work*A(_,p)*work(p)/aapp;
+                                     aaqq, work(q), work_);
+                               aapq = work_*A(_,p)*work(p)/aapp;
                             }
                          }
 
@@ -693,15 +693,15 @@ svj_impl(SVJ::TypeA                typeA,
 
                             } else {
 //             .. have to use modified Gram-Schmidt like transformation
-                               auto _work = work(_(n+1,lWork));
+                               auto work_ = work(_(n+1,lWork));
 
-                               _work = A(_,p);
+                               work_ = A(_,p);
                                lascl(LASCL::FullMatrix, 0, 0,
-                                     aapp, One, _work);
+                                     aapp, One, work_);
                                lascl(LASCL::FullMatrix, 0, 0,
                                      aaqq, One, A(_,q));
                                tmp = -aapq*work(p)/work(q);
-                               A(_,q) += tmp*_work;
+                               A(_,q) += tmp*work_;
                                lascl(LASCL::FullMatrix, 0, 0,
                                      One, aaqq, A(_,q));
                                sva(q) = aaqq*sqrt(max(Zero, One-aapq*aapq));
@@ -815,12 +815,12 @@ svj_impl(SVJ::TypeA                typeA,
                                aapq = (A(_,p)*A(_,q)*work(p)*work(q)/aaqq)
                                     / aapp;
                             } else {
-                               auto _work = work(_(n+1,n+m));
+                               auto work_ = work(_(n+1,n+m));
 
-                               _work = A(_,p);
+                               work_ = A(_,p);
                                lascl(LASCL::FullMatrix, 0, 0,
-                                     aapp, work(p), _work);
-                               aapq = _work*A(_,q)*work(q) / aaqq;
+                                     aapp, work(p), work_);
+                               aapq = work_*A(_,q)*work(q) / aaqq;
                             }
                          } else {
                             if (aapp>=aaqq) {
@@ -832,12 +832,12 @@ svj_impl(SVJ::TypeA                typeA,
                                aapq = (A(_,p)*A(_,q)*work(p)*work(q)/aaqq)
                                     / aapp;
                             } else {
-                               auto _work = work(_(n+1,n+m));
+                               auto work_ = work(_(n+1,n+m));
 
-                               _work = A(_,q);
+                               work_ = A(_,q);
                                lascl(LASCL::FullMatrix, 0, 0,
-                                     aaqq, work(q), _work);
-                               aapq = _work*A(_,p)*work(p)/aapp;
+                                     aaqq, work(q), work_);
+                               aapq = work_*A(_,p)*work(p)/aapp;
                             }
                          }
 
@@ -947,28 +947,28 @@ svj_impl(SVJ::TypeA                typeA,
                                }
 
                             } else {
-                               auto _work = work(_(n+1,lWork));
+                               auto work_ = work(_(n+1,lWork));
 
                                if (aapp>aaqq) {
-                                  _work = A(_,p);
+                                  work_ = A(_,p);
                                   lascl(LASCL::FullMatrix, 0, 0,
-                                        aapp, One, _work);
+                                        aapp, One, work_);
                                   lascl(LASCL::FullMatrix, 0, 0,
                                         aaqq, One, A(_,q));
                                   tmp = -aapq*work(p) / work(q);
-                                  A(_,q) += tmp*_work;
+                                  A(_,q) += tmp*work_;
                                   lascl(LASCL::FullMatrix, 0, 0,
                                         One, aaqq, A(_,q));
                                   sva(q) = aaqq*sqrt(max(Zero, One-aapq*aapq));
                                   max_sinj = max(max_sinj, safeMin);
                                } else {
-                                  _work = A(_,q);
+                                  work_ = A(_,q);
                                   lascl(LASCL::FullMatrix, 0, 0,
-                                        aaqq, One, _work);
+                                        aaqq, One, work_);
                                   lascl(LASCL::FullMatrix, 0, 0,
                                         aapp, One, A(_,p));
                                   tmp = -aapq*work(q) / work(p);
-                                  A(_,p) += tmp * _work;
+                                  A(_,p) += tmp * work_;
                                   lascl(LASCL::FullMatrix, 0, 0,
                                         One, aapp, A(_,p));
                                   sva(p) = aapp*sqrt(max(Zero, One-aapq*aapq));
@@ -1297,7 +1297,7 @@ svj_(SVJ::TypeA                typeA,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = external::svj_impl(typeA, jobU, jobV, A, sva, V, work);
+    IndexType info_ = external::svj_impl(typeA, jobU, jobV, A, sva, V, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -1320,9 +1320,9 @@ svj_(SVJ::TypeA                typeA,
         std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
     }
-    if (! isIdentical(info, _info, "info", "_info")) {
+    if (! isIdentical(info, info_, "info", "info_")) {
         std::cerr << "CXXLAPACK: info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

@@ -50,8 +50,8 @@ class Initializer
         operator,(const ElementType &value);
 
     private:
-        Vector     &_x;
-        IndexType  _index;
+        Vector     &x_;
+        IndexType  index_;
 };
 
 } } // namespace densevector, flens

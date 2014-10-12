@@ -258,16 +258,16 @@ class TbMatrix
         diag();
 
     private:
-        Engine       _engine;
-        StorageUpLo  _upLo;
-        Diag         _diag;
+        Engine       engine_;
+        StorageUpLo  upLo_;
+        Diag         diag_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsTbMatrix
 //
-struct _TbMatrixChecker
+struct TbMatrixChecker_
 {
 
     struct Two {
@@ -276,7 +276,7 @@ struct _TbMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -287,7 +287,7 @@ template <typename T>
 struct IsTbMatrix
 {
     static T var;
-    static const bool value = sizeof(_TbMatrixChecker::check(var))==1;
+    static const bool value = sizeof(TbMatrixChecker_::check(var))==1;
 };
 
 //

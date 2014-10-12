@@ -96,15 +96,15 @@ class HeCoordMatrix
         // forbidden:
         HeCoordMatrix(const HeCoordMatrix &rhs);
 
-        Engine       _engine;
-        StorageUpLo  _upLo;
+        Engine       engine_;
+        StorageUpLo  upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsHeCoordMatrix
 //
-struct _HeCoordMatrixChecker
+struct HeCoordMatrixChecker_
 {
 
     struct Two {
@@ -113,7 +113,7 @@ struct _HeCoordMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -124,7 +124,7 @@ template <typename T>
 struct IsHeCoordMatrix
 {
     static T var;
-    static const bool value = sizeof(_HeCoordMatrixChecker::check(var))==1;
+    static const bool value = sizeof(HeCoordMatrixChecker_::check(var))==1;
 };
 
 //

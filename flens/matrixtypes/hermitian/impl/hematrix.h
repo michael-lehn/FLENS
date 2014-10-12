@@ -289,15 +289,15 @@ class HeMatrix
         upLo();
 
     private:
-        Engine      _engine;
-        StorageUpLo _upLo;
+        Engine      engine_;
+        StorageUpLo upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsHeMatrix
 //
-struct _HeMatrixChecker
+struct HeMatrixChecker_
 {
 
     struct Two {
@@ -306,7 +306,7 @@ struct _HeMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -317,7 +317,7 @@ template <typename T>
 struct IsHeMatrix
 {
     static T var;
-    static const bool value = sizeof(_HeMatrixChecker::check(var))==1;
+    static const bool value = sizeof(HeMatrixChecker_::check(var))==1;
 };
 
 //-- HeMatrix specific functions -----------------------------------------------

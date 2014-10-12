@@ -147,8 +147,8 @@ ls_impl(Transpose                 trans,
         work(1) = wSize;
     }
 
-    auto _B = (tpsd) ? B(_(1,n),_) : B(_(1,m),_);
-    const ElementType  normB = lan(MaximumNorm, _B);
+    auto B_ = (tpsd) ? B(_(1,n),_) : B(_(1,m),_);
+    const ElementType  normB = lan(MaximumNorm, B_);
     IndexType iScaleB = 0;
     IndexType scaleLen = 0;
 
@@ -167,12 +167,12 @@ ls_impl(Transpose                 trans,
     }
 
     auto tau   = work(_(1,mn));
-    auto _work = work(_(mn+1,lWork));
+    auto work_ = work(_(mn+1,lWork));
     if (m>=n) {
 //
 //      compute QR factorization of A
 //
-        qrf(A, tau, _work);
+        qrf(A, tau, work_);
         const auto R = A(_(1,n),_(1,n)).upper();
 //
 //      workspace at least N, optimally N*NB
@@ -183,7 +183,7 @@ ls_impl(Transpose                 trans,
 //
 //          B(1:M,1:NRHS) := Q**T * B(1:M,1:NRHS)
 //
-            ormqr(Left, Trans, A, tau, B, _work);
+            ormqr(Left, Trans, A, tau, B, work_);
 //
 //          workspace at least NRHS, optimally NRHS*NB
 //
@@ -214,7 +214,7 @@ ls_impl(Transpose                 trans,
 //
 //          B(1:M,1:NRHS) := Q(1:N,:) * B(1:N,1:NRHS)
 //
-            ormqr(Left, NoTrans, A, tau, B, _work);
+            ormqr(Left, NoTrans, A, tau, B, work_);
 //
 //          workspace at least NRHS, optimally NRHS*NB
 //
@@ -226,7 +226,7 @@ ls_impl(Transpose                 trans,
 //
 //      Compute LQ factorization of A
 //
-        lqf(A, tau, _work);
+        lqf(A, tau, work_);
         const auto L = A(_(1,m),_(1,m)).lower();
 //
 //       workspace at least M, optimally M*NB.
@@ -249,7 +249,7 @@ ls_impl(Transpose                 trans,
 //
 //          B(1:N,1:NRHS) := Q(1:N,:)**T * B(1:M,1:NRHS)
 //
-            ormlq(Left, Trans, A, tau, B, _work);
+            ormlq(Left, Trans, A, tau, B, work_);
 //
 //          workspace at least NRHS, optimally NRHS*NB
 //
@@ -261,7 +261,7 @@ ls_impl(Transpose                 trans,
 //
 //          B(1:N,1:NRHS) := Q * B(1:N,1:NRHS)
 //
-            ormlq(Left, NoTrans, A, tau, B, _work);
+            ormlq(Left, NoTrans, A, tau, B, work_);
 //
 //          workspace at least NRHS, optimally NRHS*NB
 //
@@ -392,8 +392,8 @@ ls_impl(Transpose                 trans,
         work(1) = wSize;
     }
 
-    auto _B = (tpsd) ? B(_(1,n),_) : B(_(1,m),_);
-    const PrimitiveType  normB = lan(MaximumNorm, _B);
+    auto B_ = (tpsd) ? B(_(1,n),_) : B(_(1,m),_);
+    const PrimitiveType  normB = lan(MaximumNorm, B_);
     IndexType iScaleB = 0;
     IndexType scaleLen = 0;
 
@@ -412,12 +412,12 @@ ls_impl(Transpose                 trans,
     }
 
     auto tau   = work(_(1,mn));
-    auto _work = work(_(mn+1,lWork));
+    auto work_ = work(_(mn+1,lWork));
     if (m>=n) {
 //
 //      compute QR factorization of A
 //
-        qrf(A, tau, _work);
+        qrf(A, tau, work_);
         const auto R = A(_(1,n),_(1,n)).upper();
 //
 //      workspace at least N, optimally N*NB
@@ -428,7 +428,7 @@ ls_impl(Transpose                 trans,
 //
 //          B(1:M,1:NRHS) := Q**H * B(1:M,1:NRHS)
 //
-            unmqr(Left, ConjTrans, A, tau, B, _work);
+            unmqr(Left, ConjTrans, A, tau, B, work_);
 //
 //          workspace at least NRHS, optimally NRHS*NB
 //
@@ -459,7 +459,7 @@ ls_impl(Transpose                 trans,
 //
 //          B(1:M,1:NRHS) := Q(1:N,:) * B(1:N,1:NRHS)
 //
-            unmqr(Left, NoTrans, A, tau, B, _work);
+            unmqr(Left, NoTrans, A, tau, B, work_);
 //
 //          workspace at least NRHS, optimally NRHS*NB
 //
@@ -471,7 +471,7 @@ ls_impl(Transpose                 trans,
 //
 //      Compute LQ factorization of A
 //
-        lqf(A, tau, _work);
+        lqf(A, tau, work_);
         const auto L = A(_(1,m),_(1,m)).lower();
 //
 //       workspace at least M, optimally M*NB.
@@ -494,7 +494,7 @@ ls_impl(Transpose                 trans,
 //
 //          B(1:N,1:NRHS) := Q(1:N,:)**H * B(1:M,1:NRHS)
 //
-            unmlq(Left, ConjTrans, A, tau, B, _work);
+            unmlq(Left, ConjTrans, A, tau, B, work_);
 //
 //          workspace at least NRHS, optimally NRHS*NB
 //
@@ -506,7 +506,7 @@ ls_impl(Transpose                 trans,
 //
 //          B(1:N,1:NRHS) := Q * B(1:N,1:NRHS)
 //
-            unmlq(Left, NoTrans, A, tau, B, _work);
+            unmlq(Left, NoTrans, A, tau, B, work_);
 //
 //          workspace at least NRHS, optimally NRHS*NB
 //
@@ -675,7 +675,7 @@ ls(Transpose    trans,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = external::ls_impl(trans, A, B, work);
+    IndexType info_ = external::ls_impl(trans, A, B, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -693,9 +693,9 @@ ls(Transpose    trans,
         std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
     }
-    if (! isIdentical(info, _info, "info", "_info")) {
+    if (! isIdentical(info, info_, "info", "info_")) {
         std::cerr << "CXXLAPACK: info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

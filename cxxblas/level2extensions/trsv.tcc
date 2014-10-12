@@ -50,10 +50,10 @@ trsv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("trsv (extension)");
 
-    float *_x = reinterpret_cast<float *>(x);
+    float *x_ = reinterpret_cast<float *>(x);
 
-    trsv(order, upLo, transA, diag, n, A, ldA, _x,   2*incX);
-    trsv(order, upLo, transA, diag, n, A, ldA, _x+1, 2*incX);
+    trsv(order, upLo, transA, diag, n, A, ldA, x_,   2*incX);
+    trsv(order, upLo, transA, diag, n, A, ldA, x_+1, 2*incX);
 }
 
 template <typename IndexType>
@@ -66,10 +66,10 @@ trsv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("trsv (extension)");
 
-    double *_x = reinterpret_cast<double *>(x);
+    double *x_ = reinterpret_cast<double *>(x);
 
-    trsv(order, upLo, transA, diag, n, A, ldA, _x,   2*incX);
-    trsv(order, upLo, transA, diag, n, A, ldA, _x+1, 2*incX);
+    trsv(order, upLo, transA, diag, n, A, ldA, x_,   2*incX);
+    trsv(order, upLo, transA, diag, n, A, ldA, x_+1, 2*incX);
 }
 
 #endif

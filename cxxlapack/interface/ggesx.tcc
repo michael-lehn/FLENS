@@ -68,12 +68,12 @@ ggesx(char                  jobvsl,
     CXXLAPACK_DEBUG_OUT("sggesx");
 
     IndexType info;
-    IndexType _selctg = selctg;
+    IndexType selctg_ = selctg;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(sggesx)(&jobvsl,
                         &jobvsr,
                         &sort,
-                        &_selctg,
+                        &selctg_,
                         &n,
                         A,
                         &ldA,
@@ -132,12 +132,12 @@ ggesx(char                  jobvsl,
     CXXLAPACK_DEBUG_OUT("dggesx");
 
     IndexType info;
-    IndexType _selctg = selctg;
+    IndexType selctg_ = selctg;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(dggesx)(&jobvsl,
                         &jobvsr,
                         &sort,
-                        &_selctg,
+                        &selctg_,
                         &n,
                         A,
                         &ldA,
@@ -197,12 +197,12 @@ ggesx(char                  jobvsl,
     CXXLAPACK_DEBUG_OUT("cggesx");
 
     IndexType info;
-    IndexType _selctg = selctg;
+    IndexType selctg_ = selctg;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(cggesx)(&jobvsl,
                         &jobvsr,
                         &sort,
-                        &_selctg,
+                        &selctg_,
                         &n,
                         reinterpret_cast<float  *>(A),
                         &ldA,
@@ -263,12 +263,12 @@ ggesx(char                  jobvsl,
     CXXLAPACK_DEBUG_OUT("zggesx");
 
     IndexType info;
-    IndexType _selctg = selctg;
+    IndexType selctg_ = selctg;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(zggesx)(&jobvsl,
                         &jobvsr,
                         &sort,
-                        &_selctg,
+                        &selctg_,
                         &n,
                         reinterpret_cast<double *>(A),
                         &ldA,

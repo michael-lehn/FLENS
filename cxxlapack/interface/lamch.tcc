@@ -41,7 +41,7 @@ namespace cxxlapack {
 
 template <typename VOID>
 void
-_lamch(char c, double &value)
+lamch_(char c, double &value)
 {
     value = LAPACK_IMPL(dlamch)(&c);
 }
@@ -51,8 +51,7 @@ T
 lamch(char c)
 {
     T    value;
-
-    _lamch<void>(c, value);
+    lamch_<void>(c, value);
     return value;
 }
 

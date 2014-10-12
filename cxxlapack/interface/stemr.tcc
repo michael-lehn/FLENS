@@ -63,7 +63,7 @@ stemr(char                  jobz,
     CXXLAPACK_DEBUG_OUT("sstemr");
 
     IndexType info;
-    IndexType _tryrac = tryrac;
+    IndexType tryrac_ = tryrac;
     LAPACK_IMPL(sstemr)(&jobz,
                         &range,
                         n,
@@ -79,7 +79,7 @@ stemr(char                  jobz,
                         &ldZ,
                         &nzc,
                         isuppz,
-                        &_tryrac,
+                        &tryrac_,
                         work,
                         &lWork,
                         &info);
@@ -116,7 +116,7 @@ stemr(char                  jobz,
     CXXLAPACK_DEBUG_OUT("dstemr");
 
     IndexType info;
-    IndexType _tryrac = tryrac;
+    IndexType tryrac_ = tryrac;
     LAPACK_IMPL(dstemr)(&jobz,
                         &range,
                         n,
@@ -132,7 +132,7 @@ stemr(char                  jobz,
                         &ldZ,
                         &nzc,
                         isuppz,
-                        &_tryrac,
+                        &tryrac_,
                         work,
                         &lWork,
                         &info);
@@ -171,7 +171,7 @@ stemr(char                  jobz,
     CXXLAPACK_DEBUG_OUT("cstemr");
 
     IndexType info;
-    IndexType _tryrac = tryrac;
+    IndexType tryrac_ = tryrac;
     LAPACK_IMPL(cstemr)(&jobz,
                         &range,
                         n,
@@ -187,7 +187,7 @@ stemr(char                  jobz,
                         &ldZ,
                         &nzc,
                         isuppz,
-                        &_tryrac,
+                        &tryrac_,
                         work,
                         &lWork,
                         iWork,
@@ -228,7 +228,7 @@ stemr(char                  jobz,
     CXXLAPACK_DEBUG_OUT("zstemr");
 
     IndexType info;
-    IndexType _tryrac = tryrac;
+    IndexType tryrac_ = tryrac;
     LAPACK_IMPL(zstemr)(&jobz,
                         &range,
                         n,
@@ -244,7 +244,7 @@ stemr(char                  jobz,
                         &ldZ,
                         &nzc,
                         isuppz,
-                        &_tryrac,
+                        &tryrac_,
                         work,
                         &lWork,
                         iWork,

@@ -47,7 +47,7 @@ size_t get_l1_cache_size()
 {
     static size_t l1_cache = 0;
     if (l1_cache==0) {
-        l1_cache=sysconf(_SC_LEVEL1_DCACHE_SIZE);
+        l1_cache=sysconf(SC_LEVEL1_DCACHE_SIZE_);
     }
     return l1_cache;
 }
@@ -57,7 +57,7 @@ size_t get_l2_cache_size()
 {
     static size_t l2_cache = 0;
     if (l2_cache==0) {
-        l2_cache=sysconf(_SC_LEVEL2_CACHE_SIZE);
+        l2_cache=sysconf(SC_LEVEL2_CACHE_SIZE_);
     }
     return l2_cache;
 }
@@ -67,7 +67,7 @@ size_t get_l3_cache_size()
 {
     static size_t l3_cache = 0;
     if (l3_cache==0) {
-        l3_cache=sysconf(_SC_LEVEL3_CACHE_SIZE);
+        l3_cache=sysconf(SC_LEVEL3_CACHE_SIZE_);
     }
     return l3_cache;
 }

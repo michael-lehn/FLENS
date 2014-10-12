@@ -47,37 +47,37 @@ ConstArrayView<T, I, A>::ConstArrayView(IndexType length,
                                         IndexType stride,
                                         IndexType firstIndex,
                                         const Allocator &allocator)
-    : _data(data),
-      _allocator(allocator),
-      _length(length),
-      _stride(stride),
-      _firstIndex(firstIndex)
+    : data_(data),
+      allocator_(allocator),
+      length_(length),
+      stride_(stride),
+      firstIndex_(firstIndex)
 {
-    ASSERT(_length>=0);
-    ASSERT(_stride>0);
+    ASSERT(length_>=0);
+    ASSERT(stride_>0);
 }
 
 template <typename T, typename I, typename A>
 ConstArrayView<T, I, A>::ConstArrayView(const ConstArrayView &rhs)
-    : _data(rhs._data),
-      _allocator(rhs.allocator()),
-      _length(rhs._length),
-      _stride(rhs._stride),
-      _firstIndex(rhs._firstIndex)
+    : data_(rhs.data_),
+      allocator_(rhs.allocator()),
+      length_(rhs.length_),
+      stride_(rhs.stride_),
+      firstIndex_(rhs.firstIndex_)
 {
-    ASSERT(_stride>0);
+    ASSERT(stride_>0);
 }
 
 template <typename T, typename I, typename A>
 template <typename RHS>
 ConstArrayView<T, I, A>::ConstArrayView(const RHS &rhs)
-    : _data(rhs.data()),
-      _allocator(rhs.allocator()),
-      _length(rhs.length()),
-      _stride(rhs.stride()),
-      _firstIndex(rhs.firstIndex())
+    : data_(rhs.data()),
+      allocator_(rhs.allocator()),
+      length_(rhs.length()),
+      stride_(rhs.stride()),
+      firstIndex_(rhs.firstIndex())
 {
-    ASSERT(_stride>0);
+    ASSERT(stride_>0);
 }
 
 template <typename T, typename I, typename A>
@@ -93,7 +93,7 @@ ConstArrayView<T, I, A>::operator()(IndexType index) const
 {
     ASSERT(index>=firstIndex());
     ASSERT(index<=lastIndex());
-    return _data[_stride*(index-_firstIndex)];
+    return data_[stride_*(index-firstIndex_)];
 }
 
 //-- methods -------------------------------------------------------------------
@@ -102,42 +102,42 @@ template <typename T, typename I, typename A>
 typename ConstArrayView<T, I, A>::IndexType
 ConstArrayView<T, I, A>::firstIndex() const
 {
-    return _firstIndex;
+    return firstIndex_;
 }
 
 template <typename T, typename I, typename A>
 typename ConstArrayView<T, I, A>::IndexType
 ConstArrayView<T, I, A>::lastIndex() const
 {
-    return _firstIndex+_length-1;
+    return firstIndex_+length_-1;
 }
 
 template <typename T, typename I, typename A>
 typename ConstArrayView<T, I, A>::IndexType
 ConstArrayView<T, I, A>::length() const
 {
-    return _length;
+    return length_;
 }
 
 template <typename T, typename I, typename A>
 typename ConstArrayView<T, I, A>::IndexType
 ConstArrayView<T, I, A>::stride() const
 {
-    return _stride;
+    return stride_;
 }
 
 template <typename T, typename I, typename A>
 const typename ConstArrayView<T, I, A>::ElementType *
 ConstArrayView<T, I, A>::data() const
 {
-    return _data;
+    return data_;
 }
 
 template <typename T, typename I, typename A>
 const typename ConstArrayView<T, I, A>::Allocator &
 ConstArrayView<T, I, A>::allocator() const
 {
-    return _allocator;
+    return allocator_;
 }
 
 template <typename T, typename I, typename A>
@@ -152,7 +152,7 @@ ConstArrayView<T, I, A>::view(IndexType from, IndexType to,
     if (length==0) {
         return ConstArrayView<T, I, A>(length,          // length
                                        0,               // data
-                                       stride*_stride,  // stride
+                                       stride*stride_,  // stride
                                        firstViewIndex,  // firstIndex in view
                                        allocator());    // allocator
     }
@@ -164,7 +164,7 @@ ConstArrayView<T, I, A>::view(IndexType from, IndexType to,
     ASSERT(stride>=1);
     return ConstArrayView<T, I, A>(length,              // length
                                    &operator()(from),   // data
-                                   stride*_stride,      // stride
+                                   stride*stride_,      // stride
                                    firstViewIndex,      // firstIndex in view
                                    allocator());        // allocator
 }
@@ -173,7 +173,7 @@ template <typename T, typename I, typename A>
 void
 ConstArrayView<T, I, A>::changeIndexBase(IndexType firstIndex)
 {
-    _firstIndex = firstIndex;
+    firstIndex_ = firstIndex;
 }
 
 } // namespace flens

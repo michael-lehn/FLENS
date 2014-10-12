@@ -40,7 +40,7 @@ namespace flens {
 
 template <typename MZ>
 RealMatrixClosure<MZ>::RealMatrixClosure(MZ &&Z)
-    : _Z(Z)
+    : Z_(Z)
 {
 }
 
@@ -54,7 +54,7 @@ RealMatrixClosure<MZ>::operator=(const Matrix<RHS> &rhs)
 
 template <typename MZ>
 RealConstMatrixClosure<MZ>::RealConstMatrixClosure(const MZ &Z)
-    : _Z(Z)
+    : Z_(Z)
 {
 }
 

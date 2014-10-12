@@ -39,7 +39,7 @@ namespace flens {
 
 template <typename IndexType>
 Range<IndexType>::Range(IndexType firstIndex, IndexType lastIndex)
-    : _firstIndex(firstIndex), _stride(1), _lastIndex(lastIndex)
+    : firstIndex_(firstIndex), stride_(1), lastIndex_(lastIndex)
 {
 }
 
@@ -47,7 +47,7 @@ template <typename IndexType>
 Range<IndexType>::Range(IndexType firstIndex,
                         IndexType stride,
                         IndexType lastIndex)
-    : _firstIndex(firstIndex), _stride(stride), _lastIndex(lastIndex)
+    : firstIndex_(firstIndex), stride_(stride), lastIndex_(lastIndex)
 {
 }
 
@@ -55,35 +55,35 @@ template <typename IndexType>
 IndexType
 Range<IndexType>::firstIndex() const
 {
-    return _firstIndex;
+    return firstIndex_;
 }
 
 template <typename IndexType>
 IndexType
 Range<IndexType>::stride() const
 {
-    return _stride;
+    return stride_;
 }
 
 template <typename IndexType>
 IndexType
 Range<IndexType>::lastIndex() const
 {
-    return _lastIndex;
+    return lastIndex_;
 }
 
 template <typename IndexType>
 IndexType
 Range<IndexType>::numTicks() const
 {
-    return (_lastIndex-_firstIndex)/abs(_stride) + IndexType(1);
+    return (lastIndex_-firstIndex_)/abs(stride_) + IndexType(1);
 }
 
 template <typename IndexType>
 IndexType
 Range<IndexType>::length() const
 {
-    return (_lastIndex-_firstIndex)/abs(_stride) + IndexType(1);
+    return (lastIndex_-firstIndex_)/abs(stride_) + IndexType(1);
 }
 
 //------------------------------------------------------------------------------

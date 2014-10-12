@@ -718,7 +718,7 @@ es(bool                 computeSchurVectors,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _result = external::es_impl(computeSchurVectors,
+    IndexType result_ = external::es_impl(computeSchurVectors,
                                           sortEigenvalues,
                                           selectFunction,
                                           A,
@@ -773,9 +773,9 @@ es(bool                 computeSchurVectors,
         failed = true;
     }
 
-    if (! isIdentical(result, _result, " result", "_result")) {
+    if (! isIdentical(result, result_, " result", "result_")) {
         std::cerr << "CXXLAPACK:  result = " << result << std::endl;
-        std::cerr << "F77LAPACK: _result = " << _result << std::endl;
+        std::cerr << "F77LAPACK: result_ = " << result_ << std::endl;
         failed = true;
     }
 
@@ -870,7 +870,7 @@ es(bool                 computeSchurVectors,
         bWork.resize(n, 1);
     }
 
-    IndexType _result = external::es_impl(computeSchurVectors,
+    IndexType result_ = external::es_impl(computeSchurVectors,
                                           sortEigenvalues,
                                           select,
                                           A,
@@ -880,7 +880,7 @@ es(bool                 computeSchurVectors,
                                           work,
                                           rWork,
                                           bWork);
-    return _result;
+    return result_;
 }
 
 #endif // USE_CXXLAPACK
@@ -913,12 +913,12 @@ es_wsq(bool     computeSchurVectors,
 //
 //  Compare results
 //
-    const auto _ws = external::es_wsq_impl(computeSchurVectors, A);
+    const auto ws_ = external::es_wsq_impl(computeSchurVectors, A);
 
-    if (! isIdentical(_ws.first, _ws.first, "_ws.first", "_ws.first")) {
+    if (! isIdentical(ws_.first, ws_.first, "ws_.first", "ws_.first")) {
         ASSERT(0);
     }
-    if (! isIdentical(_ws.second, _ws.second, "_ws.second", "_ws.second")) {
+    if (! isIdentical(ws_.second, ws_.second, "ws_.second", "ws_.second")) {
         ASSERT(0);
     }
 #   endif

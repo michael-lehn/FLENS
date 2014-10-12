@@ -55,7 +55,7 @@ namespace flens { namespace lapack {
 
 template <typename T>
 void
-_makeHseqrOpt(char opt[3], HSEQR::Job job, HSEQR::ComputeZ computeZ)
+makeHseqrOpt_(char opt[3], HSEQR::Job job, HSEQR::ComputeZ computeZ)
 {
     opt[0] = (job==HSEQR::Eigenvalues) ? 'E' : 'S';
     if (computeZ==HSEQR::No) {
@@ -187,7 +187,7 @@ hseqr_impl(HSEQR::Job            job,
 //  ==== lahqr/laqr0 crossover point ====
 //
     char opt[3];
-    _makeHseqrOpt<T>(opt, job, computeZ);
+    makeHseqrOpt_<T>(opt, job, computeZ);
     IndexType nMin = ilaenv<T>(12, "HSEQR", opt, n, iLo, iHi, work.length());
 
     nMin= max(nTiny, nMin);
@@ -341,7 +341,7 @@ hseqr_impl(HSEQR::Job            job,
 //  ==== lahqr/laqr0 crossover point ====
 //
     char opt[3];
-    _makeHseqrOpt<T>(opt, job, computeZ);
+    makeHseqrOpt_<T>(opt, job, computeZ);
     IndexType nMin = ilaenv<T>(12, "HSEQR", opt, n, iLo, iHi, work.length());
 
     nMin= max(nTiny, nMin);
@@ -581,11 +581,11 @@ hseqr_wsq(HSEQR::Job            job,
 //
 //  Compare results
 //
-    IndexType _info =  external::hseqr_wsq_impl(job, computeZ, iLo, iHi, H);
+    IndexType info_ =  external::hseqr_wsq_impl(job, computeZ, iLo, iHi, H);
 
-    if (info!=_info) {
+    if (info!=info_) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         ASSERT(0);
     }
 #   endif
@@ -646,11 +646,11 @@ hseqr(HSEQR::Job                job,
 //
     typename MatrixH::NoView        H_org   = H;
 
-    typename MatrixH::NoView        _H      = H;
-    typename VectorWR::NoView       _wr     = wr;
-    typename VectorWI::NoView       _wi     = wi;
-    typename MatrixZ::NoView        _Z      = Z;
-    typename VectorWork::NoView     _work   = work;
+    typename MatrixH::NoView        H_      = H;
+    typename VectorWR::NoView       wr_     = wr;
+    typename VectorWI::NoView       wi_     = wi;
+    typename MatrixZ::NoView        Z_      = Z;
+    typename VectorWork::NoView     work_   = work;
 #   endif
 
 //
@@ -664,47 +664,47 @@ hseqr(HSEQR::Job                job,
 //  Compare results
 //
     // TODO: also check workspace query directly!
-    if (_work.length()==0) {
-        _work.resize(work.length());
+    if (work_.length()==0) {
+        work_.resize(work.length());
     }
 
-    IndexType _info = external::hseqr_impl(job, computeZ, iLo, iHi, _H,
-                                           _wr, _wi, _Z, _work);
+    IndexType info_ = external::hseqr_impl(job, computeZ, iLo, iHi, H_,
+                                           wr_, wi_, Z_, work_);
 
     bool failed = false;
-    if (! isIdentical(H, _H, " H", "_H")) {
+    if (! isIdentical(H, H_, " H", "H_")) {
         std::cerr << "CXXLAPACK:  H = " << H << std::endl;
-        std::cerr << "F77LAPACK: _H = " << _H << std::endl;
+        std::cerr << "F77LAPACK: H_ = " << H_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(wr, _wr, " wr", "_wr")) {
+    if (! isIdentical(wr, wr_, " wr", "wr_")) {
         std::cerr << "CXXLAPACK:  wr = " << wr << std::endl;
-        std::cerr << "F77LAPACK: _wr = " << _wr << std::endl;
+        std::cerr << "F77LAPACK: wr_ = " << wr_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(wi, _wi, " wi", "_wi")) {
+    if (! isIdentical(wi, wi_, " wi", "wi_")) {
         std::cerr << "CXXLAPACK:  wi = " << wi << std::endl;
-        std::cerr << "F77LAPACK: _wi = " << _wi << std::endl;
+        std::cerr << "F77LAPACK: wi_ = " << wi_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(Z, _Z, " Z", "_Z")) {
+    if (! isIdentical(Z, Z_, " Z", "Z_")) {
         std::cerr << "CXXLAPACK:  Z = " << Z << std::endl;
-        std::cerr << "F77LAPACK: _Z = " << _Z << std::endl;
+        std::cerr << "F77LAPACK: Z_ = " << Z_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
+    if (! isIdentical(work, work_, " work", "work_")) {
         std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        std::cerr << "F77LAPACK: work_ = " << work_ << std::endl;
         failed = true;
     }
 
@@ -753,11 +753,11 @@ hseqr_wsq(HSEQR::Job            job,
 //
 //  Compare results
 //
-    IndexType _info =  external::hseqr_wsq_impl(job, computeZ, iLo, iHi, H);
+    IndexType info_ =  external::hseqr_wsq_impl(job, computeZ, iLo, iHi, H);
 
-    if (info!=_info) {
+    if (info!=info_) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         ASSERT(0);
     }
 #   endif
@@ -813,10 +813,10 @@ hseqr(HSEQR::Job                job,
 //
     typename MatrixH::NoView        H_org   = H;
 
-    typename MatrixH::NoView        _H      = H;
-    typename VectorW::NoView        _w      = w;
-    typename MatrixZ::NoView        _Z      = Z;
-    typename VectorWork::NoView     _work   = work;
+    typename MatrixH::NoView        H_      = H;
+    typename VectorW::NoView        w_      = w;
+    typename MatrixZ::NoView        Z_      = Z;
+    typename VectorWork::NoView     work_   = work;
 #   endif
 
 //
@@ -830,41 +830,41 @@ hseqr(HSEQR::Job                job,
 //  Compare results
 //
     // TODO: also check workspace query directly!
-    if (_work.length()==0) {
-        _work.resize(work.length());
+    if (work_.length()==0) {
+        work_.resize(work.length());
     }
 
-    IndexType _info = external::hseqr_impl(job, computeZ, iLo, iHi, _H,
-                                           _w, _Z, _work);
+    IndexType info_ = external::hseqr_impl(job, computeZ, iLo, iHi, H_,
+                                           w_, Z_, work_);
 
     bool failed = false;
-    if (! isIdentical(H, _H, " H", "_H")) {
+    if (! isIdentical(H, H_, " H", "H_")) {
         std::cerr << "CXXLAPACK:  H = " << H << std::endl;
-        std::cerr << "F77LAPACK: _H = " << _H << std::endl;
+        std::cerr << "F77LAPACK: H_ = " << H_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(w, _w, " w", "_w")) {
+    if (! isIdentical(w, w_, " w", "w_")) {
         std::cerr << "CXXLAPACK:  w = " << w << std::endl;
-        std::cerr << "F77LAPACK: _w = " << _w << std::endl;
+        std::cerr << "F77LAPACK: w_ = " << w_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(Z, _Z, " Z", "_Z")) {
+    if (! isIdentical(Z, Z_, " Z", "Z_")) {
         std::cerr << "CXXLAPACK:  Z = " << Z << std::endl;
-        std::cerr << "F77LAPACK: _Z = " << _Z << std::endl;
+        std::cerr << "F77LAPACK: Z_ = " << Z_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(info, _info, " info", "_info")) {
+    if (! isIdentical(info, info_, " info", "info_")) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
+    if (! isIdentical(work, work_, " work", "work_")) {
         std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        std::cerr << "F77LAPACK: work_ = " << work_ << std::endl;
         failed = true;
     }
 

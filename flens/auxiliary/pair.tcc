@@ -44,8 +44,8 @@ Pair<First,Second>::Pair()
 }
 
 template <typename First, typename Second>
-Pair<First,Second>::Pair(const First &_first, const Second &_second)
-    : first(_first), second(_second)
+Pair<First,Second>::Pair(const First &first_, const Second &second_)
+    : first(first_), second(second_)
 {
 }
 

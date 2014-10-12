@@ -78,10 +78,10 @@ laqtr_impl(bool                  trans,
 //
 //  .. Local Arrays ..
 //
-    ElementType     _dataD[4], _dataV[4];
+    ElementType     dataD_[4], dataV_[4];
     GeMatrixView<ElementType>
-        D = typename GeMatrixView<ElementType>::Engine(2, 2, _dataD, 2),
-        V = typename GeMatrixView<ElementType>::Engine(2, 2, _dataV, 2);
+        D = typename GeMatrixView<ElementType>::Engine(2, 2, dataD_, 2),
+        V = typename GeMatrixView<ElementType>::Engine(2, 2, dataV_, 2);
 
     IndexType info = 0;
 //
@@ -196,10 +196,10 @@ laqtr_impl(bool                  trans,
                         }
                     }
                     if (j1>1) {
-                        auto _x = x(_(1,j1-1));
+                        auto x_ = x(_(1,j1-1));
 
-                        _x -= x(j1)*T(_(1,j1-1),j1);
-                        const IndexType k = blas::iamax(_x);
+                        x_ -= x(j1)*T(_(1,j1-1),j1);
+                        const IndexType k = blas::iamax(x_);
                         xMax = abs(x(k));
                     }
 
@@ -244,10 +244,10 @@ laqtr_impl(bool                  trans,
 //                  Update right-hand side
 //
                     if (j1>1) {
-                        auto _x = x(_(1,j1-1));
-                        _x -= x(j1) * T(_(1,j1-1),j1);
-                        _x -= x(j2) * T(_(1,j1-1),j2);
-                        const IndexType k = blas::iamax(_x);
+                        auto x_ = x(_(1,j1-1));
+                        x_ -= x(j1) * T(_(1,j1-1),j1);
+                        x_ -= x(j2) * T(_(1,j1-1),j2);
+                        const IndexType k = blas::iamax(x_);
                         xMax = abs(x(k));
                     }
 
@@ -733,7 +733,7 @@ laqtr(bool                  trans,
 //
 //  Compare results
 //
-    IndexType _info = external::laqtr_impl(trans, real, T, b,
+    IndexType info_ = external::laqtr_impl(trans, real, T, b,
                                            w, scale, x, work);
 
     bool failed = false;
@@ -756,9 +756,9 @@ laqtr(bool                  trans,
         failed = true;
     }
 
-    if (! isIdentical(info, _info, "info", "_info")) {
+    if (! isIdentical(info, info_, "info", "info_")) {
         std::cerr << "CXXLAPACK: info= " << info<< std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        std::cerr << "F77LAPACK: info_ = " << info_ << std::endl;
         failed = true;
     }
 

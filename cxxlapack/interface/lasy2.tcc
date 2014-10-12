@@ -60,10 +60,10 @@ lasy2(bool          transTL,
     CXXLAPACK_DEBUG_OUT("slasy2");
 
     IndexType info;
-    IndexType _transTL = transTL;
-    IndexType _transTR = transTR;
-    LAPACK_IMPL(slasy2)(&_transTL,
-                        &_transTR,
+    IndexType transTL_ = transTL;
+    IndexType transTR_ = transTR;
+    LAPACK_IMPL(slasy2)(&transTL_,
+                        &transTR_,
                         &sgn,
                         &n1,
                         &n2,
@@ -108,10 +108,10 @@ lasy2(bool          transTL,
     CXXLAPACK_DEBUG_OUT("dlasy2");
 
     IndexType info;
-    IndexType _transTL = transTL;
-    IndexType _transTR = transTR;
-    LAPACK_IMPL(dlasy2)(&_transTL,
-                        &_transTR,
+    IndexType transTL_ = transTL;
+    IndexType transTR_ = transTR;
+    LAPACK_IMPL(dlasy2)(&transTL_,
+                        &transTR_,
                         &sgn,
                         &n1,
                         &n2,

@@ -41,7 +41,7 @@ template <typename M, typename I>
 ConstElementClosure<M, I>::ConstElementClosure(const Matrix &matrix,
                                                const IndexVariable &row,
                                                const IndexVariable &col)
-    : _matrix(matrix), _row(row), _col(col)
+    : matrix_(matrix), row_(row), col_(col)
 {
 }
 
@@ -49,7 +49,7 @@ template <typename M, typename I>
 const typename ConstElementClosure<M, I>::ElementType &
 ConstElementClosure<M, I>::value() const
 {
-    return _matrix(_row.impl().value(), _col.impl().value());
+    return matrix_(row_.impl().value(), col_.impl().value());
 }
 
 } } // namespace gematrix, flens

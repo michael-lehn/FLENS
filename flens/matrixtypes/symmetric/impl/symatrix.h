@@ -290,15 +290,15 @@ class SyMatrix
         upLo();
 
     private:
-        Engine      _engine;
-        StorageUpLo _upLo;
+        Engine      engine_;
+        StorageUpLo upLo_;
 };
 
 //-- Traits --------------------------------------------------------------------
 //
 //  IsSyMatrix
 //
-struct _SyMatrixChecker
+struct SyMatrixChecker_
 {
 
     struct Two {
@@ -307,7 +307,7 @@ struct _SyMatrixChecker
     };
 
     static Two
-    check(_AnyConversion);
+    check(AnyConversion_);
 
     template <typename Any>
         static char
@@ -318,7 +318,7 @@ template <typename T>
 struct IsSyMatrix
 {
     static T var;
-    static const bool value = sizeof(_SyMatrixChecker::check(var))==1;
+    static const bool value = sizeof(SyMatrixChecker_::check(var))==1;
 };
 
 //

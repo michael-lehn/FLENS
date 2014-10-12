@@ -141,9 +141,9 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
         return;
     }
 
-    auto _x = x(_(1,n-1));
+    auto x_ = x(_(1,n-1));
 
-    PT xNorm  = blas::nrm2(_x);
+    PT xNorm  = blas::nrm2(x_);
     PT alphaR = real(alpha);
     PT alphaI = imag(alpha);
 
@@ -167,7 +167,7 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 //
             do {
                 ++count;
-                blas::scal(rSafeMin, _x);
+                blas::scal(rSafeMin, x_);
                 beta   *= rSafeMin;
                 alphaI *= rSafeMin;
                 alphaR *= rSafeMin;
@@ -175,13 +175,13 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 //
 //          New BETA is at most 1, at least SAFMIN
 //
-            xNorm = blas::nrm2(_x);
+            xNorm = blas::nrm2(x_);
             alpha = T(alphaR, alphaI);
             beta  = -sign(lapy3(alphaR, alphaI, xNorm), alphaR);
         }
         tau   = T( (beta-alphaR)/beta, -alphaI/beta );
         alpha = ladiv(T(One), alpha-beta);
-        blas::scal(alpha, _x);
+        blas::scal(alpha, x_);
 //
 //      If ALPHA is subnormal, it may lose relative accuracy
 //

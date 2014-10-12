@@ -66,21 +66,21 @@ tbmv_generic(StorageOrder order, StorageUpLo upLo,
                 for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
                     IndexType len = min(k+1, n-i);
 
-                    VX _x;
+                    VX x_;
                     dotu_generic(len, A+ldA*i, IndexType(1),
                                       x+iX, IndexType(incX),
-                                      _x);
-                    x[iX] = _x;
+                                      x_);
+                    x[iX] = x_;
                 }
             } else { /* diag==Unit */
                 for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
                     IndexType len = min(k+1, n-i);
 
-                    VX _x;
+                    VX x_;
                     dotu_generic(len-1, A+ldA*i+1, IndexType(1),
                                         x+iX+incX, IndexType(incX),
-                                        _x);
-                    x[iX] += _x;
+                                        x_);
+                    x[iX] += x_;
                 }
             }
         } else { /* upLo==Lower */
@@ -88,25 +88,25 @@ tbmv_generic(StorageOrder order, StorageUpLo upLo,
                 for (IndexType i=n-1, iX=i*incX; i>=0; --i, iX-=incX) {
                     IndexType iA = max(k-i, IndexType(0));
                     IndexType len = min(k, i) + 1;
-                    IndexType _i = max(i-k, IndexType(0));
+                    IndexType i_ = max(i-k, IndexType(0));
 
-                    VX _x;
+                    VX x_;
                     dotu_generic(len, A+ldA*i+iA, IndexType(1),
-                                      x+_i*incX, IndexType(incX),
-                                      _x);
-                    x[iX] = _x;
+                                      x+i_*incX, IndexType(incX),
+                                      x_);
+                    x[iX] = x_;
                 }
             } else { /* diag==Unit */
                 for (IndexType i=n-1, iX=i*incX; i>=0; --i, iX-=incX) {
                     IndexType iA = max(k-i, IndexType(0));
                     IndexType len = min(k, i) + 1;
-                    IndexType _i = max(i-k, IndexType(0));
+                    IndexType i_ = max(i-k, IndexType(0));
 
-                    VX _x;
+                    VX x_;
                     dotu_generic(len-1, A+ldA*i+iA, IndexType(1),
-                                        x+_i*incX, IndexType(incX),
-                                        _x);
-                    x[iX] += _x;
+                                        x+i_*incX, IndexType(incX),
+                                        x_);
+                    x[iX] += x_;
                 }
             }
         }
@@ -117,21 +117,21 @@ tbmv_generic(StorageOrder order, StorageUpLo upLo,
                 for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
                     IndexType len = min(k+1, n-i);
 
-                    VX _x;
+                    VX x_;
                     dot_generic(len, A+ldA*i, IndexType(1),
                                      x+iX, IndexType(incX),
-                                     _x);
-                    x[iX] = _x;
+                                     x_);
+                    x[iX] = x_;
                 }
             } else { /* diag==Unit */
                 for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
                     IndexType len = min(k+1, n-i);
 
-                    VX _x;
+                    VX x_;
                     dot_generic(len-1, A+ldA*i+1, IndexType(1),
                                        x+iX+incX, IndexType(incX),
-                                       _x);
-                    x[iX] += _x;
+                                       x_);
+                    x[iX] += x_;
                 }
             }
         } else { /* upLo==Lower */
@@ -139,25 +139,25 @@ tbmv_generic(StorageOrder order, StorageUpLo upLo,
                 for (IndexType i=n-1, iX=i*incX; i>=0; --i, iX-=incX) {
                     IndexType iA = max(k-i, IndexType(0));
                     IndexType len = min(k, i) + 1;
-                    IndexType _i = max(i-k, IndexType(0));
+                    IndexType i_ = max(i-k, IndexType(0));
 
-                    VX _x;
+                    VX x_;
                     dot_generic(len, A+ldA*i+iA, IndexType(1),
-                                     x+_i*incX, IndexType(incX),
-                                     _x);
-                    x[iX] = _x;
+                                     x+i_*incX, IndexType(incX),
+                                     x_);
+                    x[iX] = x_;
                 }
             } else { /* diag==Unit */
                 for (IndexType i=n-1, iX=i*incX; i>=0; --i, iX-=incX) {
                     IndexType iA = max(k-i, IndexType(0));
                     IndexType len = min(k, i) + 1;
-                    IndexType _i = max(i-k, IndexType(0));
+                    IndexType i_ = max(i-k, IndexType(0));
 
-                    VX _x;
+                    VX x_;
                     dot_generic(len-1, A+ldA*i+iA, IndexType(1),
-                                       x+_i*incX, IndexType(incX),
-                                       _x);
-                    x[iX] += _x;
+                                       x+i_*incX, IndexType(incX),
+                                       x_);
+                    x[iX] += x_;
                 }
             }
         }

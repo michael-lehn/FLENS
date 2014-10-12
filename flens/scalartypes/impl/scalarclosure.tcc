@@ -46,7 +46,7 @@ template <typename Op, typename L, typename R>
 template <typename Op, typename L, typename R>
 ScalarClosure<Op, L, R>::ScalarClosure(typename ConstRef<L>::Type l,
                                        typename ConstRef<R>::Type r)
-    : _left(l), _right(r)
+    : left_(l), right_(r)
 {
 }
 
@@ -54,14 +54,14 @@ template <typename Op, typename L, typename R>
 typename ConstRef<L>::Type
 ScalarClosure<Op, L, R>::left() const
 {
-    return _left;
+    return left_;
 }
 
 template <typename Op, typename L, typename R>
 typename ConstRef<R>::Type
 ScalarClosure<Op, L, R>::right() const
 {
-    return _right;
+    return right_;
 }
 
 template <typename Op, typename L, typename R>

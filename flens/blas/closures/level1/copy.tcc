@@ -298,9 +298,9 @@ copy(Transpose trans, const MatrixClosureOpConj<MA> &A, Matrix<MB> &B)
 
     FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
 
-    Transpose _trans = Transpose(trans^Conj);
+    Transpose trans_ = Transpose(trans^Conj);
 
-    copy(_trans, A.left(), B.impl());
+    copy(trans_, A.left(), B.impl());
 
     FLENS_BLASLOG_END;
 }
@@ -319,9 +319,9 @@ copy(Transpose trans, const MatrixClosureOpTrans<MA> &A, Matrix<MB> &B)
 
     FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
 
-    Transpose _trans = Transpose(trans^Trans);
+    Transpose trans_ = Transpose(trans^Trans);
 
-    copy(_trans, A.left(), B.impl());
+    copy(trans_, A.left(), B.impl());
 
     FLENS_BLASLOG_END;
 }
@@ -391,12 +391,12 @@ copy(Transpose DEBUG_VAR(trans), const MA &A, Matrix<MB> &B)
     if (trans!=NoTrans && trans!=Trans) {
         typedef typename MA::ElementType TA;
 
-        GeMatrix<FullStorage<TA> >  _A = A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        GeMatrix<FullStorage<TA> >  A_ = A;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, _A, B.impl());
+        copy(trans, A_, B.impl());
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
         return;
     }
 #   endif
@@ -416,12 +416,12 @@ copy(Transpose DEBUG_VAR(trans), const MA &A, Matrix<MB> &B)
     if (trans!=NoTrans && trans!=Trans) {
         typedef typename MA::ElementType TA;
 
-        GeMatrix<FullStorage<TA> >  _A = A;
-        FLENS_BLASLOG_TMP_ADD(_A);
+        GeMatrix<FullStorage<TA> >  A_ = A;
+        FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, _A, B.impl());
+        copy(trans, A_, B.impl());
 
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        FLENS_BLASLOG_TMP_REMOVE(A_, A);
         return;
     }
 #   endif

@@ -130,9 +130,9 @@ class ArrayView
              IndexType firstViewIndex = defaultIndexBase);
 
     private:
-        ElementType  *_data;
-        Allocator    _allocator;
-        IndexType    _length, _stride, _firstIndex;
+        ElementType  *data_;
+        Allocator    allocator_;
+        IndexType    length_, stride_, firstIndex_;
 };
 
 //-- ArrayView specific functions ----------------------------------------------
