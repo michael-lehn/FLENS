@@ -98,16 +98,16 @@ LAPACK_DECL(dgejsv)(const char       *JOBA,
     const bool considerTransA  = (*JOBT=='T');
     const bool perturb         = (*JOBR=='P');
 
-    DGeMatrixView     A_       = DFSView(m, n, A, *LDA);
-    DDenseVectorView  sva_     = DArrayView(n, SVA, INTEGER(1));
-    DGeMatrixView     U_       = DFSView(m, n, U, *LDU);
-    DGeMatrixView     V_       = DFSView(n, n, V, *LDV);
-    DDenseVectorView  work_    = DArrayView(*LWORK, WORK, INTEGER(1));
-    IDenseVectorView  iwork_   = IArrayView(m+3*n, IWORK, INTEGER(1));
+    DGeMatrixView     _A       = DFSView(m, n, A, *LDA);
+    DDenseVectorView  _sva     = DArrayView(n, SVA, INTEGER(1));
+    DGeMatrixView     _U       = DFSView(m, n, U, *LDU);
+    DGeMatrixView     _V       = DFSView(n, n, V, *LDV);
+    DDenseVectorView  _work    = DArrayView(*LWORK, WORK, INTEGER(1));
+    IDenseVectorView  _iwork   = IArrayView(m+3*n, IWORK, INTEGER(1));
 
     *INFO = jsv(accuracy, jobU, jobV,
                 restrictedRange, considerTransA, perturb,
-                A_, sva_, U_, V_, work_, iwork_);
+                _A, _sva, _U, _V, _work, _iwork);
 
     if (*INFO<0) {
         *INFO = -(*INFO);

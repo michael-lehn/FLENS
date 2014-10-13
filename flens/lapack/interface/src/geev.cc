@@ -55,17 +55,17 @@ LAPACK_DECL(dgeev)(const char           *JOBVL,
 //
 //  Setup FLENS matrix/vector types
 //
-    DGeMatrixView       A_      = DFSView(*N, *N, A, *LDA);
-    DDenseVectorView    WR_     = DArrayView(*N, WR, 1);
-    DDenseVectorView    WI_     = DArrayView(*N, WI, 1);
-    DGeMatrixView       VL_     = DFSView(*N, *N, VL, *LDVL);
-    DGeMatrixView       VR_     = DFSView(*N, *N, VR, *LDVR);
-    DDenseVectorView    WORK_   = DArrayView(*LWORK, WORK, 1);
+    DGeMatrixView       _A      = DFSView(*N, *N, A, *LDA);
+    DDenseVectorView    _WR     = DArrayView(*N, WR, 1);
+    DDenseVectorView    _WI     = DArrayView(*N, WI, 1);
+    DGeMatrixView       _VL     = DFSView(*N, *N, VL, *LDVL);
+    DGeMatrixView       _VR     = DFSView(*N, *N, VR, *LDVR);
+    DDenseVectorView    _WORK   = DArrayView(*LWORK, WORK, 1);
 
 //
 //  Test if work has at least minimal worksize
 //
-    auto ws = ev_wsq(wantVL, wantVR, A_);
+    auto ws = ev_wsq(wantVL, wantVR, _A);
 
     if (*LWORK<ws.first && !lQuery) {
         *INFO = 13;
@@ -79,7 +79,7 @@ LAPACK_DECL(dgeev)(const char           *JOBVL,
 //
 //  Call FLENS implementation
 //
-    ev(wantVL, wantVR, A_, WR_, WI_, VL_, VR_, WORK_);
+    ev(wantVL, wantVR, _A, _WR, _WI, _VL, _VR, _WORK);
 }
 
 //-- zgeev ---------------------------------------------------------------------
@@ -138,17 +138,17 @@ LAPACK_DECL(zgeev)(const char           *JOBVL,
     auto zVR    = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(VR);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView       A_      = ZFSView(*N, *N, zA, *LDA);
-    ZDenseVectorView    W_      = ZArrayView(*N, zW, 1);
-    ZGeMatrixView       VL_     = ZFSView(*N, *N, zVL, *LDVL);
-    ZGeMatrixView       VR_     = ZFSView(*N, *N, zVR, *LDVR);
-    ZDenseVectorView    WORK_   = ZArrayView(*LWORK, zWORK, 1);
-    DDenseVectorView    RWORK_  = DArrayView(2*(*N), RWORK, 1);
+    ZGeMatrixView       _A      = ZFSView(*N, *N, zA, *LDA);
+    ZDenseVectorView    _W      = ZArrayView(*N, zW, 1);
+    ZGeMatrixView       _VL     = ZFSView(*N, *N, zVL, *LDVL);
+    ZGeMatrixView       _VR     = ZFSView(*N, *N, zVR, *LDVR);
+    ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
+    DDenseVectorView    _RWORK  = DArrayView(2*(*N), RWORK, 1);
 
 //
 //  Test if work has at least minimal worksize
 //
-    auto ws = ev_wsq(wantVL, wantVR, A_);
+    auto ws = ev_wsq(wantVL, wantVR, _A);
 
     if (*LWORK<ws.first && !lQuery) {
         *INFO = 12;
@@ -162,7 +162,7 @@ LAPACK_DECL(zgeev)(const char           *JOBVL,
 //
 //  Call FLENS implementation
 //
-    ev(wantVL, wantVR, A_, W_, VL_, VR_, WORK_, RWORK_);
+    ev(wantVL, wantVR, _A, _W, _VL, _VR, _WORK, _RWORK);
 }
 
 } // extern "C"

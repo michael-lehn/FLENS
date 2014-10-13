@@ -1,10 +1,13 @@
 all :
 	$(MAKE) -C interface
 
+dev :
+	$(MAKE) -C interface dev
+
 test/ :
 	tar xfz test.tgz
 
-check : test/
+dev-check : test/
 	$(MAKE) -C test/MATGEN
 	$(MAKE) -C test cleanup
 	$(MAKE) -C test zsg.out

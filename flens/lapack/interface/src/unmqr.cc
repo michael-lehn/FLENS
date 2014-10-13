@@ -81,12 +81,12 @@ LAPACK_DECL(zunmqr)(const char               *SIDE,
     auto zC         = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(C);
     auto zWORK      = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView          A_      = ZFSView(numRowsA, *K, zA, *LDA);
-    ZConstDenseVectorView  TAU_    = ZConstArrayView(*K, zTAU, 1);
-    ZGeMatrixView          C_      = ZFSView(*M, *N, zC, *LDC);
-    ZDenseVectorView       WORK_   = ZArrayView(*LWORK, zWORK, 1);
+    ZGeMatrixView          _A      = ZFSView(numRowsA, *K, zA, *LDA);
+    ZConstDenseVectorView  _TAU    = ZConstArrayView(*K, zTAU, 1);
+    ZGeMatrixView          _C      = ZFSView(*M, *N, zC, *LDC);
+    ZDenseVectorView       _WORK   = ZArrayView(*LWORK, zWORK, 1);
 
-    unmqr(side, trans, A_, TAU_, C_, WORK_);
+    unmqr(side, trans, _A, _TAU, _C, _WORK);
 }
 
 } // extern "C"

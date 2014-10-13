@@ -8,8 +8,8 @@ struct SelectFunction
 {
     typedef LOGICAL (* Function)(const T *, const T *);
 
-    SelectFunction(Function select_)
-        : select(select_)
+    SelectFunction(Function _select)
+        : select(_select)
     {
     }
 
@@ -30,8 +30,8 @@ struct SelectFunction<std::complex<T> >
     typedef LOGICAL (* LapackFunction)(const T *);
     typedef LOGICAL (* Function)(const CT *);
 
-    SelectFunction(LapackFunction select_)
-        : select(reinterpret_cast<Function>(select_))
+    SelectFunction(LapackFunction _select)
+        : select(reinterpret_cast<Function>(_select))
     {
     }
 
@@ -113,27 +113,27 @@ LAPACK_DECL(dgeesx)(const char       *JOBVS,
 
     SENSE::Sense sense = SENSE::Sense(*SENSE);
 
-    DGeMatrixView       A_      = DFSView(*N, *N, A, *LDA);
-    IndexType           SDIM_   = *SDIM;
-    DDenseVectorView    WR_     = DArrayView(*N, WR, 1);
-    DDenseVectorView    WI_     = DArrayView(*N, WI, 1);
-    DGeMatrixView       VS_     = DFSView(*N, *N, VS, *LDVS);
-    DDenseVectorView    WORK_   = DArrayView(*LWORK, WORK, 1);
+    DGeMatrixView       _A      = DFSView(*N, *N, A, *LDA);
+    IndexType           _SDIM   = *SDIM;
+    DDenseVectorView    _WR     = DArrayView(*N, WR, 1);
+    DDenseVectorView    _WI     = DArrayView(*N, WI, 1);
+    DGeMatrixView       _VS     = DFSView(*N, *N, VS, *LDVS);
+    DDenseVectorView    _WORK   = DArrayView(*LWORK, WORK, 1);
 
-    IDenseVector        IWORK_(*LIWORK);
+    IDenseVector        _IWORK(*LIWORK);
     for (INTEGER i=1; i<*LIWORK; ++i) {
-        IWORK_(i) = IWORK[i-1];
+        _IWORK(i) = IWORK[i-1];
     }
 
-    BDenseVector        BWORK_(*N);
+    BDenseVector        _BWORK(*N);
     for (INTEGER i=1; i<*N; ++i) {
-        BWORK_(i) = BWORK[i-1];
+        _BWORK(i) = BWORK[i-1];
     }
 
 //
 //  Test if work has at least minimal worksize
 //
-    auto wsQuery = esx_wsq(wantVS, sense, A_);
+    auto wsQuery = esx_wsq(wantVS, sense, _A);
     INTEGER minWork = wsQuery.first;
 
     if (*LWORK<minWork && !lQuery) {
@@ -152,15 +152,15 @@ LAPACK_DECL(dgeesx)(const char       *JOBVS,
 //
     SelectFunction<DOUBLE> select(SELECT);
 
-    esx(wantVS, wantST, select, sense, A_, SDIM_, WR_, WI_, VS_,
-        *RCONDE, *RCONDV, WORK_, IWORK_, BWORK_);
+    esx(wantVS, wantST, select, sense, _A, _SDIM, _WR, _WI, _VS,
+        *RCONDE, *RCONDV, _WORK, _IWORK, _BWORK);
 
-    *SDIM   = SDIM_;
+    *SDIM   = _SDIM;
     for (INTEGER i=1; i<*LIWORK; ++i) {
-        IWORK[i-1] = IWORK_(i);
+        IWORK[i-1] = _IWORK(i);
     }
     for (INTEGER i=1; i<*N; ++i) {
-        BWORK[i-1] = BWORK_(i);
+        BWORK[i-1] = _BWORK(i);
     }
 }
 
@@ -234,22 +234,22 @@ LAPACK_DECL(zgeesx)(const char       *JOBVS,
     auto zVS    = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(VS);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView       A_      = ZFSView(*N, *N, zA, *LDA);
-    IndexType           SDIM_   = *SDIM;
-    ZDenseVectorView    W_      = ZArrayView(*N, zW, 1);
-    ZGeMatrixView       VS_     = ZFSView(*N, *N, zVS, *LDVS);
-    ZDenseVectorView    WORK_   = ZArrayView(*LWORK, zWORK, 1);
-    DDenseVectorView    RWORK_  = DArrayView(*N, RWORK, 1);
+    ZGeMatrixView       _A      = ZFSView(*N, *N, zA, *LDA);
+    IndexType           _SDIM   = *SDIM;
+    ZDenseVectorView    _W      = ZArrayView(*N, zW, 1);
+    ZGeMatrixView       _VS     = ZFSView(*N, *N, zVS, *LDVS);
+    ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
+    DDenseVectorView    _RWORK  = DArrayView(*N, RWORK, 1);
 
-    BDenseVector        BWORK_(*N);
+    BDenseVector        _BWORK(*N);
     for (INTEGER i=1; i<*N; ++i) {
-        BWORK_(i) = BWORK[i-1];
+        _BWORK(i) = BWORK[i-1];
     }
 
 //
 //  Test if work has at least minimal worksize
 //
-    auto wsQuery = esx_wsq(wantVS, sense, A_);
+    auto wsQuery = esx_wsq(wantVS, sense, _A);
     INTEGER minWork = wsQuery.first;
 
     if (*LWORK<minWork && !lQuery) {
@@ -266,12 +266,12 @@ LAPACK_DECL(zgeesx)(const char       *JOBVS,
 //
     SelectFunction<CXX_DOUBLE_COMPLEX> select(SELECT);
 
-    esx(wantVS, wantST, select, sense, A_, SDIM_, W_, VS_,
-        *RCONDE, *RCONDV, WORK_, RWORK_, BWORK_);
+    esx(wantVS, wantST, select, sense, _A, _SDIM, _W, _VS,
+        *RCONDE, *RCONDV, _WORK, _RWORK, _BWORK);
 
-    *SDIM   = SDIM_;
+    *SDIM   = _SDIM;
     for (INTEGER i=1; i<*N; ++i) {
-        BWORK[i-1] = BWORK_(i);
+        BWORK[i-1] = _BWORK(i);
     }
 }
 

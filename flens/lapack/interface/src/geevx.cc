@@ -10,7 +10,7 @@ void
 LAPACK_DECL(dgeevx)(const char       *BALANC,
                     const char       *JOBVL,
                     const char       *JOBVR,
-                    const char       *SENSE_,
+                    const char       *_SENSE,
                     const INTEGER    *N,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
@@ -40,10 +40,10 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
     const bool lQuery = (*LWORK==-1);
     const bool wantVL = (*JOBVL=='V');
     const bool wantVR = (*JOBVR=='V');
-    const bool wantSNN = (*SENSE_=='N');
-    const bool wantSNE = (*SENSE_=='E');
-    const bool wantSNV = (*SENSE_=='V');
-    const bool wantSNB = (*SENSE_=='B');
+    const bool wantSNN = (*_SENSE=='N');
+    const bool wantSNE = (*_SENSE=='E');
+    const bool wantSNV = (*_SENSE=='V');
+    const bool wantSNB = (*_SENSE=='B');
 
     if (*BALANC!='N' && *BALANC!='S' && *BALANC!='P' && *BALANC!='B') {
         *INFO = 1;
@@ -75,34 +75,34 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
 //  Setup FLENS matrix/vector types
 //
     BALANCE::Balance  balance = BALANCE::Balance(*BALANC);
-    SENSE::Sense      sense   = SENSE::Sense(*SENSE_);
+    SENSE::Sense      sense   = SENSE::Sense(*_SENSE);
 
     ASSERT(char(balance)==*BALANC);
-    ASSERT(char(sense)==*SENSE_);
+    ASSERT(char(sense)==*_SENSE);
 
     typedef typename DGeMatrixView::IndexType   IndexType;
 
-    DGeMatrixView       A_      = DFSView(*N, *N, A, *LDA);
-    DDenseVectorView    WR_     = DArrayView(*N, WR, 1);
-    DDenseVectorView    WI_     = DArrayView(*N, WI, 1);
-    DGeMatrixView       VL_     = DFSView(*N, *N, VL, *LDVL);
-    DGeMatrixView       VR_     = DFSView(*N, *N, VR, *LDVR);
-    IndexType           ILO_    = *ILO;
-    IndexType           IHI_    = *IHI;
-    DDenseVectorView    SCALE_  = DArrayView(*N, SCALE, 1);
-    DDenseVectorView    RCONDE_ = DArrayView(*N, RCONDE, 1);
-    DDenseVectorView    RCONDV_ = DArrayView(*N, RCONDV, 1);
-    DDenseVectorView    WORK_   = DArrayView(*LWORK, WORK, 1);
+    DGeMatrixView       _A      = DFSView(*N, *N, A, *LDA);
+    DDenseVectorView    _WR     = DArrayView(*N, WR, 1);
+    DDenseVectorView    _WI     = DArrayView(*N, WI, 1);
+    DGeMatrixView       _VL     = DFSView(*N, *N, VL, *LDVL);
+    DGeMatrixView       _VR     = DFSView(*N, *N, VR, *LDVR);
+    IndexType           _ILO    = *ILO;
+    IndexType           _IHI    = *IHI;
+    DDenseVectorView    _SCALE  = DArrayView(*N, SCALE, 1);
+    DDenseVectorView    _RCONDE = DArrayView(*N, RCONDE, 1);
+    DDenseVectorView    _RCONDV = DArrayView(*N, RCONDV, 1);
+    DDenseVectorView    _WORK   = DArrayView(*LWORK, WORK, 1);
 
-    IDenseVector        IWORK_(*N * 2 - 2);
-    for (int i=1; i<=IWORK_.length(); ++i) {
-        IWORK_(i) = IWORK[i-1];
+    IDenseVector        _IWORK(*N * 2 - 2);
+    for (int i=1; i<=_IWORK.length(); ++i) {
+        _IWORK(i) = IWORK[i-1];
     }
 
 //
 //  Test if work has at least minimal worksize
 //
-    auto ws = evx_wsq(wantVL, wantVR, sense, A_);
+    auto ws = evx_wsq(wantVL, wantVR, sense, _A);
 
     if (*LWORK<ws.first && !lQuery) {
         *INFO = 21;
@@ -117,15 +117,15 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
 //  Call FLENS implementation
 //
 
-    evx(balance, wantVL, wantVR, sense, A_, WR_, WI_, VL_, VR_, ILO_, IHI_,
-        SCALE_, *ABNRM, RCONDE_, RCONDV_, WORK_, IWORK_);
+    evx(balance, wantVL, wantVR, sense, _A, _WR, _WI, _VL, _VR, _ILO, _IHI,
+        _SCALE, *ABNRM, _RCONDE, _RCONDV, _WORK, _IWORK);
 
-    for (int i=1; i<=IWORK_.length(); ++i) {
-        IWORK[i-1] = IWORK_(i);
+    for (int i=1; i<=_IWORK.length(); ++i) {
+        IWORK[i-1] = _IWORK(i);
     }
 
-    *ILO = ILO_;
-    *IHI = IHI_;
+    *ILO = _ILO;
+    *IHI = _IHI;
 }
 
 //-- zgeevx --------------------------------------------------------------------
@@ -133,7 +133,7 @@ void
 LAPACK_DECL(zgeevx)(const char       *BALANC,
                     const char       *JOBVL,
                     const char       *JOBVR,
-                    const char       *SENSE_,
+                    const char       *_SENSE,
                     const INTEGER    *N,
                     DOUBLE_COMPLEX   *A,
                     const INTEGER    *LDA,
@@ -162,10 +162,10 @@ LAPACK_DECL(zgeevx)(const char       *BALANC,
     const bool lQuery = (*LWORK==-1);
     const bool wantVL = (*JOBVL=='V');
     const bool wantVR = (*JOBVR=='V');
-    const bool wantSNN = (*SENSE_=='N');
-    const bool wantSNE = (*SENSE_=='E');
-    const bool wantSNV = (*SENSE_=='V');
-    const bool wantSNB = (*SENSE_=='B');
+    const bool wantSNN = (*_SENSE=='N');
+    const bool wantSNE = (*_SENSE=='E');
+    const bool wantSNV = (*_SENSE=='V');
+    const bool wantSNB = (*_SENSE=='B');
 
     if (*BALANC!='N' && *BALANC!='S' && *BALANC!='P' && *BALANC!='B') {
         *INFO = 1;
@@ -197,10 +197,10 @@ LAPACK_DECL(zgeevx)(const char       *BALANC,
 //  Setup FLENS matrix/vector types
 //
     BALANCE::Balance  balance = BALANCE::Balance(*BALANC);
-    SENSE::Sense      sense   = SENSE::Sense(*SENSE_);
+    SENSE::Sense      sense   = SENSE::Sense(*_SENSE);
 
     ASSERT(char(balance)==*BALANC);
-    ASSERT(char(sense)==*SENSE_);
+    ASSERT(char(sense)==*_SENSE);
 
     typedef typename DGeMatrixView::IndexType   IndexType;
 
@@ -210,22 +210,22 @@ LAPACK_DECL(zgeevx)(const char       *BALANC,
     auto zVR    = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(VR);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView       A_      = ZFSView(*N, *N, zA, *LDA);
-    ZDenseVectorView    W_      = ZArrayView(*N, zW, 1);
-    ZGeMatrixView       VL_     = ZFSView(*N, *N, zVL, *LDVL);
-    ZGeMatrixView       VR_     = ZFSView(*N, *N, zVR, *LDVR);
-    IndexType           ILO_    = *ILO;
-    IndexType           IHI_    = *IHI;
-    DDenseVectorView    SCALE_  = DArrayView(*N, SCALE, 1);
-    DDenseVectorView    RCONDE_ = DArrayView(*N, RCONDE, 1);
-    DDenseVectorView    RCONDV_ = DArrayView(*N, RCONDV, 1);
-    ZDenseVectorView    WORK_   = ZArrayView(*LWORK, zWORK, 1);
-    DDenseVectorView    RWORK_  = DArrayView(2*(*N), RWORK, 1);
+    ZGeMatrixView       _A      = ZFSView(*N, *N, zA, *LDA);
+    ZDenseVectorView    _W      = ZArrayView(*N, zW, 1);
+    ZGeMatrixView       _VL     = ZFSView(*N, *N, zVL, *LDVL);
+    ZGeMatrixView       _VR     = ZFSView(*N, *N, zVR, *LDVR);
+    IndexType           _ILO    = *ILO;
+    IndexType           _IHI    = *IHI;
+    DDenseVectorView    _SCALE  = DArrayView(*N, SCALE, 1);
+    DDenseVectorView    _RCONDE = DArrayView(*N, RCONDE, 1);
+    DDenseVectorView    _RCONDV = DArrayView(*N, RCONDV, 1);
+    ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
+    DDenseVectorView    _RWORK  = DArrayView(2*(*N), RWORK, 1);
 
 //
 //  Test if work has at least minimal worksize
 //
-    auto ws = evx_wsq(wantVL, wantVR, sense, A_);
+    auto ws = evx_wsq(wantVL, wantVR, sense, _A);
 
     if (*LWORK<ws.first && !lQuery) {
         *INFO = 20;
@@ -240,11 +240,11 @@ LAPACK_DECL(zgeevx)(const char       *BALANC,
 //  Call FLENS implementation
 //
 
-    evx(balance, wantVL, wantVR, sense, A_, W_, VL_, VR_, ILO_, IHI_,
-        SCALE_, *ABNRM, RCONDE_, RCONDV_, WORK_, RWORK_);
+    evx(balance, wantVL, wantVR, sense, _A, _W, _VL, _VR, _ILO, _IHI,
+        _SCALE, *ABNRM, _RCONDE, _RCONDV, _WORK, _RWORK);
 
-    *ILO = ILO_;
-    *IHI = IHI_;
+    *ILO = _ILO;
+    *IHI = _IHI;
 }
 
 } // extern "C"

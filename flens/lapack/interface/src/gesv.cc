@@ -41,11 +41,11 @@ LAPACK_DECL(dgesv)(const INTEGER        *N,
 //
 //  Call FLENS implementation
 //
-    DGeMatrixView     A_     = DFSView(*N, *N, A, *LDA);
-    IDenseVectorView  IPIV_  = IArrayView(*N, IPIV, 1);
-    DGeMatrixView     B_     = DFSView(*N, *NRHS, B, *LDB);
+    DGeMatrixView     _A     = DFSView(*N, *N, A, *LDA);
+    IDenseVectorView  _IPIV  = IArrayView(*N, IPIV, 1);
+    DGeMatrixView     _B     = DFSView(*N, *NRHS, B, *LDB);
 
-    sv(A_, IPIV_, B_);
+    sv(_A, _IPIV, _B);
 }
 
 //-- zgesv ---------------------------------------------------------------------
@@ -84,11 +84,11 @@ LAPACK_DECL(zgesv)(const INTEGER        *N,
     auto zA     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
     auto zB     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(B);
 
-    ZGeMatrixView     A_     = ZFSView(*N, *N, zA, *LDA);
-    IDenseVectorView  IPIV_  = IArrayView(*N, IPIV, 1);
-    ZGeMatrixView     B_     = ZFSView(*N, *NRHS, zB, *LDB);
+    ZGeMatrixView     _A     = ZFSView(*N, *N, zA, *LDA);
+    IDenseVectorView  _IPIV  = IArrayView(*N, IPIV, 1);
+    ZGeMatrixView     _B     = ZFSView(*N, *NRHS, zB, *LDB);
 
-    sv(A_, IPIV_, B_);
+    sv(_A, _IPIV, _B);
 }
 
 } // extern "C"

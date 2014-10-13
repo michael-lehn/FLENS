@@ -44,12 +44,12 @@ LAPACK_DECL(dtrtri)(const char       *UPLO,
     StorageUpLo    upLo = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
     Diag           diag = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
 
-    DTrMatrixView  A_(DFSView(*N, *N, A, *LDA), upLo, diag);
+    DTrMatrixView  _A(DFSView(*N, *N, A, *LDA), upLo, diag);
 
 //
 //  Call FLENS implementation
 //
-    tri(A_);
+    tri(_A);
 }
 
 //-- ztrtri --------------------------------------------------------------------
@@ -93,12 +93,12 @@ LAPACK_DECL(ztrtri)(const char       *UPLO,
     Diag           diag = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
 
     auto zA = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
-    ZTrMatrixView  A_(ZFSView(*N, *N, zA, *LDA), upLo, diag);
+    ZTrMatrixView  _A(ZFSView(*N, *N, zA, *LDA), upLo, diag);
 
 //
 //  Call FLENS implementation
 //
-    tri(A_);
+    tri(_A);
 }
 
 } // extern "C"

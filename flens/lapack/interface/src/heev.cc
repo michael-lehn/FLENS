@@ -52,15 +52,15 @@ LAPACK_DECL(zheev)(const char           *JOBZ,
     auto zA     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZHeMatrixView       A_(ZFSView(*N, *N, zA, *LDA), lower ? Lower : Upper);
-    DDenseVectorView    W_      = DArrayView(*N, W, 1);
-    ZDenseVectorView    WORK_   = ZArrayView(*LWORK, zWORK, 1);
-    DDenseVectorView    RWORK_  = DArrayView(3*(*N)-2, RWORK, 1);
+    ZHeMatrixView       _A(ZFSView(*N, *N, zA, *LDA), lower ? Lower : Upper);
+    DDenseVectorView    _W      = DArrayView(*N, W, 1);
+    ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
+    DDenseVectorView    _RWORK  = DArrayView(3*(*N)-2, RWORK, 1);
 
 //
 //  Call FLENS implementation
 //
-    ev(wantZ, A_, W_, WORK_, RWORK_);
+    ev(wantZ, _A, _W, _WORK, _RWORK);
 }
 
 } // extern "C"

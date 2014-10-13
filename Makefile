@@ -9,12 +9,24 @@ all:
 
 install: all
 
-check :
+flens-blas:
+	$(MAKE) -C flens/blas/interface
+
+flens-lapack:
+	$(MAKE) -C flens/lapack
+
+check-blas: flens-blas
+	$(MAKE) -C flens/blas/interface check
+
+check-lapack: flens-lapack
+	$(MAKE) -C flens/lapack check
+
+dev-check :
 	$(MAKE) -C cxxblas/netlib
 	$(MAKE) -C cxxlapack/netlib
 	$(MAKE) -C flens/blas/interface
-	$(MAKE) -C flens/lapack
-	$(MAKE) -C flens/blas/interface check
+	$(MAKE) -C flens/lapack dev
+	$(MAKE) -C flens/blas/interface dev-check
 	$(MAKE) -C flens/lapack check
 
 clean :

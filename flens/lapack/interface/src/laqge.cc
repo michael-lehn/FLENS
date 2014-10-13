@@ -24,11 +24,11 @@ LAPACK_DECL(dlaqge)(const INTEGER    *M,
 //
 //  Call FLENS implementation
 //
-    DGeMatrixView          A_  = DFSView(*M, *N, A, *LDA);
-    DConstDenseVectorView  R_  = DConstArrayView(*M, R, 1);
-    DConstDenseVectorView  C_  = DConstArrayView(*N, C, 1);
+    DGeMatrixView          _A  = DFSView(*M, *N, A, *LDA);
+    DConstDenseVectorView  _R  = DConstArrayView(*M, R, 1);
+    DConstDenseVectorView  _C  = DConstArrayView(*N, C, 1);
 
-    const auto equed = laq(A_, R_, C_, *ROWCND, *COLCND, *AMAX);
+    const auto equed = laq(_A, _R, _C, *ROWCND, *COLCND, *AMAX);
     *EQUED = char(equed);
 }
 

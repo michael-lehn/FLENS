@@ -77,12 +77,12 @@ LAPACK_DECL(dormqr)(const char       *SIDE,
     Transpose trans = (*TRANS=='N') ? NoTrans : Trans;
     const INTEGER numRowsA = (side==Left) ? *M : *N;
 
-    DGeMatrixView          A_      = DFSView(numRowsA, *K, A, *LDA);
-    DConstDenseVectorView  TAU_    = DConstArrayView(*K, TAU, 1);
-    DGeMatrixView          C_      = DFSView(*M, *N, C, *LDC);
-    DDenseVectorView       WORK_   = DArrayView(*LWORK, WORK, 1);
+    DGeMatrixView          _A      = DFSView(numRowsA, *K, A, *LDA);
+    DConstDenseVectorView  _TAU    = DConstArrayView(*K, TAU, 1);
+    DGeMatrixView          _C      = DFSView(*M, *N, C, *LDC);
+    DDenseVectorView       _WORK   = DArrayView(*LWORK, WORK, 1);
 
-    ormqr(side, trans, A_, TAU_, C_, WORK_);
+    ormqr(side, trans, _A, _TAU, _C, _WORK);
 }
 
 } // extern "C"

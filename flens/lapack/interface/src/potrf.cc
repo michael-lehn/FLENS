@@ -37,9 +37,9 @@ LAPACK_DECL(dpotrf)(const char       *UPLO,
 //
     StorageUpLo    upLo = StorageUpLo(*UPLO);
     DFSView        AFS  = DFSView(*N, *N, A, *LDA);
-    DSyMatrixView  A_   = DSyMatrixView(AFS, upLo);
+    DSyMatrixView  _A   = DSyMatrixView(AFS, upLo);
 
-    *INFO = potrf(A_);
+    *INFO = potrf(_A);
 }
 
 //-- zpotrf --------------------------------------------------------------------
@@ -74,9 +74,9 @@ LAPACK_DECL(zpotrf)(const char       *UPLO,
 
     StorageUpLo    upLo = StorageUpLo(*UPLO);
     ZFSView        AFS  = ZFSView(*N, *N, zA, *LDA);
-    ZHeMatrixView  A_   = ZHeMatrixView(AFS, upLo);
+    ZHeMatrixView  _A   = ZHeMatrixView(AFS, upLo);
 
-    *INFO = potrf(A_);
+    *INFO = potrf(_A);
 }
 
 } // extern "C"

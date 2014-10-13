@@ -49,11 +49,11 @@ LAPACK_DECL(dgelqf)(const INTEGER    *M,
 //
 //  Call FLENS implementation
 //
-    DGeMatrixView       A_      = DFSView(*M, *N, A, *LDA);
-    DDenseVectorView    TAU_    = DArrayView(min(*M,*N), TAU, 1);
-    DDenseVectorView    WORK_   = DArrayView(*LWORK, WORK, 1);
+    DGeMatrixView       _A      = DFSView(*M, *N, A, *LDA);
+    DDenseVectorView    _TAU    = DArrayView(min(*M,*N), TAU, 1);
+    DDenseVectorView    _WORK   = DArrayView(*LWORK, WORK, 1);
 
-    lqf(A_, TAU_, WORK_);
+    lqf(_A, _TAU, _WORK);
 }
 
 //-- zgelqf --------------------------------------------------------------------
@@ -104,11 +104,11 @@ LAPACK_DECL(zgelqf)(const INTEGER    *M,
     auto zTAU   = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(TAU);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView       A_      = ZFSView(*M, *N, zA, *LDA);
-    ZDenseVectorView    TAU_    = ZArrayView(min(*M,*N), zTAU, 1);
-    ZDenseVectorView    WORK_   = ZArrayView(*LWORK, zWORK, 1);
+    ZGeMatrixView       _A      = ZFSView(*M, *N, zA, *LDA);
+    ZDenseVectorView    _TAU    = ZArrayView(min(*M,*N), zTAU, 1);
+    ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
 
-    lqf(A_, TAU_, WORK_);
+    lqf(_A, _TAU, _WORK);
 }
 
 } // extern "C"

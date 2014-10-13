@@ -43,11 +43,11 @@ LAPACK_DECL(dgecon)(const char       *NORM,
 //  Call FLENS implementation
 //
     Norm                norm  = Norm(*NORM!='1' ? *NORM : 'O');
-    DConstGeMatrixView  A_    = DConstFSView(*N, *N, A, *LDA);
+    DConstGeMatrixView  _A    = DConstFSView(*N, *N, A, *LDA);
     DDenseVectorView    work  = DArrayView(*N*4, WORK, 1);
     IDenseVectorView    iwork = IArrayView(*N, IWORK, 1);
 
-    con(norm, A_, *ANORM, *RCOND, work, iwork);
+    con(norm, _A, *ANORM, *RCOND, work, iwork);
 }
 
 //-- zgecon --------------------------------------------------------------------
@@ -89,11 +89,11 @@ LAPACK_DECL(zgecon)(const char               *NORM,
     const auto *zA = reinterpret_cast<const CXX_DOUBLE_COMPLEX *>(A);
     auto *zWORK = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZConstGeMatrixView  A_  = ZConstFSView(*N, *N, zA, *LDA);
+    ZConstGeMatrixView  _A  = ZConstFSView(*N, *N, zA, *LDA);
     ZDenseVectorView    work   = ZArrayView(*N*2, zWORK, 1);
     DDenseVectorView    rwork = DArrayView(*N*2, RWORK, 1);
 
-    con(norm, A_, *ANORM, *RCOND, work, rwork);
+    con(norm, _A, *ANORM, *RCOND, work, rwork);
 }
 
 } // extern "C"

@@ -39,11 +39,11 @@ LAPACK_DECL(dgeequ)(const INTEGER    *M,
         return;
     }
 
-    DConstGeMatrixView  A_  = DConstFSView(*M, *N, A, *LDA);
-    DDenseVectorView    R_  = DArrayView(*M, R, 1);
-    DDenseVectorView    C_  = DArrayView(*N, C, 1);
+    DConstGeMatrixView  _A  = DConstFSView(*M, *N, A, *LDA);
+    DDenseVectorView    _R  = DArrayView(*M, R, 1);
+    DDenseVectorView    _C  = DArrayView(*N, C, 1);
 
-    *INFO = equ(A_, R_, C_, *ROWCND, *COLCND, *AMAX);
+    *INFO = equ(_A, _R, _C, *ROWCND, *COLCND, *AMAX);
 }
 
 //-- zgeequ --------------------------------------------------------------------
@@ -79,12 +79,12 @@ LAPACK_DECL(zgeequ)(const INTEGER            *M,
     }
 
     const auto *zA = reinterpret_cast<const CXX_DOUBLE_COMPLEX *>(A);
-    ZConstGeMatrixView  A_  = ZConstFSView(*M, *N, zA, *LDA);
+    ZConstGeMatrixView  _A  = ZConstFSView(*M, *N, zA, *LDA);
 
-    DDenseVectorView    R_  = DArrayView(*M, R, 1);
-    DDenseVectorView    C_  = DArrayView(*N, C, 1);
+    DDenseVectorView    _R  = DArrayView(*M, R, 1);
+    DDenseVectorView    _C  = DArrayView(*N, C, 1);
 
-    *INFO = equ(A_, R_, C_, *ROWCND, *COLCND, *AMAX);
+    *INFO = equ(_A, _R, _C, *ROWCND, *COLCND, *AMAX);
 }
 */
 

@@ -43,11 +43,11 @@ LAPACK_DECL(dpocon)(const char       *UPLO,
 //
     StorageUpLo         upLo = StorageUpLo(*UPLO);
     DConstFSView        AFS  = DConstFSView(*N, *N, A, *LDA);
-    DConstSyMatrixView  A_   = DConstSyMatrixView(AFS, upLo);
+    DConstSyMatrixView  _A   = DConstSyMatrixView(AFS, upLo);
     DDenseVectorView    work  = DArrayView(*N*3, WORK, 1);
     IDenseVectorView    iwork = IArrayView(*N, IWORK, 1);
 
-    pocon(A_, *ANORM, *RCOND, work, iwork);
+    pocon(_A, *ANORM, *RCOND, work, iwork);
 }
 
 //-- zpocon --------------------------------------------------------------------
@@ -89,11 +89,11 @@ LAPACK_DECL(zpocon)(const char               *UPLO,
 
     StorageUpLo         upLo  = StorageUpLo(*UPLO);
     ZConstFSView        AFS   = ZConstFSView(*N, *N, zA, *LDA);
-    ZConstHeMatrixView  A_    = ZConstHeMatrixView(AFS, upLo);
+    ZConstHeMatrixView  _A    = ZConstHeMatrixView(AFS, upLo);
     ZDenseVectorView    work  = ZArrayView(*N*2, zWORK, 1);
     DDenseVectorView    rwork = DArrayView(*N, RWORK, 1);
 
-    pocon(A_, *ANORM, *RCOND, work, rwork);
+    pocon(_A, *ANORM, *RCOND, work, rwork);
 }
 
 } // extern "C"

@@ -62,13 +62,13 @@ LAPACK_DECL(dgelsy)(const INTEGER    *M,
 //
 //  Call FLENS implementation
 //
-    DGeMatrixView       A_     = DFSView(*M, *N, A, *LDA);
+    DGeMatrixView       _A     = DFSView(*M, *N, A, *LDA);
     const INTEGER numRowsB = std::max(*M,*N);
-    DGeMatrixView       B_     = DFSView(numRowsB, *NRHS, B, *LDB);
-    IDenseVectorView    JPVT_  = IArrayView(*N, JPVT, 1);
-    DDenseVectorView    WORK_  = DArrayView(*LWORK, WORK, 1);
+    DGeMatrixView       _B     = DFSView(numRowsB, *NRHS, B, *LDB);
+    IDenseVectorView    _JPVT  = IArrayView(*N, JPVT, 1);
+    DDenseVectorView    _WORK  = DArrayView(*LWORK, WORK, 1);
 
-    *RANK = lsy(A_, B_, JPVT_, *RCOND, WORK_);
+    *RANK = lsy(_A, _B, _JPVT, *RCOND, _WORK);
 }
 
 } // extern "C"

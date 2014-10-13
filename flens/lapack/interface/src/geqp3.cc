@@ -39,12 +39,12 @@ LAPACK_DECL(dgeqp3)(const INTEGER    *M,
         return;
     }
 
-    DGeMatrixView       A_      = DFSView(*M, *N, A, *LDA);
-    IDenseVectorView    JPVT_   = IArrayView(*N, JPVT, 1);
-    DDenseVectorView    TAU_    = DArrayView(min(*M,*N), TAU, 1);
-    DDenseVectorView    WORK_   = DArrayView(*LWORK, WORK, 1);
+    DGeMatrixView       _A      = DFSView(*M, *N, A, *LDA);
+    IDenseVectorView    _JPVT   = IArrayView(*N, JPVT, 1);
+    DDenseVectorView    _TAU    = DArrayView(min(*M,*N), TAU, 1);
+    DDenseVectorView    _WORK   = DArrayView(*LWORK, WORK, 1);
 
-    qp3(A_, JPVT_, TAU_, WORK_);
+    qp3(_A, _JPVT, _TAU, _WORK);
 }
 
 //-- zgeqrf --------------------------------------------------------------------
@@ -86,13 +86,13 @@ LAPACK_DECL(zgeqp3)(const INTEGER    *M,
     auto zTAU  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(TAU);
     auto zWORK = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView       A_      = ZFSView(*M, *N, zA, *LDA);
-    IDenseVectorView    JPVT_   = IArrayView(*N, JPVT, 1);
-    ZDenseVectorView    TAU_    = ZArrayView(min(*M,*N), zTAU, 1);
-    ZDenseVectorView    WORK_   = ZArrayView(*LWORK, zWORK, 1);
-    DDenseVectorView    RWORK_  = DArrayView(2*(*N), RWORK, 1);
+    ZGeMatrixView       _A      = ZFSView(*M, *N, zA, *LDA);
+    IDenseVectorView    _JPVT   = IArrayView(*N, JPVT, 1);
+    ZDenseVectorView    _TAU    = ZArrayView(min(*M,*N), zTAU, 1);
+    ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
+    DDenseVectorView    _RWORK  = DArrayView(2*(*N), RWORK, 1);
 
-    qp3(A_, JPVT_, TAU_, WORK_, RWORK_);
+    qp3(_A, _JPVT, _TAU, _WORK, _RWORK);
 }
 
 } // extern "C"

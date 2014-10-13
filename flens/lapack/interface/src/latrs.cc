@@ -52,11 +52,11 @@ LAPACK_DECL(dlatrs)(const char       *UPLO,
     Transpose           trans  = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
     Diag                diag   = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
     StorageUpLo         upLo   = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
-    DConstTrMatrixView  A_(DConstFSView(*N, *N, A, *LDA), upLo, diag);
-    DDenseVectorView    X_     = DArrayView(*N, X, 1);
-    DDenseVectorView    CNORM_ = DArrayView(*N, CNORM, 1);
+    DConstTrMatrixView  _A(DConstFSView(*N, *N, A, *LDA), upLo, diag);
+    DDenseVectorView    _X     = DArrayView(*N, X, 1);
+    DDenseVectorView    _CNORM = DArrayView(*N, CNORM, 1);
 
-    latrs(trans, normIn, A_, X_, *SCALE, CNORM_);
+    latrs(trans, normIn, _A, _X, *SCALE, _CNORM);
 }
 
 //-- zlatrs --------------------------------------------------------------------
@@ -106,11 +106,11 @@ LAPACK_DECL(zlatrs)(const char               *UPLO,
     Transpose           trans  = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
     Diag                diag   = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
     StorageUpLo         upLo   = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
-    ZConstTrMatrixView  A_(ZConstFSView(*N, *N, zA, *LDA), upLo, diag);
-    ZDenseVectorView    X_     = ZArrayView(*N, zX, 1);
-    DDenseVectorView    CNORM_ = DArrayView(*N, CNORM, 1);
+    ZConstTrMatrixView  _A(ZConstFSView(*N, *N, zA, *LDA), upLo, diag);
+    ZDenseVectorView    _X     = ZArrayView(*N, zX, 1);
+    DDenseVectorView    _CNORM = DArrayView(*N, CNORM, 1);
 
-    latrs(trans, normIn, A_, X_, *SCALE, CNORM_);
+    latrs(trans, normIn, _A, _X, *SCALE, _CNORM);
 }
 
 } // extern "C"
