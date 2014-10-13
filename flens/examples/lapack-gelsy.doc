@@ -94,7 +94,7 @@ Compile
  *--[SHELL]-----------------------------------------------------------------*
  |                                                                          |
  |  cd flens/examples                                                       |
- |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |  clang++ -DUSE_CXXLAPACK -framework vecLib                            +++|
  |      -std=c++11 -Wall -I../.. -o lapack-complex-gelsy                 +++|
  |      lapack-complex-gelsy.cc                                             |
  |                                                                          |

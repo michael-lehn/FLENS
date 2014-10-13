@@ -79,6 +79,7 @@ tzrzf_impl(GeMatrix<MA>              &A,
     IndexType  lWorkMin, lWorkOpt, nb;
 
     if (m==0 || m==n) {
+        nb = 0;
         lWorkOpt = 1;
         lWorkMin = 1;
     } else {

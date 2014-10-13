@@ -230,7 +230,7 @@ Compile
  *--[SHELL]-----------------------------------------------------------------*
  |                                                                          |
  |  cd flens/examples                                                       |
- |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |  clang++ -DUSE_CXXLAPACK -framework vecLib                            +++|
  |      -std=c++11 -Wall -I../.. -o lapack-complex-gels-case1            +++|
  |      lapack-complex-gels-case1.cc                                        |
  |                                                                          |
@@ -276,7 +276,7 @@ Compile
  *--[SHELL]-----------------------------------------------------------------*
  |                                                                          |
  |  cd flens/examples                                                       |
- |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |  clang++ -DUSE_CXXLAPACK -framework vecLib                            +++|
  |      -std=c++11 -Wall -I../.. -o lapack-complex-gels-case2            +++|
  |      lapack-complex-gels-case2.cc                                        |
  |                                                                          |
@@ -322,7 +322,7 @@ Compile
  *--[SHELL]-----------------------------------------------------------------*
  |                                                                          |
  |  cd flens/examples                                                       |
- |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |  clang++ -DUSE_CXXLAPACK -framework vecLib                            +++|
  |      -std=c++11 -Wall -I../.. -o lapack-complex-gels-case3            +++|
  |      lapack-complex-gels-case3.cc                                        |
  |                                                                          |
@@ -368,7 +368,7 @@ Compile
  *--[SHELL]-----------------------------------------------------------------*
  |                                                                          |
  |  cd flens/examples                                                       |
- |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |  clang++ -DUSE_CXXLAPACK -framework vecLib                            +++|
  |      -std=c++11 -Wall -I../.. -o lapack-complex-gels-case4            +++|
  |      lapack-complex-gels-case4.cc                                        |
  |                                                                          |

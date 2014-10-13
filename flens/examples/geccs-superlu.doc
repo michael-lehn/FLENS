@@ -32,7 +32,7 @@ Compile
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  g++ -Wall -std=c++11 -I../.. -I$HOME/work/SuperLU_4.3/SRC           +++|
+  |  clang++ -Wall -std=c++11 -I../.. -I$HOME/work/SuperLU_4.3/SRC       +++|
   |      -L$HOME/work/SuperLU_4.3/lib -lsuperlu_4.3 -framework vecLib    +++|
   |      -o geccs-superlu geccs-superlu.cc                                  |
   |                                                                         |

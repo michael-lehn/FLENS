@@ -42,7 +42,6 @@ main()
     fpu_fix_start(&old_cw);
 
     typedef GeMatrix<FullStorage<T> >           Matrix;
-    typedef DenseVector<Array<T> >              Vector;
     typedef Matrix::IndexType                   IndexType;
     typedef DenseVector<Array<IndexType> >      IndexVector;
 

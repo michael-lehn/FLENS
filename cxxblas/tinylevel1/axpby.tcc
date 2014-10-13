@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_TINYLEVEL1_AXPY_TCC
-#define CXXBLAS_TINYLEVEL1_AXPY_TCC 1
+#ifndef CXXBLAS_TINYLEVEL1_AXPBY_TCC
+#define CXXBLAS_TINYLEVEL1_AXPBY_TCC 1
 
 #include <cxxblas/cxxblas.h>
 
@@ -40,9 +40,9 @@ namespace cxxblas {
 template <int n, typename ALPHA, typename X, int incX,
           typename BETA, typename Y, int incY>
 void
-axpy(const ALPHA &alpha, const X *x, const BETA &beta, Y *y)
+axpby(const ALPHA &alpha, const X *x, const BETA &beta, Y *y)
 {
-    CXXBLAS_DEBUG_OUT("axpy [tiny]");
+    CXXBLAS_DEBUG_OUT("axpby [tiny]");
 
     for (int i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
         y[iY] = beta*y[iY] + alpha*x[iX];

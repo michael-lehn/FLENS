@@ -54,11 +54,10 @@ int
 main()
 {
     ///
-    ///  Define some convenient typedefs for the matrix/vector types
+    ///  Define some convenient typedefs for the matrix type
     ///  of our system of linear equations.
     ///
     typedef GeMatrix<FullStorage<T> >           Matrix;
-    typedef DenseVector<Array<T> >              Vector;
 
     ///
     ///  We also need an extra vector type for the pivots.  The type of the

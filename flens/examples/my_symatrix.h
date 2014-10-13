@@ -47,7 +47,7 @@ namespace flens { namespace blas {
 ///
 template <typename ALPHA, typename VX, typename BETA, typename VY>
 void
-mv(const ALPHA &alpha, const MySyMatrix &A, const DenseVector<VX> &x,
+mv(const ALPHA &alpha, const MySyMatrix &, const DenseVector<VX> &x,
    const BETA &beta, DenseVector<VY> &y)
 ///-
 {

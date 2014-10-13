@@ -79,7 +79,6 @@ Complex Single Precision
                          [fIndexTypeisBlasCompatibleInteger                 ]
 
 
-
 Complex Double Precision
 ------------------------
 *--[CODEREF]----------------------------------------------------------------*
@@ -93,7 +92,6 @@ Complex Double Precision
                          [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1$@N@std@N@__1@C@co]
                          [mplex>#d#S0_#&d#templatetypenameIndexTypetypenameI]
                          [fIndexTypeisBlasCompatibleInteger                 ]
-
 
 
 :links: __CBLAS__    -> http://www.netlib.org/blas/

@@ -99,8 +99,8 @@ axpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y)
     const int incX = VX::Engine::stride;
     const int incY = VectorY::Engine::stride;
 
-    cxxblas::axpby<n, ALPHA, TX, incX, TY, incY>(alpha, x.data(),
-                                                 beta, y.data());
+    cxxblas::axpby<n, ALPHA, TX, incX, BETA, TY, incY>(alpha, x.data(),
+                                                       beta, y.data());
 }
 
 //-- BLAS Level 1 extensions ---------------------------------------------------

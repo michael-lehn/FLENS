@@ -77,7 +77,7 @@ Compile and Run
   *--[SHELL]-----------------------------------------------------------------*
   |                                                                          |
   |  cd flens/examples                                                       |
-  |  g++ -Wall -std=c++11 -I../.. -c qd-lapack-geev.cc                       |
+  |  g++ -Wall -std=c++11 -I../.. -I /usr/local/include -c qd-lapack-geev.cc |
   |  g++ -o qd-lapack-geev qd-lapack-geev.o /usr/local/lib/libqd.a           |
   |  ./qd-lapack-geev                                                        |
   |                                                                          |
@@ -123,9 +123,9 @@ Compile and Run
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  g++ -Wall -DWITH_MPFR -std=c++11 -I../..                            +++|
+  |  g++ -Wall -std=c++11 -DWITH_MPFR -I../.. -I /usr/local/include      +++|
   |       -o mpfr-real-lapack-geev mpfr-real-lapack-geev.cc              +++|
-  |       -lmpfr -lgmp                                                      |
+  |       -L/usr/local/lib -lmpfr -lgmp                                     |
   |  ./mpfr-real-lapack-geev                                                |
   |                                                                         |
   *-------------------------------------------------------------------------*
