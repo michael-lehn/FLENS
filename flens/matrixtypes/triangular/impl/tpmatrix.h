@@ -104,7 +104,7 @@ class TpMatrix
 
         //-- Operators ---------------------------------------------------------
 
-        void
+        TpMatrix &
         operator=(const ElementType &alpha);
 
         TpMatrix &
