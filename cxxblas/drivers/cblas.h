@@ -629,7 +629,7 @@ cblas_cgeru(enum CBLAS_ORDER order,
             const float *alpha,
             const float *X, CBLAS_INT incX,
             const float *Y, CBLAS_INT incY,
-            const float  *A, CBLAS_INT lda);
+            float  *A, CBLAS_INT lda);
 
 void
 cblas_cgerc(enum CBLAS_ORDER order,
