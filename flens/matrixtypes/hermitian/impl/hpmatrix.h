@@ -104,7 +104,7 @@ class HpMatrix
 
         //-- Operators ---------------------------------------------------------
 
-        void
+        HpMatrix &
         operator=(const ElementType &alpha);
 
         HpMatrix &
