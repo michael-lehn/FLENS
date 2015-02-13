@@ -277,7 +277,7 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 //                      T(i+1:k,i) :=
 //                            - tau(i) * V(j:n-k+i,i+1:k)**H * V(j:n-k+i,i)
 //
-                        blas::mv(ConjTrans ,
+                        blas::mv(ConjTrans,
                                  -tau(i),
                                  V(_(j,n-k+i),_(i+1,k)), V(_(j,n-k+i),i),
                                  Zero,
@@ -287,7 +287,7 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
                         T Vii = V(i,n-k+i);
                         V(i,n-k+i) = One;
 //                      Skip any leading zeros.
-                        for (IndexType lastV=1; lastV<=i-1; ++lastV) {
+                        for (lastV=1; lastV<=i-1; ++lastV) {
                             if (V(i,lastV)!=Zero) {
                                 break;
                             }
