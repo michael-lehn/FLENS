@@ -99,6 +99,13 @@ DenseVector<A>::DenseVector(DenseVector<RHS> &rhs)
 
 template <typename A>
 template <typename RHS>
+DenseVector<A>::DenseVector(DenseVector<RHS> &&rhs)
+    : array_(rhs.engine()), stride_(array_.stride())
+{
+}
+
+template <typename A>
+template <typename RHS>
 DenseVector<A>::DenseVector(const Vector<RHS> &rhs)
     : stride_(array_.stride())
 {
