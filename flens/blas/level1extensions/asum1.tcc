@@ -77,13 +77,14 @@ asum1(const GeMatrix<MA> &A, T &absoluteSum)
 
     const Underscore<IndexType>  _;
 
+    absoluteSum = T();
     if (A.order()==ColMajor) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
-            asum1(A(_,j), absoluteSum);
+            absoluteSum += asum1(A(_,j));
         }
     } else {
         for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
-            asum1(A(i,_), absoluteSum);
+            absoluteSum += asum1(A(i,_));
         }
     }
 }
