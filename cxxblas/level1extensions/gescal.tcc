@@ -58,7 +58,6 @@ gescal(StorageOrder order,
         }
         return;
     }
-    assert(0);
 }
 
 } // namespace cxxblas

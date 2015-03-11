@@ -132,10 +132,6 @@ sv(MA &&A, VPIV &&piv, MB &&B)
     typedef typename RemoveRef<MB>::Type    MatrixB;
 #   endif
 
-    if (piv.length()==0) {
-        piv.resize(A.numRows());
-    }
-    ASSERT(piv.length()==A.numRows());
 //
 //  Test the input parameters
 //
