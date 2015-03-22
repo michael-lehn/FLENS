@@ -50,7 +50,6 @@
 #include <cxxstd/algorithm.h>
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
-#include <ulmblas/cxxf77blas.h>
 
 namespace flens { namespace lapack {
 
