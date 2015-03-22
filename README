@@ -1,6 +1,16 @@
+NOTE:
+=====
+
+The Trinity branch uses the submodule ulmBLAS-core.  Clone FLENS-Trinity with
+
+   git clone --recursive -b Trinity https://github.com/michael-lehn/FLENS.git
+
+
+
 =========================================================
 FLENS: Flexible Library for Efficient Numerical Solutions
 =========================================================
+
 
 FLENS is a C++ library for the efficient implementation of numerical algorithms.
 
