@@ -36,8 +36,9 @@
 #include <cxxstd/locale.h>
 #include <cxxstd/fstream.h>
 
-#include <cxxblas/typedefs.h>
 #include <flens/io/bandstorage/load.h>
+#include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 
@@ -103,7 +104,7 @@ load(std::string filename, HbMatrix<FS> &A)
     A.resize(dim, numOffDiags, firstIndex);
 
     for (IndexType i=-A.numOffDiags(); i<=0; ++i) {
-        if (A.upLo()==cxxblas::Lower) {
+        if (A.upLo()==Lower) {
             auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
                 ifs.read(reinterpret_cast<char*>(&(Diag(j))),
@@ -114,7 +115,7 @@ load(std::string filename, HbMatrix<FS> &A)
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
                 ElementType alpha;
                 ifs.read(reinterpret_cast<char*>(&alpha), sizeof(ElementType));
-                Diag(j) = cxxblas::conjugate(alpha);
+                Diag(j) = conjugate(alpha);
             }
         }
     }
@@ -122,7 +123,6 @@ load(std::string filename, HbMatrix<FS> &A)
     ifs.close();
     return true;
 }
-
 
 template <typename FS>
 bool
@@ -148,7 +148,7 @@ load(std::string filename, SbMatrix<FS> &A)
     A.resize(dim, numOffDiags, firstIndex);
 
     for (IndexType i=-A.numOffDiags(); i<=0; ++i) {
-        if (A.upLo()==cxxblas::Lower) {
+        if (A.upLo()==Lower) {
             auto Diag = A.viewDiag(i);
 
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
@@ -195,18 +195,18 @@ load(std::string filename, TbMatrix<FS> &A)
     ifs.read(reinterpret_cast<char*>(&diag), sizeof(Diag));
 
     ASSERT(upLo==A.upLo());
-    ASSERT((diag==A.diag()) || (A.diag()==cxxblas::NonUnit));
+    ASSERT((diag==A.diag()) || (A.diag()==NonUnit));
 
     A.resize(dim, numOffDiags, firstIndex);
 
-    if (upLo == cxxblas::Lower) {
+    if (upLo == Lower) {
         for (IndexType i=-A.numOffDiags(); i <= 0; ++i){
             auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
-                if (diag==cxxblas::NonUnit || i != 0) {
+                if (diag==NonUnit || i != 0) {
                     ifs.read(reinterpret_cast<char*>(&(Diag(j))),
                              sizeof(ElementType) );
-                } else if (A.diag()==cxxblas::NonUnit) {
+                } else if (A.diag()==NonUnit) {
                     Diag(i) = ElementType(i);
                 }
             }
@@ -215,10 +215,10 @@ load(std::string filename, TbMatrix<FS> &A)
         for (IndexType i=0; i<=A.numOffDiags(); ++i){
             auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
-                if (diag==cxxblas::NonUnit || i != 0) {
+                if (diag==NonUnit || i != 0) {
                     ifs.read(reinterpret_cast<char*>(&(Diag(j))),
                              sizeof(ElementType) );
-                } else if (A.diag()==cxxblas::NonUnit) {
+                } else if (A.diag()==NonUnit) {
                     Diag(i) = ElementType(i);
                 }
             }

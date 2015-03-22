@@ -34,7 +34,6 @@
 #define FLENS_BLAS_LEVEL1_ROT_H 1
 
 #include <cxxstd/complex.h>
-#include <cxxblas/typedefs.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/vectortypes/vectortypes.h>
 
@@ -56,6 +55,18 @@ template <typename VX, typename VY, typename TC, typename TS>
                      && IsDenseVector<VY>::value,
              void>::Type
     rot(VX &&x, VY &&y, const TC &c, const TS &s);
+
+//-- rotmg
+template <typename T, typename VP>
+    void
+    rotmg(T &d1, T &d2, T &b1, T &b2, DenseVector<VP> &p);
+
+//-- rotm
+template <typename VX, typename VY, typename VP>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    rotm(VX &&x, VY &&y, const DenseVector<VP> &p);
 
 } } // namespace blas, flens
 

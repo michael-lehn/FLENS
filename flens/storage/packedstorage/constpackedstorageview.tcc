@@ -33,8 +33,8 @@
 #ifndef FLENS_STORAGE_PACKEDSTORAGE_CONSTPACKEDSTORAGEVIEW_TCC
 #define FLENS_STORAGE_PACKEDSTORAGE_CONSTPACKEDSTORAGEVIEW_TCC 1
 
-#include <flens/typedefs.h>
 #include <flens/storage/packedstorage/constpackedstorageview.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 

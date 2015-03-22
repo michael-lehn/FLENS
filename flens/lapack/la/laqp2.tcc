@@ -71,7 +71,6 @@ laqp2_impl(typename GeMatrix<MA>::IndexType  offset,
     using std::abs;
     using std::max;
     using std::min;
-    using cxxblas::pow;
     using std::sqrt;
     using std::swap;
 
@@ -119,7 +118,7 @@ laqp2_impl(typename GeMatrix<MA>::IndexType  offset,
 //
             const ElementType Aii = A(offpi,i);
             A(offpi,i) = One;
-            larf(Left, A(_(offpi,m),i), cxxblas::conjugate(tau(i)),
+            larf(Left, A(_(offpi,m),i), conjugate(tau(i)),
                  A(_(offpi,m),_(i+1,n)), work(_(1,n)));
             A(offpi,i) = Aii;
         }
@@ -171,7 +170,6 @@ laqp2_impl(typename GeMatrix<MA>::IndexType  offset,
     using std::conj;
     using std::max;
     using std::min;
-    using cxxblas::pow;
     using std::sqrt;
     using std::swap;
 

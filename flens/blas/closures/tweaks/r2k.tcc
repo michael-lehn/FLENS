@@ -558,7 +558,7 @@ axpy(Transpose trans, const ALPHA &alpha,
 
     if (identical(A1, A2)
      && identical(B1, B2)
-     && (a1==cxxblas::conjugate(a2)))
+     && (a1==conjugate(a2)))
     {
         blas::r2k(trans, alpha*a1, A1, B1, SMA(1), C.impl());
         return;
@@ -611,7 +611,7 @@ copy(Transpose trans,
 
     if (identical(A1, A2)
      && identical(B1, B2)
-     && (a1==cxxblas::conjugate(a2)))
+     && (a1==conjugate(a2)))
     {
         blas::r2k(trans, a1, A1, B1, SMA(0), C.impl());
         return;
@@ -673,7 +673,7 @@ copy(Transpose trans,
     if (identical(D, C.impl())
      && identical(A1, A2)
      && identical(B1, B2)
-     && (a1==cxxblas::conjugate(a2)))
+     && (a1==conjugate(a2)))
     {
         blas::r2k(trans, a1, A1, B1, b, C.impl());
         return;
@@ -875,7 +875,7 @@ axpy(Transpose trans, const ALPHA &alpha,
 
     if (identical(A1, A2)
      && identical(B1, B2)
-     && (a1==cxxblas::conjugate(a2)))
+     && (a1==conjugate(a2)))
     {
         trans = Transpose(trans^ConjTrans);
         blas::r2k(trans, alpha*a1, A1, B1, ALPHA(1), C.impl());
@@ -925,7 +925,7 @@ copy(Transpose trans,
 
     if (identical(A1, A2)
      && identical(B1, B2)
-     && (a1==cxxblas::conjugate(a2)))
+     && (a1==conjugate(a2)))
     {
         trans = Transpose(trans^ConjTrans);
         blas::r2k(trans, a1, A1, B1, ALPHA(0), C.impl());
@@ -985,7 +985,7 @@ copy(Transpose trans,
 
     if (identical(A1, A2)
      && identical(B1, B2)
-     && (a1==cxxblas::conjugate(a2)))
+     && (a1==conjugate(a2)))
     {
         trans = Transpose(trans^ConjTrans);
         blas::r2k(trans, a1, A1, B1, b, C.impl());

@@ -33,7 +33,6 @@
 #ifndef FLENS_STORAGE_FULLSTORAGE_TRAPEZOIDALFILL_H
 #define FLENS_STORAGE_FULLSTORAGE_TRAPEZOIDALFILL_H 1
 
-#include <cxxblas/typedefs.h>
 #include <flens/typedefs.h>
 
 namespace flens {

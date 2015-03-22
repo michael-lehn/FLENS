@@ -134,7 +134,7 @@ template <typename FS>
 HbMatrix<FS> &
 HbMatrix<FS>::operator=(const ElementType &alpha)
 {
-    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(imag(alpha)==0);
 
     if (upLo_==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
@@ -150,7 +150,7 @@ template <typename FS>
 HbMatrix<FS> &
 HbMatrix<FS>::operator+=(const ElementType &alpha)
 {
-    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(imag(alpha)==0);
 
     if (upLo_==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
@@ -166,7 +166,7 @@ template <typename FS>
 HbMatrix<FS> &
 HbMatrix<FS>::operator-=(const ElementType &alpha)
 {
-    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(imag(alpha)==0);
 
     if (upLo_==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
@@ -182,7 +182,7 @@ template <typename FS>
 HbMatrix<FS> &
 HbMatrix<FS>::operator*=(const ElementType &alpha)
 {
-    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(imag(alpha)==0);
 
     if (upLo_==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
@@ -198,7 +198,7 @@ template <typename FS>
 HbMatrix<FS> &
 HbMatrix<FS>::operator/=(const ElementType &alpha)
 {
-    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(imag(alpha)==0);
 
     if (upLo_==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
@@ -396,7 +396,7 @@ template <typename FS>
 bool
 HbMatrix<FS>::fill(const ElementType &value)
 {
-    ASSERT(cxxblas::imag(value)==0);
+    ASSERT(imag(value)==0);
 
     return engine_.fill(value);
 }
@@ -408,7 +408,7 @@ HbMatrix<FS>::fillRandom()
     bool val = engine_.fillRandom();
     VectorView d = (*this).diag(0);
     for (IndexType i=d.firstIndex();i<=d.lastIndex();++i) {
-        d(i) = ElementType(cxxblas::real(d(i)));
+        d(i) = ElementType(real(d(i)));
     }
     return val;
 }

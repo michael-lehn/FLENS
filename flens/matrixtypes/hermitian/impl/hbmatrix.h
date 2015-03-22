@@ -33,7 +33,6 @@
 #ifndef FLENS_MATRIXTYPES_HERMITIAN_IMPL_HBMATRIX_H
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_HBMATRIX_H 1
 
-#include <cxxblas/typedefs.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/typedefs.h>
 #include <flens/matrixtypes/hermitian/hermitianmatrix.h>

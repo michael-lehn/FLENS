@@ -207,6 +207,12 @@ class TrMatrix
         IndexType
         leadingDimension() const;
 
+        IndexType
+        strideRow() const;
+
+        IndexType
+        strideCol() const;
+
         StorageOrder
         order() const;
 

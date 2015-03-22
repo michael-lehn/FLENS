@@ -33,11 +33,11 @@
 #ifndef FLENS_BLAS_LEVEL1_NRM2_TCC
 #define FLENS_BLAS_LEVEL1_NRM2_TCC 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -51,11 +51,7 @@ template <typename X, typename T>
 typename RestrictTo<IsNotComplex<T>::value, void>::Type
 nrm2(const DenseVector<X> &x, T &norm)
 {
-#   ifdef HAVE_CXXBLAS_NRM2
     cxxblas::nrm2(x.length(), x.data(), x.stride(), norm);
-#   else
-    ASSERT(0);
-#   endif
 }
 
 template <typename X>

@@ -35,7 +35,6 @@
 
 #include <flens/blas/operators/opadd.tcc>
 #include <flens/blas/operators/opconj.tcc>
-#include <flens/blas/operators/opconjtrans.tcc>
 #include <flens/blas/operators/opdiv.tcc>
 #include <flens/blas/operators/opminus.tcc>
 #include <flens/blas/operators/opmult.tcc>

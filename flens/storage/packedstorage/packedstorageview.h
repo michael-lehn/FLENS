@@ -33,9 +33,8 @@
 #ifndef FLENS_STORAGE_PACKEDSTORAGE_PACKEDSTORAGEVIEW_H
 #define FLENS_STORAGE_PACKEDSTORAGE_PACKEDSTORAGEVIEW_H
 
-#include <cxxblas/typedefs.h>
-#include <flens/typedefs.h>
 #include <flens/storage/indexoptions.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 

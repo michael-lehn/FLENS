@@ -60,7 +60,6 @@ lae2_impl(const T &a,
           T       &rt1,
           T       &rt2)
 {
-    using cxxblas::pow;
     using std::abs;
     using std::sqrt;
 

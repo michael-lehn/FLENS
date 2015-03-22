@@ -33,7 +33,6 @@
 #ifndef FLENS_BLAS_LEVEL2_R_H
 #define FLENS_BLAS_LEVEL2_R_H 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>

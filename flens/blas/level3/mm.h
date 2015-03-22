@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2007,2015 Michael Lehn
  *
  *   All rights reserved.
  *
@@ -33,7 +33,6 @@
 #ifndef FLENS_BLAS_LEVEL3_MM_H
 #define FLENS_BLAS_LEVEL3_MM_H
 
-#include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/typedefs.h>
@@ -41,91 +40,6 @@
 namespace flens { namespace blas {
 
 //== GeneralMatrix - GeneralMatrix products ====================================
-
-
-//-- diagmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsDiagMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Transpose        transA,
-       Transpose        transB,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
-
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsGeMatrix<MA>::value
-                     && IsDiagMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Transpose        transA,
-       Transpose        transB,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
-
-//-- gbmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsGbMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Transpose        transA,
-       Transpose        transB,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
-
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsGeMatrix<MA>::value
-                     && IsGbMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Transpose        transA,
-       Transpose        transB,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
-
-
-//-- geccsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsGeCCSMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Transpose        transA,
-       Transpose        transB,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
-
-
-//-- gecrsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsGeCRSMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Transpose        transA,
-       Transpose        transB,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
 
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
@@ -143,19 +57,6 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 
 //== HermitianMatrix - GeneralMatrix products ==================================
 
-//-- hbmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsHbMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Side             side,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
-
 //-- hemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsHeMatrix<MA>::value
@@ -169,47 +70,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA       &beta,
        MC               &&C);
 
-//-- heccsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsHeCCSMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Side             side,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
-
-
-//-- hecrsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsHeCRSMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Side             side,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
-
 //== SymmetricMatrix - GeneralMatrix products ==================================
-
-//-- sbmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsSbMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-                 void>::Type
-    mm(Side             side,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
 
 //-- symm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
@@ -224,46 +85,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA       &beta,
        MC               &&C);
 
-
-//-- syccsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsSyCCSMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Side             side,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
-
-
-//-- sycrsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsSyCRSMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
-             void>::Type
-    mm(Side             side,
-       const ALPHA      &alpha,
-       const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
-
 //== TriangularMatrix - GeneralMatrix products =================================
-
-//-- tbmm
-template <typename ALPHA, typename MA, typename MB>
-    typename RestrictTo<IsTbMatrix<MA>::value
-                     && IsGeMatrix<MB>::value,
-             void>::Type
-    mm(Side             side,
-       Transpose        transA,
-       const ALPHA      &alpha,
-       const MA         &A,
-       MB               &&B);
 
 //-- trmm
 template <typename ALPHA, typename MA, typename MB>

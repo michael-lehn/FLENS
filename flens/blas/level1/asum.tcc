@@ -33,11 +33,11 @@
 #ifndef FLENS_BLAS_LEVEL1_ASUM_TCC
 #define FLENS_BLAS_LEVEL1_ASUM_TCC 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 
 namespace flens { namespace blas {
@@ -48,11 +48,7 @@ template <typename X, typename T>
 typename RestrictTo<IsNotComplex<T>::value, void>::Type
 asum(const DenseVector<X> &x, T &absoluteSum)
 {
-#   ifdef HAVE_CXXBLAS_ASUM
     cxxblas::asum(x.length(), x.data(), x.stride(), absoluteSum);
-#   else
-    ASSERT(0);
-#   endif
 }
 
 template <typename X>

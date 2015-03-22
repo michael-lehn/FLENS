@@ -38,10 +38,11 @@
 #include <cxxstd/locale.h>
 #include <cxxstd/fstream.h>
 
-#include <cxxblas/typedefs.h>
 #include <flens/io/packedstorage/load.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 
@@ -69,14 +70,14 @@ load(std::string filename, HpMatrix<PS> &A)
 
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=i; ++j) {
-            if (A.upLo()==cxxblas::Lower) {
+            if (A.upLo()==Lower) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,j))),
                          sizeof(ElementType) );
             } else {
                 ElementType alpha;
                 ifs.read(reinterpret_cast<char*>(&alpha),
                          sizeof(ElementType) );
-                A(j,i) = cxxblas::conjugate(alpha);
+                A(j,i) = conjugate(alpha);
             }
         }
     }
@@ -110,7 +111,7 @@ load(std::string filename, SpMatrix<PS> &A)
 
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=i; ++j) {
-            if (A.upLo()==cxxblas::Lower) {
+            if (A.upLo()==Lower) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,j))),
                          sizeof(ElementType));
             } else {
@@ -148,31 +149,31 @@ load(std::string filename, TpMatrix<PS> &A)
     ifs.read(reinterpret_cast<char*>(&diag), sizeof(Diag));
 
     ASSERT(upLo==A.upLo());
-    ASSERT((diag==A.diag()) || (A.diag()==cxxblas::NonUnit));
+    ASSERT((diag==A.diag()) || (A.diag()==NonUnit));
 
     A.resize(dim, indexBase);
 
 
-    if (upLo == cxxblas::Lower) {
+    if (upLo == Lower) {
         for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i) {
             for (IndexType j=A.firstCol(); j<i; ++j) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,j))),
                          sizeof(ElementType));
             }
 
-            if (diag == cxxblas::NonUnit) {
+            if (diag == NonUnit) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,i))),
                          sizeof(ElementType));
-            } else if ((A.diag()==cxxblas::NonUnit) && (diag==cxxblas::Unit)) {
+            } else if ((A.diag()==NonUnit) && (diag==Unit)) {
                 A(i,i) = ElementType(1);
             }
         }
     } else {
         for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i) {
-            if (diag == cxxblas::NonUnit) {
+            if (diag == NonUnit) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,i))),
                          sizeof(ElementType) );
-            } else if ((A.diag()==cxxblas::NonUnit) && (diag==cxxblas::Unit)) {
+            } else if ((A.diag()==NonUnit) && (diag==Unit)) {
                 A(i, i) = ElementType(1);
             }
 

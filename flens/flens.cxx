@@ -58,7 +58,7 @@
 
 #include <flens/flens.h>
 #include <flens/flens.tcc>
-#include <cxxblas/cxxblas.cxx>
+#include <ulmblas/cxxblas.h>
 
 #ifdef USE_CXXLAPACK
 #   include <cxxlapack/cxxlapack.cxx>

@@ -287,7 +287,6 @@ bal_impl(BALANCE::Balance    job,
 
     using std::abs;
     using std::isnan;
-    using cxxblas::abs1;
     using flens::max;
     using flens::min;
 
@@ -356,8 +355,8 @@ bal_impl(BALANCE::Balance    job,
                     if (i==j) {
                         continue;
                     }
-                    if (cxxblas::real(A(j,i))!=Zero
-                     || cxxblas::imag(A(j,i))!=Zero)
+                    if (real(A(j,i))!=Zero
+                     || imag(A(j,i))!=Zero)
                     {
                         foundRow = false;
                         break;
@@ -385,8 +384,8 @@ bal_impl(BALANCE::Balance    job,
                     if (i==j) {
                         continue;
                     }
-                    if (cxxblas::real(A(i,j))!=Zero
-                     || cxxblas::imag(A(i,j))!=Zero)
+                    if (real(A(i,j))!=Zero
+                     || imag(A(i,j))!=Zero)
                     {
                         foundCol = false;
                         break;

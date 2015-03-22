@@ -34,7 +34,6 @@
 #define FLENS_SCALAROPERATIONS_EXP_TCC 1
 
 #include <cxxstd/cmath.h>
-#include <cxxblas/auxiliary/complex.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/scalaroperations/exp.h>
 #include <flens/scalartypes/impl/scalarclosure.h>

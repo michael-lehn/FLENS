@@ -33,7 +33,6 @@
 #ifndef FLENS_SCALAROPERATIONS_REAL_TCC
 #define FLENS_SCALAROPERATIONS_REAL_TCC 1
 
-#include <cxxblas/auxiliary/complex.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/scalaroperations/real.h>
 #include <flens/scalartypes/impl/scalarclosure.h>
@@ -44,7 +43,7 @@ template <typename S>
 const typename ScalarClosure<ScalarOpReal, S, S>::ElementType
 evalScalarClosure(const ScalarClosure<ScalarOpReal, S, S> &exp)
 {
-    return cxxblas::real(exp.left().value());
+    return real(exp.left().value());
 }
 
 //-- operator overloading

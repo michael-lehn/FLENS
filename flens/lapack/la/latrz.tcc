@@ -135,16 +135,16 @@ latrz_impl(IndexType             l,
 //
 
         A(i, _(n-l+1,n)) = conjugate(A(i, _(n-l+1,n)));
-        alpha = cxxblas::conjugate(A(i,i));
+        alpha = conjugate(A(i,i));
         larfg(l+1, alpha, A(i,_(n-l+1,n)), tau(i));
-        tau(i) = cxxblas::conjugate(tau(i));
+        tau(i) = conjugate(tau(i));
 //
 //      Apply H(i) to A(1:i-1,i:n) from the right
 //
         auto work_ = work(_(1,i-1));
-        larz(Right, A(i,_(n-l+1,n)), cxxblas::conjugate(tau(i)),
+        larz(Right, A(i,_(n-l+1,n)), conjugate(tau(i)),
              A(_(1,i-1),_(i,n)), work_);
-        A(i,i) = cxxblas::conjugate(alpha);
+        A(i,i) = conjugate(alpha);
     }
 }
 

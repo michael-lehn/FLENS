@@ -33,14 +33,13 @@
 #ifndef FLENS_BLAS_LEVEL1_RAXPY_H
 #define FLENS_BLAS_LEVEL1_RAXPY_H 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {
 
-//-- raxpy  (BLAS Level 1 Extension)
+//-- raxpy
 template <typename ALPHA, typename VX, typename VY>
     typename RestrictTo<IsDenseVector<VX>::value
                      && IsDenseVector<VY>::value,
@@ -52,6 +51,13 @@ template <typename ALPHA, typename MA, typename MB>
                      && IsGeMatrix<MB>::value,
              void>::Type
     raxpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
+
+//-- racxpy
+template <typename ALPHA, typename VX, typename VY>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    racxpy(const ALPHA &alpha, const VX &x, VY &&y);
 
 } } // namespace blas, flens
 

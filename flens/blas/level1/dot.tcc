@@ -33,11 +33,11 @@
 #ifndef FLENS_BLAS_LEVEL1_DOT_TCC
 #define FLENS_BLAS_LEVEL1_DOT_TCC 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -56,13 +56,9 @@ dot(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 
     ASSERT(x.length()==y.length());
 
-#   ifdef HAVE_CXXBLAS_DOT
-    cxxblas::dot(x.length(),
-                 x.data(), x.stride(),
-                 y.data(), y.stride(), result);
-#   else
-    ASSERT(0);
-#   endif
+    cxxblas::dotc(x.length(),
+                  x.data(), x.stride(),
+                  y.data(), y.stride(), result);
 
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
@@ -72,7 +68,7 @@ template <typename X, typename Y, typename T>
 void
 dotc(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 {
-    dotc(x, y, result);
+    dot(x, y, result);
 }
 
 template <typename X, typename Y, typename T>
@@ -84,13 +80,9 @@ dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 
     ASSERT(x.length()==y.length());
 
-#   ifdef HAVE_CXXBLAS_DOTU
     cxxblas::dotu(x.length(),
                   x.data(), x.stride(),
                   y.data(), y.stride(), result);
-#   else
-    ASSERT(0);
-#   endif
 
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;

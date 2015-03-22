@@ -777,7 +777,6 @@ laqr5_impl(bool                      wantT,
     using std::abs;
     using std::max;
     using std::min;
-    using cxxblas::abs1;
 
     typedef typename GeMatrix<MH>::ElementType       T;
     typedef typename ComplexTrait<T>::PrimitiveType  PT;

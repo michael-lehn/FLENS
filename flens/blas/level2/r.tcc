@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2011, 2015 Michael Lehn
  *
  *   All rights reserved.
  *
@@ -36,6 +36,7 @@
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level2/level2.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -47,7 +48,7 @@ namespace flens { namespace blas {
 
 //-- GeneralMatrix, DenseVector ------------------------------------------------
 
-//-- ger
+//-- geru
 template <typename ALPHA, typename VX, typename VY, typename MA>
 typename RestrictTo<IsDenseVector<VX>::value
                  && IsDenseVector<VY>::value
@@ -61,12 +62,11 @@ r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
     ASSERT(A.numRows()==x.length());
     ASSERT(A.numCols()==y.length());
 
-    cxxblas::ger(A.order(),
-                 A.numRows(), A.numCols(),
-                 alpha,
-                 x.data(), x.stride(),
-                 y.data(), y.stride(),
-                 A.data(), A.leadingDimension());
+    cxxblas::geru(A.numRows(), A.numCols(),
+                  alpha,
+                  x.data(), x.stride(),
+                  y.data(), y.stride(),
+                  A.data(), A.strideRow(), A.strideCol());
 }
 
 //-- geru
@@ -95,12 +95,11 @@ rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
     ASSERT(A.numRows()==x.length());
     ASSERT(A.numCols()==y.length());
 
-    cxxblas::gerc(A.order(),
-                  A.numRows(), A.numCols(),
+    cxxblas::gerc(A.numRows(), A.numCols(),
                   alpha,
                   x.data(), x.stride(),
                   y.data(), y.stride(),
-                  A.data(), A.leadingDimension());
+                  A.data(), A.strideRow(), A.strideCol());
 }
 
 //-- HermitianMatrix, DenseVector ----------------------------------------------
@@ -112,16 +111,18 @@ typename RestrictTo<IsDenseVector<VX>::value
          void>::Type
 r(const ALPHA &alpha, const VX &x, MA &&A)
 {
+    const bool lowerA = (A.upLo()==Lower);
+
     if (A.dim()==0) {
         A.resize(x.length(), x.firstIndex());
     }
+
     ASSERT(A.dim()==x.length());
-    cxxblas::her(A.order(),
-                 A.upLo(),
-                 A.dim(),
+
+    cxxblas::her(A.dim(),
                  alpha,
                  x.data(), x.stride(),
-                 A.data(), A.leadingDimension());
+                 lowerA, A.data(), A.strideRow(), A.strideCol());
 }
 
 //-- hpr
@@ -131,16 +132,19 @@ typename RestrictTo<IsDenseVector<VX>::value
          void>::Type
 r(const ALPHA &alpha, const VX &x, MA &&A)
 {
+    const bool colMajorA = (A.order()==ColMajor);
+    const bool lowerA    = (A.upLo()==Lower);
+
     if (A.dim()==0) {
         A.resize(x.length(), x.firstIndex());
     }
+
     ASSERT(A.dim()==x.length());
-    cxxblas::hpr(A.order(),
-                 A.upLo(),
-                 A.dim(),
+
+    cxxblas::hpr(A.dim(),
                  alpha,
                  x.data(), x.stride(),
-                 A.data());
+                 colMajorA, lowerA, A.data());
 }
 
 //-- SymmetricMatrix, DenseVector ----------------------------------------------
@@ -152,16 +156,19 @@ typename RestrictTo<IsDenseVector<VX>::value
          void>::Type
 r(const ALPHA &alpha, const VX &x, MA &&A)
 {
+    const bool colMajorA = (A.order()==ColMajor);
+    const bool lowerA    = (A.upLo()==Lower);
+
     if (A.dim()==0) {
         A.resize(x.length(), x.firstIndex());
     }
+
     ASSERT(A.dim()==x.length());
-    cxxblas::spr(A.order(),
-                 A.upLo(),
-                 A.dim(),
+
+    cxxblas::spr(A.dim(),
                  alpha,
                  x.data(), x.stride(),
-                 A.data());
+                 colMajorA, lowerA, A.data());
 }
 
 //-- syr
@@ -171,16 +178,18 @@ typename RestrictTo<IsDenseVector<VX>::value
          void>::Type
 r(const ALPHA &alpha, const VX &x, MA &&A)
 {
+    const bool lowerA = (A.upLo()==Lower);
+
     if (A.dim()==0) {
         A.resize(x.length(), x.firstIndex());
     }
+
     ASSERT(A.dim()==x.length());
-    cxxblas::syr(A.order(),
-                 A.upLo(),
-                 A.dim(),
+
+    cxxblas::syr(A.dim(),
                  alpha,
                  x.data(), x.stride(),
-                 A.data(), A.leadingDimension());
+                 lowerA, A.data(), A.strideRow(), A.strideCol());
 }
 
 } } // namespace blas, flens

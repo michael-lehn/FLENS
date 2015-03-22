@@ -34,7 +34,6 @@
 #ifndef FLENS_BLAS_CLOSURES_LEVEL1_AXPY_H
 #define FLENS_BLAS_CLOSURES_LEVEL1_AXPY_H 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/blas/closures/tweaks/defaulteval.h>
 #include <flens/blas/operators/operators.h>
 #include <flens/matrixtypes/matrixtypes.h>

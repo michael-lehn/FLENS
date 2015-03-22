@@ -63,7 +63,7 @@ typename RestrictTo<VCDefaultEval<OpAdd, VL, VR>::value
          void>::Type
 copy(const VectorClosure<OpAdd, VL, VR> &x, Vector<VY> &y)
 {
-    FLENS_BLASLOG_BEGIN_COPY(x, y);
+    FLENS_BLASLOG_BEGIN_COPY(false, x, y);
 
     typedef typename VY::Impl::ElementType T;
     const T  One(1);
@@ -83,7 +83,7 @@ typename RestrictTo<VCDefaultEval<OpSub, VL, VR>::value
          void>::Type
 copy(const VectorClosure<OpSub, VL, VR> &x, Vector<VY> &y)
 {
-    FLENS_BLASLOG_BEGIN_COPY(x, y);
+    FLENS_BLASLOG_BEGIN_COPY(false, x, y);
 
     typedef typename VY::Impl::ElementType T;
     const T  MinusOne(-1);
@@ -104,7 +104,7 @@ typename RestrictTo<VCDefaultEval<OpMult, SV, VX>::value
          void>::Type
 copy(const VectorClosure<OpMult, SV, VX> &x, Vector<VY> &y)
 {
-    FLENS_BLASLOG_BEGIN_COPY(x, y);
+    FLENS_BLASLOG_BEGIN_COPY(false, x, y);
     copyScal(x.left().value(), x.right(), y.impl());
     FLENS_BLASLOG_END;
 }
@@ -125,7 +125,7 @@ typename RestrictTo<VCDefaultEval<OpDiv, VX, SV>::value
          void>::Type
 copy(const VectorClosure<OpDiv, VX, SV> &x, Vector<VY> &y)
 {
-    FLENS_BLASLOG_BEGIN_COPY(x, y);
+    FLENS_BLASLOG_BEGIN_COPY(false, x, y);
     copyRScal(x.right().value(), x.left(), y.impl());
     FLENS_BLASLOG_END;
 }
@@ -140,7 +140,7 @@ typename RestrictTo<DefaultEval<VectorClosureOpConj<VX> >::value
          void>::Type
 copy(const VectorClosureOpConj<VX> &x, Vector<VY> &y)
 {
-    FLENS_BLASLOG_BEGIN_COPY(x, y);
+    FLENS_BLASLOG_BEGIN_COPY(false, x, y);
     copyConj(x.left(), y.impl());
     FLENS_BLASLOG_END;
 }
@@ -156,7 +156,7 @@ typename RestrictTo<VCDefaultEval<OpMult, ML, VR>::value
          void>::Type
 copy(const VectorClosure<OpMult, ML, VR> &Ax, Vector<VY> &y)
 {
-    FLENS_BLASLOG_BEGIN_COPY(Ax, y);
+    FLENS_BLASLOG_BEGIN_COPY(false, Ax, y);
 
 //
 //  Call mv switch
@@ -179,7 +179,7 @@ typename RestrictTo<VCDefaultEval<OpMult, VL, MR>::value
          void>::Type
 copy(const VectorClosure<OpMult, VL, MR> &xA, Vector<VY> &y)
 {
-    FLENS_BLASLOG_BEGIN_COPY(xA, y);
+    FLENS_BLASLOG_BEGIN_COPY(false, xA, y);
 
 //
 //  Call mv switch
@@ -262,7 +262,7 @@ typename RestrictTo<MCDefaultEval<OpMult, SV, MA>::value
          void>::Type
 copy(Transpose trans, const MatrixClosure<OpMult, SV, MA> &A, Matrix<MB> &B)
 {
-    FLENS_BLASLOG_BEGIN_COPY(A, B);
+    FLENS_BLASLOG_BEGIN_COPY(false, A, B);
     copyScal(trans, A.left().value(), A.right(), B.impl());
     FLENS_BLASLOG_END;
 }
@@ -279,7 +279,7 @@ typename RestrictTo<MCDefaultEval<OpDiv, MA, SV>::value
          void>::Type
 copy(Transpose trans, const MatrixClosure<OpDiv, MA, SV> &A, Matrix<MB> &B)
 {
-    FLENS_BLASLOG_BEGIN_COPY(A, B);
+    FLENS_BLASLOG_BEGIN_COPY(false, A, B);
     copyRScal(trans, A.right().value(), A.left(), B.impl());
     FLENS_BLASLOG_END;
 }

@@ -34,7 +34,6 @@
 #define FLENS_SCALAROPERATIONS_ATAN_TCC 1
 
 #include <cxxstd/cmath.h>
-#include <cxxblas/auxiliary/complex.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/scalaroperations/atan.h>
 #include <flens/scalartypes/impl/scalarclosure.h>

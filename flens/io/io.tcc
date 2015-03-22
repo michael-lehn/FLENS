@@ -48,7 +48,5 @@
 #include <flens/io/packedstorage/load.tcc>
 #include <flens/io/packedstorage/out.tcc>
 #include <flens/io/packedstorage/save.tcc>
-#include <flens/io/tinyarray/out.tcc>
-#include <flens/io/tinyfullstorage/out.tcc>
 
 #endif // FLENS_IO_IO_TCC

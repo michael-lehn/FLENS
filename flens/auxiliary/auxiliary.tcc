@@ -33,6 +33,7 @@
 #ifndef FLENS_AUXILIARY_AUXILIARY_TCC
 #define FLENS_AUXILIARY_AUXILIARY_TCC 1
 
+#include <flens/auxiliary/cxxf77blas.tcc>
 #include <flens/auxiliary/explicit_cast.tcc>
 #include <flens/auxiliary/max.tcc>
 #include <flens/auxiliary/min.tcc>

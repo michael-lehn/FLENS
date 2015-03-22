@@ -610,7 +610,6 @@ latrs_impl(Transpose             trans,
     using std::abs;
     using std::max;
     using std::min;
-    using cxxblas::abs1;
 
     typedef typename DenseVector<VX>::ElementType    T;
     typedef typename ComplexTrait<T>::PrimitiveType  PT;

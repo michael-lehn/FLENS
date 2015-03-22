@@ -399,8 +399,7 @@ hseqr_impl(HSEQR::Job            job,
 //  ==== Ensure reported workspace size is backward-compatible with
 //  .    previous LAPACK versions. ====
 //
-    work(1) = T(max(PT(max(IndexType(1),n)),
-                    cxxblas::real(work(1))));
+    work(1) = T(max(PT(max(IndexType(1),n)), real(work(1))));
     return info;
 }
 
@@ -476,7 +475,7 @@ hseqr_wsq_impl(HSEQR::Job         job,
                                 H.leadingDimension(),
                                 &WORK,
                                 LWORK);
-    return cxxblas::real(WORK);
+    return real(WORK);
 }
 
 //

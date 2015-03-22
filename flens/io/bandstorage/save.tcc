@@ -37,10 +37,10 @@
 #include <cxxstd/fstream.h>
 #include <cxxstd/iomanip.h>
 
-#include <cxxblas/typedefs.h>
 #include <flens/auxiliary/iscomplex.h>
 #include <flens/auxiliary/isinteger.h>
 #include <flens/io/bandstorage/save.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
@@ -103,7 +103,7 @@ save(std::string filename, const HbMatrix<FS> &A)
     ofs.write(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
 
     for (IndexType i=-A.numOffDiags(); i<=0; ++i) {
-        if (A.upLo()==cxxblas::Lower) {
+        if (A.upLo()==Lower) {
             const auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
                 ofs.write(reinterpret_cast<const char*>(&(Diag(j))),
@@ -112,7 +112,7 @@ save(std::string filename, const HbMatrix<FS> &A)
         } else {
             const auto Diag = A.viewDiag(-i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
-                ElementType alpha = cxxblas::conjugate(Diag(j));
+                ElementType alpha = conjugate(Diag(j));
                 ofs.write(reinterpret_cast<const char*>(&alpha),
                           sizeof(ElementType));
             }
@@ -145,7 +145,7 @@ save(std::string filename, const SbMatrix<FS> &A)
     ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
 
     for (IndexType i=-A.numOffDiags(); i<=0; ++i) {
-        if (A.upLo()==cxxblas::Lower) {
+        if (A.upLo()==Lower) {
             const auto Diag = A.viewDiag(i);
 
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
@@ -192,11 +192,11 @@ save(std::string filename, const TbMatrix<FS> &A)
     ofs.write(reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo));
     ofs.write(reinterpret_cast<char*>(&diag), sizeof(Diag));
 
-    if (upLo == cxxblas::Lower) {
+    if (upLo == Lower) {
         for (IndexType i=-A.numOffDiags(); i <= 0; ++i){
             const auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
-                if (diag==cxxblas::NonUnit || i != 0) {
+                if (diag==NonUnit || i != 0) {
                     ofs.write(reinterpret_cast<const char*>(&(Diag(j))),
                               sizeof(ElementType) );
                 }
@@ -206,7 +206,7 @@ save(std::string filename, const TbMatrix<FS> &A)
         for (IndexType i=0; i<=A.numOffDiags(); ++i){
             const auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
-                if (diag==cxxblas::NonUnit || i != 0) {
+                if (diag==NonUnit || i != 0) {
                     ofs.write(reinterpret_cast<const char*>(&(Diag(j))),
                               sizeof(ElementType) );
                 }

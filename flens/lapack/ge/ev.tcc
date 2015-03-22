@@ -117,7 +117,6 @@ ev_impl(bool                computeVL,
         GeMatrix<MVR>       &VR,
         DenseVector<VWORK>  &work)
 {
-    using cxxblas::pow;
     using std::sqrt;
 
     typedef typename GeMatrix<MA>::ElementType  T;
@@ -422,7 +421,6 @@ ev_impl(bool                computeVL,
         DenseVector<VWORK>  &work,
         DenseVector<VRWORK> &rWork)
 {
-    using cxxblas::pow;
     using std::sqrt;
 
     typedef typename GeMatrix<MA>::ElementType          T;
@@ -614,13 +612,13 @@ ev_impl(bool                computeVL,
                 PT scale = One / blas::nrm2(VL(_,i));
                 VL(_,i) *= scale;
                 for (IndexType k=1; k<=n; ++k) {
-                    work_(k) = pow(cxxblas::real(VL(k,i)),2)
-                             + pow(cxxblas::imag(VL(k,i)),2);
+                    work_(k) = pow(real(VL(k,i)),2)
+                             + pow(imag(VL(k,i)),2);
                 }
                 IndexType k = blas::iamax(work_);
-                T tmp = cxxblas::conjugate(VL(k,i)) / sqrt(work_(k));
+                T tmp = conjugate(VL(k,i)) / sqrt(work_(k));
                 VL(_,i) *= tmp;
-                VL(k,i) = cxxblas::real(VL(k,i));
+                VL(k,i) = real(VL(k,i));
             }
         }
 
@@ -639,13 +637,13 @@ ev_impl(bool                computeVL,
                 PT scale = One / blas::nrm2(VR(_,i));
                 VR(_,i) *= scale;
                 for (IndexType k=1; k<=n; ++k) {
-                    work_(k) = pow(cxxblas::real(VR(k,i)),2)
-                             + pow(cxxblas::imag(VR(k,i)),2);
+                    work_(k) = pow(real(VR(k,i)),2)
+                             + pow(imag(VR(k,i)),2);
                 }
                 IndexType k = blas::iamax(work_);
-                T tmp = cxxblas::conjugate(VR(k,i)) / sqrt(work_(k));
+                T tmp = conjugate(VR(k,i)) / sqrt(work_(k));
                 VR(_,i) *= tmp;
-                VR(k,i) = cxxblas::real(VR(k,i));
+                VR(k,i) = real(VR(k,i));
             }
         }
     }

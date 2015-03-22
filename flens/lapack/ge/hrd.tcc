@@ -245,7 +245,7 @@ hrd_wsq_impl(IndexType            iLo,
                                 &DUMMY,
                                 &WORK,
                                 LWORK);
-    return cxxblas::real(WORK);
+    return real(WORK);
 }
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>

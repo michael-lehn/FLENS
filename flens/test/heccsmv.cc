@@ -64,11 +64,11 @@ setup(StorageUpLo upLo, int n, int max_nnz, int indexBase,
             A_(i,j) += z1;
             A_(i,j) -= z2;
         } else {
-            B(j,i)  += cxxblas::conjugate(z1);
-            B(j,i)  -= cxxblas::conjugate(z2);
+            B(j,i)  += conjugate(z1);
+            B(j,i)  -= conjugate(z2);
 
-            A_(j,i) += cxxblas::conjugate(z1);
-            A_(j,i) -= cxxblas::conjugate(z2);
+            A_(j,i) += conjugate(z1);
+            A_(j,i) -= conjugate(z2);
         }
     }
 

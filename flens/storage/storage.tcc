@@ -54,12 +54,4 @@
 #include <flens/storage/packedstorage/packedstorageview.tcc>
 #include <flens/storage/packedstorage/packedstorage.tcc>
 
-#include <flens/storage/tinyarray/tinyarray.tcc>
-#include <flens/storage/tinyarray/tinyarrayview.tcc>
-#include <flens/storage/tinyarray/tinyconstarrayview.tcc>
-
-#include <flens/storage/tinyfullstorage/tinyfullstorage.tcc>
-#include <flens/storage/tinyfullstorage/tinyfullstorageview.tcc>
-#include <flens/storage/tinyfullstorage/tinyconstfullstorageview.tcc>
-
 #endif // FLENS_STORAGE_STORAGE_TCC

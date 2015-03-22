@@ -585,7 +585,6 @@ laqr2_impl(bool                      wantT,
     using std::abs;
     using std::max;
     using std::min;
-    using cxxblas::abs1;
 
     typedef typename GeMatrix<MH>::ElementType                  ElementType;
     typedef typename ComplexTrait<ElementType>::PrimitiveType   PrimitiveType;
@@ -1068,7 +1067,7 @@ laqr2_wsq_impl(IndexType                 kTop,
                                 nw,                         // LDWV
                                 &WORK,
                                 LWORK);
-    return cxxblas::real(WORK);
+    return real(WORK);
 }
 
 } // namespace external

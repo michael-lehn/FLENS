@@ -66,12 +66,4 @@
 #include <flens/storage/packedstorage/packedstorage.h>
 #include <flens/storage/packedstorage/packedstorageview.h>
 
-#include <flens/storage/tinyarray/tinyarray.h>
-#include <flens/storage/tinyarray/tinyarrayview.h>
-#include <flens/storage/tinyarray/tinyconstarrayview.h>
-
-#include <flens/storage/tinyfullstorage/tinyfullstorage.h>
-#include <flens/storage/tinyfullstorage/tinyfullstorageview.h>
-#include <flens/storage/tinyfullstorage/tinyconstfullstorageview.h>
-
 #endif // FLENS_STORAGE_STORAGE_H

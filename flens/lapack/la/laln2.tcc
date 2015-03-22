@@ -74,7 +74,6 @@ laln2_impl(bool                  transA,
 {
     using std::abs;
     using std::max;
-    using cxxblas::pow;
 
     typedef typename GeMatrix<MX>::ElementType  T;
     typedef typename GeMatrix<MX>::IndexType    IndexType;

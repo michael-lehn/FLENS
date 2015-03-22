@@ -33,7 +33,6 @@
 #ifndef FLENS_SCALAROPERATIONS_ACOS_H
 #define FLENS_SCALAROPERATIONS_ACOS_H 1
 
-#include <cxxblas/auxiliary/complex.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/scalartypes/impl/scalarclosure.h>
 

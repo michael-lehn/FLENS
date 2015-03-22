@@ -257,7 +257,7 @@ lacn2_impl(DenseVector<VV> &v, DenseVector<VX> &x,
 //  FIRST ITERATION.  X HAS BEEN OVERWRITTEN BY CONJTRANSPOSE(A)*X.
 //
     case 2:
-        iSave(2) = blas::imax1(x);
+        iSave(2) = blas::iamax1(x);
         iSave(3) = 2;
 //
 //      MAIN LOOP - ITERATIONS 2,3,...,ITMAX.
@@ -301,7 +301,7 @@ lacn2_impl(DenseVector<VV> &v, DenseVector<VX> &x,
 //
     case 4:
         jLast = iSave(2);
-        iSave(2) = blas::imax1(x);
+        iSave(2) = blas::iamax1(x);
         if ( abs(x(jLast))!=abs(x(iSave(2))) && iSave(3)<itMax) {
             ++iSave(3);
             goto MAIN;

@@ -304,6 +304,21 @@ TrMatrix<FS>::leadingDimension() const
 }
 
 template <typename FS>
+typename TrMatrix<FS>::IndexType
+TrMatrix<FS>::strideRow() const
+{
+    return engine_.strideRow();
+}
+
+template <typename FS>
+typename TrMatrix<FS>::IndexType
+TrMatrix<FS>::strideCol() const
+{
+    return engine_.strideCol();
+}
+
+
+template <typename FS>
 StorageOrder
 TrMatrix<FS>::order() const
 {
@@ -390,6 +405,7 @@ const typename TrMatrix<FS>::ConstHermitianView
 TrMatrix<FS>::hermitian() const
 {
     ASSERT(numRows()==numCols());
+    ASSERT(diag()==NonUnit);
     return ConstHermitianView(engine_, upLo());
 }
 
@@ -398,6 +414,7 @@ typename TrMatrix<FS>::HermitianView
 TrMatrix<FS>::hermitian()
 {
     ASSERT(numRows()==numCols());
+    ASSERT(diag()==NonUnit);
     return HermitianView(engine_, upLo());
 }
 
@@ -407,6 +424,7 @@ const typename TrMatrix<FS>::ConstSymmetricView
 TrMatrix<FS>::symmetric() const
 {
     ASSERT(numRows()==numCols());
+    ASSERT(diag()==NonUnit);
     return ConstSymmetricView(engine_, upLo());
 }
 
@@ -415,6 +433,7 @@ typename TrMatrix<FS>::SymmetricView
 TrMatrix<FS>::symmetric()
 {
     ASSERT(numRows()==numCols());
+    ASSERT(diag()==NonUnit);
     return SymmetricView(engine_, upLo());
 }
 

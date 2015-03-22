@@ -167,7 +167,7 @@ ungtr_impl(HeMatrix<MA>              &A,
                                     tau.data(),
                                     &WORK,
                                     LWORK);
-        work.resize(IndexType(cxxblas::real(WORK)));
+        work.resize(IndexType(real(WORK)));
     }
 
     cxxlapack::ungtr<IndexType>(getF77Char(A.upLo()),

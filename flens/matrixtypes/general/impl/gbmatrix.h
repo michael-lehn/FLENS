@@ -33,11 +33,11 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GBMATRIX_H
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GBMATRIX_H 1
 
-#include <cxxblas/typedefs.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/typedefs.h>
 #include <flens/matrixtypes/general/generalmatrix.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 

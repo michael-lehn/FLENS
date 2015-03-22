@@ -48,7 +48,5 @@
 #include <flens/io/packedstorage/load.h>
 #include <flens/io/packedstorage/out.h>
 #include <flens/io/packedstorage/save.h>
-#include <flens/io/tinyarray/out.h>
-#include <flens/io/tinyfullstorage/out.h>
 
 #endif // FLENS_IO_IO_H

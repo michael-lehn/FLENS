@@ -221,6 +221,12 @@ class GeMatrix
         IndexType
         leadingDimension() const;
 
+        IndexType
+        strideRow() const;
+
+        IndexType
+        strideCol() const;
+
         StorageOrder
         order() const;
 

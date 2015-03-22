@@ -33,7 +33,6 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GE_ELEMENTCLOSURE_TCC
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GE_ELEMENTCLOSURE_TCC 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/general/impl/ge/elementclosure.h>
 #include <flens/typedefs.h>
 

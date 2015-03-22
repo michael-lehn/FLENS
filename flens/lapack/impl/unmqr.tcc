@@ -294,7 +294,7 @@ unmqr_wsq_impl(Side              side,
                                 C.leadingDimension(),
                                 &WORK,
                                 LWORK);
-    return cxxblas::real(WORK);
+    return real(WORK);
 }
 
 //-- unmqr ---------------------------------------------------------------------

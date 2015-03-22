@@ -58,7 +58,6 @@ lapy2_impl(const T &x, const T &y)
     using std::abs;
     using std::max;
     using std::min;
-    using cxxblas::pow;
     using std::sqrt;
 
     const T xAbs = abs(x);

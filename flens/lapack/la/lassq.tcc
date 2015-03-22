@@ -58,7 +58,6 @@ void
 lassq_impl(const DenseVector<VX> &x, T &scale, T &sumsq)
 {
     using std::abs;
-    using cxxblas::pow;
 
     typedef typename DenseVector<VX>::IndexType IndexType;
 

@@ -80,7 +80,7 @@ sv_impl(HeMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B,
                                    B.leadingDimension(),
                                    &WORK,
                                    LWORK);
-        work.resize(cxxblas::real(WORK));
+        work.resize(real(WORK));
     }
 
     IndexType info = cxxlapack::hesv<IndexType>(getF77Char(A.upLo()),

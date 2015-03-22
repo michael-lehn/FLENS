@@ -40,10 +40,11 @@
 #include <cxxstd/sstream.h>
 #include <cxxstd/string.h>
 
-#include <cxxblas/typedefs.h>
 #include <flens/io/fullstorage/load.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 
@@ -104,13 +105,13 @@ load(std::string filename, HeMatrix<FS> &A)
 
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=i; ++j) {
-            if (A.upLo()==cxxblas::Lower) {
+            if (A.upLo()==Lower) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,j))),
                          sizeof(ElementType) );
             } else {
                 ElementType alpha;
                 ifs.read(reinterpret_cast<char*>(&alpha), sizeof(ElementType));
-                A(j,i) = cxxblas::conjugate(alpha);
+                A(j,i) = conjugate(alpha);
             }
         }
     }
@@ -143,7 +144,7 @@ load(std::string filename, SyMatrix<FS> &A)
 
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=i; ++j) {
-            if (A.upLo()==cxxblas::Lower) {
+            if (A.upLo()==Lower) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,j))),
                          sizeof(ElementType) );
             } else {
@@ -183,11 +184,11 @@ load(std::string filename, TrMatrix<FS> &A)
     ifs.read(reinterpret_cast<char*>(&diag), sizeof(Diag));
 
     ASSERT(upLo==A.upLo());
-    ASSERT((diag==A.diag()) || (A.diag()==cxxblas::NonUnit));
+    ASSERT((diag==A.diag()) || (A.diag()==NonUnit));
 
     A.resize(numRows, numCols, firstRow, firstCol);
 
-    if (upLo==cxxblas::Lower) {
+    if (upLo==Lower) {
         for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i){
             const IndexType jmax = i-A.firstRow()+A.firstCol();
 
@@ -196,10 +197,10 @@ load(std::string filename, TrMatrix<FS> &A)
                          sizeof(ElementType) );
             }
 
-            if (diag==cxxblas::NonUnit) {
+            if (diag==NonUnit) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,jmax))),
                          sizeof(ElementType) );
-            } else if ((A.diag()==cxxblas::NonUnit) && (diag==cxxblas::Unit)) {
+            } else if ((A.diag()==NonUnit) && (diag==Unit)) {
                 A(i,jmax) = ElementType(1);
             }
         }
@@ -207,10 +208,10 @@ load(std::string filename, TrMatrix<FS> &A)
         for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i){
             const IndexType jmin = i-A.firstRow()+A.firstCol();
 
-            if (diag==cxxblas::NonUnit) {
+            if (diag==NonUnit) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,jmin))),
                          sizeof(ElementType) );
-            } else if ((A.diag()==cxxblas::NonUnit) && (diag==cxxblas::Unit)) {
+            } else if ((A.diag()==NonUnit) && (diag==Unit)) {
                 A(i, jmin) = ElementType(1);
             }
 

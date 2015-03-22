@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2010,2015 Michael Lehn
  *
  *   All rights reserved.
  *
@@ -36,6 +36,7 @@
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level3/level3.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens { namespace blas {
 
@@ -45,7 +46,7 @@ typename RestrictTo<IsGeMatrix<MA>::value
                  && IsGeMatrix<MB>::value
                  && IsHeMatrix<MC>::value,
          void>::Type
-r2k(Transpose           trans,
+r2k(Transpose           transposeAB,
     const ALPHA         &alpha,
     const MA            &A,
     const MB            &B,
@@ -55,30 +56,27 @@ r2k(Transpose           trans,
     typedef typename RemoveRef<MC>::Type MatrixC;
     typedef typename MatrixC::IndexType  IndexType;
 
-    IndexType n = (trans==NoTrans) ? A.numRows()
-                                   : A.numCols();
-    IndexType k = (trans==NoTrans) ? A.numCols()
-                                   : A.numRows();
+    const bool transAB = (transposeAB==Trans || transposeAB==ConjTrans);
+    const bool lowerC  = (C.upLo()==Lower);
 
+    const IndexType n = (!transAB) ? A.numRows() : A.numCols();
+    const IndexType k = (!transAB) ? A.numCols() : A.numRows();
+
+    ASSERT(transposeAB!=Conj && transposeAB!=Trans);
     ASSERT(A.numRows()==B.numRows());
     ASSERT(A.numCols()==B.numCols());
-    ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
+    ASSERT((beta==BETA(0)) || (C.dim()==n));
 
     if (C.dim()!=n) {
         C.resize(n, n);
     }
 
-#   ifdef HAVE_CXXBLAS_HER2K
-    cxxblas::her2k(C.order(), C.upLo(), trans,
-                   n, k,
-                   alpha,
-                   A.data(), A.leadingDimension(),
-                   B.data(), B.leadingDimension(),
+    cxxblas::her2k(n, k,
+                   alpha, transAB,
+                   A.data(), A.strideRow(), A.strideCol(),
+                   B.data(), B.strideRow(), B.strideCol(),
                    beta,
-                   C.data(), C.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
+                   lowerC, C.data(), C.strideRow(), C.strideCol());
 }
 
 //-- syr2k
@@ -87,7 +85,7 @@ typename RestrictTo<IsGeMatrix<MA>::value
                  && IsGeMatrix<MB>::value
                  && IsSyMatrix<MC>::value,
          void>::Type
-r2k(Transpose           trans,
+r2k(Transpose           transposeAB,
     const ALPHA         &alpha,
     const MA            &A,
     const MB            &B,
@@ -97,30 +95,26 @@ r2k(Transpose           trans,
     typedef typename RemoveRef<MC>::Type MatrixC;
     typedef typename MatrixC::IndexType  IndexType;
 
-    IndexType n = (trans==NoTrans) ? A.numRows()
-                                   : A.numCols();
-    IndexType k = (trans==NoTrans) ? A.numCols()
-                                   : A.numRows();
+    const bool transAB = (transposeAB==Trans || transposeAB==ConjTrans);
+    const bool lowerC  = (C.upLo()==Lower);
+
+    const IndexType n = (!transAB) ? A.numRows() : A.numCols();
+    const IndexType k = (!transAB) ? A.numCols() : A.numRows();
 
     ASSERT(A.numRows()==B.numRows());
     ASSERT(A.numCols()==B.numCols());
-    ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
+    ASSERT((beta==BETA(0)) || (C.dim()==n));
 
     if (C.dim()!=n) {
         C.resize(n, n);
     }
 
-#   ifdef HAVE_CXXBLAS_SYR2K
-    cxxblas::syr2k(C.order(), C.upLo(), trans,
-                   n, k,
-                   alpha,
-                   A.data(), A.leadingDimension(),
-                   B.data(), B.leadingDimension(),
+    cxxblas::syr2k(n, k,
+                   alpha, transAB,
+                   A.data(), A.strideRow(), A.strideCol(),
+                   B.data(), B.strideRow(), B.strideCol(),
                    beta,
-                   C.data(), C.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
+                   lowerC, C.data(), C.strideRow(), C.strideCol());
 }
 
 } } // namespace blas, flens

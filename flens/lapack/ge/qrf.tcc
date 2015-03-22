@@ -193,7 +193,7 @@ qrf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
                                     tau.data(),
                                     &WORK,
                                     LWORK);
-        work.resize(cxxblas::real(WORK));
+        work.resize(real(WORK));
     }
 
     cxxlapack::geqrf<IndexType>(A.numRows(),

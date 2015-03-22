@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2012, 2015 Michael Lehn
  *
  *   All rights reserved.
  *
@@ -36,6 +36,7 @@
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level2/level2.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -55,18 +56,22 @@ typename RestrictTo<IsDenseVector<VX>::value
          void>::Type
 r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 {
+    const bool lowerA    = (A.upLo()==Lower);
+
     ASSERT(x.length()==y.length());
+
     if (A.dim()==0) {
         ASSERT(x.firstIndex()==y.firstIndex());
         A.resize(x.length(), x.firstIndex());
     }
+
     ASSERT(A.dim()==x.length());
-    cxxblas::her2(A.order(), A.upLo(),
-                  A.dim(),
+
+    cxxblas::her2(A.dim(),
                   alpha,
                   x.data(), x.stride(),
                   y.data(), y.stride(),
-                  A.data(), A.leadingDimension());
+                  lowerA, A.data(), A.strideRow(), A.strideCol());
 }
 
 //-- hpr2
@@ -77,18 +82,23 @@ typename RestrictTo<IsDenseVector<VX>::value
          void>::Type
 r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 {
+    const bool colMajorA = (A.order()==ColMajor);
+    const bool lowerA    = (A.upLo()==Lower);
+
     ASSERT(x.length()==y.length());
+
     if (A.dim()==0) {
         ASSERT(x.firstIndex()==y.firstIndex());
         A.resize(x.length(), x.firstIndex());
     }
+
     ASSERT(A.dim()==x.length());
-    cxxblas::hpr2(A.order(), A.upLo(),
-                  A.dim(),
+
+    cxxblas::hpr2(A.dim(),
                   alpha,
                   x.data(), x.stride(),
                   y.data(), y.stride(),
-                  A.data());
+                  colMajorA, lowerA, A.data());
 }
 
 //-- SymmetricMatrix, DenseVector ----------------------------------------------
@@ -101,18 +111,23 @@ typename RestrictTo<IsDenseVector<VX>::value
          void>::Type
 r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 {
+    const bool colMajorA = (A.order()==ColMajor);
+    const bool lowerA    = (A.upLo()==Lower);
+
     ASSERT(x.length()==y.length());
+
     if (A.dim()==0) {
         ASSERT(x.firstIndex()==y.firstIndex());
         A.resize(x.length(), x.firstIndex());
     }
+
     ASSERT(A.dim()==x.length());
-    cxxblas::spr2(A.order(), A.upLo(),
-                  A.dim(),
+
+    cxxblas::spr2(A.dim(),
                   alpha,
                   x.data(), x.stride(),
                   y.data(), y.stride(),
-                  A.data());
+                  colMajorA, lowerA, A.data());
 }
 
 //-- syr2
@@ -123,18 +138,22 @@ typename RestrictTo<IsDenseVector<VX>::value
          void>::Type
 r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 {
+    const bool lowerA    = (A.upLo()==Lower);
+
     ASSERT(x.length()==y.length());
+
     if (A.dim()==0) {
         ASSERT(x.firstIndex()==y.firstIndex());
         A.resize(x.length(), x.firstIndex());
     }
+
     ASSERT(A.dim()==x.length());
-    cxxblas::syr2(A.order(), A.upLo(),
-                  A.dim(),
+
+    cxxblas::syr2(A.dim(),
                   alpha,
                   x.data(), x.stride(),
                   y.data(), y.stride(),
-                  A.data(), A.leadingDimension());
+                  lowerA, A.data(), A.strideRow(), A.strideCol());
 }
 
 } } // namespace blas, flens

@@ -76,7 +76,6 @@ svj_impl(SVJ::TypeA                typeA,
     using std::abs;
     using std::max;
     using std::min;
-    using cxxblas::pow;
     using std::sqrt;
     using std::swap;
 

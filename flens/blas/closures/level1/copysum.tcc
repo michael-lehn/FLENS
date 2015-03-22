@@ -36,7 +36,6 @@
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
-#include <flens/blas/level1extensions/level1extensions.h>
 #include <flens/blas/level2/level2.h>
 #include <flens/blas/level3/level3.h>
 #include <flens/typedefs.h>

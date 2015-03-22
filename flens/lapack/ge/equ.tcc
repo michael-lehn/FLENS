@@ -105,8 +105,7 @@ equ_impl(const GeMatrix<MA>  &A,
 //
     for (IndexType j=1; j<=n; ++j) {
         for (IndexType i=1; i<=m; ++i) {
-            r(i) = max(r(i), abs(cxxblas::real(A(i,j)))
-                             + abs(cxxblas::imag(A(i,j))));
+            r(i) = max(r(i), abs(real(A(i,j))) + abs(imag(A(i,j))));
         }
     }
 //
@@ -152,8 +151,7 @@ equ_impl(const GeMatrix<MA>  &A,
 //
     for (IndexType j=1; j<=n; ++j) {
         for (IndexType i=1; i<=m; ++i) {
-            c(j) = max(c(j), (abs(cxxblas::real(A(i,j)))
-                              + abs(cxxblas::imag(A(i,j))))*r(i));
+            c(j) = max(c(j), (abs(real(A(i,j))) + abs(imag(A(i,j))))*r(i));
         }
     }
 //

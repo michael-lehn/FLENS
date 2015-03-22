@@ -982,7 +982,6 @@ trevc_impl(bool                          computeVL,
            DenseVector<VRWORK>           &rWork)
 {
     using std::abs;
-    using cxxblas::abs1;
     using flens::max;
 
     typedef typename GeMatrix<MT>::ElementType                  ElementType;

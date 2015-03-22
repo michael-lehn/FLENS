@@ -118,7 +118,7 @@ svd_impl(SVD::Job               jobU,
                                     VT.leadingDimension(),
                                     &WORK,
                                     LWORK);
-        work.resize(cxxblas::real(WORK));
+        work.resize(real(WORK));
     }
     cxxlapack::gesvd<IndexType>(getF77Char(jobU), getF77Char(jobVT),
                                 A.numRows(),
@@ -166,7 +166,7 @@ svd_wsq_impl(SVD::Job           jobU,
                                 LWORK,
                                 &RWORK);
 
-    return cxxblas::real(WORK);
+    return real(WORK);
 }
 
 template <typename MA, typename VS, typename MU, typename MVT,
@@ -203,7 +203,7 @@ svd_impl(SVD::Job               jobU,
                                     &WORK,
                                     LWORK,
                                     rwork.data());
-        work.resize(cxxblas::real(WORK));
+        work.resize(real(WORK));
     }
 
     if (rwork.length()==0) {

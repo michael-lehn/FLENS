@@ -233,9 +233,10 @@
     }
 
 //------------------------------------------------------------------------------
-#define FLENS_BLASLOG_BEGIN_COPY(X, Y)                                      \
+#define FLENS_BLASLOG_BEGIN_COPY(CONJ, X, Y)                                \
     if (verbose::ClosureLog::createEntry()) {                               \
         verbose::ClosureLog::append() << "flens::blas::copy("               \
+                                      << CONJ << ",                         \
                                       << X << ", " << Y << ");";            \
     }
 

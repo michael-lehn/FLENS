@@ -36,6 +36,7 @@
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level2/level2.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -51,18 +52,20 @@ template <typename MA, typename VX>
 typename RestrictTo<IsTbMatrix<MA>::value
                  && IsDenseVector<VX>::value,
          void>::Type
-sv(Transpose trans, const MA &A, VX &&x)
+sv(Transpose transposeA, const MA &A, VX &&x)
 {
     ASSERT(x.length()==A.dim());
-#   ifdef HAVE_CXXBLAS_TBSV
-    cxxblas::tbsv(A.order(), A.upLo(),
-                  trans, A.diag(),
-                  A.dim(), A.numOffDiags(),
+
+    const bool colMajorA = (A.order()==ColMajor);
+    const bool lowerA    = (A.upLo()==Lower);
+    const bool transA    = (transposeA==Trans || transposeA==ConjTrans);
+    const bool conjA     = (transposeA==Conj || transposeA==ConjTrans);
+    const bool unitDiagA = (A.diag()==Unit);
+
+    cxxblas::tbsv(A.dim(), A.numOffDiags(),
+                  colMajorA, lowerA, transA, conjA, unitDiagA,
                   A.data(), A.leadingDimension(),
                   x.data(), x.stride());
-#   else
-    ASSERT(0);
-#   endif
 }
 
 //-- trsv
@@ -70,18 +73,19 @@ template <typename MA, typename VX>
 typename RestrictTo<IsTrMatrix<MA>::value
                  && IsDenseVector<VX>::value,
          void>::Type
-sv(Transpose trans, const MA &A, VX &&x)
+sv(Transpose transposeA, const MA &A, VX &&x)
 {
+    const bool lowerA    = (A.upLo()==Lower);
+    const bool transA    = (transposeA==Trans || transposeA==ConjTrans);
+    const bool conjA     = (transposeA==Conj || transposeA==ConjTrans);
+    const bool unitDiagA = (A.diag()==Unit);
+
     ASSERT(x.length()==A.dim());
-#   ifdef HAVE_CXXBLAS_TRSV
-    cxxblas::trsv(A.order(), A.upLo(),
-                  trans, A.diag(),
-                  A.dim(),
-                  A.data(), A.leadingDimension(),
+
+    cxxblas::trsv(A.dim(),
+                  lowerA, transA, conjA, unitDiagA,
+                  A.data(), A.strideRow(), A.strideCol(),
                   x.data(), x.stride());
-#   else
-    ASSERT(0);
-#   endif
 }
 
 //-- tpsv
@@ -89,18 +93,20 @@ template <typename MA, typename VX>
 typename RestrictTo<IsTpMatrix<MA>::value
                  && IsDenseVector<VX>::value,
          void>::Type
-sv(Transpose trans, const MA &A, VX &&x)
+sv(Transpose transposeA, const MA &A, VX &&x)
 {
+    const bool colMajorA = (A.order()==ColMajor);
+    const bool lowerA    = (A.upLo()==Lower);
+    const bool transA    = (transposeA==Trans || transposeA==ConjTrans);
+    const bool conjA     = (transposeA==Conj || transposeA==ConjTrans);
+    const bool unitDiagA = (A.diag()==Unit);
+
     ASSERT(x.length()==A.dim());
-#   ifdef HAVE_CXXBLAS_TPSV
-    cxxblas::tpsv(A.order(), A.upLo(),
-                  trans, A.diag(),
-                  A.dim(),
+
+    cxxblas::tpsv(A.dim(),
+                  colMajorA, lowerA, transA, conjA, unitDiagA,
                   A.data(),
                   x.data(), x.stride());
-#   else
-    ASSERT(0);
-#   endif
 }
 
 } } // namespace blas, flens

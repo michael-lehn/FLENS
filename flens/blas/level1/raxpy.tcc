@@ -33,11 +33,11 @@
 #ifndef FLENS_BLAS_LEVEL1_RAXPY_TCC
 #define FLENS_BLAS_LEVEL1_RAXPY_TCC 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -69,13 +69,10 @@ raxpy(const ALPHA &alpha, const VX &x, VY &&y)
     }
     ASSERT(y.length()==x.length());
 
-#   ifdef HAVE_CXXBLAS_RAXPY
     cxxblas::raxpy(x.length(), alpha,
                    x.data(), x.stride(),
                    y.data(), y.stride());
-#   else
-    ASSERT(0);
-#   endif
+
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
 }
@@ -147,17 +144,44 @@ raxpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MRAXPY(trans, alpha, A, B);
 
-#   ifdef HAVE_CXXBLAS_GERAXPY
     geraxpy(B.order(), trans, B.numRows(), B.numCols(), alpha,
-            A.data(), A.leadingDimension(),
-            B.data(), B.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
+            A.data(), A.strideRow(), A.strideCol(),
+            B.data(), B.strideRow(), B.strideCol());
+
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
 }
 
+
+//-- racxpy
+template <typename ALPHA, typename VX, typename VY>
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+racxpy(const ALPHA &alpha, const VX &x, VY &&y)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_AXPY(alpha, x, y);
+
+    if (y.length()==0) {
+//
+//      So we allow  y += conjugate(x)/alpha  for an empty vector y
+//
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+        const T  Zero(0);
+
+        y.resize(x, Zero);
+    }
+    ASSERT(y.length()==x.length());
+
+    cxxblas::racxpy(x.length(), alpha,
+                    x.data(), x.stride(),
+                    y.data(), y.stride());
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
 
 } } // namespace blas, flens
 

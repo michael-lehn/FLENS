@@ -33,7 +33,6 @@
 #ifndef FLENS_BLAS_CLOSURES_TWEAKS_R_H
 #define FLENS_BLAS_CLOSURES_TWEAKS_R_H 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/blas/closures/tweaks/defaulteval.h>
 #include <flens/blas/operators/operators.h>
 #include <flens/matrixtypes/matrixtypes.h>

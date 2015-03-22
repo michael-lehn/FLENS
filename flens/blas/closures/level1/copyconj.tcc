@@ -67,9 +67,22 @@ copyConj(const VX &x, Vector<VY> &y)
 {
     using namespace DEBUGCLOSURE;
 
-    copyConj(x.impl(), y.impl());
+    copy(true, x.impl(), y.impl());
 }
 
+//
+// case 2: x is a closure
+//
+template <typename VX, typename VY>
+typename RestrictTo<IsVectorClosure<VX>::value,
+         void>::Type
+copyConj(const VX &x, Vector<VY> &y)
+{
+    using namespace DEBUGCLOSURE;
+
+    copy(x.impl(), y.impl());
+    conj(y.impl());
+}
 
 } } // namespace blas, flens
 

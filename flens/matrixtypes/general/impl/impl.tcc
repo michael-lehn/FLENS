@@ -33,13 +33,11 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_TCC
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_TCC 1
 
-#include <flens/matrixtypes/general/impl/diagmatrix.tcc>
 #include <flens/matrixtypes/general/impl/gbmatrix.tcc>
 #include <flens/matrixtypes/general/impl/geccsmatrix.tcc>
 #include <flens/matrixtypes/general/impl/gecoordmatrix.tcc>
 #include <flens/matrixtypes/general/impl/gecrsmatrix.tcc>
 #include <flens/matrixtypes/general/impl/gematrix.tcc>
-#include <flens/matrixtypes/general/impl/getinymatrix.tcc>
 #include <flens/matrixtypes/general/impl/imagmatrixclosure.tcc>
 #include <flens/matrixtypes/general/impl/realmatrixclosure.tcc>
 

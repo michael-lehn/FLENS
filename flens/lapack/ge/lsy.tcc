@@ -641,7 +641,7 @@ lsy_impl(GeMatrix<MA>              &A,
                                     &WORK,
                                     LWORK,
                                     rwork.data());
-        work.resize(IndexType(cxxblas::real(WORK)));
+        work.resize(IndexType(real(WORK)));
     }
 
     cxxlapack::gelsy<IndexType>(A.numRows(),

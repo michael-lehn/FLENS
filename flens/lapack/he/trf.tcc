@@ -74,7 +74,7 @@ trf_impl(HeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
                                     piv.data(),
                                     &WORK,
                                     LWORK);
-        work.resize(cxxblas::real(WORK));
+        work.resize(real(WORK));
     }
 
     return cxxlapack::hetrf<IndexType>(getF77Char(A.upLo()),

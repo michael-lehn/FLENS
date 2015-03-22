@@ -76,46 +76,6 @@ operator<<(std::ostream &out, const DenseVector<A> &x)
     return out;
 }
 
-template <typename MA>
-std::ostream &
-operator<<(std::ostream &out, const DiagMatrix<MA> &A)
-{
-    typedef typename DiagMatrix<MA>::IndexType IndexType;
-    typedef typename DiagMatrix<MA>::ElementType ElementType;
-
-    const auto x = A.diag();
-
-#   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = A::defaultIndexBase;
-
-    out << std::endl << "[";
-    if ((x.firstIndex()==defaultIndexBase) && (x.inc()>0)) {
-        out << x.length();
-    } else {
-        out << x.firstIndex()
-            << ".."
-            << x.lastIndex();
-    }
-    out << "] ";
-#   endif // FLENS_IO_WITH_RANGES
-
-    out << std::endl;
-
-    for (IndexType i=x.firstIndex(); i!=x.endIndex(); i+=x.inc()) {
-        if (IsNotComplex<ElementType>::value)
-                out.width(13);
-            else
-                out.width(28);
-
-        out << x(i) << " ";
-        if (i!=x.lastIndex()) {
-            out << " ";
-        }
-    }
-    out << std::endl;
-    return out;
-}
-
 } // namespace flens
 
 #endif // FLENS_IO_ARRAY_OUT_TCC

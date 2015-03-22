@@ -33,11 +33,11 @@
 #ifndef FLENS_BLAS_LEVEL1_SWAP_TCC
 #define FLENS_BLAS_LEVEL1_SWAP_TCC 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -55,11 +55,7 @@ swap(VX &&x, VY &&y)
 {
     ASSERT(x.length()==y.length());
 
-#   ifdef HAVE_CXXBLAS_SWAP
     cxxblas::swap(x.length(), x.data(), x.stride(), y.data(), y.stride());
-#   else
-    ASSERT(0);
-#   endif
 }
 
 template <typename MA, typename MB>
@@ -68,21 +64,12 @@ typename RestrictTo<IsGeMatrix<MA>::value &&
                     void>::Type
 swap(MA &&A, MB &&B)
 {
-    typedef typename RemoveRef<MB>::Type MatrixB;
-    typedef typename MatrixB::IndexType  IndexType;
-
-    const Underscore<IndexType> _;
-
     ASSERT(A.numRows()==B.numRows());
     ASSERT(A.numCols()==B.numCols());
 
-#   ifdef HAVE_CXXBLAS_GESWAP
-    cxxblas::geswap(A.order(), B.order(), B.numRows(), B.numCols(),
-                    A.data(), A.leadingDimension(),
-                    B.data(), B.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
+    cxxblas::geswap(B.numRows(), B.numCols(),
+                    A.data(), A.strideRow(), A.strideCol(),
+                    B.data(), B.strideRow(), B.strideCol());
 }
 
 } } // namespace blas, flens

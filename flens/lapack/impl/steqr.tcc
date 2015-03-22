@@ -60,7 +60,6 @@ steqr_impl(STEQR::ComputeZ     compZ,
            GeMatrix<MZ>        &Z,
            DenseVector<VWORK>  &work)
 {
-    using cxxblas::pow;
     using std::abs;
     using std::max;
     using std::sqrt;

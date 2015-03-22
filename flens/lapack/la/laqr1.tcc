@@ -109,8 +109,6 @@ laqr1_impl(const GeMatrix<MH>        &H,
            const T                   &s2,
            DenseVector<VV>           &v)
 {
-    using cxxblas::abs1;
-
     typedef typename GeMatrix<MH>::IndexType    IndexType;
 
     const IndexType n   = H.numRows();

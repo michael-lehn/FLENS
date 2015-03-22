@@ -344,12 +344,6 @@ typedef TpMatrix<ZPacked>             ZTpMatrix;
 typedef TpMatrix<ZPackedView>         ZTpMatrixView;
 typedef TpMatrix<ZPackedConstView>    ZTpMatrixConstView;
 
-
-
-
-
-
-
 } // namespace flens
 
 

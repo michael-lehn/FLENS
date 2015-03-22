@@ -33,18 +33,11 @@
 #ifndef FLENS_BLAS_LEVEL1_COTR_H
 #define FLENS_BLAS_LEVEL1_COTR_H 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {
-
-//-- gbcotr
-template <typename MA>
-    typename RestrictTo<IsGbMatrix<MA>::value,
-             void>::Type
-    cotr(Transpose trans, MA &&A);
 
 //-- gecotr
 template <typename MA>

@@ -610,7 +610,6 @@ laqr0_impl(bool                  wantT,
     using std::abs;
     using std::max;
     using std::swap;
-    using cxxblas::abs1;
     using flens::min;
 
     typedef typename GeMatrix<MH>::ElementType       T;
@@ -1188,7 +1187,7 @@ laqr0_wsq_impl(bool                  wantT,
                                 IndexType(1),
                                 &WORK,
                                 LWORK);
-    return cxxblas::real(WORK);
+    return real(WORK);
 }
 
 } // namespace external

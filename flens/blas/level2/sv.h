@@ -33,7 +33,6 @@
 #ifndef FLENS_BLAS_LEVEL2_SV_H
 #define FLENS_BLAS_LEVEL2_SV_H
 
-#include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
@@ -61,22 +60,6 @@ template <typename MA, typename VX>
                      && IsDenseVector<VX>::value,
             void>::Type
     sv(Transpose trans, const MA &A, VX &&x);
-
-//-- trccssv
-template <typename ALPHA, typename MA, typename VX, typename VY>
-    typename RestrictTo<IsTrCCSMatrix<MA>::value
-                     && IsDenseVector<VX>::value
-                     && IsDenseVector<VY>::value,
-             void>::Type
-    sv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x, VY &&y);
-
-//-- trccssv
-template <typename ALPHA, typename MA, typename VX, typename VY>
-    typename RestrictTo<IsTrCRSMatrix<MA>::value
-                     && IsDenseVector<VX>::value
-                     && IsDenseVector<VY>::value,
-             void>::Type
-    sv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x, VY &&y);
 
 } } // namespace blas, flens
 

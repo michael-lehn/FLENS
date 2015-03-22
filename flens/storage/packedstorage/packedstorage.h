@@ -33,7 +33,6 @@
 #ifndef FLENS_STORAGE_PACKEDSTORAGE_PACKEDSTORAGE_H
 #define FLENS_STORAGE_PACKEDSTORAGE_PACKEDSTORAGE_H
 
-#include <cxxblas/typedefs.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/indexoptions.h>
 #include <flens/typedefs.h>

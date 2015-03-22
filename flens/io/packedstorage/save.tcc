@@ -37,12 +37,13 @@
 #include <cxxstd/fstream.h>
 #include <cxxstd/iomanip.h>
 
-#include <cxxblas/typedefs.h>
 #include <flens/auxiliary/iscomplex.h>
 #include <flens/auxiliary/isinteger.h>
 #include <flens/io/packedstorage/save.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 
@@ -68,11 +69,11 @@ save(std::string filename, const HpMatrix<FS> &A)
 
     for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
         for (IndexType j=A.firstIndex(); j<=i; ++j) {
-            if (A.upLo()==cxxblas::Lower) {
+            if (A.upLo()==Lower) {
                 ofs.write(reinterpret_cast<const char*>(&(A(i,j))),
                           sizeof(ElementType));
             } else {
-                ElementType alpha = cxxblas::conjugate(A(j,i));
+                ElementType alpha = conjugate(A(j,i));
                 ofs.write(reinterpret_cast<const char*>(&alpha),
                           sizeof(ElementType));
             }
@@ -104,7 +105,7 @@ save(std::string filename, const SpMatrix<FS> &A)
 
     for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
         for (IndexType j=A.firstIndex(); j<=i; ++j) {
-            if (A.upLo()==cxxblas::Lower) {
+            if (A.upLo()==Lower) {
                 ofs.write(reinterpret_cast<const char*>(&(A(i,j))),
                           sizeof(ElementType));
             } else {
@@ -141,20 +142,20 @@ save(std::string filename, const TpMatrix<FS> &A)
     ofs.write(reinterpret_cast<char*>(&diag), sizeof(Diag));
 
 
-    if (upLo==cxxblas::Lower) {
+    if (upLo==Lower) {
         for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i){
             for (IndexType j=A.firstIndex(); j<i; ++j) {
                 ofs.write(reinterpret_cast<const char*>(&(A(i,j))),
                           sizeof(ElementType));
             }
-            if (diag==cxxblas::NonUnit) {
+            if (diag==NonUnit) {
                 ofs.write(reinterpret_cast<const char*>(&(A(i,i))),
                           sizeof(ElementType));
             }
         }
     } else {
         for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i){
-            if (diag==cxxblas::NonUnit)
+            if (diag==NonUnit)
                 ofs.write(reinterpret_cast<const char*>(&(A(i,i))),
                           sizeof(ElementType));
             for (IndexType j=i+1; j<=A.lastIndex(); ++j) {
@@ -208,17 +209,17 @@ saveMatrixMarket(std::string filename, const SpMatrix<FS> &A,
         for (IndexType j=i; j<=A.lastIndex(); ++j) {
             if (A.upLo() == Upper) {
                 ofs << setw(precision+6) << setprecision(precision)
-                    << cxxblas::real(A(i,j));
+                    << real(A(i,j));
                 if (IsComplex<ElementType>::value) {
                     ofs << setw(precision+7) << setprecision(precision)
-                        << cxxblas::imag(A(i,j));
+                        << imag(A(i,j));
                 }
             } else {
                 ofs << setw(precision+6) << setprecision(precision)
-                    <<  cxxblas::real(A(j,i));
+                    <<  real(A(j,i));
                 if (IsComplex<ElementType>::value) {
                     ofs << setw(precision+7) << setprecision(precision)
-                        << cxxblas::imag(A(j,i));
+                        << imag(A(j,i));
                 }
             }
             ofs << endl;
@@ -263,21 +264,21 @@ saveMatrixMarket(std::string filename, const HpMatrix<FS> &A,
         for (IndexType j=i; j<=A.lastIndex(); ++j) {
             if (A.upLo()==Upper) {
                 ofs << setw(precision+6) << setprecision(precision)
-                    <<  cxxblas::real(A(i,j));
+                    <<  real(A(i,j));
                 if (i == j)
                     ofs << setw(precision+7) << setprecision(precision) << 0;
                 else
                     ofs << setw(precision+7) << setprecision(precision)
-                        << -cxxblas::imag(A(i,j));
+                        << -imag(A(i,j));
 
             } else {
                 ofs << setw(precision+6) << setprecision(precision)
-                    <<  cxxblas::real(A(j,i));
+                    <<  real(A(j,i));
                 if (i==j)
                     ofs << setw(precision+7) << setprecision(precision) << 0;
                 else
                 ofs << setw(precision+7) << setprecision(precision)
-                    << cxxblas::imag(A(j,i));
+                    << imag(A(j,i));
             }
             ofs << endl;
         }

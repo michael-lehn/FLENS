@@ -60,7 +60,7 @@ typename RestrictTo<DefaultEval<VectorClosureMV<VZ, MA, VX> >::value
          void>::Type
 copy(const VectorClosureMV<VZ, MA, VX> &zpAx, Vector<VY> &y)
 {
-    FLENS_BLASLOG_BEGIN_COPY(zpAx, y);
+    FLENS_BLASLOG_BEGIN_COPY(false, zpAx, y);
 
     using namespace DEBUGCLOSURE;
 //

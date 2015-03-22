@@ -215,7 +215,7 @@ tri_impl(GeMatrix<MA>             &A,
                                            piv.data(),
                                            &WORK,
                                            LWORK);
-        work.resize(IndexType(cxxblas::real(WORK)));
+        work.resize(IndexType(real(WORK)));
     }
 
     info = cxxlapack::getri<IndexType>(A.numRows(),

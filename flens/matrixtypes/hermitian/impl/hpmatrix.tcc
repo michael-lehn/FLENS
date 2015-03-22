@@ -91,7 +91,7 @@ template <typename PS>
 HpMatrix<PS> &
 HpMatrix<PS>::operator=(const ElementType &alpha)
 {
-    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(imag(alpha)==0);
 
     VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
@@ -168,7 +168,7 @@ template <typename PS>
 HpMatrix<PS> &
 HpMatrix<PS>::operator+=(const ElementType &alpha)
 {
-    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(imag(alpha)==0);
 
     VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
@@ -180,7 +180,7 @@ template <typename PS>
 HpMatrix<PS> &
 HpMatrix<PS>::operator-=(const ElementType &alpha)
 {
-    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(imag(alpha)==0);
 
     VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
@@ -192,7 +192,7 @@ template <typename PS>
 HpMatrix<PS> &
 HpMatrix<PS>::operator*=(const ElementType &alpha)
 {
-    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(imag(alpha)==0);
 
     VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
@@ -204,7 +204,7 @@ template <typename PS>
 HpMatrix<PS> &
 HpMatrix<PS>::operator/=(const ElementType &alpha)
 {
-    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(imag(alpha)==0);
 
     VectorView x = ArrayView(engine_.numNonZeros(), engine_.data());
 
@@ -310,7 +310,7 @@ template <typename PS>
 bool
 HpMatrix<PS>::fill(const ElementType &value)
 {
-    ASSERT(cxxblas::imag(value)==0);
+    ASSERT(imag(value)==0);
 
     return engine_.fill(value);
 }

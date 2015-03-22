@@ -33,11 +33,22 @@
 #ifndef FLENS_AUXILIARY_RESTRICTTO_H
 #define FLENS_AUXILIARY_RESTRICTTO_H 1
 
-#include <cxxblas/auxiliary/restrictto.h>
+#ifdef INCLUDE_TYPE_TRAITS
+#   include <cxxstd/type_traits.h>
+#endif
 
 namespace flens {
 
-using cxxblas::RestrictTo;
+template <bool b, typename T>
+struct RestrictTo
+{
+};
+
+template <typename T>
+struct RestrictTo<true, T>
+{
+    typedef typename std::remove_reference<T>::type Type;
+};
 
 } // namespace flens
 

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2010,2015 Michael Lehn
  *
  *   All rights reserved.
  *
@@ -36,6 +36,7 @@
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level3/level3.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens { namespace blas {
 
@@ -44,31 +45,32 @@ template <typename ALPHA, typename MA, typename MB>
 typename RestrictTo<IsTrMatrix<MA>::value
                  && IsGeMatrix<MB>::value,
              void>::Type
-sm(Side             side,
-   Transpose        transA,
+sm(Side             sideA,
+   Transpose        transposeA,
    const ALPHA      &alpha,
    const MA         &A,
    MB               &&B)
 {
 #   ifndef NDEBUG
-    ASSERT(B.order()==A.order());
-    if (side==Left) {
+    if (sideA==Left) {
         assert(A.dim()==B.numRows());
     } else {
         assert(B.numCols()==A.dim());
     }
 #   endif
 
-#   ifdef HAVE_CXXBLAS_TRSM
-    cxxblas::trsm(A.order(), side, A.upLo(),
-                  transA, A.diag(),
+    const bool left      = (sideA==Left);
+    const bool lowerA    = (A.upLo()==Lower);
+    const bool transA    = (transposeA==Trans || transposeA==ConjTrans);
+    const bool conjA     = (transposeA==Conj || transposeA==ConjTrans);
+    const bool unitDiagA = (A.diag()==Unit);
+
+    cxxblas::trsm(left,
                   B.numRows(), B.numCols(),
                   alpha,
-                  A.data(), A.leadingDimension(),
-                  B.data(), B.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
+                  lowerA, transA, conjA, unitDiagA,
+                  A.data(), A.strideRow(), A.strideCol(),
+                  B.data(), B.strideRow(), B.strideCol());
 }
 
 } } // namespace blas, flens

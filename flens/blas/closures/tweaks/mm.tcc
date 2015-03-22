@@ -61,7 +61,7 @@ typename RestrictTo<DefaultEval<MatrixClosureMM<MD, MA, MB> >::value
          void>::Type
 copy(Transpose trans, const MatrixClosureMM<MD, MA, MB> &DpAB, MC &C)
 {
-    FLENS_BLASLOG_BEGIN_COPY(DpAB, C);
+    FLENS_BLASLOG_BEGIN_COPY(false, DpAB, C);
 
     using namespace DEBUGCLOSURE;
 //

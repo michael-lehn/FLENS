@@ -33,7 +33,6 @@
 #ifndef FLENS_BLAS_LEVEL1_NRM2_H
 #define FLENS_BLAS_LEVEL1_NRM2_H 1
 
-#include <cxxblas/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {

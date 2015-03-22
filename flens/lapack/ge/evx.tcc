@@ -151,8 +151,6 @@ evx_impl(BALANCE::Balance     balance,
          DenseVector<VWORK>   &work,
          DenseVector<VIWORK>  &iWork)
 {
-    using cxxblas::pow;
-
     typedef typename GeMatrix<MA>::ElementType   T;
 
     const IndexType             n = A.numRows();

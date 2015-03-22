@@ -38,100 +38,15 @@
 
 namespace flens { namespace blas {
 
-//-- BLAS Level 1 extensions ---------------------------------------------------
-
 //-- scal
 template <typename ALPHA, typename VY>
     typename RestrictTo<IsDenseVector<VY>::value,
              void>::Type
     scal(const ALPHA &alpha, VY &&y);
 
-//-- scal
-template <typename ALPHA, typename VY>
-    typename RestrictTo<IsTinyVector<VY>::value,
-             void>::Type
-    scal(const ALPHA &alpha, VY &&y);
-
-//-- BLAS Level 1 extensions ---------------------------------------------------
-
-//== GeneralMatrix
-
-//-- diagscal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsDiagMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
-
-//-- gbscal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsGbMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
 //-- gescal
 template <typename ALPHA, typename MB>
     typename RestrictTo<IsGeMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
-//-- (tiny) gescal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsGeTinyMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
-//== HermitianMatrix
-
-//-- hbscal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsHbMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
-//-- hescal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsHeMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
-//-- hpscal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsHpMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
-//== SymmetricMatrix
-
-//-- sbscal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsSbMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
-//-- spscal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsSpMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
-//-- syscal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsSyMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
-//== TriangularMatrix
-
-//-- tbscal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsTbMatrix<MB>::value,
-             void>::Type
-    scal(const ALPHA &alpha, MB &&B);
-
-//-- tpscal
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsTpMatrix<MB>::value,
              void>::Type
     scal(const ALPHA &alpha, MB &&B);
 

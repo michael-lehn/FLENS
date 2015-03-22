@@ -67,7 +67,6 @@ laev2_impl(const T &a,
            T       &cs1,
            T       &sn1)
 {
-    using cxxblas::pow;
     using std::abs;
     using std::sqrt;
 

@@ -194,7 +194,7 @@ lqf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
                                     tau.data(),
                                     &WORK,
                                     LWORK);
-        work.resize(IndexType(cxxblas::real(WORK)));
+        work.resize(IndexType(real(WORK)));
     }
 
     IndexType info = cxxlapack::gelqf<IndexType>(A.numRows(),

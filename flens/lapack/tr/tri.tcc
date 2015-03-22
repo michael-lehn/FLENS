@@ -50,6 +50,7 @@
 #include <cxxstd/algorithm.h>
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
+#include <ulmblas/cxxf77blas.h>
 
 namespace flens { namespace lapack {
 
@@ -64,7 +65,7 @@ typename GeMatrix<MA>::IndexType
 tri_impl(TrMatrix<MA> &A)
 {
     using std::min;
-    using cxxblas::getF77BlasChar;
+    using cxxf77blas::getF77BlasChar;
 
     typedef typename TrMatrix<MA>::ElementType ElementType;
     typedef typename TrMatrix<MA>::IndexType   IndexType;

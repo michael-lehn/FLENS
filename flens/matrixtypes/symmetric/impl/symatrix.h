@@ -33,7 +33,6 @@
 #ifndef FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SYMATRIX_H
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SYMATRIX_H 1
 
-#include <cxxblas/typedefs.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/auxiliary/underscore.h>
 #include <flens/matrixtypes/symmetric/symmetricmatrix.h>
@@ -224,6 +223,12 @@ class SyMatrix
 
         IndexType
         leadingDimension() const;
+
+        IndexType
+        strideRow() const;
+
+        IndexType
+        strideCol() const;
 
         StorageOrder
         order() const;

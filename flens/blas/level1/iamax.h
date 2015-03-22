@@ -33,7 +33,6 @@
 #ifndef FLENS_BLAS_LEVEL1_IAMAX_H
 #define FLENS_BLAS_LEVEL1_IAMAX_H 1
 
-#include <cxxblas/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {

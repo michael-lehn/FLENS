@@ -33,7 +33,6 @@
 #ifndef FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TBMATRIX_H
 #define FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TBMATRIX_H 1
 
-#include <cxxblas/typedefs.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/triangular/triangularmatrix.h>
 #include <flens/typedefs.h>

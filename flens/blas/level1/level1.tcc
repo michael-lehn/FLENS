@@ -33,15 +33,18 @@
 #ifndef FLENS_BLAS_LEVEL1_LEVEL1_TCC
 
 #include <flens/blas/level1/asum.tcc>
+#include <flens/blas/level1/asum1.tcc>
+#include <flens/blas/level1/axpby.tcc>
 #include <flens/blas/level1/axpy.tcc>
+#include <flens/blas/level1/conj.tcc>
 #include <flens/blas/level1/copy.tcc>
 #include <flens/blas/level1/cotr.tcc>
 #include <flens/blas/level1/dot.tcc>
 #include <flens/blas/level1/iamax.tcc>
+#include <flens/blas/level1/iamax1.tcc>
 #include <flens/blas/level1/nrm2.tcc>
 #include <flens/blas/level1/raxpy.tcc>
 #include <flens/blas/level1/rot.tcc>
-#include <flens/blas/level1/rotm.tcc>
 #include <flens/blas/level1/rscal.tcc>
 #include <flens/blas/level1/scal.tcc>
 #include <flens/blas/level1/swap.tcc>

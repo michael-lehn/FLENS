@@ -576,7 +576,7 @@ ls_impl(Transpose                 trans,
                                    B.leadingDimension(),
                                    &WORK,
                                    LWORK);
-        work.resize(IndexType(cxxblas::real(WORK)));
+        work.resize(IndexType(real(WORK)));
     }
 
     IndexType info = cxxlapack::gels<IndexType>(getF77Char(trans),

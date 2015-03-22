@@ -135,7 +135,7 @@ hd2_impl(IndexType           iLo,
 //      Apply H(i) to A(i+1:ihi,i+1:n) from the left
 //
         auto A_ = A(_(i+1,iHi),_(i+1,n));
-        larf(Left, A(_(i+1,iHi),i), cxxblas::conjugate(tau(i)), A_, work);
+        larf(Left, A(_(i+1,iHi),i), conjugate(tau(i)), A_, work);
 
         A(i+1,i) = Aii;
     }

@@ -75,7 +75,7 @@ trf_impl(SyMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
                                     piv.data(),
                                     &WORK,
                                     LWORK);
-        work.resize(cxxblas::real(WORK));
+        work.resize(real(WORK));
     }
 
     return cxxlapack::sytrf<IndexType>(getF77Char(A.upLo()),

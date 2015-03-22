@@ -33,11 +33,11 @@
 #ifndef FLENS_BLAS_LEVEL1_RSCAL_TCC
 #define FLENS_BLAS_LEVEL1_RSCAL_TCC 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -58,33 +58,11 @@ rscal(const ALPHA &alpha, VY &&y)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_RSCAL(alpha, y);
 
-#   ifdef HAVE_CXXBLAS_RSCAL
     cxxblas::rscal(y.length(), alpha, y.data(), y.stride());
-#   else
-    ASSERT(0);
-#   endif
 
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
 }
-
-//-- rscal
-template <typename ALPHA, typename VY>
-typename RestrictTo<IsTinyVector<VY>::value,
-         void>::Type
-rscal(const ALPHA &alpha, VY &&y)
-{
-    typedef typename RemoveRef<VY>::Type   VectorY;
-    typedef typename VectorY::ElementType  TY;
-
-    const int n    = VectorY::Engine::length;
-    const int incY = VectorY::Engine::stride;
-
-    cxxblas::rscal<n, ALPHA, TY, incY>(alpha, y.data());
-}
-
-
-//-- BLAS Level 1 extensions ---------------------------------------------------
 
 //-- gerscal
 template <typename ALPHA, typename MB>
@@ -95,31 +73,12 @@ rscal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_RSCAL(alpha, B);
 
-#   ifdef HAVE_CXXBLAS_GERSCAL
-    cxxblas::gerscal(B.order(), B.numRows(), B.numCols(),
-                     alpha, B.data(), B.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
+    cxxblas::gerscal(B.numRows(), B.numCols(),
+                     alpha,
+                     B.data(), B.strideRow(), B.strideCol());
 
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
-}
-
-//-- gerscal
-template <typename ALPHA, typename MB>
-typename RestrictTo<IsGeTinyMatrix<MB>::value,
-         void>::Type
-rscal(const ALPHA &alpha, MB &&B)
-{
-    typedef typename RemoveRef<MB>::Type   MatrixB;
-    typedef typename MatrixB::ElementType  TB;
-
-    const int m   = MatrixB::Engine::numRows;
-    const int n   = MatrixB::Engine::numCols;
-    const int ldB = MatrixB::Engine::leadingDimension;
-
-    cxxblas::gerscal<m,n,ALPHA,TB,ldB>(alpha, B.data());
 }
 
 } } // namespace blas, flens

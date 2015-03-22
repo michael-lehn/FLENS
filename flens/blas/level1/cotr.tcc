@@ -33,11 +33,11 @@
 #ifndef FLENS_BLAS_LEVEL1_COTR_TCC
 #define FLENS_BLAS_LEVEL1_COTR_TCC 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -47,76 +47,26 @@
 
 namespace flens { namespace blas {
 
-//-- gbcotr
-template <typename MA>
-typename RestrictTo<IsGbMatrix<MA>::value,
-         void>::Type
-cotr(Transpose trans, MA &&A)
-{
-//
-//  If matrix is not square no inplace transpose is possible
-//
-#   ifndef FLENS_DEBUG_CLOSURES
-#   ifndef NDEBUG
-    if (trans==Trans || trans==ConjTrans) {
-        ASSERT(A.numRows()==A.numCols());
-        ASSERT(A.numSubDiags()==A.numSuperDiags());
-    }
-#   endif
-#   else
-    if ((trans==Trans || trans==ConjTrans)
-     && ((A.numRows()!=A.numCols()) || (A.numSubDiags()!=A.numSuperDiags())))
-    {
-        typename GeMatrix<MA>::NoView B = A;
-        FLENS_BLASLOG_TMP_ADD(B);
-
-        copy(trans, B, A);
-
-        FLENS_BLASLOG_TMP_REMOVE(B, A);
-        return;
-    }
-#   endif
-
-//
-//  Quick return if possible
-//
-    if (trans==NoTrans) {
-        return;
-    }
-
-    FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MCOTR(trans, A);
-
-#   ifdef HAVE_CXXBLAS_GBCOTR
-    cxxblas::gbcotr(A.order(), trans, A.numRows(), A.numCols(),
-                    A.numSubDiags(), A.numSuperDiags(),
-                    A.data(), A.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-
-    FLENS_BLASLOG_END;
-    FLENS_BLASLOG_UNSETTAG;
-}
-
-
 //-- gecotr
 template <typename MA>
 typename RestrictTo<IsGeMatrix<MA>::value,
          void>::Type
-cotr(Transpose trans, MA &&A)
+cotr(Transpose transposeA, MA &&A)
 {
+    const bool transA = (transposeA==Trans || transposeA==ConjTrans);
+    const bool conjA  = (transposeA==Conj || transposeA==ConjTrans);
+
 //
 //  If matrix is not square no inplace transpose is possible
 //
 #   ifndef FLENS_DEBUG_CLOSURES
 #   ifndef NDEBUG
-    if (trans==Trans || trans==ConjTrans) {
+    if (transA) {
         ASSERT(A.numRows()==A.numCols());
     }
 #   endif
 #   else
-    if ((trans==Trans || trans==ConjTrans) && A.numRows()!=A.numCols()) {
+    if (transA && A.numRows()!=A.numCols()) {
         typename RemoveRef<MA>::Type::NoView  B = A;
         FLENS_BLASLOG_TMP_ADD(B);
 
@@ -130,19 +80,15 @@ cotr(Transpose trans, MA &&A)
 //
 //  Quick return if possible
 //
-    if (trans==NoTrans) {
+    if (!transA && !conjA) {
         return;
     }
 
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MCOTR(trans, A);
 
-#   ifdef HAVE_CXXBLAS_GECOTR
-    cxxblas::gecotr(A.order(), trans, A.numRows(), A.numCols(),
-                    A.data(), A.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
+    cxxblas::gecotr(A.numRows(), transA, conjA,
+                    A.data(), A.strideRow(), A.strideCol());
 
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;

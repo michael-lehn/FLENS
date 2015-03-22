@@ -33,8 +33,9 @@
 #ifndef FLENS_IO_BANDSTORAGE_OUT_TCC
 #define FLENS_IO_BANDSTORAGE_OUT_TCC
 
-#include <cxxblas/typedefs.h>
 #include <flens/io/bandstorage/out.h>
+#include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 
@@ -111,16 +112,16 @@ operator<<(std::ostream &out, const HbMatrix<FS> &A)
 
             if ((i-j<=A.numOffDiags()) && (j-i<=A.numOffDiags())) {
                 if (i==j) {
-                    out << ElementType(cxxblas::real(A(i,j)));
+                    out << ElementType(real(A(i,j)));
                 }
                 if (i<j) {
                     out << ((A.upLo()==Upper)
                             ? A(i,j)
-                            : cxxblas::conjugate(A(j,i)));
+                            : conjugate(A(j,i)));
                 }
                 if (i>j) {
                     out << ((A.upLo()==Upper)
-                            ? cxxblas::conjugate(A(j,i))
+                            ? conjugate(A(j,i))
                             : A(i,j));
                 }
             } else {

@@ -58,7 +58,6 @@ lapy3_impl(const T &x, const T &y, const T &z)
     using std::abs;
     using flens::max;
     using std::min;
-    using cxxblas::pow;
     using std::sqrt;
 
     const T Zero(0);

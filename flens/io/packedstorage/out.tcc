@@ -33,10 +33,11 @@
 #ifndef FLENS_IO_PACKEDSTORAGE_OUT_TCC
 #define FLENS_IO_PACKEDSTORAGE_OUT_TCC
 
-#include <cxxblas/typedefs.h>
 #include <flens/io/packedstorage/out.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 
@@ -72,16 +73,16 @@ operator<<(std::ostream &out, const HpMatrix<PS> &A)
                 out.width(22);
 
             if (i==j) {
-                out << ElementType(cxxblas::real(A(i,j)));
+                out << ElementType(real(A(i,j)));
             }
             if (i<j) {
-                out << ((A.upLo()==cxxblas::Upper)
+                out << ((A.upLo()==Upper)
                         ? A(i,j)
-                        : cxxblas::conjugate(A(j,i)));
+                        : conjugate(A(j,i)));
             }
             if (i>j) {
-                out << ((A.upLo()==cxxblas::Upper)
-                        ? cxxblas::conjugate(A(j,i))
+                out << ((A.upLo()==Upper)
+                        ? conjugate(A(j,i))
                         : A(i,j));
             }
         }
@@ -120,7 +121,7 @@ operator<<(std::ostream &out, const SpMatrix<PS> &A)
             else
                 out.width(22);
 
-            out << ((A.upLo()==cxxblas::Upper)
+            out << ((A.upLo()==Upper)
                     ? A(std::min(i,j), std::max(i,j))
                     : A(std::max(i,j), std::min(i,j)));
             out << " ";
@@ -162,11 +163,11 @@ operator<<(std::ostream &out, const TpMatrix<PS> &A)
                 out.width(22);
 
             if (i==j) {
-                (A.diag()==cxxblas::Unit) ? out << ElementType(1)
+                (A.diag()==Unit) ? out << ElementType(1)
                                           : out << A(i,j);
             } else {
-                if (((i>j) && (A.upLo()==cxxblas::Lower))
-                 || ((i<j) && (A.upLo()==cxxblas::Upper))) {
+                if (((i>j) && (A.upLo()==Lower))
+                 || ((i<j) && (A.upLo()==Upper))) {
                     out << A(i,j);
                 } else {
                     out << " ";

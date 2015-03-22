@@ -119,7 +119,7 @@ axpy(Transpose trans, const ALPHA &alpha,
     const auto &y2 = PruneScaling<VY2>::getRemainder(xyh_yxh.right().left());
     const auto &x2 = xyh_yxh.right().right().right().right();
 
-    if (identical(x1,x2) && identical(y1,y2) && (a1==cxxblas::conjugate(a2))) {
+    if (identical(x1,x2) && identical(y1,y2) && (a1==conjugate(a2))) {
         blas::r2(alpha*a1, x1, y1, A.impl());
         return;
     } else {

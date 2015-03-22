@@ -33,11 +33,11 @@
 #ifndef FLENS_BLAS_LEVEL1_IAMAX_TCC
 #define FLENS_BLAS_LEVEL1_IAMAX_TCC 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -51,14 +51,7 @@ template <typename X>
 typename DenseVector<X>::IndexType
 iamax(const DenseVector<X> &x)
 {
-    typename DenseVector<X>::IndexType i;
-
-#   ifdef HAVE_CXXBLAS_IAMAX
-    cxxblas::iamax(x.length(), x.data(), x.stride(), i);
-#   else
-    ASSERT(0);
-#   endif
-    return i + x.indexBase();
+    return cxxblas::iamax(x.length(), x.data(), x.stride()) + x.indexBase();
 }
 
 } } // namespace blas, flens

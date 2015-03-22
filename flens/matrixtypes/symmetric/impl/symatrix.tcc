@@ -362,6 +362,20 @@ SyMatrix<FS>::leadingDimension() const
 }
 
 template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::strideRow() const
+{
+    return engine_.strideRow();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::strideCol() const
+{
+    return engine_.strideCol();
+}
+
+template <typename FS>
 StorageOrder
 SyMatrix<FS>::order() const
 {

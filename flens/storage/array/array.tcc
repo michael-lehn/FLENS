@@ -34,11 +34,11 @@
 #define FLENS_STORAGE_ARRAY_ARRAY_TCC 1
 
 #include <cxxstd/cassert.h>
-#include <cxxblas/level1/copy.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/constarrayview.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 

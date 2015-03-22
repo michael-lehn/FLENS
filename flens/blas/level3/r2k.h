@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2010,2015 Michael Lehn
  *
  *   All rights reserved.
  *
@@ -33,7 +33,6 @@
 #ifndef FLENS_BLAS_LEVEL3_R2K_H
 #define FLENS_BLAS_LEVEL3_R2K_H
 
-#include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/typedefs.h>
 

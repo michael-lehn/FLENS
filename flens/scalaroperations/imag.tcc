@@ -33,10 +33,10 @@
 #ifndef FLENS_SCALAROPERATIONS_IMAG_TCC
 #define FLENS_SCALAROPERATIONS_IMAG_TCC 1
 
-#include <cxxblas/auxiliary/complex.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/scalaroperations/imag.h>
 #include <flens/scalartypes/impl/scalarclosure.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 
@@ -44,7 +44,7 @@ template <typename S>
 const typename ScalarClosure<ScalarOpImag, S, S>::ElementType
 evalScalarClosure(const ScalarClosure<ScalarOpImag, S, S> &exp)
 {
-    return cxxblas::imag(exp.left().value());
+    return imag(exp.left().value());
 }
 
 //-- operator overloading

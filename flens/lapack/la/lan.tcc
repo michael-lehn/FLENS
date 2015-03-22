@@ -135,7 +135,6 @@ template <typename MA, typename VWORK>
 typename ComplexTrait<typename MA::ElementType>::PrimitiveType
 lan_impl(Norm norm, const HeMatrix<MA> &A, DenseVector<VWORK> &work)
 {
-    using cxxblas::pow;
     using std::real;
     using std::abs;
     using std::max;

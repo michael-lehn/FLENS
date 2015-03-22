@@ -362,6 +362,20 @@ HeMatrix<FS>::leadingDimension() const
 }
 
 template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::strideRow() const
+{
+    return engine_.strideRow();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::strideCol() const
+{
+    return engine_.strideCol();
+}
+
+template <typename FS>
 StorageOrder
 HeMatrix<FS>::order() const
 {
@@ -372,7 +386,7 @@ template <typename FS>
 bool
 HeMatrix<FS>::fill(const ElementType &value)
 {
-    ASSERT(cxxblas::imag(value)==0);
+    ASSERT(imag(value)==0);
     return engine_.fill(upLo_, value);
 }
 
@@ -536,7 +550,7 @@ fillRandom(MA &&A)
     fillRandom(A.upLo(), A.engine());
     VectorView d = A.diag(0);
     for (IndexType i=d.firstIndex();i<=d.lastIndex();++i) {
-        d(i) = ElementType(cxxblas::real(d(i)));
+        d(i) = ElementType(real(d(i)));
     }
     return true;
 }

@@ -33,7 +33,6 @@
 #ifndef FLENS_BLAS_CLOSURES_AUXILIARY_PRUNE_H
 #define FLENS_BLAS_CLOSURES_AUXILIARY_PRUNE_H 1
 
-#include <cxxblas/typedefs.h>
 #include <flens/auxiliary/promotion.h>
 #include <flens/blas/operators/operators.h>
 #include <flens/matrixtypes/impl/matrixclosure.h>

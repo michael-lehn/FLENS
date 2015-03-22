@@ -34,7 +34,6 @@
 #define FLENS_VECTORTYPES_IMPL_IMPL_TCC 1
 
 #include <flens/vectortypes/impl/densevector.tcc>
-#include <flens/vectortypes/impl/tinyvector.tcc>
 #include <flens/vectortypes/impl/vectorclosure.tcc>
 
 #endif // FLENS_VECTORTYPES_IMPL_IMPL_TCC

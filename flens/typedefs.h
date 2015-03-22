@@ -35,33 +35,32 @@
 
 #include <cxxstd/cassert.h>
 #include <cxxstd/complex.h>
-#include <cxxblas/cxxblas.h>
 
 namespace flens {
 
 // import types from cxxblas
 
-using cxxblas::StorageOrder;
-using cxxblas::ColMajor;
-using cxxblas::RowMajor;
+enum StorageOrder {
+    RowMajor,
+    ColMajor
+};
 
-using cxxblas::StorageUpLo;
-using cxxblas::Upper;
-using cxxblas::Lower;
+enum StorageUpLo {
+    Upper = 'U',
+    Lower = 'L'
+};
 
-using cxxblas::Side;
-using cxxblas::Left;
-using cxxblas::Right;
+enum Diag {
+    Unit    = 'U',
+    NonUnit = 'N'
+};
 
-using cxxblas::Transpose;
-using cxxblas::NoTrans;
-using cxxblas::Trans;
-using cxxblas::Conj;
-using cxxblas::ConjTrans;
+enum Side {
+    Left  = 'L',
+    Right = 'R'
+};
 
-using cxxblas::Diag;
-using cxxblas::Unit;
-using cxxblas::NonUnit;
+enum Transpose {NoTrans=0, Conj=1, Trans=2, ConjTrans=3};
 
 } // namepsace flens
 

@@ -33,7 +33,6 @@
 #ifndef FLENS_STORAGE_BANDSTORAGE_BANDSTORAGE_H
 #define FLENS_STORAGE_BANDSTORAGE_BANDSTORAGE_H 1
 
-#include <cxxblas/typedefs.h>
 #include <flens/storage/indexoptions.h>
 #include <flens/typedefs.h>
 

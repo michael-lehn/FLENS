@@ -35,8 +35,9 @@
 
 #include <cxxstd/cassert.h>
 #include <cxxstd/complex.h>
-#include <cxxblas/cxxblas.h>
+#include <ulmblas/cxxblas.h>
 #include <flens/storage/storage.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 

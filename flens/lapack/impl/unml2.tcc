@@ -116,7 +116,7 @@ unml2_impl(Side side, Transpose trans, GeMatrix<MA> &A,
 //
         T taui(0);
         if (noTrans) {
-            taui = cxxblas::conjugate(tau(i));
+            taui = conjugate(tau(i));
         } else {
             taui = tau(i);
         }

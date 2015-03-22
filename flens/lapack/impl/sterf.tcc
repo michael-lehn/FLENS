@@ -57,7 +57,6 @@ typename VD::IndexType
 sterf_impl(DenseVector<VD> &d,
            DenseVector<VE> &e)
 {
-    using cxxblas::pow;
     using std::abs;
     using std::sqrt;
 

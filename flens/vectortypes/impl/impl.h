@@ -34,7 +34,6 @@
 #define FLENS_VECTORTYPES_IMPL_IMPL_H 1
 
 #include <flens/vectortypes/impl/densevector.h>
-#include <flens/vectortypes/impl/tinyvector.h>
 #include <flens/vectortypes/impl/vectorclosure.h>
 
 #endif // FLENS_VECTORTYPES_IMPL_IMPL_H

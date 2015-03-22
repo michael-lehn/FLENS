@@ -1,0 +1,6 @@
+[submodule "ulmBLAS"]
+	path = ulmBLAS
+	url = https://github.com/michael-lehn/ulmBLAS.git
+[submodule "ulmblas"]
+	path = ulmblas
+	url = https://github.com/michael-lehn/ulmBLAS-core.git

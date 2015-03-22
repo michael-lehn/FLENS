@@ -37,12 +37,13 @@
 #include <cxxstd/fstream.h>
 #include <cxxstd/iomanip.h>
 
-#include <cxxblas/typedefs.h>
 #include <flens/auxiliary/iscomplex.h>
 #include <flens/auxiliary/isinteger.h>
 #include <flens/io/fullstorage/save.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 
@@ -103,11 +104,11 @@ save(std::string filename, const HeMatrix<FS> &A)
 
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=i; ++j) {
-            if (A.upLo()==cxxblas::Lower) {
+            if (A.upLo()==Lower) {
                 ofs.write(reinterpret_cast<const char*>(&(A(i,j))),
                           sizeof(ElementType) );
             } else {
-                ElementType alpha = cxxblas::conjugate(A(j,i));
+                ElementType alpha = conjugate(A(j,i));
                 ofs.write(reinterpret_cast<const char*>(&alpha),
                           sizeof(ElementType) );
             }
@@ -140,7 +141,7 @@ save(std::string filename, const SyMatrix<FS> &A)
 
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=i; ++j) {
-            if (A.upLo()==cxxblas::Lower) {
+            if (A.upLo()==Lower) {
                 ofs.write(reinterpret_cast<const char*>(&(A(i,j))),
                           sizeof(ElementType) );
             } else {
@@ -182,14 +183,14 @@ save(std::string filename, const TrMatrix<FS> &A)
     ofs.write(reinterpret_cast<char*>(&diag), sizeof(Diag));
 
 
-    if (upLo==cxxblas::Lower) {
+    if (upLo==Lower) {
         for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i) {
             const IndexType jmax = i-A.firstRow()+A.firstCol();
             for (IndexType j=A.firstCol(); j<jmax; ++j) {
                 ofs.write(reinterpret_cast<const char*>(&(A(i,j))),
                           sizeof(ElementType) );
             }
-            if (diag == cxxblas::NonUnit) {
+            if (diag == NonUnit) {
                 ofs.write(reinterpret_cast<const char*>(&(A(i,jmax))),
                           sizeof(ElementType) );
             }
@@ -197,7 +198,7 @@ save(std::string filename, const TrMatrix<FS> &A)
     } else {
         for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i){
             const IndexType jmin = i-A.firstRow()+A.firstCol();
-            if (diag == cxxblas::NonUnit) {
+            if (diag == NonUnit) {
                 ofs.write(reinterpret_cast<const char*>(&(A(i,jmin))),
                           sizeof(ElementType) );
             }
@@ -253,10 +254,10 @@ saveMatrixMarket(std::string filename, const GeMatrix<FS> &A,
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
             ofs << setw(precision+6) << setprecision(precision)
-                << cxxblas::real(A(i,j));
+                << real(A(i,j));
             if (IsComplex<ElementType>::value) {
                  ofs << setw(precision+7) << setprecision(precision)
-                     << cxxblas::imag(A(i,j));
+                     << imag(A(i,j));
             }
             ofs << endl;;
         }
@@ -306,17 +307,17 @@ saveMatrixMarket(std::string filename, const SyMatrix<FS> &A,
         for (IndexType j = i; j <= A.lastCol(); ++j) {
             if (A.upLo()==Upper) {
                 ofs << setw(precision+6) << setprecision(precision)
-                    << cxxblas::real(A(i,j));
+                    << real(A(i,j));
                 if (IsComplex<ElementType>::value) {
                     ofs << setw(precision+7) << setprecision(precision)
-                        << cxxblas::imag(A(i,j));
+                        << imag(A(i,j));
                 }
             } else {
                 ofs << setw(precision+6) << setprecision(precision)
-                    <<  cxxblas::real(A(j,i));
+                    << real(A(j,i));
                 if (IsComplex<ElementType>::value) {
                     ofs << setw(precision+7) << setprecision(precision)
-                        << cxxblas::imag(A(j,i));
+                        << imag(A(j,i));
                 }
             }
             ofs << endl;;
@@ -360,22 +361,22 @@ saveMatrixMarket(std::string filename, const HeMatrix<FS> &A,
         for (IndexType j=i; j<=A.lastCol(); ++j) {
             if (A.upLo()==Upper) {
                 ofs << setw(precision+6) << setprecision(precision)
-                    <<  cxxblas::real(A(i,j));
+                    <<  real(A(i,j));
                 if (i==j) {
                     ofs << setw(precision+7) << setprecision(precision) << 0;
                 } else {
                     ofs << setw(precision+7) << setprecision(precision)
-                        << -cxxblas::imag(A(i,j));
+                        << -imag(A(i,j));
                 }
 
             } else {
                 ofs << setw(precision+6) << setprecision(precision)
-                    <<  cxxblas::real(A(j,i));
+                    <<  real(A(j,i));
                 if (i==j) {
                     ofs << setw(precision+7) << setprecision(precision) << 0;
                 } else {
                     ofs << setw(precision+7) << setprecision(precision)
-                        << cxxblas::imag(A(j,i));
+                        << imag(A(j,i));
                 }
             }
             ofs << endl;;

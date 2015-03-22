@@ -81,7 +81,7 @@ sv_impl(SyMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B,
                                    B.leadingDimension(),
                                    &WORK,
                                    LWORK);
-        work.resize(cxxblas::real(WORK));
+        work.resize(real(WORK));
     }
 
 

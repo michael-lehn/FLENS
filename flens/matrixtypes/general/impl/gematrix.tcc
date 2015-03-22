@@ -348,6 +348,20 @@ GeMatrix<FS>::leadingDimension() const
 }
 
 template <typename FS>
+typename GeMatrix<FS>::IndexType
+GeMatrix<FS>::strideRow() const
+{
+    return engine_.strideRow();
+}
+
+template <typename FS>
+typename GeMatrix<FS>::IndexType
+GeMatrix<FS>::strideCol() const
+{
+    return engine_.strideCol();
+}
+
+template <typename FS>
 StorageOrder
 GeMatrix<FS>::order() const
 {

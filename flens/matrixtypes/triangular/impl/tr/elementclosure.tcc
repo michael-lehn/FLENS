@@ -33,7 +33,6 @@
 #ifndef FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TR_ELEMENTCLOSURE_TCC
 #define FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TR_ELEMENTCLOSURE_TCC 1
 
-#include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/triangular/impl/tr/elementclosure.h>
 #include <flens/typedefs.h>
 

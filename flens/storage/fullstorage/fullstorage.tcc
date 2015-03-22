@@ -33,11 +33,11 @@
 #ifndef FLENS_STORAGE_FULLSTORAGE_FULLSTORAGE_TCC
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGE_TCC 1
 
-#include <cxxblas/level1extensions/gecopy.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/fullstorage/fullstorage.h>
 #include <flens/storage/fullstorage/trapezoidalfill.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 

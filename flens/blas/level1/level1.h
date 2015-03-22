@@ -33,15 +33,18 @@
 #ifndef FLENS_BLAS_LEVEL1_LEVEL1_H
 
 #include <flens/blas/level1/asum.h>
+#include <flens/blas/level1/asum1.h>
+#include <flens/blas/level1/axpby.h>
 #include <flens/blas/level1/axpy.h>
+#include <flens/blas/level1/conj.h>
 #include <flens/blas/level1/copy.h>
 #include <flens/blas/level1/cotr.h>
 #include <flens/blas/level1/dot.h>
 #include <flens/blas/level1/iamax.h>
+#include <flens/blas/level1/iamax1.h>
 #include <flens/blas/level1/nrm2.h>
 #include <flens/blas/level1/raxpy.h>
 #include <flens/blas/level1/rot.h>
-#include <flens/blas/level1/rotm.h>
 #include <flens/blas/level1/rscal.h>
 #include <flens/blas/level1/scal.h>
 #include <flens/blas/level1/swap.h>

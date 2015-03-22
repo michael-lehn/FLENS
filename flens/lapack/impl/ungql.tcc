@@ -211,7 +211,7 @@ ungql_impl(GeMatrix<MA>              &A,
                                     tau.data(),
                                     &WORK,
                                     LWORK);
-        work.resize(IndexType(cxxblas::real(WORK)));
+        work.resize(IndexType(real(WORK)));
     }
 
     cxxlapack::ungql<IndexType>(A.numRows(),

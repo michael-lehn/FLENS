@@ -75,7 +75,6 @@ laqps_impl(typename GeMatrix<MA>::IndexType  offset,
     using std::abs;
     using std::max;
     using std::min;
-    using cxxblas::pow;
     using std::sqrt;
     using std::swap;
 
@@ -241,7 +240,6 @@ laqps_impl(typename GeMatrix<MA>::IndexType  offset,
     using std::abs;
     using std::max;
     using std::min;
-    using cxxblas::pow;
     using std::sqrt;
     using std::swap;
 
