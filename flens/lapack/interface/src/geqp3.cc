@@ -17,6 +17,8 @@ LAPACK_DECL(dgeqp3)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgeqp3");
+
     using std::max;
     using std::min;
 //
@@ -39,7 +41,7 @@ LAPACK_DECL(dgeqp3)(const INTEGER    *M,
         return;
     }
 
-    DGeMatrixView       _A      = DFSView(*M, *N, A, *LDA);
+    DGeMatrixView       _A      = DFSView(*M, *N, *LDA, A);
     IDenseVectorView    _JPVT   = IArrayView(*N, JPVT, 1);
     DDenseVectorView    _TAU    = DArrayView(min(*M,*N), TAU, 1);
     DDenseVectorView    _WORK   = DArrayView(*LWORK, WORK, 1);
@@ -60,6 +62,8 @@ LAPACK_DECL(zgeqp3)(const INTEGER    *M,
                     DOUBLE           *RWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgeqp3");
+
     using std::max;
     using std::min;
 //
@@ -86,7 +90,7 @@ LAPACK_DECL(zgeqp3)(const INTEGER    *M,
     auto zTAU  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(TAU);
     auto zWORK = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView       _A      = ZFSView(*M, *N, zA, *LDA);
+    ZGeMatrixView       _A      = ZFSView(*M, *N, *LDA, zA);
     IDenseVectorView    _JPVT   = IArrayView(*N, JPVT, 1);
     ZDenseVectorView    _TAU    = ZArrayView(min(*M,*N), zTAU, 1);
     ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);

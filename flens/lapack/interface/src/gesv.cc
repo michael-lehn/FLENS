@@ -19,6 +19,8 @@ LAPACK_DECL(dgesv)(const INTEGER        *N,
                    const INTEGER        *LDB,
                    INTEGER              *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgesv");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -41,9 +43,9 @@ LAPACK_DECL(dgesv)(const INTEGER        *N,
 //
 //  Call FLENS implementation
 //
-    DGeMatrixView     _A     = DFSView(*N, *N, A, *LDA);
+    DGeMatrixView     _A     = DFSView(*N, *N, *LDA, A);
     IDenseVectorView  _IPIV  = IArrayView(*N, IPIV, 1);
-    DGeMatrixView     _B     = DFSView(*N, *NRHS, B, *LDB);
+    DGeMatrixView     _B     = DFSView(*N, *NRHS, *LDB, B);
 
     sv(_A, _IPIV, _B);
 }
@@ -59,6 +61,8 @@ LAPACK_DECL(zgesv)(const INTEGER        *N,
                    const INTEGER        *LDB,
                    INTEGER              *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgesv");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -84,9 +88,9 @@ LAPACK_DECL(zgesv)(const INTEGER        *N,
     auto zA     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
     auto zB     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(B);
 
-    ZGeMatrixView     _A     = ZFSView(*N, *N, zA, *LDA);
+    ZGeMatrixView     _A     = ZFSView(*N, *N, *LDA, zA);
     IDenseVectorView  _IPIV  = IArrayView(*N, IPIV, 1);
-    ZGeMatrixView     _B     = ZFSView(*N, *NRHS, zB, *LDB);
+    ZGeMatrixView     _B     = ZFSView(*N, *NRHS, *LDB, zB);
 
     sv(_A, _IPIV, _B);
 }

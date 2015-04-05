@@ -20,6 +20,8 @@ LAPACK_DECL(dtrtrs)(const char       *UPLO,
                     const INTEGER    *LDB,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dtrtrs");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -49,11 +51,11 @@ LAPACK_DECL(dtrtrs)(const char       *UPLO,
 //
 //  Call FLENS implementation
 //
-    StorageUpLo         upLo   = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
-    Transpose           trans  = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
-    Diag                diag   = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
-    DConstTrMatrixView  _A(DConstFSView(*N, *N, A, *LDA), upLo, diag);
-    DGeMatrixView       _B     = DFSView(*N, *NRHS, B, *LDB);
+    StorageUpLo         upLo   = cxxf77blas::getCxxBlasEnum<StorageUpLo>(*UPLO);
+    Transpose           trans  = cxxf77blas::getCxxBlasEnum<Transpose>(*TRANS);
+    Diag                diag   = cxxf77blas::getCxxBlasEnum<Diag>(*DIAG);
+    DConstTrMatrixView  _A(DConstFSView(*N, *N, *LDA, A), upLo, diag);
+    DGeMatrixView       _B     = DFSView(*N, *NRHS, *LDB, B);
 
     trs(trans, _A, _B);
 }
@@ -71,6 +73,8 @@ LAPACK_DECL(ztrtrs)(const char               *UPLO,
                     const INTEGER            *LDB,
                     INTEGER                  *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: ztrtrs");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -103,11 +107,11 @@ LAPACK_DECL(ztrtrs)(const char               *UPLO,
     const auto zA = reinterpret_cast<const CXX_DOUBLE_COMPLEX *>(A);
     auto zB       = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(B);
 
-    StorageUpLo         upLo   = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
-    Transpose           trans  = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
-    Diag                diag   = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
-    ZConstTrMatrixView  _A(ZConstFSView(*N, *N, zA, *LDA), upLo, diag);
-    ZGeMatrixView       _B     = ZFSView(*N, *NRHS, zB, *LDB);
+    StorageUpLo         upLo   = cxxf77blas::getCxxBlasEnum<StorageUpLo>(*UPLO);
+    Transpose           trans  = cxxf77blas::getCxxBlasEnum<Transpose>(*TRANS);
+    Diag                diag   = cxxf77blas::getCxxBlasEnum<Diag>(*DIAG);
+    ZConstTrMatrixView  _A(ZConstFSView(*N, *N, *LDA, zA), upLo, diag);
+    ZGeMatrixView       _B     = ZFSView(*N, *NRHS, *LDB, zB);
 
     trs(trans, _A, _B);
 }

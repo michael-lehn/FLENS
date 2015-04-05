@@ -15,6 +15,8 @@ LAPACK_DECL(dgetri)(const INTEGER    *N,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgetri");
+
     using std::max;
     using std::min;
 //
@@ -40,7 +42,7 @@ LAPACK_DECL(dgetri)(const INTEGER    *N,
 //
 //  Setup FLENS matrix/vector types
 //
-    DGeMatrixView          _A      = DFSView(*N, *N, A, *LDA);
+    DGeMatrixView          _A      = DFSView(*N, *N, *LDA, A);
     IConstDenseVectorView  _IPIV   = IConstArrayView(*N, IPIV, 1);
     DDenseVectorView       _WORK   = DArrayView(*LWORK, WORK, 1);
 
@@ -60,6 +62,8 @@ LAPACK_DECL(zgetri)(const INTEGER    *N,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgetri");
+
     using std::max;
     using std::min;
 //
@@ -88,7 +92,7 @@ LAPACK_DECL(zgetri)(const INTEGER    *N,
     auto zA     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView          _A      = ZFSView(*N, *N, zA, *LDA);
+    ZGeMatrixView          _A      = ZFSView(*N, *N, *LDA, zA);
     IConstDenseVectorView  _IPIV   = IConstArrayView(*N, IPIV, 1);
     ZDenseVectorView       _WORK   = ZArrayView(*LWORK, zWORK, 1);
 

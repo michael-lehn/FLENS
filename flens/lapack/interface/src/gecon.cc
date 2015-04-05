@@ -20,6 +20,7 @@ LAPACK_DECL(dgecon)(const char       *NORM,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgecon");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -43,7 +44,7 @@ LAPACK_DECL(dgecon)(const char       *NORM,
 //  Call FLENS implementation
 //
     Norm                norm  = Norm(*NORM!='1' ? *NORM : 'O');
-    DConstGeMatrixView  _A    = DConstFSView(*N, *N, A, *LDA);
+    DConstGeMatrixView  _A    = DConstFSView(*N, *N, *LDA, A);
     DDenseVectorView    work  = DArrayView(*N*4, WORK, 1);
     IDenseVectorView    iwork = IArrayView(*N, IWORK, 1);
 
@@ -62,6 +63,7 @@ LAPACK_DECL(zgecon)(const char               *NORM,
                     DOUBLE                   *RWORK,
                     INTEGER                  *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgecon");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -89,8 +91,8 @@ LAPACK_DECL(zgecon)(const char               *NORM,
     const auto *zA = reinterpret_cast<const CXX_DOUBLE_COMPLEX *>(A);
     auto *zWORK = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZConstGeMatrixView  _A  = ZConstFSView(*N, *N, zA, *LDA);
-    ZDenseVectorView    work   = ZArrayView(*N*2, zWORK, 1);
+    ZConstGeMatrixView  _A    = ZConstFSView(*N, *N, *LDA, zA);
+    ZDenseVectorView    work  = ZArrayView(*N*2, zWORK, 1);
     DDenseVectorView    rwork = DArrayView(*N*2, RWORK, 1);
 
     con(norm, _A, *ANORM, *RCOND, work, rwork);

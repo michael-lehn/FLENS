@@ -18,6 +18,8 @@ BLAS(strsm)(const char      *SIDE,
             float           *B_,
             const INTEGER   *LDB)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: strsm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    SIDE_   = toupper(*SIDE);
@@ -79,8 +81,8 @@ BLAS(strsm)(const char      *SIDE,
         Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        STrMatrixConstView  A(SFullConstView(ka, ka, A_, *LDA), upLo, diag);
-        SGeMatrixView       B = SFullView(*M, *N, B_, *LDB);
+        STrMatrixConstView  A(SFullConstView(ka, ka, *LDA, A_), upLo, diag);
+        SGeMatrixView       B = SFullView(*M, *N, *LDB, B_);
 
         blas::sm(side, transA, *ALPHA, A, B);
 #   endif
@@ -99,6 +101,8 @@ BLAS(dtrsm)(const char      *SIDE,
             double          *B_,
             const INTEGER   *LDB)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dtrsm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    SIDE_   = toupper(*SIDE);
@@ -160,8 +164,8 @@ BLAS(dtrsm)(const char      *SIDE,
         Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        DTrMatrixConstView  A(DFullConstView(ka, ka, A_, *LDA), upLo, diag);
-        DGeMatrixView       B = DFullView(*M, *N, B_, *LDB);
+        DTrMatrixConstView  A(DFullConstView(ka, ka, *LDA, A_), upLo, diag);
+        DGeMatrixView       B = DFullView(*M, *N, *LDB, B_);
 
         blas::sm(side, transA, *ALPHA, A, B);
 #   endif
@@ -180,6 +184,8 @@ BLAS(ctrsm)(const char      *SIDE,
             cfloat          *B_,
             const INTEGER   *LDB)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ctrsm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    SIDE_   = toupper(*SIDE);
@@ -243,8 +249,8 @@ BLAS(ctrsm)(const char      *SIDE,
         Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        CTrMatrixConstView  A(CFullConstView(ka, ka, A_, *LDA), upLo, diag);
-        CGeMatrixView       B = CFullView(*M, *N, B_, *LDB);
+        CTrMatrixConstView  A(CFullConstView(ka, ka, *LDA, A_), upLo, diag);
+        CGeMatrixView       B = CFullView(*M, *N, *LDB, B_);
 
         blas::sm(side, transA, *ALPHA, A, B);
 #   endif
@@ -263,6 +269,8 @@ BLAS(ztrsm)(const char      *SIDE,
             cdouble         *B_,
             const INTEGER   *LDB)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ztrsm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    SIDE_   = toupper(*SIDE);
@@ -327,8 +335,8 @@ BLAS(ztrsm)(const char      *SIDE,
         Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        ZTrMatrixConstView  A(ZFullConstView(ka, ka, A_, *LDA), upLo, diag);
-        ZGeMatrixView       B = ZFullView(*M, *N, B_, *LDB);
+        ZTrMatrixConstView  A(ZFullConstView(ka, ka, *LDA, A_), upLo, diag);
+        ZGeMatrixView       B = ZFullView(*M, *N, *LDB, B_);
 
         blas::sm(side, transA, *ALPHA, A, B);
 #   endif

@@ -36,6 +36,7 @@ view *
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/packedstorage/packedstorage.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 

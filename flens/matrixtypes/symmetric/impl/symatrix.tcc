@@ -379,7 +379,7 @@ template <typename FS>
 StorageOrder
 SyMatrix<FS>::order() const
 {
-    return engine_.order;
+    return engine_.order();
 }
 
 template <typename FS>

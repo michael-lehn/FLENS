@@ -13,6 +13,8 @@ LAPACK_DECL(dtrtri)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dtrtri");
+
     using std::max;
     using std::min;
 //
@@ -41,10 +43,10 @@ LAPACK_DECL(dtrtri)(const char       *UPLO,
 //
 //  Setup FLENS matrix/vector types
 //
-    StorageUpLo    upLo = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
-    Diag           diag = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
+    StorageUpLo    upLo = cxxf77blas::getCxxBlasEnum<StorageUpLo>(*UPLO);
+    Diag           diag = cxxf77blas::getCxxBlasEnum<Diag>(*DIAG);
 
-    DTrMatrixView  _A(DFSView(*N, *N, A, *LDA), upLo, diag);
+    DTrMatrixView  _A(DFSView(*N, *N, *LDA, A), upLo, diag);
 
 //
 //  Call FLENS implementation
@@ -61,6 +63,8 @@ LAPACK_DECL(ztrtri)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: ztrtri");
+
     using std::max;
     using std::min;
 //
@@ -89,11 +93,11 @@ LAPACK_DECL(ztrtri)(const char       *UPLO,
 //
 //  Setup FLENS matrix/vector types
 //
-    StorageUpLo    upLo = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
-    Diag           diag = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
+    StorageUpLo    upLo = cxxf77blas::getCxxBlasEnum<StorageUpLo>(*UPLO);
+    Diag           diag = cxxf77blas::getCxxBlasEnum<Diag>(*DIAG);
 
     auto zA = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
-    ZTrMatrixView  _A(ZFSView(*N, *N, zA, *LDA), upLo, diag);
+    ZTrMatrixView  _A(ZFSView(*N, *N, *LDA, zA), upLo, diag);
 
 //
 //  Call FLENS implementation

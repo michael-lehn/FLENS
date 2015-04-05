@@ -41,9 +41,9 @@
 namespace flens { namespace blas {
 
 //-- copy: SyCoordMatrix -> SyCCSMatrix
-template <typename MA, typenameCMB>
+template <typename MA, typename MB>
 typename RestrictTo<IsSyCoordMatrix<MA>::value
-                 && IsSyCCSMatrix<MB>::value,
+                 && IsSyCRSMatrix<MB>::value,
          void>::Type
 copy(Transpose DEBUG_VAR(trans), const MA &A, MB &&B)
 {

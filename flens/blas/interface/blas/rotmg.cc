@@ -12,6 +12,8 @@ BLAS(srotmg)(float   *A,
              float   *D,
              float   *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: srotmg");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_srotmg(A, B, C, D, S);
@@ -30,6 +32,8 @@ BLAS(drotmg)(double  *A,
              double  *D,
              double  *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: drotmg");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_drotmg(A, B, C, D, S);

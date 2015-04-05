@@ -15,6 +15,8 @@ LAPACK_DECL(dpotri)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dpotri");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -36,7 +38,7 @@ LAPACK_DECL(dpotri)(const char       *UPLO,
 //  Call FLENS implementation
 //
     StorageUpLo    upLo = StorageUpLo(*UPLO);
-    DFSView        AFS  = DFSView(*N, *N, A, *LDA);
+    DFSView        AFS  = DFSView(*N, *N, *LDA, A);
     DSyMatrixView  _A   = DSyMatrixView(AFS, upLo);
 
     *INFO = potri(_A);
@@ -50,6 +52,8 @@ LAPACK_DECL(zpotri)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zpotri");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -73,7 +77,7 @@ LAPACK_DECL(zpotri)(const char       *UPLO,
     auto zA     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
 
     StorageUpLo    upLo = StorageUpLo(*UPLO);
-    ZFSView        AFS  = ZFSView(*N, *N, zA, *LDA);
+    ZFSView        AFS  = ZFSView(*N, *N, *LDA, zA);
     ZHeMatrixView  _A   = ZHeMatrixView(AFS, upLo);
 
     *INFO = potri(_A);

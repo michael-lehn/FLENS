@@ -171,7 +171,7 @@ copy(Transpose transposeA, const MA &A, MB &&B)
     }
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
+    FLENS_BLASLOG_BEGIN_MCOPY(transposeA, A, B);
 
     cxxblas::gecopy(B.numRows(), B.numCols(),
                     transA, conjA, A.data(), A.strideRow(), A.strideCol(),
@@ -194,9 +194,10 @@ copy(Transpose transposeA, const MA &A, MB &&B)
     const bool unitDiagA = (A.diag()==Unit);
 
     ASSERT(A.diag()==B.diag());
+    ASSERT((!transA && A.upLo()==B.upLo()) || (transA && A.upLo()!=B.upLo()));
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
+    FLENS_BLASLOG_BEGIN_MCOPY(transposeA, A, B);
 
     cxxblas::trcopy(B.numRows(), B.numCols(),
                     lowerA, transA, conjA, unitDiagA,

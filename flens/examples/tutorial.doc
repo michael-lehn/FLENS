@@ -58,7 +58,7 @@ BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators
  *---------------------------------------------------------------------------*
 
 :links: __Page (\d)__   -> doc:flens/examples/tut02-page0$1
-        __CXXBLAS__     -> dir:cxxblas/
+        __CXXBLAS__     -> dir:ulmblas/cxxblas/
         __FLENS-BLAS__  -> doc:flens/blas/blas
 
 

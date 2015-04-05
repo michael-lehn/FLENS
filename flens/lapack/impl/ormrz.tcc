@@ -170,7 +170,7 @@ ormrz_impl(Side                     side,
 
         for (IndexType i=iBeg; i!=iEnd; i+=iInc) {
             const IndexType ib = min(nb, k-i+1);
-            GeView          Tr = GeViewEngine(ib, ib, trBuffer, ldTr);
+            GeView          Tr = GeViewEngine(ib, ib, ldTr, trBuffer);
 //
 //          Form the triangular factor of the block reflector
 //          H = H(i+ib-1) . . . H(i+1) H(i)

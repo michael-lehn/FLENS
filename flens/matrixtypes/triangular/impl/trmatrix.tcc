@@ -322,7 +322,7 @@ template <typename FS>
 StorageOrder
 TrMatrix<FS>::order() const
 {
-    return engine_.order;
+    return engine_.order();
 }
 
 template <typename FS>

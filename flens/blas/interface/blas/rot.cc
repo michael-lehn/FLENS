@@ -14,6 +14,8 @@ BLAS(srot)(const INTEGER   *N,
            const float     *C,
            const float     *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: srot");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_srot(*N, X, *INCX, Y, *INCY, *C, *S);
@@ -39,6 +41,8 @@ BLAS(drot)(const INTEGER   *N,
            const double    *C,
            const double    *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: drot");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_drot(*N, X, *INCX, Y, *INCY, *C, *S);
@@ -65,6 +69,8 @@ BLAS(crot)(const INTEGER   *N,
            const cfloat    *C,
            const cfloat    *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: crot");
+
     using std::abs;
 
     CDenseVectorView  x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -82,6 +88,8 @@ BLAS(zrot)(const INTEGER   *N,
            const cdouble   *C,
            const cdouble   *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zrot");
+
     using std::abs;
 
     ZDenseVectorView  x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -99,6 +107,8 @@ BLAS(csrot)(const INTEGER   *N,
             const float     *C,
             const float     *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: csrot");
+
     std::cerr << "csrot not implemented" << std::endl;
     ASSERT(0);
 
@@ -121,6 +131,8 @@ BLAS(zdrot)(const INTEGER   *N,
             const double    *C,
             const double    *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zdrot");
+
     std::cerr << "zdrot not implemented" << std::endl;
     ASSERT(0);
 

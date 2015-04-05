@@ -54,5 +54,8 @@ main()
     /// :links: __lapack::sv__ -> doc:flens/lapack/ge/sv
     lapack::sv(A, piv, b);
 
+    Underscore<IndexType> _;
+
+    lapack::sv(A(_(1,2,n),_(1,2,n)), piv(_(1,2,n)), b(_(1,2,n)));
 }
 

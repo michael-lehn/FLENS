@@ -41,7 +41,7 @@
 namespace flens { namespace blas {
 
 //-- copy: HeCoordMatrix -> HeCCSMatrix
-template <typename MA, typenameCMB>
+template <typename MA, typename MB>
 typename RestrictTo<IsHeCoordMatrix<MA>::value
                  && IsHeCCSMatrix<MB>::value,
          void>::Type

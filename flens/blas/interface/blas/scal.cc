@@ -11,6 +11,8 @@ BLAS(sscal)(const INTEGER   *N,
             float           *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: sscal");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_sscal(*N, *ALPHA, X, *INCX);
@@ -40,6 +42,8 @@ BLAS(dscal)(const INTEGER   *N,
             double          *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dscal");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_dscal(*N, *ALPHA, X, *INCX);
@@ -68,6 +72,8 @@ BLAS(cscal)(const INTEGER   *N,
             cfloat          *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: cscal");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_cscal(*N,
@@ -98,6 +104,8 @@ BLAS(csscal)(const INTEGER   *N,
              cfloat          *X,
              const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zscal");
+
 #   ifdef TEST_DIRECT_CBLAS
 
     cblas_csscal(*N,

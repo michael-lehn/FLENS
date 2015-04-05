@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2007, 2015 Michael Lehn
  *
  *   All rights reserved.
  *
@@ -50,46 +50,47 @@ template <typename T, typename I, typename A>
 template <typename T, StorageOrder Order, typename I, typename A>
     class FullStorage;
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder NoViewOrder, typename I, typename A>
     class FullStorageView;
 
 template <typename T,
-          StorageOrder Order,
+          StorageOrder NoViewOrder,
           typename I = IndexOptions<>,
           typename A = std::allocator<T> >
 class ConstFullStorageView
 {
     public:
-        typedef T                                     ElementType;
-        typedef typename I::IndexType                 IndexType;
-        typedef A                                     Allocator;
+        typedef T                        ElementType;
+        typedef typename I::IndexType    IndexType;
+        typedef A                        Allocator;
 
-        static const StorageOrder                     order = Order;
-        static const IndexType                        defaultIndexBase
-                                                          = I::defaultIndexBase;
+        static const StorageOrder        noViewOrder      = NoViewOrder;
+        static const IndexType           defaultIndexBase = I::defaultIndexBase;
 
-        typedef ConstFullStorageView                  ConstView;
-        typedef FullStorageView<T, Order, I, A>       View;
-        typedef FullStorage<T, Order, I, A>           NoView;
+        typedef ConstFullStorageView                        ConstView;
+        typedef FullStorageView<T, NoViewOrder, I, A>       View;
+        typedef FullStorage<T, NoViewOrder, I, A>           NoView;
 
-        typedef flens::ConstArrayView<T, I, A>        ConstArrayView;
-        typedef flens::ArrayView<T, I, A>             ArrayView;
-        typedef flens::Array<T, I, A>                 Array;
+        typedef flens::ConstArrayView<T, I, A>              ConstArrayView;
+        typedef flens::ArrayView<T, I, A>                   ArrayView;
+        typedef flens::Array<T, I, A>                       Array;
 
-        ConstFullStorageView(IndexType numRows, IndexType numCols,
-                             const ElementType *data,
-                             IndexType leadingDimension,
-                             IndexType firstRow = I::defaultIndexBase,
-                             IndexType firstCol = I::defaultIndexBase,
-                             const Allocator &allocator = Allocator());
+        ConstFullStorageView(IndexType          numRows,
+                             IndexType          numCols,
+                             IndexType          leadingDimension,
+                             const ElementType  *data,
+                             IndexType          firstRow = I::defaultIndexBase,
+                             IndexType          firstCol = I::defaultIndexBase,
+                             const Allocator    &allocator = Allocator());
 
-        template <typename ARRAY>
-            ConstFullStorageView(IndexType numRows, IndexType numCols,
-                                 ARRAY &array,
-                                 IndexType leadingDimension,
-                                 IndexType firstRow = I::defaultIndexBase,
-                                 IndexType firstCol = I::defaultIndexBase,
-                                 const Allocator &allocator = Allocator());
+        ConstFullStorageView(IndexType          numRows,
+                             IndexType          numCols,
+                             const ElementType  *data,
+                             IndexType          strideRow,
+                             IndexType          strideCol,
+                             IndexType          firstRow = I::defaultIndexBase,
+                             IndexType          firstCol = I::defaultIndexBase,
+                             const Allocator    &allocator = Allocator());
 
         ConstFullStorageView(const ConstFullStorageView &rhs);
 
@@ -122,6 +123,9 @@ class ConstFullStorageView
 
         IndexType
         numCols() const;
+
+        StorageOrder
+        order() const;
 
         IndexType
         leadingDimension() const;
@@ -189,7 +193,7 @@ class ConstFullStorageView
         const ElementType    *data_;
         Allocator            allocator_;
         IndexType            numRows_, numCols_;
-        IndexType            leadingDimension_;
+        IndexType            strideRow_, strideCol_;
         IndexType            firstRow_, firstCol_;
 };
 

@@ -47,11 +47,11 @@ Compile and Run
 
 
 :links: __FLENS-BLAS__  -> doc:flens/blas/blas
-        __CXXBLAS__     -> dir:cxxblas/
+        __CXXBLAS__     -> dir:ulmblas/cxxblas/
         __axpy__        -> file:flens/blas/level1/axpy.h
         __mv__          -> file:flens/blas/level2/mv.h
-        __axpy\[1\]__   -> file:cxxblas/level1/axpy.h
-        __gemv__        -> file:cxxblas/level2/gemv.h
+        __axpy\[1\]__   -> file:ulmblas/cxxblas/level1/axpy.h
+        __gemv__        -> file:ulmblas/cxxblas/level2/gemv.h
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/tut02-page01

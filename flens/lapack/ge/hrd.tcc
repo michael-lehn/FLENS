@@ -96,7 +96,7 @@ hrd_impl(IndexType           iLo,
     const IndexType     nbMax = 64;
     const IndexType     ldt = nbMax + 1;
     T                   trBuffer[nbMax*ldt];
-    GeView              Tr_ = GeViewEngine(ldt, nbMax, trBuffer, ldt);
+    GeView              Tr_ = GeViewEngine(ldt, nbMax, ldt, trBuffer);
 //
 //  Perform and apply workspace query
 //

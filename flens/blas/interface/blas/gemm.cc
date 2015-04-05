@@ -20,6 +20,7 @@ BLAS(sgemm)(const char      *TRANSA,
             float           *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: sgemm");
 
 #   ifdef TEST_DIRECT_CBLAS
 
@@ -77,15 +78,15 @@ BLAS(sgemm)(const char      *TRANSA,
 
         const SGeMatrixConstView  A = SFullConstView(noTransA ? *M : *K,
                                                      noTransA ? *K : *M,
-                                                     A_,
-                                                     *LDA);
+                                                     *LDA,
+                                                     A_);
 
         const SGeMatrixConstView  B = SFullConstView(noTransB ? *K : *N,
                                                      noTransB ? *N : *K,
-                                                     B_,
-                                                     *LDB);
+                                                     *LDB,
+                                                     B_);
 
-        SGeMatrixView       C = SFullView(*M, *N, C_, *LDC);
+        SGeMatrixView       C = SFullView(*M, *N, *LDC, C_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -132,6 +133,8 @@ BLAS(dgemm)(const char      *TRANSA,
             double          *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dgemm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         const char         TRANSA_ = toupper(*TRANSA);
@@ -189,15 +192,15 @@ BLAS(dgemm)(const char      *TRANSA,
 
         const DGeMatrixConstView  A = DFullConstView(noTransA ? *M : *K,
                                                      noTransA ? *K : *M,
-                                                     A_,
-                                                     *LDA);
+                                                     *LDA,
+                                                     A_);
 
         const DGeMatrixConstView  B = DFullConstView(noTransB ? *K : *N,
                                                      noTransB ? *N : *K,
-                                                     B_,
-                                                     *LDB);
+                                                     *LDB,
+                                                     B_);
 
-        DGeMatrixView  C = DFullView(*M, *N, C_, *LDC);
+        DGeMatrixView  C = DFullView(*M, *N, *LDC, C_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -243,6 +246,8 @@ BLAS(cgemm)(const char      *TRANSA,
             cfloat          *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: cgemm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         const char         TRANSA_ = toupper(*TRANSA);
@@ -303,15 +308,15 @@ BLAS(cgemm)(const char      *TRANSA,
 
         const CGeMatrixConstView  A = CFullConstView(noTransA ? *M : *K,
                                                      noTransA ? *K : *M,
-                                                     A_,
-                                                     *LDA);
+                                                     *LDA,
+                                                     A_);
 
         const CGeMatrixConstView  B = CFullConstView(noTransB ? *K : *N,
                                                      noTransB ? *N : *K,
-                                                     B_,
-                                                     *LDB);
+                                                     *LDB,
+                                                     B_);
 
-        CGeMatrixView       C = CFullView(*M, *N, C_, *LDC);
+        CGeMatrixView       C = CFullView(*M, *N, *LDC, C_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -358,6 +363,8 @@ BLAS(zgemm)(const char      *TRANSA,
             cdouble         *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zgbmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         const char         TRANSA_ = toupper(*TRANSA);
@@ -421,15 +428,15 @@ BLAS(zgemm)(const char      *TRANSA,
 
         const ZGeMatrixConstView  A = ZFullConstView(noTransA ? *M : *K,
                                                      noTransA ? *K : *M,
-                                                     A_,
-                                                     *LDA);
+                                                     *LDA,
+                                                     A_);
 
         const ZGeMatrixConstView  B = ZFullConstView(noTransB ? *K : *N,
                                                      noTransB ? *N : *K,
-                                                     B_,
-                                                     *LDB);
+                                                     *LDB,
+                                                     B_);
 
-        ZGeMatrixView  C = ZFullView(*M, *N, C_, *LDC);
+        ZGeMatrixView  C = ZFullView(*M, *N, *LDC, C_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;

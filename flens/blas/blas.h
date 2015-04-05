@@ -40,5 +40,7 @@
 #include <flens/blas/level2/level2.h>
 #include <flens/blas/level3/level3.h>
 #include <flens/blas/operators/operators.h>
+#include <flens/blas/sparse/ccs/mv.h>
+#include <flens/blas/sparse/crs/mv.h>
 
 #endif // FLENS_BLAS_BLAS_H

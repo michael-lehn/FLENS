@@ -226,7 +226,7 @@ unmlq_impl(Side                      side,
 
         for (IndexType i=iBeg; i!=iEnd; i+=iInc) {
             const IndexType ib = min(nb, k-i+1);
-            GeView          Tr = GeViewEngine(ib, ib, trBuffer, ldt);
+            GeView          Tr = GeViewEngine(ib, ib, ldt, trBuffer);
 //
 //          Form the triangular factor of the block reflector
 //          H = H(i) H(i+1) . . . H(i+ib-1)
@@ -498,9 +498,9 @@ unmlq(Side         side,
     typedef typename VectorC::IndexType    IndexType;
 
     const IndexType    n     = c.length();
-    const StorageOrder order = MatrixA::Engine::order;
+    const StorageOrder order = MatrixA::Engine::noViewOrder;
 
-    GeMatrix<FullStorageView<ElementType, order> >  C(n, 1, c, n);
+    GeMatrix<FullStorageView<ElementType, order> >  C(n, 1, c);
 
     unmlq(side, trans, A, tau, C, work);
 }
@@ -530,9 +530,9 @@ unmlq(Side         side,
     typedef typename VectorC::IndexType    IndexType;
 
     const IndexType    n     = c.length();
-    const StorageOrder order = MatrixA::Engine::order;
+    const StorageOrder order = MatrixA::Engine::noViewOrder;
 
-    GeMatrix<FullStorageView<ElementType, order> >  C(n, 1, c, n);
+    GeMatrix<FullStorageView<ElementType, order> >  C(n, 1, c);
 
     unmlq(side, trans, A, tau, C);
 }

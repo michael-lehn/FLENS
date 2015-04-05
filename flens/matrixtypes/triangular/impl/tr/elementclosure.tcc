@@ -46,7 +46,6 @@ ElementClosure<M>::ElementClosure(Matrix &matrix,
 }
 
 template <typename M>
-//void
 int
 ElementClosure<M>::operator=(const ElementType &rhs)
 {
@@ -55,7 +54,7 @@ ElementClosure<M>::operator=(const ElementType &rhs)
     IndexType &i = row_.value();
     IndexType &j = col_.value();
 
-    if (M::Engine::order==RowMajor) {
+    if (matrix_.order()==RowMajor) {
         if (matrix_.upLo()==Upper && matrix_.diag()==NonUnit) {
             for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
                 const IndexType j0 = i + matrix_.firstCol()-matrix_.firstRow();
@@ -129,7 +128,7 @@ ElementClosure<M>::operator=(const Scalar<S> &rhs)
     IndexType &i = row_.value();
     IndexType &j = col_.value();
 
-    if (M::Engine::order==RowMajor) {
+    if (matrix_.order()==RowMajor) {
         if (matrix_.upLo()==Upper && matrix_.diag()==NonUnit) {
             for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
                 const IndexType j0 = i + matrix_.firstCol()-matrix_.firstRow();
@@ -201,7 +200,7 @@ ElementClosure<M>::operator=(const ElementClosure &rhs)
     IndexType &i = row_.value();
     IndexType &j = col_.value();
 
-    if (M::Engine::order==RowMajor) {
+    if (matrix_.order()==RowMajor) {
         if (matrix_.upLo()==Upper && matrix_.diag()==NonUnit) {
             for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
                 const IndexType j0 = i + matrix_.firstCol()-matrix_.firstRow();

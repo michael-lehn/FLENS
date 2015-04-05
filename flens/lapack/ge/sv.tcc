@@ -237,9 +237,9 @@ sv(MA &&A, VPIV &&piv, VB &&b)
     typedef typename VectorB::IndexType    IndexType;
 
     const IndexType    n     = b.length();
-    const StorageOrder order = MatrixA::Engine::order;
+    const StorageOrder order = MatrixA::Engine::noViewOrder;
 
-    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b);
 
     return sv(A, piv, B);
 }

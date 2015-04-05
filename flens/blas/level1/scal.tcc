@@ -73,8 +73,8 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
-    cxxblas::gescal(B.order(), B.numRows(), B.numCols(),
-                    alpha, B.data(), B.leadingDimension());
+    cxxblas::gescal(B.numRows(), B.numCols(),
+                    alpha, B.data(), B.strideRow(), B.strideCol());
 
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;

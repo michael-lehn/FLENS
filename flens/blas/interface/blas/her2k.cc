@@ -19,6 +19,8 @@ BLAS(cher2k)(const char      *UPLO,
              cfloat          *C_,
              const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: cher2k");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -77,15 +79,15 @@ BLAS(cher2k)(const char      *UPLO,
 
         CGeMatrixConstView  A = CFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
         CGeMatrixConstView  B = CFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               B_,
-                                               *LDB);
+                                               *LDB,
+                                               B_);
 
-        CHeMatrixView       C(CFullView(*N, *N, C_, *LDC), upLo);
+        CHeMatrixView       C(CFullView(*N, *N, *LDC, C_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -132,6 +134,8 @@ BLAS(zher2k)(const char      *UPLO,
              cdouble         *C_,
              const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zher2k");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -189,15 +193,15 @@ BLAS(zher2k)(const char      *UPLO,
 
         ZGeMatrixConstView  A = ZFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
         ZGeMatrixConstView  B = ZFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               B_,
-                                               *LDB);
+                                               *LDB,
+                                               B_);
 
-        ZHeMatrixView       C(ZFullView(*N, *N, C_, *LDC), upLo);
+        ZHeMatrixView       C(ZFullView(*N, *N, *LDC, C_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;

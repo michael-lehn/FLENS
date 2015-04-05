@@ -23,6 +23,8 @@ LAPACK_DECL(dgelsy)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgelsy");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -62,9 +64,9 @@ LAPACK_DECL(dgelsy)(const INTEGER    *M,
 //
 //  Call FLENS implementation
 //
-    DGeMatrixView       _A     = DFSView(*M, *N, A, *LDA);
+    DGeMatrixView       _A     = DFSView(*M, *N, *LDA, A);
     const INTEGER numRowsB = std::max(*M,*N);
-    DGeMatrixView       _B     = DFSView(numRowsB, *NRHS, B, *LDB);
+    DGeMatrixView       _B     = DFSView(numRowsB, *NRHS, *LDB, B);
     IDenseVectorView    _JPVT  = IArrayView(*N, JPVT, 1);
     DDenseVectorView    _WORK  = DArrayView(*LWORK, WORK, 1);
 

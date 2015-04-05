@@ -46,14 +46,13 @@ ElementClosure<M>::ElementClosure(Matrix &matrix,
 }
 
 template <typename M>
-//void
 int
 ElementClosure<M>::operator=(const ElementType &rhs)
 {
     typename IndexVariable::ElementType &i = row_.value();
     typename IndexVariable::ElementType &j = col_.value();
 
-    if (M::Engine::order==RowMajor) {
+    if (matrix_.order()==RowMajor) {
         for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
             for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
                 value() = rhs;
@@ -77,7 +76,7 @@ ElementClosure<M>::operator=(const Scalar<S> &rhs)
     typename IndexVariable::ElementType &i = row_.value();
     typename IndexVariable::ElementType &j = col_.value();
 
-    if (M::Engine::order==RowMajor) {
+    if (matrix_.order()==RowMajor) {
         for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
             for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
                 value() = rhs.impl().value();
@@ -99,7 +98,7 @@ ElementClosure<M>::operator=(const ElementClosure &rhs)
     typename IndexVariable::ElementType &i = row_.value();
     typename IndexVariable::ElementType &j = col_.value();
 
-    if (M::Engine::order==RowMajor) {
+    if (matrix_.order()==RowMajor) {
         for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
             for (j=matrix_.firstCol(); j<=matrix_.lastCol(); ++j) {
                 value() = rhs.impl().value();

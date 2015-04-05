@@ -12,6 +12,8 @@ BLAS(sswap)(const INTEGER   *N,
             float           *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: sswap");
+
 #   ifdef TEST_DIRECT_CBLAS
 
     cblas_sswap(*N, X, *INCX, Y, *INCY);
@@ -35,6 +37,8 @@ BLAS(dswap)(const INTEGER   *N,
             double          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dswap");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_dswap(*N, X, *INCX, Y, *INCY);
@@ -57,6 +61,8 @@ BLAS(cswap)(const INTEGER   *N,
             cfloat          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: cswap");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_cswap(*N,
@@ -82,6 +88,8 @@ BLAS(zswap)(const INTEGER   *N,
             cdouble         *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zswap");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_zswap(*N,

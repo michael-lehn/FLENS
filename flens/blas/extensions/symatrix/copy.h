@@ -40,6 +40,13 @@
 
 namespace flens { namespace blas {
 
+//-- copy: SyMatrix -> SyMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsSyMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
 //-- Densify Sparse Matrices ---------------------------------------------------
 
 //-- copy: SyCCSMatrix -> SyMatrix

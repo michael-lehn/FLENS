@@ -50,7 +50,6 @@ class ElementClosure
 
         ElementClosure(Matrix &matrix, IndexVariable &row, IndexVariable &col);
 
-        //void
         int
         operator=(const ElementType &rhs);
 

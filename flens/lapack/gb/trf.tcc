@@ -193,9 +193,8 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //
                     IndexType jm = min( ju, j+jb-1 );
                     if( jm>jj ) {
-                        GeMatrixView AB_tmp = FullStorageView(km, jm-jj,
-                                                              &AB( kv+1, jj+1),
-                                                              ldAB-1);
+                        GeMatrixView AB_tmp = FullStorageView(km, jm-jj, ldAB-1,
+                                                              &AB( kv+1, jj+1));
 
                         blas::r(-one, AB( _(kv+2, kv+km+1), jj ),
                                 A(jj,_(jj+1,jm)), AB_tmp);
@@ -227,9 +226,8 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //              A32.
 //
                 const IndexType mAB_tmp = min(ldAB-1, AB.numRows()-kv+jb);
-                GeMatrixView AB_tmp = FullStorageView(mAB_tmp, j2,
-                                                      &AB( kv+1-jb, j+jb ),
-                                                      ldAB-1);
+                GeMatrixView AB_tmp = FullStorageView(mAB_tmp, j2, ldAB-1,
+                                                      &AB( kv+1-jb, j+jb ));
                 lapack::laswp(AB_tmp, piv(_(j,j+jb-1)));
 
 //
@@ -261,12 +259,10 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //                  Update A12
 //
-                    GeMatrixView AB_tmp_1 = FullStorageView(jb, jb,
-                                                            &AB(kv+1, j),
-                                                            ldAB-1);
-                    GeMatrixView AB_tmp_2 = FullStorageView(jb, j2,
-                                                            &AB(kv+1-jb, j+jb),
-                                                            ldAB-1);
+                    GeMatrixView AB_tmp_1 = FullStorageView(jb, jb, ldAB-1,
+                                                            &AB(kv+1, j));
+                    GeMatrixView AB_tmp_2 = FullStorageView(jb, j2, ldAB-1,
+                                                            &AB(kv+1-jb, j+jb));
 
                     blas::sm(Left, NoTrans, one, AB_tmp_1.lowerUnit(),
                              AB_tmp_2);
@@ -275,15 +271,12 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //                      Update A22
 //
-                        GeMatrixView AB_tmp_1 = FullStorageView(i2, jb,
-                                                        &AB(kv+1+jb, j),
-                                                        ldAB-1);
-                        GeMatrixView AB_tmp_2 = FullStorageView(jb, j2,
-                                                        &AB( kv+1-jb, j+jb),
-                                                        ldAB-1);
-                        GeMatrixView AB_tmp_3 = FullStorageView(i2, j2,
-                                                        &AB( kv+1, j+jb),
-                                                        ldAB-1);
+                        GeMatrixView AB_tmp_1 = FullStorageView(i2, jb, ldAB-1,
+                                                        &AB(kv+1+jb, j));
+                        GeMatrixView AB_tmp_2 = FullStorageView(jb, j2, ldAB-1,
+                                                        &AB( kv+1-jb, j+jb));
+                        GeMatrixView AB_tmp_3 = FullStorageView(i2, j2, ldAB-1,
+                                                        &AB( kv+1, j+jb));
                         AB_tmp_3 -= AB_tmp_1*AB_tmp_2;
 
 
@@ -293,12 +286,10 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //                      Update A32
 //
-                        GeMatrixView AB_tmp_1 = FullStorageView(jb, j2,
-                                                        &AB(kv+1-jb, j+jb),
-                                                        ldAB-1);
-                        GeMatrixView AB_tmp_2 = FullStorageView(i3, j2,
-                                                        &AB( kv+kl+1-jb, j+jb),
-                                                        ldAB-1);
+                        GeMatrixView AB_tmp_1 = FullStorageView(jb, j2, ldAB-1,
+                                                        &AB(kv+1-jb, j+jb));
+                        GeMatrixView AB_tmp_2 = FullStorageView(i3, j2, ldAB-1,
+                                                        &AB( kv+kl+1-jb, j+jb));
                         AB_tmp_2 -= Work31(_(1,i3),_(1,jb))*AB_tmp_1;
 
                     }
@@ -317,8 +308,8 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //                  Update A13 in the work array
 //
-                    GeMatrixView AB_tmp = FullStorageView(jb, jb, &AB(kv+1, j),
-                                                          ldAB-1);
+                    GeMatrixView AB_tmp = FullStorageView(jb, jb, ldAB-1,
+                                                          &AB(kv+1, j));
 
 
                     blas::sm(Left, NoTrans, one, AB_tmp.lowerUnit(),
@@ -328,12 +319,10 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //                      Update A23
 //
-                        GeMatrixView AB_tmp_1 = FullStorageView(i2, jb,
-                                                                &AB(kv+1+jb, j),
-                                                                ldAB-1);
-                        GeMatrixView AB_tmp_3 = FullStorageView(i2, j3,
-                                                                &AB(1+jb, j+kv),
-                                                                ldAB-1);
+                        GeMatrixView AB_tmp_1 = FullStorageView(i2, jb, ldAB-1,
+                                                                &AB(kv+1+jb,j));
+                        GeMatrixView AB_tmp_3 = FullStorageView(i2, j3, ldAB-1,
+                                                                &AB(1+jb,j+kv));
                         AB_tmp_3 -= AB_tmp_1*Work13(_(1,jb),_(1,j3));
 
                     }
@@ -342,9 +331,8 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //                      Update A33
 //
-                        GeMatrixView AB_tmp = FullStorageView(i3, j3,
-                                                              &AB( 1+kl, j+kv),
-                                                              ldAB-1);
+                        GeMatrixView AB_tmp = FullStorageView(i3, j3, ldAB-1,
+                                                              &AB( 1+kl, j+kv));
                         AB_tmp -= Work31(_(1,i3),_(1,jb))
                                  *Work13(_(1,jb),_(1,j3));
                     }

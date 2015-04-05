@@ -1,0 +1,35 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename V>                                                    |
+|  struct IsDenseVectorSum;                                                 |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@ST>1#T@IsDenseVectorSumtemplatet]
+                         [ypenameVstructIsDenseVectorSum;                   ]
+
+    Defined in namespace `flens::blas`.
+    Class IsDenseVectorSumtemplatetypenameVstructIsDenseVectorSum; with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename X>                                                    |
+|  struct Eval;                                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@ST>1#T@EvaltemplatetypenameXstru]
+                         [ctEval;                                           ]
+
+    Defined in namespace `flens::blas`.
+    Class EvaltemplatetypenameXstructEval; with 1 template parameters.
+
+
+

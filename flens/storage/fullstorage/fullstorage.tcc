@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2007,2015 Michael Lehn
  *
  *   All rights reserved.
  *
@@ -73,11 +73,9 @@ FullStorage<T, Order, I, A>::FullStorage(const FullStorage &rhs)
       firstRow_(rhs.firstRow()), firstCol_(rhs.firstCol())
 {
     allocate_(ElementType());
-    Transpose trans = (Order==rhs.order) ? NoTrans : Trans;
-    cxxblas::gecopy(Order,
-                    trans, numRows_, numCols_,
-                    rhs.data(), rhs.leadingDimension(),
-                    data(), leadingDimension());
+    cxxblas::gecopy(numRows_, numCols_,
+                    rhs.data(), rhs.strideRow(), rhs.strideCol(),
+                    data(), strideRow(), strideCol());
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -88,11 +86,9 @@ FullStorage<T, Order, I, A>::FullStorage(const RHS &rhs)
       firstRow_(rhs.firstRow()), firstCol_(rhs.firstCol())
 {
     allocate_(ElementType());
-    Transpose trans = (Order==rhs.order) ? NoTrans : Trans;
-    cxxblas::gecopy(Order,
-                    trans, numRows_, numCols_,
-                    rhs.data(), rhs.leadingDimension(),
-                    data(), leadingDimension());
+    cxxblas::gecopy(numRows_, numCols_,
+                    rhs.data(), rhs.strideRow(), rhs.strideCol(),
+                    data(), strideRow(), strideCol());
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -190,6 +186,13 @@ typename FullStorage<T, Order, I, A>::IndexType
 FullStorage<T, Order, I, A>::numCols() const
 {
     return numCols_;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+StorageOrder
+FullStorage<T, Order, I, A>::order() const
+{
+    return Order;
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -301,9 +304,8 @@ FullStorage<T, Order, I, A>::fill(StorageUpLo  upLo,
 {
     ASSERT(data_);
 
-    trapezoidalFill(order, upLo, value,
-                    numRows(), numCols(),
-                    data(), leadingDimension());
+    trapezoidalFill(numRows(), numCols(), value,
+                    upLo, data(), strideRow(), strideCol());
     return true;
 }
 
@@ -313,12 +315,7 @@ FullStorage<T, Order, I, A>::changeIndexBase(IndexType firstRow,
                                              IndexType firstCol)
 {
     if (data_) {
-        if (Order==RowMajor) {
-            data_ = data() - (firstRow*leadingDimension() + firstCol);
-        }
-        if (Order==ColMajor) {
-            data_ = data() - (firstCol*leadingDimension() + firstRow);
-        }
+        data_ = data() - (firstRow*strideRow() + firstCol*strideCol());
     }
     firstRow_ = firstRow;
     firstCol_ = firstCol;
@@ -329,14 +326,6 @@ template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorage<T, Order, I, A>::ConstArrayView
 FullStorage<T, Order, I, A>::arrayView(IndexType firstViewIndex) const
 {
-#   ifndef NDEBUG
-    if (order==ColMajor) {
-        ASSERT(numRows()==leadingDimension());
-    } else {
-        ASSERT(numCols()==leadingDimension());
-    }
-#   endif
-
     return ConstArrayView(numCols()*numRows(),
                           data(),
                           IndexType(1),
@@ -348,14 +337,6 @@ template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorage<T, Order, I, A>::ArrayView
 FullStorage<T, Order, I, A>::arrayView(IndexType firstViewIndex)
 {
-#   ifndef NDEBUG
-    if (order==ColMajor) {
-        ASSERT(numRows()==leadingDimension());
-    } else {
-        ASSERT(numCols()==leadingDimension());
-    }
-#   endif
-
     return ArrayView(numCols()*numRows(),
                      data(),
                      IndexType(1),
@@ -378,7 +359,8 @@ FullStorage<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        return ConstView(numRows, numCols, 0, leadingDimension(),
+        return ConstView(numRows, numCols, 0,
+                         this->strideRow(), this->strideCol(),
                          firstViewRow, firstViewCol, allocator());
     }
 
@@ -392,13 +374,11 @@ FullStorage<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
     ASSERT(fromCol<=toCol);
     ASSERT(toCol<=lastCol());
 
-    ASSERT(order==ColMajor || strideCol==IndexType(1) );
-    ASSERT(order==RowMajor || strideRow==IndexType(1) );
-
     return ConstView(numRows,                               // # rows
                      numCols,                               // # cols
                      &(operator()(fromRow, fromCol)),       // data
-                     leadingDimension()*strideRow*strideCol,// leading dimension
+                     this->strideRow()*strideRow,           // strideRow
+                     this->strideCol()*strideCol,           // strideCol
                      firstViewRow,                          // firstRow
                      firstViewCol,                          // firstCol
                      allocator());                          // allocator
@@ -419,8 +399,8 @@ FullStorage<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        return      View(numRows, numCols, 0, leadingDimension(),
-                         firstViewRow, firstViewCol, allocator());
+        return View(numRows, numCols, 0, this->strideRow(),this->strideCol(),
+                    firstViewRow, firstViewCol, allocator());
     }
 
 #   endif
@@ -433,16 +413,14 @@ FullStorage<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
     ASSERT(fromCol<=toCol);
     ASSERT(toCol<=lastCol());
 
-    ASSERT(order==ColMajor || strideCol==IndexType(1) );
-    ASSERT(order==RowMajor || strideRow==IndexType(1) );
-
-    return      View(numRows,                               // # rows
-                     numCols,                               // # cols
-                     &(operator()(fromRow, fromCol)),       // data
-                     leadingDimension()*strideRow*strideCol,// leading dimension
-                     firstViewRow,                          // firstRow
-                     firstViewCol,                          // firstCol
-                     allocator());                          // allocator
+    return View(numRows,                               // # rows
+                numCols,                               // # cols
+                &(operator()(fromRow, fromCol)),       // data
+                this->strideRow()*strideRow,           // strideRow
+                this->strideCol()*strideCol,           // strideCol
+                firstViewRow,                          // firstRow
+                firstViewCol,                          // firstCol
+                allocator());                          // allocator
 }
 
 // view of single row
@@ -682,7 +660,7 @@ FullStorage<T, Order, I, A>::viewDiag(IndexType d,
 }
 
 
-// view of d-th diagonal
+// view of d-th anti-diagonal
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorage<T, Order, I, A>::ConstArrayView
 FullStorage<T, Order, I, A>::viewAntiDiag(IndexType d,
@@ -696,7 +674,7 @@ FullStorage<T, Order, I, A>::viewAntiDiag(IndexType d,
 
     return ConstArrayView(std::min(numRows()-row_, numCols()-col_),
                           &(operator()(row,lastCol()-col+1)),
-                          -leadingDimension()+1,
+                          -strideCol()+strideRow(),
                           firstViewIndex,
                           allocator());
 }
@@ -714,7 +692,7 @@ FullStorage<T, Order, I, A>::viewAntiDiag(IndexType d,
 
     return ArrayView(std::min(numRows()-row_, numCols()-col_),
                      &(operator()(row,lastCol()-col+1)),
-                     -leadingDimension()+1,
+                     -strideCol()+strideRow(),
                      firstViewIndex,
                      allocator());
 }
@@ -816,9 +794,8 @@ bool
 fillRandom(StorageUpLo upLo, FullStorage<T, Order, I, Allocator> &A)
 {
     ASSERT(A.data());
-    trapezoidalFillRandom(Order, upLo,
-                          A.numRows(), A.numCols(),
-                          A.data(), A.leadingDimension());
+    trapezoidalFillRandom(A.numRows(), A.numCols(),
+                          upLo, A.data(), A.strideRow(), A.strideCol());
     return true;
 }
 

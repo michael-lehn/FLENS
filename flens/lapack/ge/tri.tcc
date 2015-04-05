@@ -105,6 +105,8 @@ tri_impl(GeMatrix<MA>            &A,
 
     IndexType iws;
 
+    ASSERT(lWork>=n);
+
     if (nb>1 && nb<n) {
         iws = max(ldWork*nb, IndexType(1));
         if (lWork<iws) {
@@ -115,7 +117,6 @@ tri_impl(GeMatrix<MA>            &A,
         iws = n;
     }
 
-    GeMatrixView<ElementType> Work(n, nb, work);
 //
 //  Solve the equation inv(A)*L = inv(U) for inv(A).
 //
@@ -143,6 +144,8 @@ tri_impl(GeMatrix<MA>            &A,
 //
 //      Use blocked code.
 //
+        GeMatrixView<ElementType> Work(n, nb, work);
+
         const IndexType nn = ((n-1)/nb)*nb + 1;
         for (IndexType j=nn; j>=1; j-=nb) {
             const IndexType jb = min(nb, n-j+1);

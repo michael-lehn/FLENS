@@ -16,6 +16,8 @@ BLAS(stbmv)(const char      *UPLO,
             float           *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: stbmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -99,6 +101,8 @@ BLAS(dtbmv)(const char      *UPLO,
             double          *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dtbmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -181,6 +185,8 @@ BLAS(ctbmv)(const char      *UPLO,
             cfloat          *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ctbmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -266,6 +272,8 @@ BLAS(ztbmv)(const char      *UPLO,
             cdouble         *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ztbmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);

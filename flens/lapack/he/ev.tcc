@@ -67,7 +67,7 @@ ev_wsq_impl(const HeMatrix<MA> &A)
 
     const IndexType n = A.numRows();
 
-    const char      upLo[1]  = { getF77BlasChar(A.upLo()) };
+    const char      upLo[1]  = { cxxf77blas::getF77BlasChar(A.upLo()) };
     const IndexType nb       = ilaenv<T>(1, "HETRD", upLo, n);
 
     const IndexType lWorkOpt = max(IndexType(1), (nb+1)*n);

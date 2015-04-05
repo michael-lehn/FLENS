@@ -21,6 +21,8 @@ LAPACK_DECL(dormqr)(const char       *SIDE,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dormqr");
+
     using std::max;
     using std::min;
 //
@@ -77,9 +79,9 @@ LAPACK_DECL(dormqr)(const char       *SIDE,
     Transpose trans = (*TRANS=='N') ? NoTrans : Trans;
     const INTEGER numRowsA = (side==Left) ? *M : *N;
 
-    DGeMatrixView          _A      = DFSView(numRowsA, *K, A, *LDA);
+    DGeMatrixView          _A      = DFSView(numRowsA, *K, *LDA, A);
     DConstDenseVectorView  _TAU    = DConstArrayView(*K, TAU, 1);
-    DGeMatrixView          _C      = DFSView(*M, *N, C, *LDC);
+    DGeMatrixView          _C      = DFSView(*M, *N, *LDC, C);
     DDenseVectorView       _WORK   = DArrayView(*LWORK, WORK, 1);
 
     ormqr(side, trans, _A, _TAU, _C, _WORK);

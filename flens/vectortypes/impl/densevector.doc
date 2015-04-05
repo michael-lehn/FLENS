@@ -130,9 +130,9 @@ Constructors and Destructor
 |      DenseVector(DenseVector<RHS> &rhs);                                  |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@CT>1#T@DenseVector@FT@>1#TDenseVector<A]
-                         [>#&>@N@flens@CT>1#T@DenseVector1t1.0#templatetypen]
-                         [ameRHS                                            ]
+                         [M#c:@N@flens@CT>1#T@DenseVector@FT@>1#TDenseVector]
+                         [<A>#&>@N@flens@CT>1#T@DenseVector1t1.0#templatetyp]
+                         [enameRHS                                          ]
 
     Defined in namespace `flens`.
     Constructor of class `DenseVector` with 1 template parameter(s).

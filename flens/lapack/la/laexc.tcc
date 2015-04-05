@@ -81,8 +81,8 @@ laexc_impl(bool                          computeQ,
 //    .. Local Arrays ..
 //
     ElementType dData_[16], xData_[4];
-    GeMatrixView  D = typename GeMatrixView::Engine(4, 4, dData_, 4);
-    GeMatrixView  X = typename GeMatrixView::Engine(2, 2, xData_, 2);
+    GeMatrixView  D = typename GeMatrixView::Engine(4, 4, 4, dData_);
+    GeMatrixView  X = typename GeMatrixView::Engine(2, 2, 2, xData_);
 
     ElementType uData_[3], u1Data_[3], u2Data_[3];
     DenseVectorView u  = typename DenseVectorView::Engine(3, uData_);

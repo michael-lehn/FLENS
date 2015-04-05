@@ -14,6 +14,8 @@ BLAS(stpsv)(const char      *UPLO,
             float           *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: stpsv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -79,6 +81,8 @@ BLAS(dtpsv)(const char      *UPLO,
             double          *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dtpsv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -143,6 +147,8 @@ BLAS(ctpsv)(const char      *UPLO,
             cfloat          *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ctpsv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -208,6 +214,8 @@ BLAS(ztpsv)(const char      *UPLO,
             cdouble         *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ztpsv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);

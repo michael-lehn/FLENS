@@ -33,13 +33,16 @@
 #ifndef FLENS_AUXILIARY_AUXILIARY_H
 #define FLENS_AUXILIARY_AUXILIARY_H 1
 
+#include <flens/auxiliary/abs1.h>
 #include <flens/auxiliary/constref.h>
 #include <flens/auxiliary/compatiblescalar.h>
 #include <flens/auxiliary/compatibletype.h>
 #include <flens/auxiliary/complextrait.h>
+#include <flens/auxiliary/conjugate.h>
 #include <flens/auxiliary/cxxf77blas.h>
 #include <flens/auxiliary/explicit_cast.h>
 #include <flens/auxiliary/ifelseif.h>
+#include <flens/auxiliary/imag.h>
 #include <flens/auxiliary/indextype.h>
 #include <flens/auxiliary/isclosure.h>
 #include <flens/auxiliary/iscomplex.h>
@@ -64,6 +67,7 @@
 #include <flens/auxiliary/quadruple.h>
 #include <flens/auxiliary/randomvalue.h>
 #include <flens/auxiliary/range.h>
+#include <flens/auxiliary/real.h>
 #include <flens/auxiliary/removeref.h>
 #include <flens/auxiliary/restrictto.h>
 #include <flens/auxiliary/triple.h>

@@ -41,11 +41,11 @@ first case and an $k \times n$ matrix in the second case.
 |         MC               &&C);                                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>4#T#T#T#Trk#$@N@cxxblas@E@Tr]
-                         [anspose#&1t0.0#&1t0.1#&1t0.2#&t0.3#templatetypenam]
-                         [eALPHA,typenameMA,typenameBETA,typenameMCtypenameR]
-                         [estrictToIsGeMatrixMAvalueandIsHeMatrixMCvalue,voi]
-                         [dType                                             ]
+                         [c:@N@flens@N@blas@FT@>4#T#T#T#Trk#$@N@flens@E@Tran]
+                         [spose#&1t0.0#&1t0.1#&1t0.2#&t0.3#templatetypenameA]
+                         [LPHA,typenameMA,typenameBETA,typenameMCtypenameRes]
+                         [trictToIsGeMatrixMAvalueandIsHeMatrixMCvalue,voidT]
+                         [ype                                               ]
 
     trans     `(input)`                                                        +
               Specifies the operation to be performed as follows
@@ -98,11 +98,11 @@ first case and an $k \times n$ matrix in the second case.
 |         MC               &&C);                                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>4#T#T#T#Trk#$@N@cxxblas@E@Tr]
-                         [anspose#&1t0.0#&1t0.1#&1t0.2#&t0.3#templatetypenam]
-                         [eALPHA,typenameMA,typenameBETA,typenameMCtypenameR]
-                         [estrictToIsGeMatrixMAvalueandIsSyMatrixMCvalue,voi]
-                         [dType                                             ]
+                         [c:@N@flens@N@blas@FT@>4#T#T#T#Trk#$@N@flens@E@Tran]
+                         [spose#&1t0.0#&1t0.1#&1t0.2#&t0.3#templatetypenameA]
+                         [LPHA,typenameMA,typenameBETA,typenameMCtypenameRes]
+                         [trictToIsGeMatrixMAvalueandIsSyMatrixMCvalue,voidT]
+                         [ype                                               ]
 
     trans     `(input)`                                                        +
               Specifies the operation to be performed as follows

@@ -19,6 +19,7 @@ BLAS(chemm)(const char      *SIDE,
             cfloat          *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: chemm");
 
 #   ifdef TEST_DIRECT_CBLAS
 
@@ -74,9 +75,9 @@ BLAS(chemm)(const char      *SIDE,
         StorageUpLo    upLo = StorageUpLo(UPLO_);
         const INTEGER  ka   = side==Left ? *M : *N;
 
-        CHeMatrixConstView  A(CFullConstView(ka, ka, A_, *LDA), upLo);
-        CGeMatrixConstView  B = CFullConstView(*M, *N, B_, *LDB);
-        CGeMatrixView       C = CFullView(*M, *N, C_, *LDC);
+        CHeMatrixConstView  A(CFullConstView(ka, ka, *LDA, A_), upLo);
+        CGeMatrixConstView  B = CFullConstView(*M, *N, *LDB, B_);
+        CGeMatrixView       C = CFullView(*M, *N, *LDC, C_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -108,7 +109,7 @@ BLAS(zhemm)(const char      *SIDE,
             cdouble         *C_,
             const INTEGER   *LDC)
 {
-
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zhemm");
 
 #   ifdef TEST_DIRECT_CBLAS
 
@@ -163,9 +164,9 @@ BLAS(zhemm)(const char      *SIDE,
         StorageUpLo    upLo = StorageUpLo(UPLO_);
         const INTEGER  ka   = side==Left ? *M : *N;
 
-        ZHeMatrixConstView  A(ZFullConstView(ka, ka, A_, *LDA), upLo);
-        ZGeMatrixConstView  B = ZFullConstView(*M, *N, B_, *LDB);
-        ZGeMatrixView       C = ZFullView(*M, *N, C_, *LDC);
+        ZHeMatrixConstView  A(ZFullConstView(ka, ka, *LDA, A_), upLo);
+        ZGeMatrixConstView  B = ZFullConstView(*M, *N, *LDB, B_);
+        ZGeMatrixView       C = ZFullView(*M, *N, *LDC, C_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;

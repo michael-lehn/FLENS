@@ -33,9 +33,9 @@ main()
 ///   - We wrap the C-array in an anonymous full storage view object
 ///   - and construct with it a general matrix view.
 /// The syntax for the full storage view is
-/// `FSView(numRows, numCols, data-pointer, leading dimension)`.
+/// `FSView(numRows, numCols, leadingDimension, data-pointer)`.
 ///
-    GeMatrixView  A = FSView(4, 4, data, 4);
+    GeMatrixView  A = FSView(4, 4, 4, data);
 
     cout << "A = " << A << endl;
 
@@ -44,7 +44,7 @@ main()
 /// sub-matrix directly (note that `data+5`points to the element of
 /// `A(2,3)`.
 ///
-    GeMatrixView  B = FSView(3, 2, data+5, 4);
+    GeMatrixView  B = FSView(3, 2, 4, data+5);
 
     cout << "B = " << B << endl;
 
@@ -54,7 +54,7 @@ main()
 /// scheme.
 ///
     typedef GeMatrix<FullStorage<double, ColMajor> >  GeMatrixNoView;
-    GeMatrixNoView  M = GeMatrixView(FSView(4, 4, data, 4));
+    GeMatrixNoView  M = GeMatrixView(FSView(4, 4, 4, data));
 
 ///
 /// Note that you only can construct a `GeMatrix` from a storage object

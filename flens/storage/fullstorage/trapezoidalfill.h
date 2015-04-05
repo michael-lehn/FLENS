@@ -39,14 +39,15 @@ namespace flens {
 
 template <typename IndexType, typename T>
     void
-    trapezoidalFill(StorageOrder order, StorageUpLo upLo,
-                    const T &value,
-                    IndexType m, IndexType n, T *data, IndexType ld);
+    trapezoidalFill(IndexType m, IndexType n, const T &value,
+                    StorageUpLo upLo,
+                    T *data, IndexType incRow, IndexType incCol);
 
 template <typename IndexType, typename T>
     void
-    trapezoidalFillRandom(StorageOrder order, StorageUpLo upLo,
-                          IndexType m, IndexType n, T *data, IndexType ld);
+    trapezoidalFillRandom(IndexType m, IndexType n,
+                          StorageUpLo upLo,
+                          T *data, IndexType incRow, IndexType incCol);
 
 } // namespace flens
 

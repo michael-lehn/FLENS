@@ -28,7 +28,6 @@ or
 $C$ is an $n \times n$ hermitian matrix and  $A$ and $B$ are $n \times k$
 matrices in the first case and $k \times n$ matrices in the second case.
 
-
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
 |  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
@@ -44,11 +43,11 @@ matrices in the first case and $k \times n$ matrices in the second case.
 |          MC              &&C);                                                    |
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tr2k#$@N@cxxblas@E@Tran]
-                            [spose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenam]
-                            [eALPHA,typenameMA,typenameMB,typenameBETA,typenameMCtyp]
-                            [enameRestrictToIsGeMatrixMAvalueandIsGeMatrixMBvalueand]
-                            [IsHeMatrixMCvalue,voidType                             ]
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tr2k#$@N@flens@E@Transp]
+                            [ose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameA]
+                            [LPHA,typenameMA,typenameMB,typenameBETA,typenameMCtypen]
+                            [ameRestrictToIsGeMatrixMAvalueandIsGeMatrixMBvalueandIs]
+                            [HeMatrixMCvalue,voidType                               ]
 
     trans     `(input)`                                                        +
               Specifies the operation to be performed as follows
@@ -107,11 +106,11 @@ matrices in the first case and $k \times n$ matrices in the second case.
 |          MC              &&C);                                                    |
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tr2k#$@N@cxxblas@E@Tran]
-                            [spose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenam]
-                            [eALPHA,typenameMA,typenameMB,typenameBETA,typenameMCtyp]
-                            [enameRestrictToIsGeMatrixMAvalueandIsGeMatrixMBvalueand]
-                            [IsSyMatrixMCvalue,voidType                             ]
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tr2k#$@N@flens@E@Transp]
+                            [ose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameA]
+                            [LPHA,typenameMA,typenameMB,typenameBETA,typenameMCtypen]
+                            [ameRestrictToIsGeMatrixMAvalueandIsGeMatrixMBvalueandIs]
+                            [SyMatrixMCvalue,voidType                               ]
 
     trans     `(input)`                                                        +
               Specifies the operation to be performed as follows
@@ -131,3 +130,4 @@ matrices in the first case and $k \times n$ matrices in the second case.
               On exit overwritten with
               $\beta\,C + \alpha\,A\,B^T + \alpha\,B\,A^T$ or
               $\beta\,C + \alpha\,A^T\,B + \alpha\,B^T\,A$.
+

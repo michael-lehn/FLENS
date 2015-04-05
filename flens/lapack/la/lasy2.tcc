@@ -113,7 +113,7 @@ lasy2_impl(bool                  transLeft,
 
     ElementType  t16Data_[16];
     GeMatrixView<ElementType>
-        T16 = typename GeMatrixView<ElementType>::Engine(4, 4, t16Data_, 4);
+        T16 = typename GeMatrixView<ElementType>::Engine(4, 4, 4, t16Data_);
 
 //
 //  Quick return if possible

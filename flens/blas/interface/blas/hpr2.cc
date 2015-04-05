@@ -15,6 +15,8 @@ BLAS(chpr2)(const char      *UPLO,
             const INTEGER   *INCY,
             cfloat          *AP)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: chpr2");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -80,6 +82,8 @@ BLAS(zhpr2)(const char      *UPLO,
             const INTEGER   *INCY,
             cdouble         *AP)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zhpr2");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);

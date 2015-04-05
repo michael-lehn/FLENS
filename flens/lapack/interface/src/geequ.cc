@@ -21,6 +21,7 @@ LAPACK_DECL(dgeequ)(const INTEGER    *M,
                     DOUBLE           *AMAX,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgeequ");
 //
 //  Call FLENS implementation
 //
@@ -39,7 +40,7 @@ LAPACK_DECL(dgeequ)(const INTEGER    *M,
         return;
     }
 
-    DConstGeMatrixView  _A  = DConstFSView(*M, *N, A, *LDA);
+    DConstGeMatrixView  _A  = DConstFSView(*M, *N, *LDA, A);
     DDenseVectorView    _R  = DArrayView(*M, R, 1);
     DDenseVectorView    _C  = DArrayView(*N, C, 1);
 

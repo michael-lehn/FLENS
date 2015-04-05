@@ -90,7 +90,7 @@ mv(Transpose transposeA, const Alpha &alpha, const MA &A, const VX &x,
     ASSERT(!DEBUGCLOSURE::identical(x, y));
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_GBMV(transpose, alpha, A, x, beta, y);
+    FLENS_BLASLOG_BEGIN_GBMV(transposeA, alpha, A, x, beta, y);
 
     cxxblas::gbmv(A.numRows(), A.numCols(), A.numSubDiags(), A.numSuperDiags(),
                   alpha,
@@ -374,7 +374,7 @@ typename RestrictTo<IsTbMatrix<MA>::value
 mv(Transpose transposeA, const MA &A, VX &&x)
 {
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_TBMV(trans, A, x);
+    FLENS_BLASLOG_BEGIN_TBMV(transposeA, A, x);
 
     const bool colMajorA = (A.order()==ColMajor);
     const bool lowerA    = (A.upLo()==Lower);
@@ -407,7 +407,7 @@ typename RestrictTo<IsTrMatrix<MA>::value
 mv(Transpose transposeA, const MA &A, VX &&x)
 {
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_TRMV(trans, A, x);
+    FLENS_BLASLOG_BEGIN_TRMV(transposeA, A, x);
 
     ASSERT(x.length()==A.dim());
 
@@ -433,7 +433,7 @@ typename RestrictTo<IsTpMatrix<MA>::value
 mv(Transpose transposeA, const MA &A, VX &&x)
 {
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_TPMV(trans, A, x);
+    FLENS_BLASLOG_BEGIN_TPMV(transposeA, A, x);
 
     ASSERT(x.length()==A.dim());
 

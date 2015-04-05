@@ -67,6 +67,15 @@ trs_impl(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
     const IndexType n       = A.numCols();
     const IndexType nRhs    = B.numCols();
 
+    /*
+    std::cerr << "trans = " << trans
+              << ", A.numRows() = " << A.numRows()
+              << ", A.numCols() = " << A.numCols()
+              << ", B.numRows() = " << B.numRows()
+              << ", B.numCols() = " << B.numCols()
+              << std::endl;
+    */
+
     const T  One(1);
 //
 //  Quick return if possible
@@ -215,6 +224,10 @@ trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
     }
 
     if (failed) {
+        std::cerr << "trans = " << trans << std::endl;
+        std::cerr << "A = " << A << std::endl;
+        std::cerr << "piv = " << piv << std::endl;
+        std::cerr << "B_org = " << B_org << std::endl;
         ASSERT(0);
     } else {
         // std::cerr << "passed: (ge)trs.tcc" << std::endl;
@@ -244,9 +257,9 @@ trs(Transpose trans, const MA &A, const VPIV &piv, VB &&b)
     typedef typename VectorB::IndexType    IndexType;
 
     const IndexType    n     = b.length();
-    const StorageOrder order = MatrixA::Engine::order;
+    const StorageOrder order = MatrixA::Engine::noViewOrder;
 
-    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b);
 
     trs(trans, A, piv, B);
 }

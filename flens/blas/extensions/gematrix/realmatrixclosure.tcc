@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_EXTENSIONS_GEMATRIX_REALMATRIXCLOSURE_TCC
 #define FLENS_BLAS_EXTENSIONS_GEMATRIX_REALMATRIXCLOSURE_TCC 1
 
-#include <flens/blas/level1extensions/copy/realmatrixclosure.h>
+#include <flens/blas/extensions/gematrix/realmatrixclosure.h>
 
 namespace flens { namespace blas {
 

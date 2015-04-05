@@ -36,6 +36,7 @@
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/bandstorage/bandstorage.h>
 #include <flens/typedefs.h>
+#include <ulmblas/cxxblas.h>
 
 namespace flens {
 
@@ -836,8 +837,8 @@ BandStorage<T, Order, I, A>::viewFullStorage() const
 {
     return ConstFullStorageView(numSubDiags()+numSuperDiags()+1,
                                 max(numRows(),numCols()),
-                                data(),
-                                leadingDimension());
+                                leadingDimension(),
+                                data());
 }
 
 
@@ -847,8 +848,8 @@ BandStorage<T, Order, I, A>::viewFullStorage()
 {
     return FullStorageView(numSubDiags()+numSuperDiags()+1,
                            max(numRows(),numCols()),
-                           data(),
-                           leadingDimension());
+                           leadingDimension(),
+                           data());
 }
 
 //-- Private Methods -----------------------------------------------------------

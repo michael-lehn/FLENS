@@ -17,6 +17,8 @@ BLAS(cherk)(const char      *UPLO,
             cfloat          *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: cherk");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -72,10 +74,10 @@ BLAS(cherk)(const char      *UPLO,
 
         CGeMatrixConstView  A = CFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
-        CHeMatrixView       C(CFullView(*N, *N, C_, *LDC), upLo);
+        CHeMatrixView       C(CFullView(*N, *N, *LDC, C_), upLo);
 
     #   ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -119,6 +121,8 @@ BLAS(zherk)(const char      *UPLO,
             cdouble         *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zherk");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -173,10 +177,10 @@ BLAS(zherk)(const char      *UPLO,
 
         ZGeMatrixConstView  A = ZFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
-        ZHeMatrixView       C(ZFullView(*N, *N, C_, *LDC), upLo);
+        ZHeMatrixView       C(ZFullView(*N, *N, *LDC, C_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;

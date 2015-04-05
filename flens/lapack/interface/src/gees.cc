@@ -64,6 +64,7 @@ LAPACK_DECL(dgees)(const char       *JOBVS,
                    LOGICAL          *BWORK,
                    INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgees");
     using std::max;
     using std::min;
 //
@@ -97,11 +98,11 @@ LAPACK_DECL(dgees)(const char       *JOBVS,
 //
     typedef DGeMatrixView::IndexType IndexType;
 
-    DGeMatrixView       _A      = DFSView(*N, *N, A, *LDA);
+    DGeMatrixView       _A      = DFSView(*N, *N, *LDA, A);
     IndexType           _SDIM   = *SDIM;
     DDenseVectorView    _WR     = DArrayView(*N, WR, 1);
     DDenseVectorView    _WI     = DArrayView(*N, WI, 1);
-    DGeMatrixView       _VS     = DFSView(*N, *N, VS, *LDVS);
+    DGeMatrixView       _VS     = DFSView(*N, *N, *LDVS, VS);
     DDenseVectorView    _WORK   = DArrayView(*LWORK, WORK, 1);
 
     BDenseVector        _BWORK(*N);
@@ -154,6 +155,8 @@ LAPACK_DECL(zgees)(const char           *JOBVS,
                    LOGICAL              *BWORK,
                    INTEGER              *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgees");
+
     using std::max;
     using std::min;
 //
@@ -192,10 +195,10 @@ LAPACK_DECL(zgees)(const char           *JOBVS,
     auto zVS    = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(VS);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView       _A      = ZFSView(*N, *N, zA, *LDA);
+    ZGeMatrixView       _A      = ZFSView(*N, *N, *LDA, zA);
     IndexType           _SDIM   = *SDIM;
     ZDenseVectorView    _W      = ZArrayView(*N, zW, 1);
-    ZGeMatrixView       _VS     = ZFSView(*N, *N, zVS, *LDVS);
+    ZGeMatrixView       _VS     = ZFSView(*N, *N, *LDVS, zVS);
     ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
     DDenseVectorView    _RWORK  = DArrayView(*N, RWORK, 1);
 

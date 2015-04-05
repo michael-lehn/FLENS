@@ -26,11 +26,11 @@ GeMatrix
 |         const BETA &beta, VY &&y);                                                |
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
-                            [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
-                            [ALPHA,typenameMA,typenameVX,typenameBETA,typenameVYtype]
-                            [nameRestrictToIsGeMatrixMAvalueandIsDenseVectorVXvaluea]
-                            [ndIsDenseVectorVYvalue,voidType                        ]
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@flens@E@Transpo]
+                            [se#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameAL]
+                            [PHA,typenameMA,typenameVX,typenameBETA,typenameVYtypena]
+                            [meRestrictToIsGeMatrixMAvalueandIsDenseVectorVXvalueand]
+                            [IsDenseVectorVYvalue,voidType                          ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -49,78 +49,7 @@ GeMatrix
     y        `(input/output) real or complex valued DenseVector`               +
              Vector $y$.
 
-GeCCSMatrix
------------
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsGeCCSMatrix<MA>::value                                 |
-|                       && IsDenseVector<VX>::value                                 |
-|                       && IsDenseVector<VY>::value,                                |
-|               void>::Type                                                         |
-|      mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,            |
-|         const BETA &beta, VY &&y);                                                |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
-                            [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
-                            [ALPHA,typenameMA,typenameVX,typenameBETA,typenameVYtype]
-                            [nameRestrictToIsGeCCSMatrixMAvalueandIsDenseVectorVXval]
-                            [ueandIsDenseVectorVYvalue,voidType                     ]
 
-    trans    `(input)`                                                         +
-             Specifiy the operation, i.e.
-              NoTrans      $y \leftarrow \beta y + \alpha A   x$
-              Trans        $y \leftarrow \beta y + \alpha A^T x$
-              ConjTrans    $y \leftarrow \beta y + \alpha A^H x$
-    alpha    `(input) real or complex scalar value`                            +
-             Scaling factor $\alpha$.
-    A        `(input) real or complex valued GeCCSMatrix`                      +
-             Matrix $A$.
-    x        `(input) real or complex valued DenseVector`                      +
-             Vector $x$.
-    beta     `(input)`                                                         +
-             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
-             zero then $y$ gets resized.
-    y        `(input/output) real or complex valued DenseVector`               +
-             Vector $y$.
-
-
-GeCRSMatrix
------------
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsGeCRSMatrix<MA>::value                                 |
-|                       && IsDenseVector<VX>::value                                 |
-|                       && IsDenseVector<VY>::value,                                |
-|               void>::Type                                                         |
-|      mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,            |
-|         const BETA &beta, VY &&y);                                                |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
-                            [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
-                            [ALPHA,typenameMA,typenameVX,typenameBETA,typenameVYtype]
-                            [nameRestrictToIsGeCRSMatrixMAvalueandIsDenseVectorVXval]
-                            [ueandIsDenseVectorVYvalue,voidType                     ]
-
-    trans    `(input)`                                                         +
-             Specifiy the operation, i.e.
-              NoTrans      $y \leftarrow \beta y + \alpha A   x$
-              Trans        $y \leftarrow \beta y + \alpha A^T x$
-              ConjTrans    $y \leftarrow \beta y + \alpha A^H x$
-    alpha    `(input) real or complex scalar value`                            +
-             Scaling factor $\alpha$.
-    A        `(input) real or complex valued GeCRSMatrix`                      +
-             Matrix $A$.
-    x        `(input) real or complex valued DenseVector`                      +
-             Vector $x$.
-    beta     `(input)`                                                         +
-             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
-             zero then $y$ gets resized.
-    y        `(input/output) real or complex valued DenseVector`               +
-             Vector $y$.
 
 
 Triangular Matrix
@@ -138,10 +67,10 @@ $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
 |      mv(Transpose trans, const MA &A, VX &&x);                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>2#T#Tmv#$@N@cxxblas@E@Transp]
-                         [ose#&1t0.0#&t0.1#templatetypenameMA,typenameVXtype]
-                         [nameRestrictToIsTrMatrixMAvalueandIsDenseVectorVXv]
-                         [alue,voidType                                     ]
+                         [c:@N@flens@N@blas@FT@>2#T#Tmv#$@N@flens@E@Transpos]
+                         [e#&1t0.0#&t0.1#templatetypenameMA,typenameVXtypena]
+                         [meRestrictToIsTrMatrixMAvalueandIsDenseVectorVXval]
+                         [ue,voidType                                       ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -190,67 +119,6 @@ SyMatrix
     y        `(input/output) real or complex valued DenseVector`               +
              Vector $y$.
 
-SyCCSMatrix
------------
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsSyCCSMatrix<MA>::value                                 |
-|                       && IsDenseVector<VX>::value                                 |
-|                       && IsDenseVector<VY>::value,                                |
-|               void>::Type                                                         |
-|      mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);  |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
-                            [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
-                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsSyCCSMat]
-                            [rixMAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalu]
-                            [e,voidType                                             ]
-
-    alpha    `(input) real or complex scalar value`                            +
-             Scaling factor $\alpha$.
-    A        `(input) real or complex valued SyCCSMatrix`                      +
-             Symmetric matrix $A$.
-    x        `(input) real or complex valued DenseVector`                      +
-             Vector $x$.
-    beta     `(input)`                                                         +
-             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
-             zero then $y$ gets resized.
-    y        `(input/output) real or complex valued DenseVector`               +
-             Vector $y$.
-
-
-SyCRSMatrix
------------
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsSyCRSMatrix<MA>::value                                 |
-|                       && IsDenseVector<VX>::value                                 |
-|                       && IsDenseVector<VY>::value,                                |
-|               void>::Type                                                         |
-|      mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);  |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
-                            [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
-                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsSyCRSMat]
-                            [rixMAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalu]
-                            [e,voidType                                             ]
-
-    alpha    `(input) real or complex scalar value`                            +
-             Scaling factor $\alpha$.
-    A        `(input) real or complex valued SyCRSMatrix`                      +
-             Symmetric matrix $A$.
-    x        `(input) real or complex valued DenseVector`                      +
-             Vector $x$.
-    beta     `(input)`                                                         +
-             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
-             zero then $y$ gets resized.
-    y        `(input/output) real or complex valued DenseVector`               +
-             Vector $y$.
-
 
 Hermitian Matrix
 ================
@@ -289,64 +157,131 @@ HeMatrix
     y        `(input/output) real or complex valued DenseVector`               +
              Vector $y$.
 
-HeCCSMatrix
------------
+
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
 |  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsHeCCSMatrix<MA>::value                                 |
+|      typename RestrictTo<IsGbMatrix<MA>::value                                    |
 |                       && IsDenseVector<VX>::value                                 |
 |                       && IsDenseVector<VY>::value,                                |
 |               void>::Type                                                         |
-|      mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);  |
+|      mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,            |
+|         const BETA &beta, VY &&y);                                                |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@flens@E@Transpo]
+                            [se#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameAL]
+                            [PHA,typenameMA,typenameVX,typenameBETA,typenameVYtypena]
+                            [meRestrictToIsGbMatrixMAvalueandIsDenseVectorVXvalueand]
+                            [IsDenseVectorVYvalue,voidType                          ]
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsHbMatrix<MA>::value                                    |
+|                       && IsDenseVector<VX>::value                                 |
+|                       && IsDenseVector<VY>::value,                                |
+|               void>::Type                                                         |
+|      mv(const ALPHA &alpha, const MA &A, const VX &x,                             |
+|         const BETA &beta, VY &&y);                                                |
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
                             [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
-                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsHeCCSMat]
-                            [rixMAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalu]
-                            [e,voidType                                             ]
+                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsHbMatrix]
+                            [MAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalue,v]
+                            [oidType                                                ]
 
-    alpha    `(input) real or complex scalar value`                            +
-             Scaling factor $\alpha$.
-    A        `(input) real or complex valued HeCCSMatrix`                      +
-             Hermitian matrix $A$.
-    x        `(input) real or complex valued DenseVector`                      +
-             Vector $x$.
-    beta     `(input)`                                                         +
-             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
-             zero then $y$ gets resized.
-    y        `(input/output) real or complex valued DenseVector`               +
-             Vector $y$.
-
-
-HeCRSMatrix
------------
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
 |  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsHeCRSMatrix<MA>::value                                 |
+|      typename RestrictTo<IsHpMatrix<MA>::value                                    |
 |                       && IsDenseVector<VX>::value                                 |
 |                       && IsDenseVector<VY>::value,                                |
 |               void>::Type                                                         |
-|      mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);  |
+|      mv(const ALPHA &alpha, const MA &A, const VX &x,                             |
+|         const BETA &beta, VY &&y);                                                |
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
                             [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
-                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsHeCRSMat]
-                            [rixMAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalu]
-                            [e,voidType                                             ]
+                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsHpMatrix]
+                            [MAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalue,v]
+                            [oidType                                                ]
 
-    alpha    `(input) real or complex scalar value`                            +
-             Scaling factor $\alpha$.
-    A        `(input) real or complex valued HeCRSMatrix`                      +
-             Hermitian matrix $A$.
-    x        `(input) real or complex valued DenseVector`                      +
-             Vector $x$.
-    beta     `(input)`                                                         +
-             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
-             zero then $y$ gets resized.
-    y        `(input/output) real or complex valued DenseVector`               +
-             Vector $y$.
+    Defined in namespace `flens::blas`.
+    Function `mv` with 5 template parameters.
+
+
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsSbMatrix<MA>::value                                    |
+|                       && IsDenseVector<VX>::value                                 |
+|                       && IsDenseVector<VY>::value,                                |
+|               void>::Type                                                         |
+|      mv(const ALPHA &alpha, const MA &A, const VX &x,                             |
+|         const BETA &beta, VY &&y);                                                |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
+                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsSbMatrix]
+                            [MAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalue,v]
+                            [oidType                                                ]
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsSpMatrix<MA>::value                                    |
+|                       && IsDenseVector<VX>::value                                 |
+|                       && IsDenseVector<VY>::value,                                |
+|               void>::Type                                                         |
+|      mv(const ALPHA &alpha, const MA &A, const VX &x,                             |
+|         const BETA &beta, VY &&y);                                                |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
+                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsSpMatrix]
+                            [MAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalue,v]
+                            [oidType                                                ]
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VX>                                      |
+|      typename RestrictTo<IsTbMatrix<MA>::value                            |
+|                       && IsDenseVector<VX>::value,                        |
+|               void>::Type                                                 |
+|      mv(Transpose trans, const MA &A, VX &&x);                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tmv#$@N@flens@E@Transpos]
+                         [e#&1t0.0#&t0.1#templatetypenameMA,typenameVXtypena]
+                         [meRestrictToIsTbMatrixMAvalueandIsDenseVectorVXval]
+                         [ue,voidType                                       ]
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VX>                                      |
+|      typename RestrictTo<IsTpMatrix<MA>::value                            |
+|                       && IsDenseVector<VX>::value,                        |
+|               void>::Type                                                 |
+|      mv(Transpose trans, const MA &A, VX &&x);                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tmv#$@N@flens@E@Transpos]
+                         [e#&1t0.0#&t0.1#templatetypenameMA,typenameVXtypena]
+                         [meRestrictToIsTpMatrixMAvalueandIsDenseVectorVXval]
+                         [ue,voidType                                       ]
+
 

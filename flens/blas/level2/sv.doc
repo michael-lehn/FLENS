@@ -17,10 +17,10 @@ Interface
 |      sv(Transpose trans, const MA &A, VX &&x);                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>2#T#Tsv#$@N@cxxblas@E@Transp]
-                         [ose#&1t0.0#&t0.1#templatetypenameMA,typenameVXtype]
-                         [nameRestrictToIsTrMatrixMAvalueandIsDenseVectorVXv]
-                         [alue,voidType                                     ]
+                         [c:@N@flens@N@blas@FT@>2#T#Tsv#$@N@flens@E@Transpos]
+                         [e#&1t0.0#&t0.1#templatetypenameMA,typenameVXtypena]
+                         [meRestrictToIsTrMatrixMAvalueandIsDenseVectorVXval]
+                         [ue,voidType                                       ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -32,6 +32,7 @@ Interface
     x        `(input/output) real or complex valued DenseVector`               +
              On entry the original vector $x$.                                 +
              On exit overwritten with $A^{-1}x$.                               +
+
 ################################################################################
 #
 #  The following CODEREFs are automatically created stubs.
@@ -48,10 +49,15 @@ Interface
 |      sv(Transpose trans, const MA &A, VX &&x);                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>2#T#Tsv#$@N@cxxblas@E@Transp]
-                         [ose#&1t0.0#&t0.1#templatetypenameMA,typenameVXtype]
-                         [nameRestrictToIsTbMatrixMAvalueandIsDenseVectorVXv]
-                         [alue,voidType                                     ]
+                         [c:@N@flens@N@blas@FT@>2#T#Tsv#$@N@flens@E@Transpos]
+                         [e#&1t0.0#&t0.1#templatetypenameMA,typenameVXtypena]
+                         [meRestrictToIsTbMatrixMAvalueandIsDenseVectorVXval]
+                         [ue,voidType                                       ]
+
+    Defined in namespace `flens::blas`.
+    Function `sv` with 2 template parameters.
+
+
 
     Defined in namespace `flens::blas`.
     Function `sv` with 2 template parameters.
@@ -67,10 +73,10 @@ Interface
 |      sv(Transpose trans, const MA &A, VX &&x);                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>2#T#Tsv#$@N@cxxblas@E@Transp]
-                         [ose#&1t0.0#&t0.1#templatetypenameMA,typenameVXtype]
-                         [nameRestrictToIsTpMatrixMAvalueandIsDenseVectorVXv]
-                         [alue,voidType                                     ]
+                         [c:@N@flens@N@blas@FT@>2#T#Tsv#$@N@flens@E@Transpos]
+                         [e#&1t0.0#&t0.1#templatetypenameMA,typenameVXtypena]
+                         [meRestrictToIsTpMatrixMAvalueandIsDenseVectorVXval]
+                         [ue,voidType                                       ]
 
     Defined in namespace `flens::blas`.
     Function `sv` with 2 template parameters.

@@ -13,7 +13,7 @@ Also have a look at the __tutorial__ for getting an impression on how using
 FLENS-BLAS.
 
 :links: __BLAS__     -> http://www.netlib.org/blas/
-        __CXXBLAS__  -> dir:cxxblas/
+        __CXXBLAS__  -> dir:ulmblas/cxxblas/
         __ATLAS__    -> http://math-atlas.sourceforge.net/
         __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
         __OpenBLAS__ -> http://xianyi.github.com/OpenBLAS/
@@ -92,15 +92,13 @@ allow copying or adding matrices.
  +------------+-----------------------------------------------+---------------+
  | __rot__    | Applies a plane rotation.                     | __rot[1]__    |
  +------------+-----------------------------------------------+---------------+
- | __rotm__   | Applies a modified Givens rotation.           | __rotm[1]__   |
- +------------+-----------------------------------------------+---------------+
  | __scal__   | Scales a vector by a constant, i.e. computes  | __scal[1]__   |
  |            | $x \leftarrow \alpha x$.                      |               |
  +------------+-----------------------------------------------+---------------+
  | __swap__   | Interchanges two vectors.                     | __swap[1]__   |
  +------------+-----------------------------------------------+---------------+
 
-:links: __(.*)\[1\]__  -> doc:cxxblas/level1/$1
+:links: __(.*)\[1\]__  -> doc:ulmblas/cxxblas/level1/$1
         __(.*)__       -> doc:flens/blas/level1/$1
 
 Level 2 BLAS
@@ -126,8 +124,8 @@ This BLAS level deals with matrix-vector operations.
  | __r__      | Computes a rank `1` operation.  The type of       |           |
  |            | operation depends on type of the matrix that      |           |
  |            | gets updated:                                     |           |
- |            |  - For *general* matrices it is                   |           |
- |            |    $A \leftarrow A + \alpha x y^T$.               | __ger__   |
+ |            |  - For *general* matrices it is                   | __geru__  |
+ |            |    $A \leftarrow A + \alpha x y^T$.               | __gerc__  |
  |            |  - For *symmetric* matrices it is                 | __syr__   |
  |            |    $A \leftarrow A + \alpha x x^T$.               | __her__   |
  +------------+---------------------------------------------------+-----------+
@@ -149,7 +147,7 @@ This BLAS level deals with matrix-vector operations.
         __r__      -> doc:flens/blas/level2/r
         __r2__     -> doc:flens/blas/level2/r2
         __sv__     -> doc:flens/blas/level2/sv
-        __(.*)__   -> doc:cxxblas/level2/$1
+        __(.*)__   -> doc:ulmblas/cxxblas/level2/$1
 
 Level 3 BLAS
 ============
@@ -195,5 +193,5 @@ Level 3 BLAS
         __r2k__    -> doc:flens/blas/level3/r2k
         __rk__     -> doc:flens/blas/level3/rk
         __sm__     -> doc:flens/blas/level3/sm
-        __(.*)__   -> doc:cxxblas/level3/$1
+        __(.*)__   -> doc:ulmblas/cxxblas/level3/$1
 

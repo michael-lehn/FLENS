@@ -98,9 +98,6 @@ class DenseVector
             DenseVector(DenseVector<RHS> &rhs);
 
         template <typename RHS>
-            DenseVector(DenseVector<RHS> &&rhs);
-
-        template <typename RHS>
             DenseVector(const Vector<RHS> &rhs);
 
         // -- operators --------------------------------------------------------
@@ -247,7 +244,7 @@ class DenseVector
         bool
         reversed() const;
 
-    private:
+//    private:
         A                array_;
         const IndexType  stride_;
 };

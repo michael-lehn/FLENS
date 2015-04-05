@@ -18,6 +18,8 @@ LAPACK_DECL(dpotrs)(const char       *UPLO,
                     const INTEGER    *LDB,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dpotrs");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -43,9 +45,9 @@ LAPACK_DECL(dpotrs)(const char       *UPLO,
 //  Call FLENS implementation
 //
     StorageUpLo         upLo = StorageUpLo(*UPLO);
-    DConstFSView        AFS  = DConstFSView(*N, *N, A, *LDA);
+    DConstFSView        AFS  = DConstFSView(*N, *N, *LDA, A);
     DConstSyMatrixView  _A   = DConstSyMatrixView(AFS, upLo);
-    DGeMatrixView       _B   = DFSView(*N, *NRHS, B, *LDB);
+    DGeMatrixView       _B   = DFSView(*N, *NRHS, *LDB, B);
 
     potrs(_A, _B);
 }
@@ -61,6 +63,8 @@ LAPACK_DECL(zpotrs)(const char               *UPLO,
                     const INTEGER            *LDB,
                     INTEGER                  *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zpotrs");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -89,9 +93,9 @@ LAPACK_DECL(zpotrs)(const char               *UPLO,
     auto zB       = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(B);
 
     StorageUpLo         upLo = StorageUpLo(*UPLO);
-    ZConstFSView        AFS  = ZConstFSView(*N, *N, zA, *LDA);
+    ZConstFSView        AFS  = ZConstFSView(*N, *N, *LDA, zA);
     ZConstHeMatrixView  _A   = ZConstHeMatrixView(AFS, upLo);
-    ZGeMatrixView       _B   = ZFSView(*N, *NRHS, zB, *LDB);
+    ZGeMatrixView       _B   = ZFSView(*N, *NRHS, *LDB, zB);
 
     potrs(_A, _B);
 }

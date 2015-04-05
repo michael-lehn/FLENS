@@ -31,6 +31,8 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgeevx");
+
     using std::max;
     using std::min;
 //
@@ -82,11 +84,11 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
 
     typedef typename DGeMatrixView::IndexType   IndexType;
 
-    DGeMatrixView       _A      = DFSView(*N, *N, A, *LDA);
+    DGeMatrixView       _A      = DFSView(*N, *N, *LDA, A);
     DDenseVectorView    _WR     = DArrayView(*N, WR, 1);
     DDenseVectorView    _WI     = DArrayView(*N, WI, 1);
-    DGeMatrixView       _VL     = DFSView(*N, *N, VL, *LDVL);
-    DGeMatrixView       _VR     = DFSView(*N, *N, VR, *LDVR);
+    DGeMatrixView       _VL     = DFSView(*N, *N, *LDVL, VL);
+    DGeMatrixView       _VR     = DFSView(*N, *N, *LDVR, VR);
     IndexType           _ILO    = *ILO;
     IndexType           _IHI    = *IHI;
     DDenseVectorView    _SCALE  = DArrayView(*N, SCALE, 1);
@@ -153,6 +155,8 @@ LAPACK_DECL(zgeevx)(const char       *BALANC,
                     DOUBLE           *RWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgeevx");
+
     using std::max;
     using std::min;
 //
@@ -210,10 +214,10 @@ LAPACK_DECL(zgeevx)(const char       *BALANC,
     auto zVR    = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(VR);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView       _A      = ZFSView(*N, *N, zA, *LDA);
+    ZGeMatrixView       _A      = ZFSView(*N, *N, *LDA, zA);
     ZDenseVectorView    _W      = ZArrayView(*N, zW, 1);
-    ZGeMatrixView       _VL     = ZFSView(*N, *N, zVL, *LDVL);
-    ZGeMatrixView       _VR     = ZFSView(*N, *N, zVR, *LDVR);
+    ZGeMatrixView       _VL     = ZFSView(*N, *N, *LDVL, zVL);
+    ZGeMatrixView       _VR     = ZFSView(*N, *N, *LDVR, zVR);
     IndexType           _ILO    = *ILO;
     IndexType           _IHI    = *IHI;
     DDenseVectorView    _SCALE  = DArrayView(*N, SCALE, 1);

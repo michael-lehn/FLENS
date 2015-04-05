@@ -18,6 +18,8 @@ LAPACK_DECL(zheev)(const char           *JOBZ,
                    DOUBLE               *RWORK,
                    INTEGER              *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zheev");
+
     using std::max;
     using std::min;
 //
@@ -52,7 +54,7 @@ LAPACK_DECL(zheev)(const char           *JOBZ,
     auto zA     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZHeMatrixView       _A(ZFSView(*N, *N, zA, *LDA), lower ? Lower : Upper);
+    ZHeMatrixView       _A(ZFSView(*N, *N, *LDA, zA), lower ? Lower : Upper);
     DDenseVectorView    _W      = DArrayView(*N, W, 1);
     ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
     DDenseVectorView    _RWORK  = DArrayView(3*(*N)-2, RWORK, 1);

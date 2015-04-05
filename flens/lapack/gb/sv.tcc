@@ -240,7 +240,7 @@ sv(MA &&A, VPIV &&piv, VB &&b)
     const IndexType    n     = b.length();
     const StorageOrder order = MatrixA::Engine::order;
 
-    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b);
 
     return sv(A, piv, B);
 }

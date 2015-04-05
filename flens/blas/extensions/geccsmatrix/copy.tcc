@@ -31,8 +31,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_EXTENSIONS_GECCSMATRIX_COPY_H
-#define FLENS_BLAS_EXTENSIONS_GECCSMATRIX_COPY_H 1
+#ifndef FLENS_BLAS_EXTENSIONS_GECCSMATRIX_COPY_TCC
+#define FLENS_BLAS_EXTENSIONS_GECCSMATRIX_COPY_TCC 1
 
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/matrixtypes.h>
@@ -53,4 +53,4 @@ copy(Transpose DEBUG_VAR(trans), const MA &A, MB &&B)
 
 } } // namespace blas, flens
 
-#endif // FLENS_BLAS_EXTENSIONS_GECCSMATRIX_COPY_H
+#endif // FLENS_BLAS_EXTENSIONS_GECCSMATRIX_COPY_TCC

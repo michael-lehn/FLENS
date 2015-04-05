@@ -70,7 +70,7 @@ cotr(Transpose transposeA, MA &&A)
         typename RemoveRef<MA>::Type::NoView  B = A;
         FLENS_BLASLOG_TMP_ADD(B);
 
-        copy(trans, B, A);
+        copy(transposeA, B, A);
 
         FLENS_BLASLOG_TMP_REMOVE(B, A);
         return;
@@ -85,7 +85,7 @@ cotr(Transpose transposeA, MA &&A)
     }
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MCOTR(trans, A);
+    FLENS_BLASLOG_BEGIN_MCOTR(transposeA, A);
 
     cxxblas::gecotr(A.numRows(), transA, conjA,
                     A.data(), A.strideRow(), A.strideCol());

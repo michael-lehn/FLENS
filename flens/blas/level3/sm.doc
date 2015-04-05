@@ -37,11 +37,10 @@ The matrix $X$ is overwritten on B.
 |         MB               &&B);                                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>3#T#T#Tsm#$@N@cxxblas@E@Side]
-                         [#$@N@cxxblas@E@Transpose#&1t0.0#&1t0.1#&t0.2#templ]
-                         [atetypenameALPHA,typenameMA,typenameMBtypenameRest]
-                         [rictToIsTrMatrixMAvalueandIsGeMatrixMBvalue,voidTy]
-                         [pe                                                ]
+                         [c:@N@flens@N@blas@FT@>3#T#T#Tsm#$@N@flens@E@Side#$]
+                         [@N@flens@E@Transpose#&1t0.0#&1t0.1#&t0.2#templatet]
+                         [ypenameALPHA,typenameMA,typenameMBtypenameRestrict]
+                         [ToIsTrMatrixMAvalueandIsGeMatrixMBvalue,voidType  ]
 
     side      `(input)`                                                        +
               Specify the type of matrix-matrix product:
@@ -59,3 +58,4 @@ The matrix $X$ is overwritten on B.
     B         `(input/output) real or complex valued GeMatrix`                 +
               On entry the original matrix $B$.                                +
               On exit overwritten with the solution matrix $X$.
+

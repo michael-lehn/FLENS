@@ -20,6 +20,8 @@ BLAS(sgbmv)(const char      *TRANS,
             float           *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: sgbmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         const char         TRANS_ = toupper(*TRANS);
@@ -111,6 +113,7 @@ BLAS(dgbmv)(const char      *TRANS,
             double          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dgbmv");
 
 #   ifdef TEST_DIRECT_CBLAS
 
@@ -203,6 +206,7 @@ BLAS(cgbmv)(const char      *TRANS,
             cfloat          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: cgbmv");
 
 #   ifdef TEST_DIRECT_CBLAS
 
@@ -298,6 +302,8 @@ BLAS(zgbmv)(const char      *TRANS,
             cdouble         *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zgbmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         const char         TRANS_ = toupper(*TRANS);

@@ -33,6 +33,7 @@
 #ifndef FLENS_LAPACK_AUXILIARY_GETF77CHAR_TCC
 #define FLENS_LAPACK_AUXILIARY_GETF77CHAR_TCC 1
 
+#include <flens/auxiliary/macros.h>
 #include <flens/typedefs.h>
 
 namespace flens { namespace lapack {

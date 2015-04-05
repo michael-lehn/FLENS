@@ -30,9 +30,9 @@ $x := Ax$ in two steps:
 - $y_\text{tmp} = x$ (using __copy__).
 - $x = A y_\text{tmp}$ (using __gemv__),
 
-:links: __CXXBLAS__  -> dir:cxxblas/
-        __copy__     -> file:cxxblas/level1/copy.h
-        __gemv__     -> file:cxxblas/level2/gemv.h
+:links: __CXXBLAS__  -> dir:ulmblas/cxxblas/
+        __copy__     -> file:ulmblas/cxxblas/level1/copy.h
+        __gemv__     -> file:ulmblas/cxxblas/level2/gemv.h
 
 Allowing and Logging the Creation of Temporaries
 ================================================

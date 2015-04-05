@@ -21,10 +21,12 @@ LAPACK_DECL(dlaqge)(const INTEGER    *M,
                     const DOUBLE     *AMAX,
                     char             *EQUED)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dlaqge");
+
 //
 //  Call FLENS implementation
 //
-    DGeMatrixView          _A  = DFSView(*M, *N, A, *LDA);
+    DGeMatrixView          _A  = DFSView(*M, *N, *LDA, A);
     DConstDenseVectorView  _R  = DConstArrayView(*M, R, 1);
     DConstDenseVectorView  _C  = DConstArrayView(*N, C, 1);
 

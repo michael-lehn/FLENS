@@ -124,7 +124,7 @@ hseqr_impl(HSEQR::Job            job,
 //  .    deflation window.  ====
     const           IndexType nl = 49;
     T               hlBuffer[nl*nl], worklBuffer[nl];
-    GeMatrixView    Hl    = typename GeMatrixView::Engine(nl, nl, hlBuffer, nl);
+    GeMatrixView    Hl    = typename GeMatrixView::Engine(nl, nl, nl, hlBuffer);
     DenseVectorView workl = typename DenseVectorView::Engine(nl, worklBuffer);
 
     const Underscore<IndexType>     _;
@@ -281,7 +281,7 @@ hseqr_impl(HSEQR::Job            job,
 //  .    deflation window.  ====
     const           IndexType nl = 49;
     T               hlBuffer[nl*nl], worklBuffer[nl];
-    GeMatrixView    Hl    = typename GeMatrixView::Engine(nl, nl, hlBuffer, nl);
+    GeMatrixView    Hl    = typename GeMatrixView::Engine(nl, nl, nl, hlBuffer);
     DenseVectorView workl = typename DenseVectorView::Engine(nl, worklBuffer);
 
     const Underscore<IndexType>     _;

@@ -1,12 +1,101 @@
-=====
-FLENS                                                                   [TOC]
-=====
+===============
+FLENS (Trinity)                                                         [TOC]
+===============
 
-FLENS extends C++ for matrix/vector types that are ideally suited for numerical
-linear algebra.  That's it ...
+FLENS is a C++ library that defines matrix/vector types for numerical linear
+algebra and high performance computing.
 
-...but the consequences are immense!
+Purpose
+=======
+One of the most successful and relevant libraries in the field of numerical
+linear algebra is LAPACK which is implemented in Fortran 77.  So a *necessary
+conditions* for FLENS being a useful numerical linear algebra are:
 
+  - *It has to be possible to re-implement LAPACK with FLENS.*
+
+    Furthermore, the implementation has to be at least as easy-to-accomplish,
+    expressive, readable and maintainable for experts in this field.
+
+  - *This reimplementation must provide the same accuracy as the original
+    LAPACK.*
+
+    In the C++ community many people underestimate how much effort is spent in
+    LAPACK on numerical stability and accuracy.  This goes far beyond school
+    book methods and _numerical recipies_.  At the same time high performance
+    gets achieved at the level of peak performance.
+
+  - *Transparency*
+
+    Never ever create implicitly a temporary vector or matrix.  If an operation
+    would require a temporary it ideally triggers a compile  time error but at
+    least an assertion failure at runtime.
+
+    It always must be clear what computational back end gets used to carry out
+    a linear algebra operation (e.g. matrix-vector or matrix-matrix products).
+    A linear algebra expression coded with overloaded operators must be
+    equivalent to a sequence of explicit function calls. No magic!
+
+  - *There must be no runtime overhead compared to the Fortran implementation.*
+
+    An implementation with FLENS must provide the same performance as a
+    dedicated, hand-coded implementation in C or Fortran.
+
+Only if these conditions are fully met, further benefits will matter.  Some
+benefits that *make FLENS/C++ more favorable than using Fortran* are:
+
+  - *Ease-of-use for people doing numerical linear algebra.*
+
+    We are dealing with matrices and vectors in the context of numerical linear
+    algebra.  So we want to remind some C++ folks that these are not containers
+    like for instance `std::vector`.  So ease-of-use for containers and
+    ease-of-use for matrices/vectors are two different things.  For containers
+    iterators are great for matrices not.
+
+  - *Ease-of-use and type safety for common tasks in numerical linear algebra.*
+
+    One of the most crucial tasks is working with matrix/vector views.  These
+    are matrices or vectors that reference elements from another matrix or
+    vector.  Some more concrete examples of common cases are:
+
+      - Matrix views referencing elements from a vector or raw C array buffer.
+      - The same junk of data can be referred as a general matrix, symmetric,
+        hermitian or triangular matrix.  Using corresponding matrix view types
+        one statically tags the memory for its intended usage.  In a numerical
+        algorithm it is not uncommon that you first want to the same data first
+        as a general matrix, then as a lower triangular matrix and finally as
+        a upper triangular matrix.  So using matrix view types makes it possible
+        to check whether accessing elements on the upper triangular is legal or
+        not.  And by the way: No, if you have a lower triangular matrix and
+        you access an element from the upper triangular part you do not get a
+        zero.  Instead you get an assertion failure as you deserve because your
+        algorithm does not exploit this special case.  And FLENS is not
+        responsible to optimize your flawed algorithm.
+      - Matrices can be col major or row major.  Referencing contiguous
+        rectangular blocks leads to matrix views that are again col or row
+        major.  Starting with Trinity, in FLENS we also support matrix views
+        that, e.g., reference every second row and every third column of a
+        matrix.  These so called *grid views* can be used like a regular matrix
+        but its elements are located neither in row or column major order.
+        Efficiency for these kind of views can be provided through BLAS kernels
+        like *ulmBLAS* or *BLIS*.
+
+  - *We want to optimize two aspects:*
+
+      - User aspect: Using the resulting FLENS-LAPACK should be easier than
+        using LAPACK directly.
+      - *Developer aspect:* It should be easier to develop something like LAPACK
+        with C++/FLENS than with Fortran.  Note that developing something like
+        LAPACK requires quite some mathematical background that many people
+        underestimate.  If you don't have this background and want to develop
+        high performance numerical software you have to study some textbooks
+        first.
+
+Being able to re-implement LAPACK efficiently with FLENS is just one application
+to prove and benchmark its concepts.  But FLENS should be considered a building
+block for numerical linear algebra. It extends the scope of C++ for features
+that are necessary for doing numerical linear algebra.  That means it is
+possible to also realize new approaches in this field.  For example realizing
+ideas from Plasma, Magma, etc.
 
 Features
 ========
@@ -14,21 +103,17 @@ Features
 - Easy install as FLENS is _headers only_
 - FLENS gives you
     - Matrix/vector types for dense linear algebra
-    - Generic implementation of BLAS (see __CXXBLAS__)
-    - Generic reimplementation of __LAPACK__ (see __FLENS-LAPACK__)
-    - Generic implementation means that you can use any element type for
-      your matrices/vectors that "acts like a double".  So in particular
-      types from the __QD Library__,  __mpfr__, ...
-- If *high performance BLAS* libraries like __ATLAS__ or __GotoBLAS__ are
-  available:
-    -  compile with `-DWITH_ATLAS` or `-DWITH_GOTOBLAS` respectively,
-    - link against them and boost performance.
-  FLENS does not introduce any overhead due to abstraction.  You get all the
-  performance.
-- __FLENS-BLAS__ is a high-level and easy-to-use __BLAS__ interface
-- __FLENS-LAPACK__ is a high-level and easy-to-use C++ implementation of
-  __LAPACK__.
-- FLENS also allows using overloaded operators for accessing BLAS.  Most
+    - Low-level C++ interface to __BLAS__ (see __CXXBLAS__).
+    - High-level interface to __BLAS__ (see __FLENS-BLAS__).
+    - Reimplementation of __LAPACK__ (see __FLENS-LAPACK__)
+    - __CXXBLAS__, __FLENS-BLAS__ and __FLENS-LAPACK__ support types from the
+      __QD Library__ and  __mpfr__.
+- Starting with Trinity by default FLENS uses ulmBLAS as computation back end.
+  Alternatively you can use other BLAS back ends, e.g.
+    - Compile with `-DWITH_ATLAS` and link against __ATLAS__.
+    - Compile with `-DWITH_GOTOBLAS` and link against __GotoBLAS__.
+    - ...
+- FLENS also allows using overloaded operators for __BLAS__ operations.  Most
   important in this respect:
     - Overloaded operators come without performance penalty!
     - In a special debug mode you can exactly trace what is happening and
@@ -51,23 +136,6 @@ Examples and Tutorial
     - __Session 7__: User Defined Matrix Types.
 
 
-Scope of this Branch
-====================
-- Real and complex matrix types with full storage and dense vector types, i.e.
-    - __GeMatrix__,
-    - __SyMatrix__,
-    - __TrMatrix__,
-    - __DenseVector__.
-- Sparse matrices are experimental at the moment.
-- Our generic BLAS implementation __CXXBLAS__.
-- Support for high and multipecission types from __QD Library__ and __mpfr__.
-- Support for native BLAS implementations like __ATLAS__ or __GotoBLAS__.
-- __FLENS-BLAS__ and __FLENS-LAPACK__.
-- Overloaded operators for BLAS working ontop of the __FLENS-BLAS__ layer.
-- We improved our __DocTool__ (look at the bottom of each page for *document
-  source*).  We now use *restructured text*.
-
-
 Compiler Requirements
 =====================
 FLENS uses some of the C++11 features and therefore requires a recent C++
@@ -82,55 +150,11 @@ Git It/Download
 ===============
 You can clone a public branch from __GitHub__
 
-  *--[BOX]------------------------------------------------------------------*
-  |                                                                         |
-  |  git clone git://github.com/michael-lehn/FLENS.git                      |
-  |                                                                         |
-  *-------------------------------------------------------------------------*
-
-or download a __snapshot__.
-
-*Note:*  Sorry, at the moment we have problems we the department's file server.
-Until we have fixed the problem please get FLENS from gitHub.
-
-
-#  Why Nobody Uses C++ in Scientific Computing
-#  ===========================================
-#  LAPACK is written in Fortran77.  This is a very old programming language, not
-#  object oriented and without generic programming features.  LAPACK is tightly
-#  coupled with BLAS.  BLAS consists of a number of kernel routines that do all
-#  the performance critical computations.  The interface of BLAS is really
-#  low-level.  Does this sound bad to you?  Do you think it is old fashioned and
-#  out dated?
-#  
-#  People using Fortran/LAPACK/BLAS in scientific computing often deal with
-#  problems where performance and memory resources really matter.  This includes
-#  such extreme cases where a numerical simulation runs for several months.  And
-#  where problem sizes (e.g. matrix dimensions) are chosen so big that it just
-#  fits into memory.  In this problem domains loosing a few percentages in
-#  performance would really hurt.  Furthermore, creating temporaries is a big
-#  deal and instead one carefully plans how much extra workspace is needed in
-#  total for the complete application.  So managing and controlling resources like
-#  memory and CPU time is crucial.  This renders tools and techniques with obscure
-#  side effects like the creation of temporaries useless.  Transparency of what
-#  is going on is also a key requirement for all computational routines.  It is
-#  important to know how things are done.  This way you can exactly localize
-#  routines that are critical for performance.
-#  
-#  
-#  
-#  
-#  
-#  C++ is a modern programming language.  It allows object oriented programming
-#  as well as generic programming.  Beside the standard template library numerous
-#  C++ libraries exist that further enhance the core capabilities of C++.  Being
-#  a little bit hyperbolic: every programming feature one possibly could imagine
-#  is somehow provided by C++.  Either directly or through an additional C++
-#  library.
-#  
-#  If you compare the Fortran77 LAPACK/BLAS combination with an arbitrary numerical
-#  C++ library you would expect that LAPACK/BLAS has 
-
+  *--[BOX]----------------------------------------------------------------------*
+  |                                                                             |
+  |  git clone --recursive -b Trinity https://github.com/michael-lehn/FLENS.git |
+  |                                                                             |
+  *-----------------------------------------------------------------------------*
 
 
 Mailing List
@@ -148,16 +172,11 @@ Contributors
 
 :links: __FLENS-LAPACK__ -> doc:flens/lapack/lapack
         __FLENS-BLAS__   -> doc:flens/blas/blas
-        __DocTool__      -> http://www.mathematik.uni-ulm.de/~lehn/DocTool
         __BLAS__         -> http://www.netlib.org/blas/
         __LAPACK__       -> http://www.netlib.org/lapack/
         __tutorial__     -> doc:flens/examples/tutorial
         __Session (\d)__ -> doc:flens/examples/tutorial#$1
-        __GeMatrix__     -> doc:flens/matrixtypes/general/impl/gematrix
-        __SyMatrix__     -> doc:flens/matrixtypes/symmetric/impl/symatrix
-        __TrMatrix__     -> doc:flens/matrixtypes/triangular/impl/trmatrix
-        __DenseVector__  -> doc:flens/vectortypes/impl/densevector
-        __CXXBLAS__      -> doc:cxxblas/cxxblas
+        __CXXBLAS__      -> dir:ulmblas/cxxblas/
         __QD Library__   -> http://crd-legacy.lbl.gov/~dhbailey/mpdist
         __mpfr__         -> http://www.mpfr.org
         __ATLAS__        -> http://math-atlas.sourceforge.net
@@ -166,6 +185,5 @@ Contributors
         __clang__        -> http://clang.llvm.org/
         __gcc__          -> http://gcc.gnu.org/
         __icc__          -> http://software.intel.com/en-us/articles/intel-compilers/
-        __snapshot__     -> http://www.mathematik.uni-ulm.de/~lehn/FLENS/downloads/
         __list__         -> https://imap.uni-ulm.de/lists/info/flens
 

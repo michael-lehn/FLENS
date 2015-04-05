@@ -28,6 +28,8 @@ LAPACK_DECL(dgerfs)(const char       *TRANS,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgerfs");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -57,11 +59,11 @@ LAPACK_DECL(dgerfs)(const char       *TRANS,
 //  Call FLENS implementation
 //
     Transpose              trans  = convertTo<Transpose>(*TRANS);
-    DConstGeMatrixView     _A     = DConstFSView(*N, *N, A, *LDA);
-    DConstGeMatrixView     _AF    = DConstFSView(*N, *N, AF, *LDAF);
+    DConstGeMatrixView     _A     = DConstFSView(*N, *N, *LDA, A);
+    DConstGeMatrixView     _AF    = DConstFSView(*N, *N, *LDAF, AF);
     IConstDenseVectorView  _IPIV  = IConstArrayView(*N, IPIV, 1);
-    DConstGeMatrixView     _B     = DConstFSView(*N, *NRHS, B, *LDB);
-    DGeMatrixView          _X     = DFSView(*N, *NRHS, X, *LDX);
+    DConstGeMatrixView     _B     = DConstFSView(*N, *NRHS, *LDB, B);
+    DGeMatrixView          _X     = DFSView(*N, *NRHS, *LDX, X);
     DDenseVectorView       _FERR  = DArrayView(*NRHS, FERR, 1);
     DDenseVectorView       _BERR  = DArrayView(*NRHS, BERR, 1);
     DDenseVectorView       _WORK  = DArrayView(*N*3, WORK, 1);
@@ -90,6 +92,8 @@ LAPACK_DECL(zgerfs)(const char               *TRANS,
                     DOUBLE                   *RWORK,
                     INTEGER                  *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgerfs");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -125,11 +129,11 @@ LAPACK_DECL(zgerfs)(const char               *TRANS,
     auto zWORK      = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
     Transpose              trans  = convertTo<Transpose>(*TRANS);
-    ZConstGeMatrixView     _A     = ZConstFSView(*N, *N, zA, *LDA);
-    ZConstGeMatrixView     _AF    = ZConstFSView(*N, *N, zAF, *LDAF);
+    ZConstGeMatrixView     _A     = ZConstFSView(*N, *N, *LDA, zA);
+    ZConstGeMatrixView     _AF    = ZConstFSView(*N, *N, *LDAF, zAF);
     IConstDenseVectorView  _IPIV  = IConstArrayView(*N, IPIV, 1);
-    ZConstGeMatrixView     _B     = ZConstFSView(*N, *NRHS, zB, *LDB);
-    ZGeMatrixView          _X     = ZFSView(*N, *NRHS, zX, *LDX);
+    ZConstGeMatrixView     _B     = ZConstFSView(*N, *NRHS, *LDB, zB);
+    ZGeMatrixView          _X     = ZFSView(*N, *NRHS, *LDX, zX);
     DDenseVectorView       _FERR  = DArrayView(*NRHS, FERR, 1);
     DDenseVectorView       _BERR  = DArrayView(*NRHS, BERR, 1);
     ZDenseVectorView       _WORK  = ZArrayView(*N*2, zWORK, 1);

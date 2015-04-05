@@ -122,9 +122,6 @@ identical(const MA &A, const MB &B)
         return false;
     }
 
-    if (MA::Engine::order!=MB::Engine::order) {
-        return false;
-    }
 //
 //  Compare referenced memory
 //
@@ -139,7 +136,10 @@ identical(const MA &A, const MB &B)
 //      no memory referenced by A
         return false;
     }
-    if (A.leadingDimension()!=B.leadingDimension()) {
+    if (A.strideRow()!=B.strideRow()) {
+        return false;
+    }
+    if (A.strideCol()!=B.strideCol()) {
         return false;
     }
     if (A.numRows()!=B.numRows()) {

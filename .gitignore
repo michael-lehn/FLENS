@@ -3,6 +3,8 @@
 *.so
 *.out
 *.f
+*.doc
+cxxlapack/*/*.doc
 flens/examples/*
 !flens/examples/*.cc
 !flens/examples/*.doc

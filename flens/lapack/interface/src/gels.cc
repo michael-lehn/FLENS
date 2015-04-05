@@ -21,6 +21,8 @@ LAPACK_DECL(dgels)(const char           *TRANS,
                    const INTEGER        *LWORK,
                    INTEGER              *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgels");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -53,10 +55,10 @@ LAPACK_DECL(dgels)(const char           *TRANS,
 //  Call FLENS implementation
 //
     Transpose           trans  = convertTo<Transpose>(*TRANS);
-    DGeMatrixView       _A     = DFSView(*M, *N, A, *LDA);
+    DGeMatrixView       _A     = DFSView(*M, *N, *LDA, A);
 
     const INTEGER numRowsB = std::max(*M,*N);
-    DGeMatrixView       _B     = DFSView(numRowsB, *NRHS, B, *LDB);
+    DGeMatrixView       _B     = DFSView(numRowsB, *NRHS, *LDB, B);
     DDenseVectorView    _WORK  = DArrayView(*LWORK, WORK, 1);
 
     ls(trans, _A, _B, _WORK);
@@ -77,6 +79,8 @@ LAPACK_DECL(zgels)(const char           *TRANS,
                    const INTEGER        *LWORK,
                    INTEGER              *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgels");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -113,10 +117,10 @@ LAPACK_DECL(zgels)(const char           *TRANS,
     auto zWORK      = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
     Transpose           trans  = convertTo<Transpose>(*TRANS);
-    ZGeMatrixView       _A     = ZFSView(*M, *N, zA, *LDA);
+    ZGeMatrixView       _A     = ZFSView(*M, *N, *LDA, zA);
 
     const INTEGER numRowsB = std::max(*M,*N);
-    ZGeMatrixView       _B     = ZFSView(numRowsB, *NRHS, zB, *LDB);
+    ZGeMatrixView       _B     = ZFSView(numRowsB, *NRHS, *LDB, zB);
     ZDenseVectorView    _WORK  = ZArrayView(*LWORK, zWORK, 1);
 
     ls(trans, _A, _B, _WORK);

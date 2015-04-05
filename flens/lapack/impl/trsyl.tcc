@@ -80,8 +80,8 @@ trsyl_impl(Transpose             transA,
 //
     T   vecData_[4], xData_[4];
     GeMatrixView<T>
-        VEC    = typename GeMatrixView<T>::Engine(2, 2, vecData_, 2),
-        X      = typename GeMatrixView<T>::Engine(2, 2, xData_, 2);
+        VEC    = typename GeMatrixView<T>::Engine(2, 2, 2, vecData_),
+        X      = typename GeMatrixView<T>::Engine(2, 2, 2, xData_);
 
 //
 //  Decode and Test input parameters

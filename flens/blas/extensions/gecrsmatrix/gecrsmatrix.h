@@ -33,6 +33,6 @@
 #ifndef FLENS_BLAS_EXTENSIONS_GECCSMATRIX_GECRSMATRIX_H
 #define FLENS_BLAS_EXTENSIONS_GECCSMATRIX_GECRSMATRIX_H 1
 
-#include <flens/blas/extensions/geccsmatrix/copy.h>
+#include <flens/blas/extensions/gecrsmatrix/copy.h>
 
 #endif // FLENS_BLAS_EXTENSIONS_GECCSMATRIX_GECRSMATRIX_H

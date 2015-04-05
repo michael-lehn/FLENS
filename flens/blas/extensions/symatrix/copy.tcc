@@ -35,10 +35,42 @@
 #define FLENS_BLAS_EXTENSIONS_SYMATRIX_COPY_TCC 1
 
 #include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/level1/level1.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/typedefs.h>
 
 namespace flens { namespace blas {
+
+//-- copy: SyMatrix -> SyMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSyMatrix<MA>::value
+                 && IsSyMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+//
+//  Resize left hand size if needed.  This is *usually* only alloweded
+//  when the left hand side is an empty matrix (such that it is no actual
+//  resizing but rather an initialization).
+//
+    if (B.dim()!=A.dim()) {
+#       ifndef FLENS_DEBUG_CLOSURES
+        ASSERT(B.dim()==0);
+#       else
+        if (B.dim()!=0) {
+            FLENS_BLASLOG_RESIZE_MATRIX(B, A.dim(), A.dim());
+        }
+#       endif
+        B.resize(A);
+        B.upLo() = A.upLo();
+    }
+
+    if (A.upLo()==B.upLo()) {
+        copy(NoTrans, A.triangular(), B.triangular());
+    } else {
+        copy(ConjTrans, A.triangular(), B.triangular());
+    }
+}
 
 //-- Densify Sparse Matrices ---------------------------------------------------
 

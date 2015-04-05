@@ -131,13 +131,19 @@ class GeMatrix
             GeMatrix(const Matrix<RHS> &rhs);
 
         template <typename VECTOR>
-            GeMatrix(IndexType numRows, IndexType numCols,
-                     VECTOR &&rhs);
+            GeMatrix(IndexType numRows, IndexType numCols, VECTOR &&rhs);
 
         template <typename VECTOR>
             GeMatrix(IndexType numRows, IndexType numCols,
                      VECTOR &&rhs,
                      IndexType leadingDimension);
+
+        template <typename VECTOR>
+            GeMatrix(IndexType numRows,
+                     IndexType numCols,
+                     VECTOR    &&rhs,
+                     IndexType strideRow,
+                     IndexType strideCol);
 
         // -- operators --------------------------------------------------------
         Initializer

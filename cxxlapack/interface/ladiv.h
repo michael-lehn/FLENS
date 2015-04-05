@@ -34,12 +34,12 @@
 #define CXXLAPACK_INTERFACE_LADIV_H 1
 
 #include <cxxstd/complex.h>
-#include <cxxblas/drivers/drivers.h>
+#include <flens/auxiliary/auxiliary.h>
 
 namespace cxxlapack {
 
-using cxxblas::RestrictTo;
-using cxxblas::IsSame;
+using flens::RestrictTo;
+using flens::IsSame;
 
 template <typename Double>
 typename RestrictTo<IsSame<double, Double>::value,

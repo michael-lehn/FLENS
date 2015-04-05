@@ -16,6 +16,8 @@ LAPACK_DECL(zungqr)(const INTEGER            *M,
                     const INTEGER            *LWORK,
                     INTEGER                  *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zungqr");
+
     using std::max;
     using std::min;
 //
@@ -55,7 +57,7 @@ LAPACK_DECL(zungqr)(const INTEGER            *M,
     const auto zTAU = reinterpret_cast<const CXX_DOUBLE_COMPLEX *>(TAU);
     auto zWORK      = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView          _A      = ZFSView(*M, *N, zA, *LDA);
+    ZGeMatrixView          _A      = ZFSView(*M, *N, *LDA, zA);
     ZConstDenseVectorView  _TAU    = ZConstArrayView(*K, zTAU, 1);
     ZDenseVectorView       _WORK   = ZArrayView(*LWORK, zWORK, 1);
 

@@ -33,27 +33,12 @@
 #ifndef FLENS_AUXILIARY_ISCOMPLEX_H
 #define FLENS_AUXILIARY_ISCOMPLEX_H 1
 
-#include <cxxstd/complex.h>
+#include <ulmblas/impl/auxiliary/iscomplex.h>
 
 namespace flens {
 
-template <typename T>
-struct IsNotComplex
-{
-    static const bool value = true;
-};
-
-template <typename T>
-struct IsNotComplex<std::complex<T> >
-{
-    static const bool value = false;
-};
-
-template <typename T>
-struct IsComplex
-{
-    static const bool value = !IsNotComplex<T>::value;
-};
+using ulmBLAS::IsComplex;
+using ulmBLAS::IsNotComplex;
 
 } // namespace flens
 

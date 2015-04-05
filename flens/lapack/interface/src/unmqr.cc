@@ -20,6 +20,8 @@ LAPACK_DECL(zunmqr)(const char               *SIDE,
                     const INTEGER            *LWORK,
                     INTEGER                  *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zunmqr");
+
     using std::max;
     using std::min;
 //
@@ -81,9 +83,9 @@ LAPACK_DECL(zunmqr)(const char               *SIDE,
     auto zC         = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(C);
     auto zWORK      = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView          _A      = ZFSView(numRowsA, *K, zA, *LDA);
+    ZGeMatrixView          _A      = ZFSView(numRowsA, *K, *LDA, zA);
     ZConstDenseVectorView  _TAU    = ZConstArrayView(*K, zTAU, 1);
-    ZGeMatrixView          _C      = ZFSView(*M, *N, zC, *LDC);
+    ZGeMatrixView          _C      = ZFSView(*M, *N, *LDC, zC);
     ZDenseVectorView       _WORK   = ZArrayView(*LWORK, zWORK, 1);
 
     unmqr(side, trans, _A, _TAU, _C, _WORK);

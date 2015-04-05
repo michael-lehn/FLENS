@@ -33,6 +33,8 @@ LAPACK_DECL(dgesvx)(const char       *FACT,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgesvx");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -105,15 +107,15 @@ LAPACK_DECL(dgesvx)(const char       *FACT,
 //  Call FLENS implementation
 //
     SVX::Fact          _FACT  = SVX::Fact(*FACT);
-    Transpose          _TRANS = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
-    DGeMatrixView      _A     = DFSView(*N, *N, A, *LDA);
-    DGeMatrixView      _AF    = DFSView(*N, *N, AF, *LDAF);
+    Transpose          _TRANS = cxxf77blas::getCxxBlasEnum<Transpose>(*TRANS);
+    DGeMatrixView      _A     = DFSView(*N, *N, *LDA, A);
+    DGeMatrixView      _AF    = DFSView(*N, *N, *LDAF, AF);
     IDenseVectorView   _IPIV  = IArrayView(*N, IPIV, 1);
     SVX::Equilibration _EQUED = SVX::Equilibration(*EQUED);
     DDenseVectorView   _R     = DArrayView(*N, R, 1);
     DDenseVectorView   _C     = DArrayView(*N, C, 1);
-    DGeMatrixView      _B     = DFSView(*N, *NRHS, B, *LDB);
-    DGeMatrixView      _X     = DFSView(*N, *NRHS, X, *LDX);
+    DGeMatrixView      _B     = DFSView(*N, *NRHS, *LDB, B);
+    DGeMatrixView      _X     = DFSView(*N, *NRHS, *LDX, X);
     DDenseVectorView   _FERR  = DArrayView(*NRHS, FERR, 1);
     DDenseVectorView   _BERR  = DArrayView(*NRHS, BERR, 1);
     DDenseVectorView   _WORK  = DArrayView(*N*4, WORK, 1);

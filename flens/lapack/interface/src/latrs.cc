@@ -22,6 +22,8 @@ LAPACK_DECL(dlatrs)(const char       *UPLO,
                     DOUBLE           *CNORM,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dlatrs");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -49,10 +51,10 @@ LAPACK_DECL(dlatrs)(const char       *UPLO,
 //  Call FLENS implementation
 //
     const bool          normIn = (*NORMIN=='Y') ? true : false;
-    Transpose           trans  = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
-    Diag                diag   = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
-    StorageUpLo         upLo   = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
-    DConstTrMatrixView  _A(DConstFSView(*N, *N, A, *LDA), upLo, diag);
+    Transpose           trans  = cxxf77blas::getCxxBlasEnum<Transpose>(*TRANS);
+    Diag                diag   = cxxf77blas::getCxxBlasEnum<Diag>(*DIAG);
+    StorageUpLo         upLo   = cxxf77blas::getCxxBlasEnum<StorageUpLo>(*UPLO);
+    DConstTrMatrixView  _A(DConstFSView(*N, *N, *LDA, A), upLo, diag);
     DDenseVectorView    _X     = DArrayView(*N, X, 1);
     DDenseVectorView    _CNORM = DArrayView(*N, CNORM, 1);
 
@@ -73,6 +75,8 @@ LAPACK_DECL(zlatrs)(const char               *UPLO,
                     DOUBLE                   *CNORM,
                     INTEGER                  *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zlatrs");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -103,10 +107,10 @@ LAPACK_DECL(zlatrs)(const char               *UPLO,
     auto zX         = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(X);
 
     const bool          normIn = (*NORMIN=='Y') ? true : false;
-    Transpose           trans  = cxxblas::getCxxBlasEnum<Transpose>(*TRANS);
-    Diag                diag   = cxxblas::getCxxBlasEnum<Diag>(*DIAG);
-    StorageUpLo         upLo   = cxxblas::getCxxBlasEnum<StorageUpLo>(*UPLO);
-    ZConstTrMatrixView  _A(ZConstFSView(*N, *N, zA, *LDA), upLo, diag);
+    Transpose           trans  = cxxf77blas::getCxxBlasEnum<Transpose>(*TRANS);
+    Diag                diag   = cxxf77blas::getCxxBlasEnum<Diag>(*DIAG);
+    StorageUpLo         upLo   = cxxf77blas::getCxxBlasEnum<StorageUpLo>(*UPLO);
+    ZConstTrMatrixView  _A(ZConstFSView(*N, *N, *LDA, zA), upLo, diag);
     ZDenseVectorView    _X     = ZArrayView(*N, zX, 1);
     DDenseVectorView    _CNORM = DArrayView(*N, CNORM, 1);
 

@@ -34,7 +34,6 @@
 #define DOUBLE_COMPLEX      double
 #define CXX_DOUBLE_COMPLEX  std::complex<double>
 
-
 extern "C" {
 
 void
@@ -73,8 +72,8 @@ typedef ConstBandStorageView<double, ColMajor>           DConstBSView;
 typedef GbMatrix<DBSView>                                DGbMatrixView;
 typedef GbMatrix<DConstBSView>                           DConstGbMatrixView;
 
-typedef FullStorageView<DOUBLE, cxxblas::ColMajor>       DFSView;
-typedef ConstFullStorageView<DOUBLE, cxxblas::ColMajor>  DConstFSView;
+typedef FullStorageView<DOUBLE, ColMajor>                DFSView;
+typedef ConstFullStorageView<DOUBLE, ColMajor>           DConstFSView;
 
 typedef GeMatrix<DFSView>                                DGeMatrixView;
 typedef GeMatrix<DConstFSView>                           DConstGeMatrixView;
@@ -92,10 +91,9 @@ typedef ConstArrayView<DOUBLE>                           DConstArrayView;
 typedef DenseVector<DConstArrayView>                     DConstDenseVectorView;
 
 // matrix/vector types with CXX_DOUBLE_COMPLEX
-typedef FullStorageView<CXX_DOUBLE_COMPLEX,
-                        cxxblas::ColMajor>               ZFSView;
+typedef FullStorageView<CXX_DOUBLE_COMPLEX, ColMajor>    ZFSView;
 typedef ConstFullStorageView<CXX_DOUBLE_COMPLEX,
-                             cxxblas::ColMajor>          ZConstFSView;
+                             ColMajor>                   ZConstFSView;
 
 typedef GeMatrix<ZFSView>                                ZGeMatrixView;
 typedef GeMatrix<ZConstFSView>                           ZConstGeMatrixView;

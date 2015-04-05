@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2007,2015 Michael Lehn
  *
  *   All rights reserved.
  *
@@ -50,11 +50,11 @@ template <typename T, typename I, typename A>
 template <typename T, StorageOrder Order, typename I, typename A>
     class FullStorage;
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder NoViewOrder, typename I, typename A>
     class ConstFullStorageView;
 
 template <typename T,
-          StorageOrder Order,
+          StorageOrder NoViewOrder,
           typename I = IndexOptions<>,
           typename A = std::allocator<T> >
 class FullStorageView
@@ -64,31 +64,33 @@ class FullStorageView
         typedef typename I::IndexType   IndexType;
         typedef A                       Allocator;
 
-        static const StorageOrder       order = Order;
+        static const StorageOrder       noViewOrder      = NoViewOrder;
         static const IndexType          defaultIndexBase = I::defaultIndexBase;
 
-        typedef ConstFullStorageView<T, Order, I, A>  ConstView;
-        typedef FullStorageView                       View;
-        typedef FullStorage<T, Order, I, A>           NoView;
+        typedef ConstFullStorageView<T, NoViewOrder, I, A>  ConstView;
+        typedef FullStorageView                             View;
+        typedef FullStorage<T, NoViewOrder, I, A>           NoView;
 
-        typedef flens::ConstArrayView<T, I, A>        ConstArrayView;
-        typedef flens::ArrayView<T, I, A>             ArrayView;
-        typedef flens::Array<T, I, A>                 Array;
+        typedef flens::ConstArrayView<T, I, A>              ConstArrayView;
+        typedef flens::ArrayView<T, I, A>                   ArrayView;
+        typedef flens::Array<T, I, A>                       Array;
 
-        FullStorageView(IndexType numRows, IndexType numCols,
-                        ElementType *data,
-                        IndexType leadingDimension,
-                        IndexType firstRow = I::defaultIndexBase,
-                        IndexType firstCol = I::defaultIndexBase,
+        FullStorageView(IndexType       numRows,
+                        IndexType       numCols,
+                        IndexType       leadingDimension,
+                        ElementType     *data,
+                        IndexType       firstRow = I::defaultIndexBase,
+                        IndexType       firstCol = I::defaultIndexBase,
                         const Allocator &allocator = Allocator());
 
-        template <typename ARRAY>
-            FullStorageView(IndexType numRows, IndexType numCols,
-                            ARRAY &array,
-                            IndexType leadingDimension,
-                            IndexType firstRow = I::defaultIndexBase,
-                            IndexType firstCol = I::defaultIndexBase,
-                            const Allocator &allocator = Allocator());
+        FullStorageView(IndexType       numRows,
+                        IndexType       numCols,
+                        ElementType     *data,
+                        IndexType       strideRow,
+                        IndexType       strideCol,
+                        IndexType       firstRow = I::defaultIndexBase,
+                        IndexType       firstCol = I::defaultIndexBase,
+                        const Allocator &allocator = Allocator());
 
         FullStorageView(const FullStorageView &rhs);
 
@@ -124,6 +126,9 @@ class FullStorageView
 
         IndexType
         numCols() const;
+
+        StorageOrder
+        order() const;
 
         IndexType
         leadingDimension() const;
@@ -249,7 +254,7 @@ class FullStorageView
         ElementType  *data_;
         Allocator    allocator_;
         IndexType    numRows_, numCols_;
-        IndexType    leadingDimension_;
+        IndexType    strideRow_, strideCol_;
         IndexType    firstRow_, firstCol_;
 };
 
@@ -259,13 +264,14 @@ class FullStorageView
 //  fillRandom
 //
 
-template <typename T, StorageOrder Order, typename I, typename Allocator>
+template <typename T, StorageOrder NoViewOrder, typename I, typename Allocator>
     bool
-    fillRandom(FullStorageView<T, Order, I, Allocator> &A);
+    fillRandom(FullStorageView<T, NoViewOrder, I, Allocator> &A);
 
-template <typename T, StorageOrder Order, typename I, typename Allocator>
+template <typename T, StorageOrder NoViewOrder, typename I, typename Allocator>
     bool
-    fillRandom(StorageUpLo upLo, FullStorageView<T, Order, I, Allocator> &A);
+    fillRandom(StorageUpLo upLo,
+               FullStorageView<T, NoViewOrder, I, Allocator> &A);
 
 
 } // namespace flens

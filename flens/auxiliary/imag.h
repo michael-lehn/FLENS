@@ -31,8 +31,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_AUXILIARY_CONJUGATE_H
-#define FLENS_AUXILIARY_CONJUGATE_H 1
+#ifndef FLENS_AUXILIARY_IMAG_H
+#define FLENS_AUXILIARY_IMAG_H 1
 
 #include <ulmblas/impl/auxiliary/imag.h>
 
@@ -42,4 +42,4 @@ using ulmBLAS::imag;
 
 } // namespace flens
 
-#endif // FLENS_AUXILIARY_CONJUGATE_H
+#endif // FLENS_AUXILIARY_IMAG_H

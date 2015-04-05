@@ -60,7 +60,7 @@ trd_wsq_impl(const HeMatrix<MA> &A)
     typedef typename MA::ElementType    T;
 
     const IndexType n        = A.dim();
-    const char      upLo[1]  = { getF77BlasChar(A.upLo()) };
+    const char      upLo[1]  = { cxxf77blas::getF77BlasChar(A.upLo()) };
 
 //
 //  Determine the block size.
@@ -89,7 +89,7 @@ trd_impl(HeMatrix<MA>        &A,
 
     const Underscore<IndexType> _;
 
-    const char      upLo[1] = { getF77BlasChar(A.upLo()) };
+    const char      upLo[1] = { cxxf77blas::getF77BlasChar(A.upLo()) };
     const IndexType n       = A.numRows();
 
 //

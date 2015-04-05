@@ -16,6 +16,8 @@ LAPACK_DECL(dgelqf)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgelqf");
+
     using std::max;
     using std::min;
 //
@@ -49,7 +51,7 @@ LAPACK_DECL(dgelqf)(const INTEGER    *M,
 //
 //  Call FLENS implementation
 //
-    DGeMatrixView       _A      = DFSView(*M, *N, A, *LDA);
+    DGeMatrixView       _A      = DFSView(*M, *N, *LDA, A);
     DDenseVectorView    _TAU    = DArrayView(min(*M,*N), TAU, 1);
     DDenseVectorView    _WORK   = DArrayView(*LWORK, WORK, 1);
 
@@ -67,6 +69,8 @@ LAPACK_DECL(zgelqf)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgelqf");
+
     using std::max;
     using std::min;
 //
@@ -104,7 +108,7 @@ LAPACK_DECL(zgelqf)(const INTEGER    *M,
     auto zTAU   = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(TAU);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView       _A      = ZFSView(*M, *N, zA, *LDA);
+    ZGeMatrixView       _A      = ZFSView(*M, *N, *LDA, zA);
     ZDenseVectorView    _TAU    = ZArrayView(min(*M,*N), zTAU, 1);
     ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
 

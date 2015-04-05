@@ -13,6 +13,8 @@ BLAS(saxpy)(const INTEGER   *N,
             float           *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: saxpy");
+
     using std::abs;
 
 #   ifdef TEST_DIRECT_CBLAS
@@ -40,6 +42,8 @@ BLAS(daxpy)(const INTEGER   *N,
             double          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: daxpy");
+
     using std::abs;
 
 #   ifdef TEST_DIRECT_CBLAS
@@ -67,6 +71,8 @@ BLAS(caxpy)(const INTEGER   *N,
             cfloat          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: caxpy");
+
     using std::abs;
 
 #   ifdef TEST_DIRECT_CBLAS
@@ -96,6 +102,8 @@ BLAS(zaxpy)(const INTEGER   *N,
             cdouble         *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zaxpy");
+
     using std::abs;
 
 #   ifdef TEST_DIRECT_CBLAS

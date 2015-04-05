@@ -16,6 +16,8 @@ BLAS(cher2)(const char      *UPLO,
             cfloat          *A_,
             const INTEGER   *LDA)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: cher2");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -61,7 +63,7 @@ BLAS(cher2)(const char      *UPLO,
 
         CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        CHeMatrixView         A(CFullView(*N, *N, A_, *LDA), upLo);
+        CHeMatrixView         A(CFullView(*N, *N, *LDA, A_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -85,6 +87,8 @@ BLAS(zher2)(const char      *UPLO,
             cdouble         *A_,
             const INTEGER   *LDA)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zher2");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -130,7 +134,7 @@ BLAS(zher2)(const char      *UPLO,
 
         ZDenseVectorConstView x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         ZDenseVectorConstView y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        ZHeMatrixView         A(ZFullView(*N, *N, A_, *LDA), upLo);
+        ZHeMatrixView         A(ZFullView(*N, *N, *LDA, A_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;

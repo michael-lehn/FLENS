@@ -113,9 +113,14 @@ GeMatrix<FS>::GeMatrix(const Matrix<RHS> &rhs)
 template <typename FS>
 template <typename VECTOR>
 GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols, VECTOR &&rhs)
-    : engine_(numRows, numCols, rhs.engine(), (FS::order==RowMajor) ? numCols
-                                                                    : numRows)
+    : engine_(numRows, numCols, rhs.engine().data(),
+              rhs.stride() * (FS::noViewOrder==ColMajor ? 1 : numCols),
+              rhs.stride() * (FS::noViewOrder==ColMajor ? numRows : 1))
 {
+#   ifndef NDEBUG
+    ASSERT(FS::noViewOrder==ColMajor || FS::noViewOrder==RowMajor);
+    ASSERT(numRows*numCols<=rhs.length());
+#   endif
 }
 
 template <typename FS>
@@ -123,8 +128,29 @@ template <typename VECTOR>
 GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols,
                        VECTOR &&rhs,
                        IndexType leadingDimension)
-    : engine_(numRows, numCols, rhs.engine(), leadingDimension)
+    : engine_(numRows, numCols, leadingDimension, rhs.engine().data())
 {
+#   ifndef NDEBUG
+    ASSERT(FS::noViewOrder==ColMajor || FS::noViewOrder==RowMajor);
+    ASSERT(numRows*numCols<=rhs.length());
+    ASSERT(rhs.stride()==1);
+#   endif
+}
+
+
+template <typename FS>
+template <typename VECTOR>
+GeMatrix<FS>::GeMatrix(IndexType numRows,
+                       IndexType numCols,
+                       VECTOR    &&rhs,
+                       IndexType strideRow,
+                       IndexType strideCol)
+    : engine_(numRows, numCols,
+              rhs.engine().data(),
+              rhs.stride()*strideRow,
+              rhs.stride()*strideCol)
+{
+    ASSERT(numRows*numCols<=rhs.length());
 }
 
 // -- operators ----------------------------------------------------------------
@@ -365,7 +391,7 @@ template <typename FS>
 StorageOrder
 GeMatrix<FS>::order() const
 {
-    return engine_.order;
+    return engine_.order();
 }
 
 template <typename FS>

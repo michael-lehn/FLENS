@@ -22,6 +22,8 @@ LAPACK_DECL(dgeev)(const char           *JOBVL,
                    const INTEGER        *LWORK,
                    INTEGER              *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgeev");
+
     using std::max;
     using std::min;
 //
@@ -55,11 +57,11 @@ LAPACK_DECL(dgeev)(const char           *JOBVL,
 //
 //  Setup FLENS matrix/vector types
 //
-    DGeMatrixView       _A      = DFSView(*N, *N, A, *LDA);
+    DGeMatrixView       _A      = DFSView(*N, *N, *LDA, A);
     DDenseVectorView    _WR     = DArrayView(*N, WR, 1);
     DDenseVectorView    _WI     = DArrayView(*N, WI, 1);
-    DGeMatrixView       _VL     = DFSView(*N, *N, VL, *LDVL);
-    DGeMatrixView       _VR     = DFSView(*N, *N, VR, *LDVR);
+    DGeMatrixView       _VL     = DFSView(*N, *N, *LDVL, VL);
+    DGeMatrixView       _VR     = DFSView(*N, *N, *LDVR, VR);
     DDenseVectorView    _WORK   = DArrayView(*LWORK, WORK, 1);
 
 //
@@ -99,6 +101,8 @@ LAPACK_DECL(zgeev)(const char           *JOBVL,
                    DOUBLE               *RWORK,
                    INTEGER              *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgeev");
+
     using std::max;
     using std::min;
 //
@@ -138,10 +142,10 @@ LAPACK_DECL(zgeev)(const char           *JOBVL,
     auto zVR    = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(VR);
     auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
-    ZGeMatrixView       _A      = ZFSView(*N, *N, zA, *LDA);
+    ZGeMatrixView       _A      = ZFSView(*N, *N, *LDA, zA);
     ZDenseVectorView    _W      = ZArrayView(*N, zW, 1);
-    ZGeMatrixView       _VL     = ZFSView(*N, *N, zVL, *LDVL);
-    ZGeMatrixView       _VR     = ZFSView(*N, *N, zVR, *LDVR);
+    ZGeMatrixView       _VL     = ZFSView(*N, *N, *LDVL, zVL);
+    ZGeMatrixView       _VR     = ZFSView(*N, *N, *LDVR, zVR);
     ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
     DDenseVectorView    _RWORK  = DArrayView(2*(*N), RWORK, 1);
 

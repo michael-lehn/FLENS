@@ -18,6 +18,7 @@ products of the form
 
 where $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
 
+
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
 |  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
@@ -34,11 +35,11 @@ where $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
 |         MC               &&C);                                                    |
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Trans]
-                            [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetype]
-                            [nameALPHA,typenameMA,typenameMB,typenameBETA,typenameMC]
-                            [typenameRestrictToIsGeMatrixMAvalueandIsGeMatrixMBvalue]
-                            [andIsGeMatrixMCvalue,voidType                          ]
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@flens@E@Transpo]
+                            [se#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypena]
+                            [meALPHA,typenameMA,typenameMB,typenameBETA,typenameMCty]
+                            [penameRestrictToIsGeMatrixMAvalueandIsGeMatrixMBvaluean]
+                            [dIsGeMatrixMCvalue,voidType                            ]
 
     transA    `(input)`                                                        +
               Specifiy $\text{op}(A)$:
@@ -86,24 +87,26 @@ or
 
 where $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
 
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  template <typename ALPHA, typename MA, typename MB>                      |
-|      typename RestrictTo<IsTrMatrix<MA>::value                            |
-|                       && IsGeMatrix<MB>::value,                           |
-|               void>::Type                                                 |
-|      mm(Side             side,                                            |
-|         Transpose        transA,                                          |
-|         const ALPHA      &alpha,                                          |
-|         const MA         &A,                                              |
-|         MB               &&B);                                            |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>3#T#T#Tmm#$@N@cxxblas@E@Side]
-                         [#$@N@cxxblas@E@Transpose#&1t0.0#&1t0.1#&t0.2#templ]
-                         [atetypenameALPHA,typenameMA,typenameMBtypenameRest]
-                         [rictToIsTrMatrixMAvalueandIsGeMatrixMBvalue,voidTy]
-                         [pe                                                ]
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
+|      typename RestrictTo<IsHeMatrix<MA>::value                                    |
+|                       && IsGeMatrix<MB>::value                                    |
+|                       && IsGeMatrix<MC>::value,                                   |
+|               void>::Type                                                         |
+|      mm(Side             side,                                                    |
+|         const ALPHA      &alpha,                                                  |
+|         const MA         &A,                                                      |
+|         const MB         &B,                                                      |
+|         const BETA       &beta,                                                   |
+|         MC               &&C);                                                    |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@flens@E@Side#&1]
+                            [t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameALPHA,t]
+                            [ypenameMA,typenameMB,typenameBETA,typenameMCtypenameRes]
+                            [trictToIsHeMatrixMAvalueandIsGeMatrixMBvalueandIsGeMatr]
+                            [ixMCvalue,voidType                                     ]
 
     side      `(input)`                                                        +
               Specify the type of matrix-matrix product:
@@ -161,11 +164,11 @@ i.e. the symmetric matrix $A$ can be multiplies from left or right.
 |         MC               &&C);                                                    |
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Side#]
-                            [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameALPHA]
-                            [,typenameMA,typenameMB,typenameBETA,typenameMCtypenameR]
-                            [estrictToIsSyMatrixMAvalueandIsGeMatrixMBvalueandIsGeMa]
-                            [trixMCvalue,voidType                                   ]
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@flens@E@Side#&1]
+                            [t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameALPHA,t]
+                            [ypenameMA,typenameMB,typenameBETA,typenameMCtypenameRes]
+                            [trictToIsSyMatrixMAvalueandIsGeMatrixMBvalueandIsGeMatr]
+                            [ixMCvalue,voidType                                     ]
 
     side      `(input)`                                                        +
               Specify the type of matrix-matrix product:
@@ -207,26 +210,23 @@ or
 
 i.e. the hermitian matrix $A$ can be multiplies from left or right.
 
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
-|      typename RestrictTo<IsHeMatrix<MA>::value                                    |
-|                       && IsGeMatrix<MB>::value                                    |
-|                       && IsGeMatrix<MC>::value,                                   |
-|               void>::Type                                                         |
-|      mm(Side             side,                                                    |
-|         const ALPHA      &alpha,                                                  |
-|         const MA         &A,                                                      |
-|         const MB         &B,                                                      |
-|         const BETA       &beta,                                                   |
-|         MC               &&C);                                                    |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Side#]
-                            [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameALPHA]
-                            [,typenameMA,typenameMB,typenameBETA,typenameMCtypenameR]
-                            [estrictToIsHeMatrixMAvalueandIsGeMatrixMBvalueandIsGeMa]
-                            [trixMCvalue,voidType                                   ]
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      mm(Side             side,                                            |
+|         Transpose        transA,                                          |
+|         const ALPHA      &alpha,                                          |
+|         const MA         &A,                                              |
+|         MB               &&B);                                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Tmm#$@N@flens@E@Side#$]
+                         [@N@flens@E@Transpose#&1t0.0#&1t0.1#&t0.2#templatet]
+                         [ypenameALPHA,typenameMA,typenameMBtypenameRestrict]
+                         [ToIsTrMatrixMAvalueandIsGeMatrixMBvalue,voidType  ]
 
     side      `(input)`                                                        +
               Specify the type of matrix-matrix product:
@@ -245,201 +245,4 @@ i.e. the hermitian matrix $A$ can be multiplies from left or right.
               On entry the original matrix $C$.                                +
               On exit overwritten with
               $\beta\,C + \alpha\,A\,B$ or $\beta\,C + \alpha\,B\,A$.
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
-
-
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
-|      typename RestrictTo<IsGbMatrix<MA>::value                                    |
-|                       && IsGeMatrix<MB>::value                                    |
-|                       && IsGeMatrix<MC>::value,                                   |
-|               void>::Type                                                         |
-|      mm(Transpose        transA,                                                  |
-|         Transpose        transB,                                                  |
-|         const ALPHA      &alpha,                                                  |
-|         const MA         &A,                                                      |
-|         const MB         &B,                                                      |
-|         const BETA       &beta,                                                   |
-|         MC               &&C);                                                    |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Trans]
-                            [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetype]
-                            [nameALPHA,typenameMA,typenameMB,typenameBETA,typenameMC]
-                            [typenameRestrictToIsGbMatrixMAvalueandIsGeMatrixMBvalue]
-                            [andIsGeMatrixMCvalue,voidType                          ]
-
-    Defined in namespace `flens::blas`.
-    Function `mm` with 5 template parameters.
-
-
-
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
-|      typename RestrictTo<IsGeMatrix<MA>::value                                    |
-|                       && IsGbMatrix<MB>::value                                    |
-|                       && IsGeMatrix<MC>::value,                                   |
-|               void>::Type                                                         |
-|      mm(Transpose        transA,                                                  |
-|         Transpose        transB,                                                  |
-|         const ALPHA      &alpha,                                                  |
-|         const MA         &A,                                                      |
-|         const MB         &B,                                                      |
-|         const BETA       &beta,                                                   |
-|         MC               &&C);                                                    |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Trans]
-                            [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetype]
-                            [nameALPHA,typenameMA,typenameMB,typenameBETA,typenameMC]
-                            [typenameRestrictToIsGeMatrixMAvalueandIsGbMatrixMBvalue]
-                            [andIsGeMatrixMCvalue,voidType                          ]
-
-    Defined in namespace `flens::blas`.
-    Function `mm` with 5 template parameters.
-
-
-
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
-|      typename RestrictTo<IsHbMatrix<MA>::value                                    |
-|                       && IsGeMatrix<MB>::value                                    |
-|                       && IsGeMatrix<MC>::value,                                   |
-|               void>::Type                                                         |
-|      mm(Side             side,                                                    |
-|         const ALPHA      &alpha,                                                  |
-|         const MA         &A,                                                      |
-|         const MB         &B,                                                      |
-|         const BETA       &beta,                                                   |
-|         MC               &&C);                                                    |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Side#]
-                            [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameALPHA]
-                            [,typenameMA,typenameMB,typenameBETA,typenameMCtypenameR]
-                            [estrictToIsHbMatrixMAvalueandIsGeMatrixMBvalueandIsGeMa]
-                            [trixMCvalue,voidType                                   ]
-
-    Defined in namespace `flens::blas`.
-    Function `mm` with 5 template parameters.
-
-
-
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
-|      typename RestrictTo<IsSbMatrix<MA>::value                                    |
-|                       && IsGeMatrix<MB>::value                                    |
-|                       && IsGeMatrix<MC>::value,                                   |
-|                   void>::Type                                                     |
-|      mm(Side             side,                                                    |
-|         const ALPHA      &alpha,                                                  |
-|         const MA         &A,                                                      |
-|         const MB         &B,                                                      |
-|         const BETA       &beta,                                                   |
-|         MC               &&C);                                                    |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Side#]
-                            [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameALPHA]
-                            [,typenameMA,typenameMB,typenameBETA,typenameMCtypenameR]
-                            [estrictToIsSbMatrixMAvalueandIsGeMatrixMBvalueandIsGeMa]
-                            [trixMCvalue,voidType                                   ]
-
-    Defined in namespace `flens::blas`.
-    Function `mm` with 5 template parameters.
-
-
-
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  template <typename ALPHA, typename MA, typename MB>                      |
-|      typename RestrictTo<IsTbMatrix<MA>::value                            |
-|                       && IsGeMatrix<MB>::value,                           |
-|               void>::Type                                                 |
-|      mm(Side             side,                                            |
-|         Transpose        transA,                                          |
-|         const ALPHA      &alpha,                                          |
-|         const MA         &A,                                              |
-|         MB               &&B);                                            |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>3#T#T#Tmm#$@N@cxxblas@E@Side]
-                         [#$@N@cxxblas@E@Transpose#&1t0.0#&1t0.1#&t0.2#templ]
-                         [atetypenameALPHA,typenameMA,typenameMBtypenameRest]
-                         [rictToIsTbMatrixMAvalueandIsGeMatrixMBvalue,voidTy]
-                         [pe                                                ]
-
-    Defined in namespace `flens::blas`.
-    Function `mm` with 3 template parameters.
-
-
-
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
-
-
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
-|      typename RestrictTo<IsDiagMatrix<MA>::value                                  |
-|                       && IsGeMatrix<MB>::value                                    |
-|                       && IsGeMatrix<MC>::value,                                   |
-|               void>::Type                                                         |
-|      mm(Transpose        transA,                                                  |
-|         Transpose        transB,                                                  |
-|         const ALPHA      &alpha,                                                  |
-|         const MA         &A,                                                      |
-|         const MB         &B,                                                      |
-|         const BETA       &beta,                                                   |
-|         MC               &&C);                                                    |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Trans]
-                            [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetype]
-                            [nameALPHA,typenameMA,typenameMB,typenameBETA,typenameMC]
-                            [typenameRestrictToIsDiagMatrixMAvalueandIsGeMatrixMBval]
-                            [ueandIsGeMatrixMCvalue,voidType                        ]
-
-    Defined in namespace `flens::blas`.
-    Function `mm` with 5 template parameters.
-
-
-
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
-|      typename RestrictTo<IsGeMatrix<MA>::value                                    |
-|                       && IsDiagMatrix<MB>::value                                  |
-|                       && IsGeMatrix<MC>::value,                                   |
-|               void>::Type                                                         |
-|      mm(Transpose        transA,                                                  |
-|         Transpose        transB,                                                  |
-|         const ALPHA      &alpha,                                                  |
-|         const MA         &A,                                                      |
-|         const MB         &B,                                                      |
-|         const BETA       &beta,                                                   |
-|         MC               &&C);                                                    |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Trans]
-                            [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetype]
-                            [nameALPHA,typenameMA,typenameMB,typenameBETA,typenameMC]
-                            [typenameRestrictToIsGeMatrixMAvalueandIsDiagMatrixMBval]
-                            [ueandIsGeMatrixMCvalue,voidType                        ]
-
-    Defined in namespace `flens::blas`.
-    Function `mm` with 5 template parameters.
-
-
 

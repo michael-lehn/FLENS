@@ -128,9 +128,8 @@ tf2_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //              Update trailing submatrix within the band.
 //
                 if( ju>j ) {
-                    GeMatrixView  ABtmp = FullStorageView(km, ju-j,
-                                                          &AB( kv+1, j+1 ),
-                                                          ldAB-1);
+                    GeMatrixView  ABtmp = FullStorageView(km, ju-j, ldAB-1,
+                                                          &AB(kv+1, j+1));
                     blas::r(-one, AB(_(kv+2,kv+km+1),j), A(j,_(j+1,ju)), ABtmp);
 
                 }

@@ -16,6 +16,8 @@ BLAS(chpmv)(const char      *UPLO,
             cfloat          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: chpmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
     char    UPLO_   = toupper(*UPLO);
@@ -83,6 +85,8 @@ BLAS(zhpmv)(const char      *UPLO,
             cdouble         *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zhpmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);

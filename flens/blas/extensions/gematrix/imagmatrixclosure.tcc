@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_EXTENSIONS_GEMATRIX_IMAGMATRIXCLOSURE_TCC
 #define FLENS_BLAS_EXTENSIONS_GEMATRIX_IMAGMATRIXCLOSURE_TCC 1
 
-#include <flens/blas/level1extensions/copy/imagmatrixclosure.h>
+#include <flens/blas/extensions/gematrix/imagmatrixclosure.h>
 
 namespace flens { namespace blas {
 

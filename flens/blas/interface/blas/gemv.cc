@@ -18,6 +18,8 @@ BLAS(sgemv)(const char      *TRANS,
             float           *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: sgemv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         const char         TRANS_ = toupper(*TRANS);
@@ -66,7 +68,7 @@ BLAS(sgemv)(const char      *TRANS,
             lenY = *N;
         }
 
-        SGeMatrixConstView    A = SFullConstView(*M, *N, A_, *LDA);
+        SGeMatrixConstView    A = SFullConstView(*M, *N, *LDA, A_);
         SDenseVectorConstView x(SConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
         SDenseVectorView      y(SArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 
@@ -100,6 +102,8 @@ BLAS(dgemv)(const char      *TRANS,
             double          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dgemv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         const char         TRANS_ = toupper(*TRANS);
@@ -147,7 +151,7 @@ BLAS(dgemv)(const char      *TRANS,
             lenY = *N;
         }
 
-        DGeMatrixConstView    A = DFullConstView(*M, *N, A_, *LDA);
+        DGeMatrixConstView    A = DFullConstView(*M, *N, *LDA, A_);
         DDenseVectorConstView x(DConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
         DDenseVectorView      y(DArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 
@@ -181,6 +185,8 @@ BLAS(cgemv)(const char      *TRANS,
             cfloat          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: cgemv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         const char         TRANS_ = toupper(*TRANS);
@@ -233,7 +239,7 @@ BLAS(cgemv)(const char      *TRANS,
             lenY = *N;
         }
 
-        CGeMatrixConstView    A = CFullConstView(*M, *N, A_, *LDA);
+        CGeMatrixConstView    A = CFullConstView(*M, *N, *LDA, A_);
         CDenseVectorConstView x(CConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
         CDenseVectorView      y(CArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 
@@ -267,6 +273,7 @@ BLAS(zgemv)(const char      *TRANS,
             cdouble         *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zgemv");
 
 #   ifdef TEST_DIRECT_CBLAS
 
@@ -320,7 +327,7 @@ BLAS(zgemv)(const char      *TRANS,
             lenY = *N;
         }
 
-        ZGeMatrixConstView    A = ZFullConstView(*M, *N, A_, *LDA);
+        ZGeMatrixConstView    A = ZFullConstView(*M, *N, *LDA, A_);
         ZDenseVectorConstView x(ZConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
         ZDenseVectorView      y(ZArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 

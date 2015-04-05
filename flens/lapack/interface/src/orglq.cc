@@ -16,6 +16,8 @@ LAPACK_DECL(dorglq)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dorglq");
+
     using std::max;
     using std::min;
 //
@@ -51,7 +53,7 @@ LAPACK_DECL(dorglq)(const INTEGER    *M,
 //
 //  Call FLENS implementation
 //
-    DGeMatrixView          _A      = DFSView(*M, *N, A, *LDA);
+    DGeMatrixView          _A      = DFSView(*M, *N, *LDA, A);
     DConstDenseVectorView  _TAU    = DConstArrayView(*K, TAU, 1);
     DDenseVectorView       _WORK   = DArrayView(*LWORK, WORK, 1);
 

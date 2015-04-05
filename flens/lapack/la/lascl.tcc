@@ -335,7 +335,7 @@ lascl(LASCL::Type type, Int kl, Int ku, const T &cFrom, const T &cTo,
     typedef typename RemoveRef<ALPHA>::Type         Alpha;
     typedef typename GeMatrixView<Alpha>::Engine    ViewEngine;
 
-    GeMatrixView<Alpha> A = ViewEngine(1, 1, &alpha, 1);
+    GeMatrixView<Alpha> A = ViewEngine(1, 1, 1, &alpha);
 
     ASSERT(type==FullMatrix);
     lascl(type, kl, ku, cFrom, cTo, A);

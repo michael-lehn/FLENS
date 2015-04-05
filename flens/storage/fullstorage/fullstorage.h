@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2007,2015 Michael Lehn
  *
  *   All rights reserved.
  *
@@ -48,10 +48,10 @@ template <typename T, typename I, typename A>
 template <typename T, typename I, typename A>
     class ConstArrayView;
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder NoViewOrder, typename I, typename A>
     class FullStorageView;
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder NoViewOrder, typename I, typename A>
     class ConstFullStorageView;
 
 template <typename T,
@@ -61,13 +61,12 @@ template <typename T,
 class FullStorage
 {
     public:
-        typedef T                                     ElementType;
-        typedef typename I::IndexType                 IndexType;
-        typedef A                                     Allocator;
+        typedef T                       ElementType;
+        typedef typename I::IndexType   IndexType;
+        typedef A                       Allocator;
 
-        static const StorageOrder                     order = Order;
-        static const IndexType                        defaultIndexBase
-                                                          = I::defaultIndexBase;
+        static const StorageOrder       noViewOrder      = Order;
+        static const IndexType          defaultIndexBase = I::defaultIndexBase;
 
         typedef ConstFullStorageView<T, Order, I, A>  ConstView;
         typedef FullStorageView<T, Order, I, A>       View;
@@ -119,6 +118,9 @@ class FullStorage
 
         IndexType
         numCols() const;
+
+        StorageOrder
+        order() const;
 
         IndexType
         leadingDimension() const;

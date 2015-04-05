@@ -30,6 +30,8 @@ LAPACK_DECL(dgejsv)(const char       *JOBA,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgejsv");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -98,10 +100,10 @@ LAPACK_DECL(dgejsv)(const char       *JOBA,
     const bool considerTransA  = (*JOBT=='T');
     const bool perturb         = (*JOBR=='P');
 
-    DGeMatrixView     _A       = DFSView(m, n, A, *LDA);
+    DGeMatrixView     _A       = DFSView(m, n, *LDA, A);
     DDenseVectorView  _sva     = DArrayView(n, SVA, INTEGER(1));
-    DGeMatrixView     _U       = DFSView(m, n, U, *LDU);
-    DGeMatrixView     _V       = DFSView(n, n, V, *LDV);
+    DGeMatrixView     _U       = DFSView(m, n, *LDU, U);
+    DGeMatrixView     _V       = DFSView(n, n, *LDV, V);
     DDenseVectorView  _work    = DArrayView(*LWORK, WORK, INTEGER(1));
     IDenseVectorView  _iwork   = IArrayView(m+3*n, IWORK, INTEGER(1));
 

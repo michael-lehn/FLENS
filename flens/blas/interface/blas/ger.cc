@@ -16,6 +16,8 @@ BLAS(sger)(const INTEGER   *M,
            float           *A_,
            const INTEGER   *LDA)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: sger");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_sger(CBLAS_ORDER::CblasColMajor,
@@ -51,7 +53,7 @@ BLAS(sger)(const INTEGER   *M,
 
         SDenseVectorConstView x(SConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        SGeMatrixView         A = SFullView(*M, *N, A_, *LDA);
+        SGeMatrixView         A = SFullView(*M, *N, *LDA, A_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -74,6 +76,8 @@ BLAS(dger)(const INTEGER   *M,
            double          *A_,
            const INTEGER   *LDA)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dger");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_dger(CBLAS_ORDER::CblasColMajor,
@@ -109,7 +113,7 @@ BLAS(dger)(const INTEGER   *M,
 
         DDenseVectorConstView x(DConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         DDenseVectorConstView y(DConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        DGeMatrixView         A = DFullView(*M, *N, A_, *LDA);
+        DGeMatrixView         A = DFullView(*M, *N, *LDA, A_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -133,6 +137,8 @@ BLAS(cgerc)(const INTEGER   *M,
             cfloat          *A_,
             const INTEGER   *LDA)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: cger");
+
 #   ifdef TEST_DIRECT_CBLAS
 
     cblas_cgerc(CBLAS_ORDER::CblasColMajor,
@@ -168,7 +174,7 @@ BLAS(cgerc)(const INTEGER   *M,
 
         CDenseVectorConstView x(CConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        CGeMatrixView         A = CFullView(*M, *N, A_, *LDA);
+        CGeMatrixView         A = CFullView(*M, *N, *LDA, A_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -191,6 +197,7 @@ BLAS(cgeru)(const INTEGER   *M,
             cfloat          *A_,
             const INTEGER   *LDA)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zger");
 
 #   ifdef TEST_DIRECT_CBLAS
 
@@ -228,7 +235,7 @@ BLAS(cgeru)(const INTEGER   *M,
 
         CDenseVectorConstView x(CConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        CGeMatrixView         A = CFullView(*M, *N, A_, *LDA);
+        CGeMatrixView         A = CFullView(*M, *N, *LDA, A_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -285,7 +292,7 @@ BLAS(zgerc)(const INTEGER   *M,
 
         ZDenseVectorConstView x(ZConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         ZDenseVectorConstView y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        ZGeMatrixView         A = ZFullView(*M, *N, A_, *LDA);
+        ZGeMatrixView         A = ZFullView(*M, *N, *LDA, A_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -341,7 +348,7 @@ BLAS(zgeru)(const INTEGER   *M,
 
         ZDenseVectorConstView x(ZConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         ZDenseVectorConstView y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-        ZGeMatrixView         A = ZFullView(*M, *N, A_, *LDA);
+        ZGeMatrixView         A = ZFullView(*M, *N, *LDA, A_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;

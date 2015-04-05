@@ -15,6 +15,8 @@ BLAS(strmv)(const char      *UPLO,
             float           *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: strmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -66,7 +68,7 @@ BLAS(strmv)(const char      *UPLO,
         Transpose    trans = convertTo<Transpose>(TRANS_);
         Diag         diag  = Diag(DIAG_);
 
-        STrMatrixConstView  A(SFullConstView(*N, *N, A_, *LDA), upLo, diag);
+        STrMatrixConstView  A(SFullConstView(*N, *N, *LDA, A_), upLo, diag);
         SDenseVectorView    x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
@@ -91,6 +93,8 @@ BLAS(dtrmv)(const char      *UPLO,
             double          *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dtrmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -141,7 +145,7 @@ BLAS(dtrmv)(const char      *UPLO,
         Transpose    trans = convertTo<Transpose>(TRANS_);
         Diag         diag  = Diag(DIAG_);
 
-        DTrMatrixConstView  A(DFullConstView(*N, *N, A_, *LDA), upLo, diag);
+        DTrMatrixConstView  A(DFullConstView(*N, *N, *LDA, A_), upLo, diag);
         DDenseVectorView    x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
@@ -166,6 +170,8 @@ BLAS(ctrmv)(const char      *UPLO,
             cfloat          *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ctrmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -218,7 +224,7 @@ BLAS(ctrmv)(const char      *UPLO,
         Transpose    trans = convertTo<Transpose>(TRANS_);
         Diag         diag  = Diag(DIAG_);
 
-        CTrMatrixConstView  A(CFullConstView(*N, *N, A_, *LDA), upLo, diag);
+        CTrMatrixConstView  A(CFullConstView(*N, *N, *LDA, A_), upLo, diag);
         CDenseVectorView    x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
@@ -245,6 +251,8 @@ BLAS(ztrmv)(const char      *UPLO,
             cdouble         *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ztrmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -296,7 +304,7 @@ BLAS(ztrmv)(const char      *UPLO,
         Transpose    trans = convertTo<Transpose>(TRANS_);
         Diag         diag  = Diag(DIAG_);
 
-        ZTrMatrixConstView  A(ZFullConstView(*N, *N, A_, *LDA), upLo, diag);
+        ZTrMatrixConstView  A(ZFullConstView(*N, *N, *LDA, A_), upLo, diag);
         ZDenseVectorView    x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
 
 #       ifdef TEST_OVERLOADED_OPERATORS

@@ -1,0 +1,19 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  struct MySyMatrix;                                                       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                                   [c:@N@flens@S@MySyMatrixstructMySyMatrix;]
+
+    Defined in namespace `flens`.
+    Class MySyMatrixstructMySyMatrix;.
+
+
+

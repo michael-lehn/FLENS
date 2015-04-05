@@ -18,6 +18,8 @@ BLAS(strmm)(const char      *SIDE,
             float           *B_,
             const INTEGER   *LDB)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: strmm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
     char    SIDE_   = toupper(*SIDE);
@@ -79,8 +81,8 @@ BLAS(strmm)(const char      *SIDE,
         Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        STrMatrixConstView  A(SFullConstView(ka, ka, A_, *LDA), upLo, diag);
-        SGeMatrixView       B = SFullView(*M, *N, B_, *LDB);
+        STrMatrixConstView  A(SFullConstView(ka, ka, *LDA, A_), upLo, diag);
+        SGeMatrixView       B = SFullView(*M, *N, *LDB, B_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -117,6 +119,8 @@ BLAS(dtrmm)(const char      *SIDE,
             double          *B_,
             const INTEGER   *LDB)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dtrmm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    SIDE_   = toupper(*SIDE);
@@ -179,8 +183,8 @@ BLAS(dtrmm)(const char      *SIDE,
         Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        DTrMatrixConstView  A(DFullConstView(ka, ka, A_, *LDA), upLo, diag);
-        DGeMatrixView       B = DFullView(*M, *N, B_, *LDB);
+        DTrMatrixConstView  A(DFullConstView(ka, ka, *LDA, A_), upLo, diag);
+        DGeMatrixView       B = DFullView(*M, *N, *LDB, B_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -217,6 +221,8 @@ BLAS(ctrmm)(const char      *SIDE,
             cfloat          *B_,
             const INTEGER   *LDB)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ctrmm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    SIDE_   = toupper(*SIDE);
@@ -281,8 +287,8 @@ BLAS(ctrmm)(const char      *SIDE,
         Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        CTrMatrixConstView  A(CFullConstView(ka, ka, A_, *LDA), upLo, diag);
-        CGeMatrixView       B = CFullView(*M, *N, B_, *LDB);
+        CTrMatrixConstView  A(CFullConstView(ka, ka, *LDA, A_), upLo, diag);
+        CGeMatrixView       B = CFullView(*M, *N, *LDB, B_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -323,6 +329,8 @@ BLAS(ztrmm)(const char      *SIDE,
             cdouble         *B_,
             const INTEGER   *LDB)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ztrmm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    SIDE_   = toupper(*SIDE);
@@ -387,8 +395,8 @@ BLAS(ztrmm)(const char      *SIDE,
         Diag           diag   = Diag(DIAG_);
         const INTEGER  ka     = side==Left ? *M : *N;
 
-        ZTrMatrixConstView  A(ZFullConstView(ka, ka, A_, *LDA), upLo, diag);
-        ZGeMatrixView       B = ZFullView(*M, *N, B_, *LDB);
+        ZTrMatrixConstView  A(ZFullConstView(ka, ka, *LDA, A_), upLo, diag);
+        ZGeMatrixView       B = ZFullView(*M, *N, *LDB, B_);
 
 #   ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;

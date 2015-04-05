@@ -17,6 +17,8 @@ BLAS(ssymv)(const char      *UPLO,
             float           *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ssymv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -57,7 +59,7 @@ BLAS(ssymv)(const char      *UPLO,
 
         StorageUpLo  upLo = StorageUpLo(UPLO_);
 
-        SSyMatrixConstView    A(SFullConstView(*N, *N, A_, *LDA), upLo);
+        SSyMatrixConstView    A(SFullConstView(*N, *N, *LDA, A_), upLo);
         SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         SDenseVectorView      y(SArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
@@ -84,6 +86,8 @@ BLAS(dsymv)(const char      *UPLO,
             double          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dsymv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -123,7 +127,7 @@ BLAS(dsymv)(const char      *UPLO,
 
         StorageUpLo  upLo = StorageUpLo(UPLO_);
 
-        DSyMatrixConstView    A(DFullConstView(*N, *N, A_, *LDA), upLo);
+        DSyMatrixConstView    A(DFullConstView(*N, *N, *LDA, A_), upLo);
         DDenseVectorConstView x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         DDenseVectorView      y(DArrayView(*N, Y, abs(*INCY)), *INCY<0);
 

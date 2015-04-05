@@ -53,8 +53,7 @@ iamax1(const DenseVector<X> &x)
 {
     typename DenseVector<X>::IndexType i;
 
-    cxxblas::iamax1(x.length(), x.data(), x.stride(), i);
-    return i + x.indexBase();
+    return cxxblas::iamax1(x.length(), x.data(), x.stride()) + x.indexBase();
 }
 
 } } // namespace blas, flens

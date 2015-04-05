@@ -27,6 +27,13 @@
 #define INTEGER int
 #endif
 
+#ifdef BLAS_DEBUG
+#   define BLAS_DEBUG_OUT(msg)    std::cerr << "debug: " << msg << std::endl
+#else
+#   define BLAS_DEBUG_OUT(msg)
+#endif
+
+
 extern "C" {
 
 void

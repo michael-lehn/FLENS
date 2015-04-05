@@ -19,6 +19,8 @@ BLAS(ssymm)(const char      *SIDE,
             float           *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ssymm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    SIDE_   = toupper(*SIDE);
@@ -70,9 +72,9 @@ BLAS(ssymm)(const char      *SIDE,
         StorageUpLo    upLo = StorageUpLo(UPLO_);
         const INTEGER  ka   = side==Left ? *M : *N;
 
-        SSyMatrixConstView  A(SFullConstView(ka, ka, A_, *LDA), upLo);
-        SGeMatrixConstView  B = SFullConstView(*M, *N, B_, *LDB);
-        SGeMatrixView       C = SFullView(*M, *N, C_, *LDC);
+        SSyMatrixConstView  A(SFullConstView(ka, ka, *LDA, A_), upLo);
+        SGeMatrixConstView  B = SFullConstView(*M, *N, *LDB, B_);
+        SGeMatrixView       C = SFullView(*M, *N, *LDC, C_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -103,6 +105,8 @@ BLAS(dsymm)(const char      *SIDE,
             double          *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dsymm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    SIDE_   = toupper(*SIDE);
@@ -154,9 +158,9 @@ BLAS(dsymm)(const char      *SIDE,
         StorageUpLo    upLo = StorageUpLo(UPLO_);
         const INTEGER  ka   = side==Left ? *M : *N;
 
-        DSyMatrixConstView  A(DFullConstView(ka, ka, A_, *LDA), upLo);
-        DGeMatrixConstView  B = DFullConstView(*M, *N, B_, *LDB);
-        DGeMatrixView       C = DFullView(*M, *N, C_, *LDC);
+        DSyMatrixConstView  A(DFullConstView(ka, ka, *LDA, A_), upLo);
+        DGeMatrixConstView  B = DFullConstView(*M, *N, *LDB, B_);
+        DGeMatrixView       C = DFullView(*M, *N, *LDC, C_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -187,6 +191,8 @@ BLAS(csymm)(const char      *SIDE,
             cfloat          *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: csymm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    SIDE_   = toupper(*SIDE);
@@ -241,9 +247,9 @@ BLAS(csymm)(const char      *SIDE,
         StorageUpLo    upLo = StorageUpLo(UPLO_);
         const INTEGER  ka   = side==Left ? *M : *N;
 
-        CSyMatrixConstView  A(CFullConstView(ka, ka, A_, *LDA), upLo);
-        CGeMatrixConstView  B = CFullConstView(*M, *N, B_, *LDB);
-        CGeMatrixView       C = CFullView(*M, *N, C_, *LDC);
+        CSyMatrixConstView  A(CFullConstView(ka, ka, *LDA, A_), upLo);
+        CGeMatrixConstView  B = CFullConstView(*M, *N, *LDB, B_);
+        CGeMatrixView       C = CFullView(*M, *N, *LDC, C_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -275,6 +281,8 @@ BLAS(zsymm)(const char      *SIDE,
             cdouble         *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zsymm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
     char    SIDE_   = toupper(*SIDE);
@@ -328,9 +336,9 @@ BLAS(zsymm)(const char      *SIDE,
         StorageUpLo    upLo = StorageUpLo(UPLO_);
         const INTEGER  ka   = side==Left ? *M : *N;
 
-        ZSyMatrixConstView  A(ZFullConstView(ka, ka, A_, *LDA), upLo);
-        ZGeMatrixConstView  B = ZFullConstView(*M, *N, B_, *LDB);
-        ZGeMatrixView       C = ZFullView(*M, *N, C_, *LDC);
+        ZSyMatrixConstView  A(ZFullConstView(ka, ka, *LDA, A_), upLo);
+        ZGeMatrixConstView  B = ZFullConstView(*M, *N, *LDB, B_);
+        ZGeMatrixView       C = ZFullView(*M, *N, *LDC, C_);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;

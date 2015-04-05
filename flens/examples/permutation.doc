@@ -1,0 +1,19 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  struct Permutation;                                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                                 [c:@N@flens@S@PermutationstructPermutation;]
+
+    Defined in namespace `flens`.
+    Class PermutationstructPermutation;.
+
+
+

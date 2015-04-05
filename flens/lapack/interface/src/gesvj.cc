@@ -25,6 +25,8 @@ LAPACK_DECL(dgesvj)(const char       *JOBA,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgesvj");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -80,9 +82,9 @@ LAPACK_DECL(dgesvj)(const char       *JOBA,
     SVJ::TypeA        typeA  = SVJ::TypeA(*JOBA);
     SVJ::JobU         jobU   = SVJ::JobU(*JOBU);
     SVJ::JobV         jobV   = SVJ::JobV(*JOBV);
-    DGeMatrixView     _A     = DFSView(*M, *N, A, *LDA);
+    DGeMatrixView     _A     = DFSView(*M, *N, *LDA, A);
     DDenseVectorView  _sva   = DArrayView(*N, SVA, INTEGER(1));
-    DGeMatrixView     _V     = DFSView(mv, *N, V, *LDV);
+    DGeMatrixView     _V     = DFSView(mv, *N, *LDV, V);
     DDenseVectorView  _work  = DArrayView(*LWORK, WORK, INTEGER(1));
 
     *INFO = svj(typeA, jobU, jobV, _A, _sva, _V, _work);

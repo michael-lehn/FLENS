@@ -288,7 +288,7 @@ mm(Side             side,
 #   endif
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_TRMM(side, transA, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_TRMM(side, transposeA, alpha, A, B);
 
     const bool lowerA    = (A.upLo()==Lower);
     const bool transA    = (transposeA==Trans || transposeA==ConjTrans);

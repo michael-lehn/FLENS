@@ -12,6 +12,8 @@ BLAS(scopy)(const INTEGER   *N,
             float           *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: scopy");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_scopy(*N, X, *INCX, Y, *INCY);
@@ -40,6 +42,8 @@ BLAS(dcopy)(const INTEGER   *N,
             double          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dcopy");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_dcopy(*N, X, *INCX, Y, *INCY);
@@ -67,6 +71,8 @@ BLAS(ccopy)(const INTEGER   *N,
             cfloat          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ccopy");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_ccopy(*N,
@@ -97,6 +103,8 @@ BLAS(zcopy)(const INTEGER   *N,
             cdouble         *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zcopy");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_zcopy(*N,

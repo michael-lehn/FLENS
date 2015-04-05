@@ -6,6 +6,12 @@ BLAS Level 1: axpy                                                       [TOC]
 where $x, y$ are vectors and $\alpha$ is a constant scalar. *axpy* is short
 for *a*lpha times *x* *p*lus *y*.
 
+*acxpy* (defined in namespace `flens::blas`) is a variant with conjugation that
+computes $y \leftarrow y +\alpha \bar{x}$ where $x, y$ are vectors and
+$\alpha$ is a constant scalar. *acxpy* is short for *a*lpha times *c*onjugate
+*x* *p*lus *y*.
+
+
 We also provide a variant that does the computation for matrices instead of
 vectors.
 
@@ -33,6 +39,30 @@ Vector Variant
     y        `(input/output) real or complex valued DenseVector`               +
              Vector $y$.
 
+Vector Variant with Conjugation
+===============================
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VX, typename VY>                      |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsDenseVector<VY>::value,                        |
+|               void>::Type                                                 |
+|      acxpy(const ALPHA &alpha, const VX &x, VY &&y);                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Tacxpy#&1t0.0#&1t0.1#&]
+                         [t0.2#templatetypenameALPHA,typenameVX,typenameVYty]
+                         [penameRestrictToIsDenseVectorVXvalueandIsDenseVect]
+                         [orVYvalue,voidType                                ]
+
+    alpha    `(input) real scalar`                                             +
+             Scaling factor for the values in $x$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    y        `(input/output) real or complex valued DenseVector`               +
+             Vector $y$.
+
+
 
 Matrix Variant (Level 1 Extension)
 ==================================
@@ -45,10 +75,10 @@ Matrix Variant (Level 1 Extension)
 |      axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);      |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
-                         [anspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA,]
-                         [typenameMA,typenameMBtypenameRestrictToIsGeMatrixM]
-                         [AvalueandIsGeMatrixMBvalue,voidType               ]
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@flens@E@Tran]
+                         [spose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA,ty]
+                         [penameMA,typenameMBtypenameRestrictToIsGeMatrixMAv]
+                         [alueandIsGeMatrixMBvalue,voidType                 ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -61,5 +91,4 @@ Matrix Variant (Level 1 Extension)
              Matrix $A$.
     B        `(input/output) real or complex valued GeMatrix`                  +
              Matrix $B$.
-
 

@@ -88,8 +88,8 @@ laln2_impl(bool                  transA,
 //    .. Local Arrays ..
 //
     T   ciData_[4], crData_[4];
-    GeMatrixView<T> CI = typename GeMatrixView<T>::Engine(2, 2, ciData_, 2);
-    GeMatrixView<T> CR = typename GeMatrixView<T>::Engine(2, 2, crData_, 2);
+    GeMatrixView<T> CI = typename GeMatrixView<T>::Engine(2, 2, 2, ciData_);
+    GeMatrixView<T> CR = typename GeMatrixView<T>::Engine(2, 2, 2, crData_);
 
     DenseVectorView<T> civ = typename DenseVectorView<T>::Engine(4, ciData_);
     DenseVectorView<T> crv = typename DenseVectorView<T>::Engine(4, crData_);
@@ -105,7 +105,7 @@ laln2_impl(bool                  transA,
                                   3, 4, 1, 2,
                                   4, 3, 2, 1};
     GeMatrixView<IndexType>
-        iPivot = typename GeMatrixView<IndexType>::Engine(4, 4, iPivotData_, 4);
+        iPivot = typename GeMatrixView<IndexType>::Engine(4, 4, 4, iPivotData_);
 
 //
 //  Compute BIGNUM

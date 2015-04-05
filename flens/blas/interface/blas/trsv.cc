@@ -15,6 +15,8 @@ BLAS(strsv)(const char      *UPLO,
             float           *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: strsv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -66,7 +68,7 @@ BLAS(strsv)(const char      *UPLO,
         Transpose    trans = convertTo<Transpose>(TRANS_);
         Diag         diag  = Diag(DIAG_);
 
-        STrMatrixConstView  A(SFullConstView(*N, *N, A_, *LDA), upLo, diag);
+        STrMatrixConstView  A(SFullConstView(*N, *N, *LDA, A_), upLo, diag);
         SDenseVectorView    x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         // if you only want to test FLENS-BLAS just call
@@ -84,6 +86,8 @@ BLAS(dtrsv)(const char      *UPLO,
             double          *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dtrsv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -135,7 +139,7 @@ BLAS(dtrsv)(const char      *UPLO,
         Transpose    trans = convertTo<Transpose>(TRANS_);
         Diag         diag  = Diag(DIAG_);
 
-        DTrMatrixConstView  A(DFullConstView(*N, *N, A_, *LDA), upLo, diag);
+        DTrMatrixConstView  A(DFullConstView(*N, *N, *LDA, A_), upLo, diag);
         DDenseVectorView    x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         // if you only want to test FLENS-BLAS just call
@@ -153,6 +157,8 @@ BLAS(ctrsv)(const char      *UPLO,
             cfloat          *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ctrsv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -205,7 +211,7 @@ BLAS(ctrsv)(const char      *UPLO,
         Transpose    trans = convertTo<Transpose>(TRANS_);
         Diag         diag  = Diag(DIAG_);
 
-        CTrMatrixConstView  A(CFullConstView(*N, *N, A_, *LDA), upLo, diag);
+        CTrMatrixConstView  A(CFullConstView(*N, *N, *LDA, A_), upLo, diag);
         CDenseVectorView    x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         // if you only want to test FLENS-BLAS just call
@@ -223,6 +229,8 @@ BLAS(ztrsv)(const char      *UPLO,
             cdouble         *X,
             const INTEGER   *INCX)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ztrsv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -275,7 +283,7 @@ BLAS(ztrsv)(const char      *UPLO,
         Transpose    trans = convertTo<Transpose>(TRANS_);
         Diag         diag  = Diag(DIAG_);
 
-        ZTrMatrixConstView  A(ZFullConstView(*N, *N, A_, *LDA), upLo, diag);
+        ZTrMatrixConstView  A(ZFullConstView(*N, *N, *LDA, A_), upLo, diag);
         ZDenseVectorView    x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         // if you only want to test FLENS-BLAS just call

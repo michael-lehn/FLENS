@@ -17,6 +17,8 @@ BLAS(ssyrk)(const char      *UPLO,
             float           *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ssyrk");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -68,10 +70,10 @@ BLAS(ssyrk)(const char      *UPLO,
 
         SGeMatrixConstView  A = SFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
-        SSyMatrixView       C(SFullView(*N, *N, C_, *LDC), upLo);
+        SSyMatrixView       C(SFullView(*N, *N, *LDC, C_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -114,6 +116,8 @@ BLAS(dsyrk)(const char      *UPLO,
             double          *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dsyrk");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -163,10 +167,10 @@ BLAS(dsyrk)(const char      *UPLO,
 
         DGeMatrixConstView  A = DFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
-        DSyMatrixView       C(DFullView(*N, *N, C_, *LDC), upLo);
+        DSyMatrixView       C(DFullView(*N, *N, *LDC, C_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -209,6 +213,8 @@ BLAS(csyrk)(const char      *UPLO,
             cfloat          *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: csyrk");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -262,10 +268,10 @@ BLAS(csyrk)(const char      *UPLO,
 
         CGeMatrixConstView  A = CFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
-        CSyMatrixView       C(CFullView(*N, *N, C_, *LDC), upLo);
+        CSyMatrixView       C(CFullView(*N, *N, *LDC, C_), upLo);
 
 #   ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -308,6 +314,8 @@ BLAS(zsyrk)(const char      *UPLO,
             cdouble         *C_,
             const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zsyrk");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -361,10 +369,10 @@ BLAS(zsyrk)(const char      *UPLO,
 
         ZGeMatrixConstView  A = ZFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
-        ZSyMatrixView       C(ZFullView(*N, *N, C_, *LDC), upLo);
+        ZSyMatrixView       C(ZFullView(*N, *N, *LDC, C_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;

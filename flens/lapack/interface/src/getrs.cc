@@ -20,6 +20,8 @@ LAPACK_DECL(dgetrs)(const char       *TRANS,
                     const INTEGER    *LDB,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dgetrs");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -45,11 +47,11 @@ LAPACK_DECL(dgetrs)(const char       *TRANS,
 //  Call FLENS implementation
 //
     Transpose              trans  = convertTo<Transpose>(*TRANS);
-    DConstGeMatrixView     _A     = DConstFSView(*N, *N, A, *LDA);
-    IConstDenseVectorView  _IPIV  = IConstArrayView(*N, IPIV, 1);
-    DGeMatrixView          _B     = DFSView(*N, *NRHS, B, *LDB);
+    DConstGeMatrixView     A_     = DConstFSView(*N, *N, *LDA, A);
+    IConstDenseVectorView  IPIV_  = IConstArrayView(*N, IPIV, 1);
+    DGeMatrixView          B_     = DFSView(*N, *NRHS, *LDB, B);
 
-    trs(trans, _A, _IPIV, _B);
+    trs(trans, A_, IPIV_, B_);
 }
 
 //-- zgetrs --------------------------------------------------------------------
@@ -64,6 +66,7 @@ LAPACK_DECL(zgetrs)(const char               *TRANS,
                     const INTEGER            *LDB,
                     INTEGER                  *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zgetrs");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -92,9 +95,9 @@ LAPACK_DECL(zgetrs)(const char               *TRANS,
     auto zB       = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(B);
 
     Transpose              trans  = convertTo<Transpose>(*TRANS);
-    ZConstGeMatrixView     _A     = ZConstFSView(*N, *N, zA, *LDA);
+    ZConstGeMatrixView     _A     = ZConstFSView(*N, *N, *LDA, zA);
     IConstDenseVectorView  _IPIV  = IConstArrayView(*N, IPIV, 1);
-    ZGeMatrixView          _B     = ZFSView(*N, *NRHS, zB, *LDB);
+    ZGeMatrixView          _B     = ZFSView(*N, *NRHS, *LDB, zB);
     trs(trans, _A, _IPIV, _B);
 }
 

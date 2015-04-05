@@ -14,6 +14,8 @@ BLAS(ssyr)(const char      *UPLO,
            float           *A_,
            const INTEGER   *LDA)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ssyr");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -52,7 +54,7 @@ BLAS(ssyr)(const char      *UPLO,
         StorageUpLo  upLo = StorageUpLo(UPLO_);
 
         SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-        SSyMatrixView         A(SFullView(*N, *N, A_, *LDA), upLo);
+        SSyMatrixView         A(SFullView(*N, *N, *LDA, A_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;
@@ -73,6 +75,8 @@ BLAS(dsyr)(const char      *UPLO,
            double          *A_,
            const INTEGER   *LDA)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dsyr");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -110,7 +114,7 @@ BLAS(dsyr)(const char      *UPLO,
         StorageUpLo  upLo = StorageUpLo(UPLO_);
 
         DDenseVectorConstView x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-        DSyMatrixView         A(DFullView(*N, *N, A_, *LDA), upLo);
+        DSyMatrixView         A(DFullView(*N, *N, *LDA, A_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha = *ALPHA;

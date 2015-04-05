@@ -33,6 +33,6 @@
 #ifndef FLENS_BLAS_EXTENSIONS_GECCSMATRIX_GECRSMATRIX_TCC
 #define FLENS_BLAS_EXTENSIONS_GECCSMATRIX_GECRSMATRIX_TCC 1
 
-#include <flens/blas/extensions/geccsmatrix/copy.tcc>
+#include <flens/blas/extensions/gecrsmatrix/copy.tcc>
 
 #endif // FLENS_BLAS_EXTENSIONS_GECCSMATRIX_GECRSMATRIX_TCC

@@ -11,6 +11,8 @@ BLAS(srotg)(float   *A,
             float   *C,
             float   *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: srotg");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_srotg(A, B, C, S);
@@ -28,6 +30,8 @@ BLAS(drotg)(double  *A,
             double  *C,
             double  *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: drotg");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_drotg(A, B, C, S);
@@ -45,6 +49,8 @@ BLAS(crotg)(cfloat   *A,
             float    *C,
             cfloat   *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: crotg");
+
     blas::rotg(*A, *B, *C, *S);
 }
 
@@ -54,6 +60,8 @@ BLAS(zrotg)(cdouble  *A,
             double   *C,
             cdouble  *S)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: drotg");
+
     blas::rotg(*A, *B, *C, *S);
 }
 

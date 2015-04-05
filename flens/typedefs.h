@@ -42,7 +42,8 @@ namespace flens {
 
 enum StorageOrder {
     RowMajor,
-    ColMajor
+    ColMajor,
+    Grid
 };
 
 enum StorageUpLo {

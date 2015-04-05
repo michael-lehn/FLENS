@@ -17,6 +17,7 @@ BLAS(chemv)(const char      *UPLO,
             cfloat          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: chemv");
 
 #   ifdef TEST_DIRECT_CBLAS
 
@@ -61,7 +62,7 @@ BLAS(chemv)(const char      *UPLO,
 
         StorageUpLo  upLo = StorageUpLo(UPLO_);
 
-        CHeMatrixConstView    A(CFullConstView(*N, *N, A_, *LDA), upLo);
+        CHeMatrixConstView    A(CFullConstView(*N, *N, *LDA, A_), upLo);
         CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         CDenseVectorView      y(CArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
@@ -88,6 +89,7 @@ BLAS(zhemv)(const char      *UPLO,
             cdouble         *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zhemv");
 
 #   ifdef TEST_DIRECT_CBLAS
 
@@ -132,7 +134,7 @@ BLAS(zhemv)(const char      *UPLO,
 
         StorageUpLo  upLo = StorageUpLo(UPLO_);
 
-        ZHeMatrixConstView    A(ZFullConstView(*N, *N, A_, *LDA), upLo);
+        ZHeMatrixConstView    A(ZFullConstView(*N, *N, *LDA, A_), upLo);
         ZDenseVectorConstView x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         ZDenseVectorView      y(ZArrayView(*N, Y, abs(*INCY)), *INCY<0);
 

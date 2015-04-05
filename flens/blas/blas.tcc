@@ -34,9 +34,13 @@
 
 #include <flens/blas/assign.tcc>
 #include <flens/blas/closures/closures.tcc>
+#include <flens/blas/extensions/extensions.tcc>
 #include <flens/blas/level1/level1.tcc>
 #include <flens/blas/level2/level2.tcc>
 #include <flens/blas/level3/level3.tcc>
 #include <flens/blas/operators/operators.tcc>
+#include <flens/blas/sparse/ccs/mv.tcc>
+#include <flens/blas/sparse/crs/mv.tcc>
+
 
 #endif // FLENS_BLAS_BLAS_TCC

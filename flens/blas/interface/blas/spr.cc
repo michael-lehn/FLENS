@@ -13,6 +13,8 @@ BLAS(sspr)(const char      *UPLO,
            const INTEGER   *INCX,
            float           *AP)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: sspr");
+
 #   ifdef TEST_DIRECT_CBLAS
 
     char    UPLO_   = toupper(*UPLO);
@@ -71,6 +73,7 @@ BLAS(dspr)(const char      *UPLO,
            const INTEGER   *INCX,
            double          *AP)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dspr");
 
 #   ifdef TEST_DIRECT_CBLAS
 

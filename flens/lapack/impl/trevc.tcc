@@ -90,7 +90,7 @@ trevc_impl(bool                          computeVL,
 //    .. Local Arrays ..
 //
     ElementType  xData_[4];
-    GeMatrixView X = typename GeMatrixView::Engine(2, 2, xData_, 2);
+    GeMatrixView X = typename GeMatrixView::Engine(2, 2, 2, xData_);
 
     GeMatrixView Work(n, 3, work, n);
 

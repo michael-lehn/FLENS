@@ -36,7 +36,6 @@
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/blas/level2/level2.h>
-#include <flens/blas/level2extensions/level2extensions.h>
 #include <flens/typedefs.h>
 #include <ulmblas/cxxblas.h>
 
@@ -54,13 +53,14 @@ typename RestrictTo<IsGeCCSMatrix<MA>::value
                  && IsDenseVector<VX>::value
                  && IsDenseVector<VY>::value,
          void>::Type
-mv(Transpose trans, const Alpha &alpha, const MA &A, const VX &x,
+mv(Transpose transposeA, const Alpha &alpha, const MA &A, const VX &x,
    const Beta &beta, VY &&y)
 {
-    const bool noTrans = (trans==NoTrans || trans==Conj);
+    const bool transA = (transposeA==Trans || transposeA==ConjTrans);
+    const bool conjA  = (transposeA==Conj || transposeA==ConjTrans);
 
 #   ifndef NDEBUG
-    if (noTrans) {
+    if (!transA) {
         ASSERT(x.length()==A.numCols());
     } else {
         ASSERT(x.length()==A.numRows());
@@ -69,8 +69,8 @@ mv(Transpose trans, const Alpha &alpha, const MA &A, const VX &x,
 
     typedef typename RemoveRef<MA>::Type  MatrixA;
     typedef typename MatrixA::IndexType   IndexType;
-    IndexType yLength = noTrans ? A.numRows()
-                                : A.numCols();
+    IndexType yLength = (!transA) ? A.numRows()
+                                  : A.numCols();
 
     ASSERT(!DEBUGCLOSURE::identical(x, y));
     ASSERT(beta==Beta(0) || y.length()==yLength || y.length()==0);
@@ -87,9 +87,9 @@ mv(Transpose trans, const Alpha &alpha, const MA &A, const VX &x,
     ASSERT(x.stride()==1);
     ASSERT(y.stride()==1);
 
-    cxxblas::gecrsmv(Transpose(trans^Trans),
-                     A.numCols(), A.numRows(),
+    cxxblas::gecrsmv(A.numCols(), A.numRows(),
                      alpha,
+                     !transA, conjA,
                      A.engine().values().data(),
                      A.engine().cols().data(),
                      A.engine().rows().data(),
@@ -118,9 +118,11 @@ mv(const Alpha &alpha, const MA &A, const VX &x, const Beta &beta, VY &&y)
         y.resize(A.dim(), y.firstIndex(), Zero);
     }
 
-    cxxblas::heccsmv(A.upLo(),
-                     A.dim(),
+    const bool lowerA = (A.upLo()==Lower);
+
+    cxxblas::heccsmv(A.dim(),
                      alpha,
+                     lowerA,
                      A.engine().values().data(),
                      A.engine().rows().data(),
                      A.engine().cols().data(),
@@ -149,9 +151,11 @@ mv(const Alpha &alpha, const MA &A, const VX &x, const Beta &beta, VY &&y)
         y.resize(A.dim(), y.firstIndex(), Zero);
     }
 
-    cxxblas::syccsmv(A.upLo(),
-                     A.dim(),
+    const bool lowerA = (A.upLo()==Lower);
+
+    cxxblas::syccsmv(A.dim(),
                      alpha,
+                     lowerA,
                      A.engine().values().data(),
                      A.engine().rows().data(),
                      A.engine().cols().data(),

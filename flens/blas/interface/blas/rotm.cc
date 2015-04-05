@@ -13,6 +13,8 @@ BLAS(srotm)(const INTEGER   *N,
             const INTEGER   *INCY,
             const float     *P)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: srotm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_srotm(*N, X, *INCX, Y, *INCY, *P);
@@ -38,6 +40,8 @@ BLAS(drotm)(const INTEGER   *N,
             const INTEGER   *INCY,
             const double    *P)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: drotm");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         cblas_drotm(*N, X, *INCX, Y, *INCY, *P);

@@ -45,9 +45,9 @@ Compile and Run
  *----------------------------------------------------------------------------*
 
 
-:links: __CXXBLAS__  -> dir:cxxblas/
-        __axpy__     -> file:cxxblas/level1/axpy.h
-        __gemv__     -> file:cxxblas/level2/gemv.h
+:links: __CXXBLAS__  -> dir:ulmblas/cxxblas/
+        __axpy__     -> file:ulmblas/cxxblas/level1/axpy.h
+        __gemv__     -> file:ulmblas/cxxblas/level2/gemv.h
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __next__  -> doc:flens/examples/tut02-page02

@@ -21,14 +21,14 @@ Subroutine Variant
 ==================
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
-|  template <typename X, typename T>                                        |
+|  template <typename MA, typename T>                                       |
 |      typename RestrictTo<IsNotComplex<T>::value, void>::Type              |
-|      asum(const DenseVector<X> &x, T &absoluteSum);                       |
+|      asum(const GeMatrix<MA> &A, T &absoluteSum);                         |
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Tasum#&1>@N@flens@CT>1#T]
-                         [@DenseVector1t0.0#&t0.1#templatetypenameX,typename]
-                         [TtypenameRestrictToIsNotComplexTvalue,voidType    ]
+                         [@GeMatrix1t0.0#&t0.1#templatetypenameMA,typenameTt]
+                         [ypenameRestrictToIsNotComplexTvalue,voidType      ]
 
     x               `(input) real or complex valued DenseVector`               +
                     Source vector.
@@ -39,16 +39,16 @@ Subroutine Variant
 
 Function Variant
 ================
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  template <typename X>                                                    |
-|      const typename ComplexTrait<typename X::ElementType>::PrimitiveType  |
-|      asum(const DenseVector<X> &x);                                       |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>1#Tasum#&1>@N@flens@CT>1#T@D]
-                         [enseVector1t0.0#templatetypenameXconsttypenameComp]
-                         [lexTraittypenameXElementTypePrimitiveType         ]
+*--[CODEREF]-----------------------------------------------------------------*
+|                                                                            |
+|  template <typename MA>                                                    |
+|      const typename ComplexTrait<typename MA::ElementType>::PrimitiveType  |
+|      asum(const GeMatrix<MA> &A);                                          |
+|                                                                            |
+*----------------------------------------------------------------------------*
+                          [c:@N@flens@N@blas@FT@>1#Tasum#&1>@N@flens@CT>1#T@G]
+                          [eMatrix1t0.0#templatetypenameMAconsttypenameComple]
+                          [xTraittypenameMAElementTypePrimitiveType          ]
 
     x               `(input) real or complex valued DenseVector`               +
                     Source vector.
@@ -65,30 +65,30 @@ Function Variant
 
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
-|  template <typename MA, typename T>                                       |
+|  template <typename X, typename T>                                        |
 |      typename RestrictTo<IsNotComplex<T>::value, void>::Type              |
-|      asum(const GeMatrix<MA> &A, T &absoluteSum);                         |
+|      asum(const DenseVector<X> &x, T &absoluteSum);                       |
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Tasum#&1>@N@flens@CT>1#T]
-                         [@GeMatrix1t0.0#&t0.1#templatetypenameMA,typenameTt]
-                         [ypenameRestrictToIsNotComplexTvalue,voidType      ]
+                         [@DenseVector1t0.0#&t0.1#templatetypenameX,typename]
+                         [TtypenameRestrictToIsNotComplexTvalue,voidType    ]
 
     Defined in namespace `flens::blas`.
     Function `asum` with 2 template parameters.
 
 
 
-*--[CODEREF]-----------------------------------------------------------------*
-|                                                                            |
-|  template <typename MA>                                                    |
-|      const typename ComplexTrait<typename MA::ElementType>::PrimitiveType  |
-|      asum(const GeMatrix<MA> &A);                                          |
-|                                                                            |
-*----------------------------------------------------------------------------*
-                          [c:@N@flens@N@blas@FT@>1#Tasum#&1>@N@flens@CT>1#T@G]
-                          [eMatrix1t0.0#templatetypenameMAconsttypenameComple]
-                          [xTraittypenameMAElementTypePrimitiveType          ]
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename X>                                                    |
+|      const typename ComplexTrait<typename X::ElementType>::PrimitiveType  |
+|      asum(const DenseVector<X> &x);                                       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>1#Tasum#&1>@N@flens@CT>1#T@D]
+                         [enseVector1t0.0#templatetypenameXconsttypenameComp]
+                         [lexTraittypenameXElementTypePrimitiveType         ]
 
     Defined in namespace `flens::blas`.
     Function `asum` with 1 template parameters.

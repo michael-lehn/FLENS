@@ -80,8 +80,8 @@ laqtr_impl(bool                  trans,
 //
     ElementType     dataD_[4], dataV_[4];
     GeMatrixView<ElementType>
-        D = typename GeMatrixView<ElementType>::Engine(2, 2, dataD_, 2),
-        V = typename GeMatrixView<ElementType>::Engine(2, 2, dataV_, 2);
+        D = typename GeMatrixView<ElementType>::Engine(2, 2, 2, dataD_),
+        V = typename GeMatrixView<ElementType>::Engine(2, 2, 2, dataV_);
 
     IndexType info = 0;
 //
@@ -100,7 +100,7 @@ laqtr_impl(bool                  trans,
     ElementType xNorm = lan(MaximumNorm, T);
     if (!real) {
         typedef typename DenseVector<VB>::ElementType TB;
-        const GeMatrixConstView<TB>  B(n, 1, b, n);
+        const GeMatrixConstView<TB>  B(n, 1, b);
 
         xNorm = max(xNorm, abs(w), lan(MaximumNorm, B));
     }

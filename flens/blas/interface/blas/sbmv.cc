@@ -18,6 +18,8 @@ BLAS(ssbmv)(const char      *UPLO,
             float           *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ssbmv");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -94,6 +96,7 @@ BLAS(dsbmv)(const char      *UPLO,
             double          *Y,
             const INTEGER   *INCY)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dsbmv");
 
 #   ifdef TEST_DIRECT_CBLAS
 

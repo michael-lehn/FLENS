@@ -45,9 +45,9 @@ main()
     DenseVector::NoView z = A(3,_);
     z = 42;
 
-    cout << "A = " << A << endl;
-    cout << "y = " << y << endl;
-    cout << "z = " << z << endl;
+    cerr << "A = " << A << endl;
+    cerr << "y = " << y << endl;
+    cerr << "z = " << z << endl;
 
 ///
 /// Of course we also can use the `auto` type instead of writing out the
@@ -66,10 +66,10 @@ main()
     auto d1  = A.diag(1);
     auto d2  = A.diag(2);
 
-    cout << "d_1 = " << d_1 << endl;
-    cout << "d0  = " << d0 << endl;
-    cout << "d1  = " << d1 << endl;
-    cout << "d2  = " << d2 << endl;
+    cerr << "d_1 = " << d_1 << endl;
+    cerr << "d0  = " << d0 << endl;
+    cerr << "d1  = " << d1 << endl;
+    cerr << "d2  = " << d2 << endl;
 
 ///
 /// Next we set all elements on the diagonal to `-1` and all elements on the
@@ -78,19 +78,19 @@ main()
     d0 = -1;
     d1 = -100, -200, -300, -400;
 
-    cout << "A = " << A << endl;
-    cout << "x = " << x << endl;
+    cerr << "A = " << A << endl;
+    cerr << "x = " << x << endl;
 
 ///
 /// We finally print the strides of the vectors.  Compare strides of vectors
 /// referencing rows, columns and diagonals.
 ///
-    cout << "A.leadingDimension() = " << A.leadingDimension() << endl;
-    cout << "x.stride() = " << x.stride() << endl;
-    cout << "y.stride() = " << y.stride() << endl;
-    cout << "z.stride() = " << z.stride() << endl;
-    cout << "d_1.stride() = " << d_1.stride() << endl;
-    cout << "d0.stride()  = " << d0.stride() << endl;
-    cout << "d1.stride()  = " << d1.stride() << endl;
-    cout << "d2.stride()  = " << d2.stride() << endl;
+    cerr << "A.leadingDimension() = " << A.leadingDimension() << endl;
+    cerr << "x.stride() = " << x.stride() << endl;
+    cerr << "y.stride() = " << y.stride() << endl;
+    cerr << "z.stride() = " << z.stride() << endl;
+    cerr << "d_1.stride() = " << d_1.stride() << endl;
+    cerr << "d0.stride()  = " << d0.stride() << endl;
+    cerr << "d1.stride()  = " << d1.stride() << endl;
+    cerr << "d2.stride()  = " << d2.stride() << endl;
 }

@@ -160,7 +160,7 @@ axpy(Transpose transposeA, const ALPHA &alpha, const MA &A, MB &&B)
         typename Result<MA>::Type A_ = A;
         FLENS_BLASLOG_TMP_ADD(A_);
 
-        copy(trans, A, A_);
+        copy(transposeA, A, A_);
         axpy(NoTrans, alpha, A, B);
 
         FLENS_BLASLOG_TMP_REMOVE(A_, A);
@@ -169,12 +169,12 @@ axpy(Transpose transposeA, const ALPHA &alpha, const MA &A, MB &&B)
 #   endif
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPY(transposeA, alpha, A, B);
 
-    geaxpy(B.numRows(), B.numCols(),
-           alpha,
-           transA, conjA, A.data(), A.strideRow(), A.strideCol(),
-           B.data(), B.strideRow(), B.strideCol());
+    cxxblas::geaxpy(B.numRows(), B.numCols(),
+                    alpha,
+                    transA, conjA, A.data(), A.strideRow(), A.strideCol(),
+                    B.data(), B.strideRow(), B.strideCol());
 
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;

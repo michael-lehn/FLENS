@@ -19,6 +19,8 @@ LAPACK_DECL(dpocon)(const char       *UPLO,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: dpocon");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -42,7 +44,7 @@ LAPACK_DECL(dpocon)(const char       *UPLO,
 //  Call FLENS implementation
 //
     StorageUpLo         upLo = StorageUpLo(*UPLO);
-    DConstFSView        AFS  = DConstFSView(*N, *N, A, *LDA);
+    DConstFSView        AFS  = DConstFSView(*N, *N, *LDA, A);
     DConstSyMatrixView  _A   = DConstSyMatrixView(AFS, upLo);
     DDenseVectorView    work  = DArrayView(*N*3, WORK, 1);
     IDenseVectorView    iwork = IArrayView(*N, IWORK, 1);
@@ -62,6 +64,8 @@ LAPACK_DECL(zpocon)(const char               *UPLO,
                     DOUBLE                   *RWORK,
                     INTEGER                  *INFO)
 {
+    LAPACK_DEBUG_OUT("LAPACK INTERFACE: zpocon");
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -88,7 +92,7 @@ LAPACK_DECL(zpocon)(const char               *UPLO,
     auto *zWORK     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
 
     StorageUpLo         upLo  = StorageUpLo(*UPLO);
-    ZConstFSView        AFS   = ZConstFSView(*N, *N, zA, *LDA);
+    ZConstFSView        AFS   = ZConstFSView(*N, *N, *LDA, zA);
     ZConstHeMatrixView  _A    = ZConstHeMatrixView(AFS, upLo);
     ZDenseVectorView    work  = ZArrayView(*N*2, zWORK, 1);
     DDenseVectorView    rwork = DArrayView(*N, RWORK, 1);

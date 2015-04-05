@@ -40,6 +40,13 @@
 
 namespace flens { namespace blas {
 
+//-- copy: HeMatrix -> HeMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsHeMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
 //-- Densify Sparse Matrices ---------------------------------------------------
 
 //-- copy: HeCCSMatrix -> HeMatrix

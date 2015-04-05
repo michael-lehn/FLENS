@@ -19,6 +19,8 @@ BLAS(ssyr2k)(const char      *UPLO,
              float           *C_,
              const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: ssyr2k");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -71,15 +73,15 @@ BLAS(ssyr2k)(const char      *UPLO,
 
         SGeMatrixConstView  A = SFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
         SGeMatrixConstView  B = SFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               B_,
-                                               *LDB);
+                                               *LDB,
+                                               B_);
 
-        SSyMatrixView       C(SFullView(*N, *N, C_, *LDC), upLo);
+        SSyMatrixView       C(SFullView(*N, *N, *LDC, C_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -125,6 +127,8 @@ BLAS(dsyr2k)(const char      *UPLO,
              double          *C_,
              const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: dsyr2k");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -178,15 +182,15 @@ BLAS(dsyr2k)(const char      *UPLO,
 
         DGeMatrixConstView  A = DFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
         DGeMatrixConstView  B = DFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               B_,
-                                               *LDB);
+                                               *LDB,
+                                               B_);
 
-        DSyMatrixView       C(DFullView(*N, *N, C_, *LDC), upLo);
+        DSyMatrixView       C(DFullView(*N, *N, *LDC, C_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -231,6 +235,8 @@ BLAS(csyr2k)(const char      *UPLO,
              cfloat          *C_,
              const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: csyr2k");
+
 #   ifdef TEST_DIRECT_CBLAS
 
         char    UPLO_   = toupper(*UPLO);
@@ -287,15 +293,15 @@ BLAS(csyr2k)(const char      *UPLO,
 
         CGeMatrixConstView  A = CFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
         CGeMatrixConstView  B = CFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               B_,
-                                               *LDB);
+                                               *LDB,
+                                               B_);
 
-        CSyMatrixView       C(CFullView(*N, *N, C_, *LDC), upLo);
+        CSyMatrixView       C(CFullView(*N, *N, *LDC, C_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
@@ -340,6 +346,8 @@ BLAS(zsyr2k)(const char      *UPLO,
              cdouble         *C_,
              const INTEGER   *LDC)
 {
+    BLAS_DEBUG_OUT("BLAS INTERFACE: zsyr2k");
+
 #   ifdef TEST_DIRECT_CBLAS
 
     char    UPLO_   = toupper(*UPLO);
@@ -396,15 +404,15 @@ BLAS(zsyr2k)(const char      *UPLO,
 
         ZGeMatrixConstView  A = ZFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               A_,
-                                               *LDA);
+                                               *LDA,
+                                               A_);
 
         ZGeMatrixConstView  B = ZFullConstView(noTrans ? *N : *K,
                                                noTrans ? *K : *N,
-                                               B_,
-                                               *LDB);
+                                               *LDB,
+                                               B_);
 
-        ZSyMatrixView       C(ZFullView(*N, *N, C_, *LDC), upLo);
+        ZSyMatrixView       C(ZFullView(*N, *N, *LDC, C_), upLo);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
             const auto alpha  = *ALPHA;
