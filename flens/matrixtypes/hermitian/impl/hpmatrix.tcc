@@ -59,8 +59,7 @@ HpMatrix<PS>::HpMatrix(const Engine &engine, StorageUpLo upLo)
 
 template <typename PS>
 HpMatrix<PS>::HpMatrix(const HpMatrix &rhs)
-    : HermitianMatrix<HpMatrix<PS> >(),
-      engine_(rhs.engine()), upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -74,6 +73,13 @@ HpMatrix<PS>::HpMatrix(const HpMatrix<RHS> &rhs)
 template <typename PS>
 template <typename RHS>
 HpMatrix<PS>::HpMatrix(HpMatrix<RHS> &rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
+{
+}
+
+template <typename PS>
+template <typename RHS, class>
+HpMatrix<PS>::HpMatrix(HpMatrix<RHS> &&rhs)
     : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }

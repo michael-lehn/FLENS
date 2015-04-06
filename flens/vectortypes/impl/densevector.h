@@ -97,7 +97,8 @@ class DenseVector
         template <typename RHS>
             DenseVector(DenseVector<RHS> &rhs);
 
-        template <typename RHS>
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<A,RHS>::value, void>::Type>
             DenseVector(DenseVector<RHS> &&rhs);
 
         template <typename RHS>

@@ -127,6 +127,10 @@ class GeMatrix
         template <typename RHS>
             GeMatrix(GeMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            GeMatrix(GeMatrix<RHS> &&rhs);
+
         template <typename RHS>
             GeMatrix(const Matrix<RHS> &rhs);
 

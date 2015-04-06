@@ -85,7 +85,7 @@ GeMatrix<FS>::GeMatrix(const Engine &engine)
 
 template <typename FS>
 GeMatrix<FS>::GeMatrix(const GeMatrix &rhs)
-    : GeneralMatrix<GeMatrix>(), engine_(rhs.engine_)
+    : engine_(rhs.engine_)
 {
 }
 
@@ -99,6 +99,13 @@ GeMatrix<FS>::GeMatrix(const GeMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 GeMatrix<FS>::GeMatrix(GeMatrix<RHS> &rhs)
+    : engine_(rhs.engine())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+GeMatrix<FS>::GeMatrix(GeMatrix<RHS> &&rhs)
     : engine_(rhs.engine())
 {
 }

@@ -62,25 +62,28 @@ HbMatrix<FS>::HbMatrix(const Engine &engine, StorageUpLo upLo)
 
 template <typename FS>
 HbMatrix<FS>::HbMatrix(const HbMatrix &rhs)
-    : HermitianMatrix<HbMatrix<FS> >(),
-      engine_(rhs.engine()),
-      upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 HbMatrix<FS>::HbMatrix(const HbMatrix<RHS> &rhs)
-    : engine_(rhs.engine()),
-      upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 HbMatrix<FS>::HbMatrix(HbMatrix<RHS> &rhs)
-    : engine_(rhs.engine()),
-      upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+HbMatrix<FS>::HbMatrix(HbMatrix<RHS> &&rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 

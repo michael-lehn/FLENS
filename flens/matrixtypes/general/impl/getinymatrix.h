@@ -58,6 +58,10 @@ class GeTinyMatrix
         template <typename RHS>
             GeTinyMatrix(GeTinyMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<TFS,RHS>::value, void>::Type>
+            GeTinyMatrix(GeTinyMatrix<RHS> &&rhs);
+
         template <typename RHS>
             GeTinyMatrix(const Matrix<RHS> &rhs);
 

@@ -113,6 +113,10 @@ class SbMatrix
         template <typename RHS>
             SbMatrix(SbMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            SbMatrix(SbMatrix<RHS> &&rhs);
+
         // -- operators --------------------------------------------------------
 
         SbMatrix &

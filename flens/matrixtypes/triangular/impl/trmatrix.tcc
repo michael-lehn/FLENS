@@ -73,8 +73,7 @@ TrMatrix<FS>::TrMatrix(const Engine &engine, StorageUpLo upLo, Diag diag)
 
 template <typename FS>
 TrMatrix<FS>::TrMatrix(const TrMatrix &rhs)
-    : TriangularMatrix<TrMatrix<FS> >(),
-      engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
+    : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
 
@@ -88,6 +87,13 @@ TrMatrix<FS>::TrMatrix(const TrMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 TrMatrix<FS>::TrMatrix(TrMatrix<RHS> &rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+TrMatrix<FS>::TrMatrix(TrMatrix<RHS> &&rhs)
     : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }

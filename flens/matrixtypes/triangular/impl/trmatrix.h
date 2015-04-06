@@ -123,6 +123,10 @@ class TrMatrix
         template <typename RHS>
             TrMatrix(TrMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            TrMatrix(TrMatrix<RHS> &&rhs);
+
         template <typename RHS>
             TrMatrix(const Matrix<RHS> &rhs);
 

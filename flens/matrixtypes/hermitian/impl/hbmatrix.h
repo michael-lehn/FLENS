@@ -112,6 +112,10 @@ class HbMatrix
         template <typename RHS>
             HbMatrix(HbMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            HbMatrix(HbMatrix<RHS> &&rhs);
+
         template <typename RHS>
             HbMatrix(const Matrix<RHS> &rhs);
 

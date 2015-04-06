@@ -99,6 +99,10 @@ class HpMatrix
         template <typename RHS>
             HpMatrix(HpMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<PS,RHS>::value, void>::Type>
+            HpMatrix(HpMatrix<RHS> &&rhs);
+
         template <typename RHS>
             HpMatrix(const Matrix<RHS> &rhs);
 

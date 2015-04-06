@@ -78,8 +78,7 @@ HeMatrix<FS>::HeMatrix(const Engine &engine, StorageUpLo upLo)
 
 template <typename FS>
 HeMatrix<FS>::HeMatrix(const HeMatrix &rhs)
-    : HermitianMatrix<HeMatrix<FS> >(),
-      engine_(rhs.engine()), upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -93,6 +92,13 @@ HeMatrix<FS>::HeMatrix(const HeMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 HeMatrix<FS>::HeMatrix(HeMatrix<RHS> &rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+HeMatrix<FS>::HeMatrix(HeMatrix<RHS> &&rhs)
     : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }

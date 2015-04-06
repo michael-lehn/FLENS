@@ -56,7 +56,7 @@ SpMatrix<PS>::SpMatrix(const Engine &engine, StorageUpLo upLo)
 
 template <typename PS>
 SpMatrix<PS>::SpMatrix(const SpMatrix &rhs)
-    : SymmetricMatrix<SpMatrix<PS> >(), engine_(rhs.engine()), upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -70,6 +70,13 @@ SpMatrix<PS>::SpMatrix(const SpMatrix<RHS> &rhs)
 template <typename PS>
 template <typename RHS>
 SpMatrix<PS>::SpMatrix(SpMatrix<RHS> &rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
+{
+}
+
+template <typename PS>
+template <typename RHS, class>
+SpMatrix<PS>::SpMatrix(SpMatrix<RHS> &&rhs)
     : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }

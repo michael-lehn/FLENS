@@ -69,6 +69,13 @@ GeTinyMatrix<TFS>::GeTinyMatrix(GeTinyMatrix<RHS> &rhs)
 }
 
 template <typename TFS>
+template <typename RHS, class>
+GeTinyMatrix<TFS>::GeTinyMatrix(GeTinyMatrix<RHS> &&rhs)
+    : engine_(rhs.engine)
+{
+}
+
+template <typename TFS>
 template <typename RHS>
 GeTinyMatrix<TFS>::GeTinyMatrix(const Matrix<RHS> &rhs)
 {

@@ -58,6 +58,10 @@ class TinyVector
         template <typename RHS>
             TinyVector(TinyVector<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<TA,RHS>::value, void>::Type>
+            TinyVector(TinyVector<RHS> &&rhs);
+
         template <typename RHS>
             TinyVector(const Vector<RHS> &rhs);
 

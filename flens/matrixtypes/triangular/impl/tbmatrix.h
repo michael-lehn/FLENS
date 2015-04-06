@@ -105,6 +105,10 @@ class TbMatrix
         template <typename RHS>
             TbMatrix(TbMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            TbMatrix(TbMatrix<RHS> &&rhs);
+
         template <typename RHS>
             TbMatrix(const Matrix<RHS> &rhs);
 

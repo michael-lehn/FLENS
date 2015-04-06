@@ -100,6 +100,10 @@ class SpMatrix
         template <typename RHS>
             SpMatrix(SpMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<PS,RHS>::value, void>::Type>
+            SpMatrix(SpMatrix<RHS> &&rhs);
+
         template <typename RHS>
             SpMatrix(const Matrix<RHS> &rhs);
 

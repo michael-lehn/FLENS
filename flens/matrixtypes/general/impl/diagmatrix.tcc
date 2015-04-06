@@ -47,7 +47,7 @@ DiagMatrix<FS>::DiagMatrix()
 
 template <typename FS>
 DiagMatrix<FS>::DiagMatrix(IndexType dim, IndexType firstIndex)
-      : engine_(dim, firstIndex)
+    : engine_(dim, firstIndex)
 {
 }
 
@@ -59,7 +59,7 @@ DiagMatrix<FS>::DiagMatrix(const Engine &engine)
 
 template <typename FS>
 DiagMatrix<FS>::DiagMatrix(const DiagMatrix &rhs)
-    : GeneralMatrix<DiagMatrix<FS> >(), engine_(rhs.engine())
+    : engine_(rhs.engine())
 {
 }
 
@@ -73,6 +73,13 @@ DiagMatrix<FS>::DiagMatrix(const DiagMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 DiagMatrix<FS>::DiagMatrix(DiagMatrix<RHS> &rhs)
+    : engine_(rhs.engine())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+DiagMatrix<FS>::DiagMatrix(DiagMatrix<RHS> &&rhs)
     : engine_(rhs.engine())
 {
 }
