@@ -27,8 +27,9 @@ main()
     ///
     /// Compute $y = \beta y + \alpha A^T x$
     ///
-    cxxblas::gemv(A.order(), Trans, A.numRows(), A.numCols(),
-                  alpha, A.data(), A.leadingDimension(),
+    cxxblas::gemv(A.numRows(), A.numCols(),
+                  alpha,
+                  true, false, A.data(), A.strideRow(), A.strideCol(),
                   x.data(), x.stride(),
                   beta,
                   y.data(), y.stride());
