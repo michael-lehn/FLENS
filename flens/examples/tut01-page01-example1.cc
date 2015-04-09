@@ -14,12 +14,12 @@ main()
     ///  Typedef for a general matrix with elements of type `double`.
     ///  Internally elements are stored in *column major* order.
     ///
-    typedef GeMatrix<FullStorage<double, ColMajor> >  GEMatrix;
+    typedef GeMatrix<FullStorage<double, ColMajor> >  DGeMatrix;
 
     ///
     ///  Matrix A gets dynamically allocated and then initialized.
     ///
-    GEMatrix A(4,4);
+    DGeMatrix A(4,4);
     A = 1, 2, 3,  4,
         5, 6, 7,  8,
         9, 8, 7,  6,

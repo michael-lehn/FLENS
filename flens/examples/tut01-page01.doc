@@ -1,57 +1,255 @@
-===========
-First Steps                                                             [TOC]
-===========
+=========================================
+Full Storage Schemes and General Matrices                               [TOC]
+=========================================
 
-The term *general matrix* refers to a matrix that is not necessarily square or
-symmetric.  Further, *full storage* denotes that all $mn$ elements of a
-$m \times n$ matrix get stored.
- - FLENS realizes this matrix type in class __GeMatrix__.
- - For the full storage scheme there are three classes
-     - __FullStorage__,
-     - __FullStorageView__ and
-     - __ConstFullStorageView__.
-   The different storage schemes are used for providing matrix views (see below)
-   and ensure const correctness. In short one can say `View` means that no
-   memory gets allocated and `Const` that only read-access is granted.
+The term _general matrix_ refers to a matrix that is not necessarily square or
+symmetric.  Further, _full storage_ denotes that for a $m \times n$ matrix
+all its $m \cdot n$ elements are stored somewhere in memory.
 
-For *dense vectors* FLENS defines the
- - class __DenseVector__ and
- - corresponding storage schemes
-     - __Array__, 
-     - __ArrayView__ and
-     - __ConstArrayView__.
+In FLENS a matrix type always includes an underlying storage type.  The general
+idea of this is well known in the LAPACK/BLAS world.  However, in the
+traditional Fortran LAPACK/BLAS this is merley done by conventions.  It is
+completely up to the programmer how to interpretate some data.  When you pass
+a double array to `dgetrs` its treated as a general matrix, if you pass it to
+`dtrtrs` as a triangular matrix.  On the on hand it is flexible on the other
+hand it can be error prone.
 
-In a first example we allocate and initialize a general matrix and play around
-with it.
+In FLENS/C++ you get language support through strong typing.  That means errors
+can be detected by the compiler.  You will see on later slides that at the same
+time we do not loose flexibility.
+
+
+Full Storage Schemes
+====================
+FLENS defines three template classes for full storage schemes:
+
+- *Template Class* __FullStorage__
+
+  Constructors of __FullStorage__ allocate memory and the destructor deallocates
+  it.  The first template parameter specifies the element type.  The second
+  parameter specifies whether elements get stored row-wise (RowMajor) or
+  column-wise (ColMahor).
+
+  It is guaranteed that elements are stored contiguously in memory, i.e. without
+  any gaps.
+
+  Examples:
+
+  +-------------------------------+--------------------------------------------+
+  |`FullStorage<double, ColMajor>`|  Full storage scheme that allocates memory |
+  |                               |  when instantiated.  Elements are stored   |
+  |                               |  contiguously and _column-wise_.           |
+  +-------------------------------+--------------------------------------------+
+  |`FullStorage<double, RowMajor>`|  Full storage scheme that allocates memory |
+  |                               |  when instantiated.  Elements are stored   |
+  |                               |  contiguously and _row-wise_.              |
+  +-------------------------------+--------------------------------------------+
+  |`FullStorage<double>`          |  The second template parameter of          |
+  |                               |  `FullStorage` defaults to `ColMajor`.     |
+  |                               |  Hence this is equivalent to               |
+  |                               |  `FullStorage<double, ColMajor>`.          |
+  +-------------------------------+--------------------------------------------+
+
+  Creating an instance of type __FullStorage__ involves dynamic memory
+  allocation.  So you do not want to create an instance inside a loop or
+  function.
+
+- *Template Class* __FullStorageView__
+
+  A storage view does not allocate or release any memory.  It is just used to
+  reference elements that were originally allocated by a still existing and
+  living `FullStorage` instance.
+
+  An instance of type __FullStorageView__ just contains a pointer to raw data
+  and some integers for matrix dimensions and element strides.  If you are
+  familiar with BLAS/LAPACK That is essentially what you have to pass to a
+  BLAS/LAPACK function: dimensions, pointer and leading dimension.
+
+  Creating an instance of type __FullStorageView__ is cheap as it just
+  initializes a few integer values of a struct/class.  The destructor does
+  nothing.
+
+- *Template Class* __ConstFullStorageView__
+
+  Instances of __ConstFullStorageView__ are used for const-referencing elements
+  from an existing and living `FullStorage` instance.
+
+  Like for instances of type __FullStorageView__ the creation/destruction of
+  an __ConstFullStorageView__ instance is cheap.
+
+For the moment we will not discuss further template parameters of the storage
+classes that allow to change the default index type (which is `long), the
+default index base (which is 1) and the memory allocator.
+
+
+GeMatrix: General Matrix with Full Storage
+==========================================
+The __GeMatrix__ class has only one template parameter that defines the
+underlying storage scheme.  That means we give the storage scheme a
+mathematical meaning.
+
+Examples:
+
++-----------------------------------------------------+----------------------------------------------------+
+|`GeMatrix<FullStorage<double, ColMajor> >`           | A general matrix where memory gets allocated       |
+|                                                     | when instanciated and released at the end of       |
+|                                                     | its scop.                                          |
++-----------------------------------------------------+----------------------------------------------------+
+|`GeMatrix<FullStorage<double, ColMajor> >::View`     | A general matrix that references a rectangular     |
+|                                                     | part of another `GeMatrix` instance. Memory        |
+|                                                     | neither gets allocated nor released at any         |
+|                                                     | point.  Creation/destruction is cheap.             |
+|                                                     |                                                    |
+|                                                     | `View` is a publib typedef in `GeMatrix` and       |
+|                                                     | in this case defined as                            |
+|                                                     | `GeMatrix<FullStorageView<double, ColMajor> >`     |
++-----------------------------------------------------+----------------------------------------------------+
+|`GeMatrix<FullStorage<double, ColMajor> >::ConstView`| A general matrix that references a rectangular     |
+|                                                     | part of another `GeMatrix` instance. Memory        |
+|                                                     | neither gets allocated nor released at any         |
+|                                                     | point.  Creation/destruction is cheap              |
+|                                                     |                                                    |
+|                                                     | Calling any non-const methods will cause a compile |
+|                                                     | time error.  So this is a read-only matrix view.   |
+|                                                     |                                                    |
+|                                                     | `ConstView` is a public typedef in   `GeMatrix`    |
+|                                                     | and in this case defined as                        |
+|                                                     | `GeMatrix<ConstFullStorageView<double, ColMajor> >`|
++-----------------------------------------------------+----------------------------------------------------+
+
+Some Public Typedefs
+--------------------
+
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| `IndexType`                                       | Like its name suggests the type used for indexing.|
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| `ElementType`                                     | The element type.                                 |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| `View`, `ConstView`                               | Types for referencing a rectangular part of the   |
+|                                                   | matrix.                                           |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| `NoView`                                          | Matrix type with memory allocation.  If you want  |
+|                                                   | to copy matrix parts instead of referencing use   |
+|                                                   | this type.                                        |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| `EngineView`, `EngineConstView`                   | Storage schemes for referencing parts from        |
+|                                                   | another storage scheme. For `GeMatrix` these are  |
+|                                                   | typedefs for `FullStorageView<..>` and            |
+|                                                   | `ConstFullStorageView<..>`.                       |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+
+
+
+Some Methods and operations for Matrix Manipulation
+---------------------------------------------------
+
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| `GeMatrix(IndexType m, IndexType n)`              | Constructor for a $m \times n$ matrix.            |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| `IndexType`                                       | Return the number of rows.                        |
+| `numRows() const`                                 |                                                   |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| `IndexType numCols() const`                       | Return the number of columns.                     |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| `const ElementType& operator()(i, j) const`       | Return a reference to element in row $i$ and      |
+|                                                   | column $j$.                                       |
++---------------------------------------------------+                                                   |
+|                                                   |                                                   |
+| `ElementType& operator()(i, j)`                   |                                                   |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| `Initializer operator=(const ElementType &value)` | List initializer.                                 |
+|                                                   |                                                   |
+|                                                   | Allows to initialize the matrix with a comma      |
+|                                                   | separated list of values.                         |
+|                                                   |                                                   |
+|                                                   | If the list contains only a single value it is    |
+|                                                   | used to fill the matrix.                          |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+
+By default indices start at 1, i.e. the index base is 1.  Usually that is what you want in
+numerical linear algebra.  However, we will see that it is fairly easy to change this if
+desired.  In this case the following methods become usefull.
+
++---------------------------------------------+---------------------------------------------------+
+|                                             |                                                   |
+| `IndexType firstRow() const`                | Return the index of the first row.                |
+|                                             |                                                   |
++---------------------------------------------+---------------------------------------------------+
+|                                             |                                                   |
+| `IndexType lastRow() const`                 | Return the index of the last row.                 |
+|                                             |                                                   |
++---------------------------------------------+---------------------------------------------------+
+|                                             |                                                   |
+| `IndexType firstCol() const`                | Return the index of the first column.             |
+|                                             |                                                   |
++---------------------------------------------+---------------------------------------------------+
+|                                             |                                                   |
+| `IndexType lastCol() const`                 | Return the index of the last column.              |
+|                                             |                                                   |
++---------------------------------------------+---------------------------------------------------+
+
+
+Simple Example for using `GeMatrix`
+===================================
+In a first example we show:
+
+ - How to allocate a general matrix with full storage.
+ - How to explicitly initialize all elements with the list initializer.
+ - How to fill the matrix with a single value.
+ - How to access/manipulate a particular matrix entry.
+ - How to retrieve matrix dimensions and index ranges.
 
 Example Code
-============
+------------
 :import: flens/examples/tut01-page01-example.cc [stripped, downloadable]
 
 Comments on Example Code
-========================
+------------------------
 :import: flens/examples/tut01-page01-example.cc [brief]
 
 Compile and Run
-===============
+---------------
 
    *--[SHELL]-----------------------------------------------------------------*
    |                                                                          |
-   |  g++ --version                                                           |
    |  cd flens/examples                                                       |
    |  g++ -Wall -std=c++11 -I../.. tut01-page01-example.cc                    |
    |  ./a.out                                                                 |
    |                                                                          |
    *--------------------------------------------------------------------------*
 
+
+Simple Example for using `GeMatrix` Views
+=========================================
+
+Using `auto` when dealing with `GeMatrix` Views
+===============================================
+
+
 :links: __GeMatrix__        -> doc:flens/matrixtypes/general/impl/gematrix
         __FullStorage__     -> doc:flens/storage/fullstorage/fullstorage
         __FullStorageView__ -> doc:flens/storage/fullstorage/fullstorageview
         __ConstFullStorageView__ -> doc:flens/storage/fullstorage/constfullstorageview
-        __DenseVector__     -> doc:flens/vectortypes/impl/densevector
-        __Array__           -> doc:flens/storage/array/array
-        __ArrayView__       -> doc:flens/storage/array/arrayview
-        __ConstArrayView__  -> doc:flens/storage/array/constarrayview
 
 
 :navigate: __up__    -> doc:flens/examples/tutorial

@@ -105,14 +105,33 @@ Examples and Tutorial
 | __Session 1__    | - First steps with general matrices and dense vectors.    |
 |                  | - Idea of dividing matrix/vectors into matrix/vector      |
 |                  |   types and storage schemes.                              |
+|                  | - Notation for element Access and retrieving matrix/vector|
+|                  |   dimensions.                                             |
+|                  | - Retriving strides and pointers to raw data.             |
 |                  | - What are matrix/vector views? How to create and use     |
 |                  |   them?                                                   |
-|                  | - Importance of matrix/vector views in numerical linear   |
-|                  |   algebra.                                                |
+|                  | - Triangular/trapezoidal, symmetric and hermitian         |
+|                  |   matrices.                                               |
+|                  | - General, triangular/trapezoidal, symmetric and hermitian|
+|                  |   matrix-views.                                           |
 +------------------+-----------------------------------------------------------+
-| __FLENS-LAPACK__ | - Overview of some LAPACK driver functions we             |
-|                  |   re-implemented with C++/FLENS.                          |
-|                  | - Simple examples for using __FLENS-LAPACK__.             |
+| __Session 2__    | - Basic linear agrbra operations, e.g. vector sums, matrix|
+|                  |   products, etc.                                          |
+|                  | - Using the low-level C++ BLAS interface (__CXXBLAS__).   |
+|                  | - Using the high-level BLAS interface (__FLENS-BLAS__).   |
+|                  | - Using overloaded operators.                             |
+|                  | - What overloaded operators *must not* allow in a library |
+|                  |   for high performance computing.                         |
++------------------+-----------------------------------------------------------+
+| __Session 3__    | - Examples for using FLENS-LAPACK.                        |
+|                  | - Howto implement a high performance LU factorization.    |
++------------------+-----------------------------------------------------------+
+| __CXXBLAS__      | Overview of the low-level C++ BLAS interface              |
++------------------+-----------------------------------------------------------+
+| __FLENS-BLAS__   | Overview of the high-level FLENS-BLAS interface           |
++------------------+-----------------------------------------------------------+
+| __FLENS-LAPACK__ | Overview of some LAPACK driver functions we re-implemented|
+|                  | with C++/FLENS.                                           |
 +------------------+-----------------------------------------------------------+
 
 
