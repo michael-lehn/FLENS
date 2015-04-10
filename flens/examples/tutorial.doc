@@ -16,7 +16,8 @@ General Matrix with Full Storage
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
  |                                                                           |
- |  __Page 1__    We show how to allocate and initialize a general matrix.   |
+ |  __Page 1__    Introduction to general matrices in FLENS and the concept  |
+ |                of matrix views.                                           |
  |  __Page 2__    Shows how to change the default index base which is One.   |
  |  __Page 3__    We introduce the concept of matrix views.  Matrix views    |
  |                can be used to reference other matrix parts.  Furthermore  |

@@ -66,6 +66,7 @@ class ConstFullStorageView
 
         static const StorageOrder        noViewOrder      = NoViewOrder;
         static const IndexType           defaultIndexBase = I::defaultIndexBase;
+        static const bool                onlyConstAccess  = true;
 
         typedef ConstFullStorageView                        ConstView;
         typedef FullStorageView<T, NoViewOrder, I, A>       View;

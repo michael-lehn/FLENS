@@ -33,6 +33,8 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIX_TCC
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIX_TCC 1
 
+#include <type_traits>
+
 #include <flens/blas/blas.h>
 #include <flens/typedefs.h>
 
@@ -159,6 +161,9 @@ template <typename FS>
 typename GeMatrix<FS>::Initializer
 GeMatrix<FS>::operator=(const ElementType &value)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     engine().fill(value);
     return Initializer(*this, firstRow(), firstCol());
 }
@@ -167,6 +172,9 @@ template <typename FS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator=(const GeMatrix<FS> &rhs)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     if (this!=&rhs) {
         assign(rhs, *this);
     }
@@ -178,6 +186,9 @@ template <typename RHS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator=(const Matrix<RHS> &rhs)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     assign(rhs, *this);
     return *this;
 }
@@ -187,6 +198,9 @@ template <typename RHS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator+=(const Matrix<RHS> &rhs)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     plusAssign(rhs, *this);
     return *this;
 }
@@ -196,6 +210,9 @@ template <typename RHS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator-=(const Matrix<RHS> &rhs)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     minusAssign(rhs, *this);
     return *this;
 }
@@ -204,6 +221,9 @@ template <typename FS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator+=(const ElementType &alpha)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     const Underscore<IndexType> _;
 
     if (order()==ColMajor) {
@@ -222,6 +242,9 @@ template <typename FS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator-=(const ElementType &alpha)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     const Underscore<IndexType> _;
 
     if (order()==ColMajor) {
@@ -240,6 +263,9 @@ template <typename FS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator*=(const ElementType &alpha)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     blas::scal(alpha, *this);
     return *this;
 }
@@ -248,6 +274,9 @@ template <typename FS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator/=(const ElementType &alpha)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     blas::rscal(alpha, *this);
     return *this;
 }
@@ -265,6 +294,9 @@ inline
 typename GeMatrix<FS>::ElementType &
 GeMatrix<FS>::operator()(IndexType row, IndexType col)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine_(row, col);
 }
 
@@ -291,6 +323,9 @@ template <typename FS>
 typename GeMatrix<FS>::ElementClosure
 GeMatrix<FS>::operator()(IndexVariable &row, IndexVariable &col)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return ElementClosure(*this, row, col);
 }
 
@@ -363,6 +398,9 @@ template <typename FS>
 typename GeMatrix<FS>::ElementType *
 GeMatrix<FS>::data()
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine_.data();
 }
 
@@ -400,6 +438,9 @@ bool
 GeMatrix<FS>::resize(const GeMatrix<RHS> &rhs,
                      const ElementType &value)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine_.resize(rhs.engine(), value);
 }
 
@@ -410,6 +451,9 @@ GeMatrix<FS>::resize(IndexType numRows, IndexType numCols,
                      IndexType firstColIndex,
                      const ElementType &value)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine_.resize(numRows, numCols,
                           firstRowIndex, firstColIndex,
                           value);
@@ -419,6 +463,9 @@ template <typename FS>
 bool
 GeMatrix<FS>::fill(const ElementType &value)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine_.fill(value);
 }
 
@@ -426,6 +473,9 @@ template <typename FS>
 void
 GeMatrix<FS>::changeIndexBase(IndexType firstRowIndex, IndexType firstColIndex)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     engine_.changeIndexBase(firstRowIndex, firstColIndex);
 }
 
@@ -443,6 +493,9 @@ template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::vectorView()
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine_.arrayView();
 }
 
@@ -458,6 +511,9 @@ template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::vectorView(IndexType from, IndexType to)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine_.arrayView().view(from,to);
 }
 
@@ -473,6 +529,9 @@ template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::diag(IndexType d)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine_.viewDiag(d);
 }
 
@@ -488,6 +547,9 @@ template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::antiDiag(IndexType d)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine_.viewAntiDiag(d);
 }
 
@@ -503,6 +565,9 @@ template <typename FS>
 typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::upper()
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return TriangularView(engine(), Upper);
 }
 
@@ -517,6 +582,9 @@ template <typename FS>
 typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::upperUnit()
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return TriangularView(engine(), Upper, Unit);
 }
 
@@ -534,6 +602,9 @@ template <typename FS>
 typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::strictUpper()
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     const Underscore<IndexType> _;
     const IndexType n = numCols();
 
@@ -551,6 +622,9 @@ template <typename FS>
 typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::lower()
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return TriangularView(engine(), Lower);
 }
 
@@ -565,6 +639,9 @@ template <typename FS>
 typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::lowerUnit()
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return TriangularView(engine(), Lower, Unit);
 }
 
@@ -582,6 +659,9 @@ template <typename FS>
 typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::strictLower()
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     const Underscore<IndexType> _;
     const IndexType m = numRows();
 
@@ -604,6 +684,9 @@ typename GeMatrix<FS>::View
 GeMatrix<FS>::operator()(const Range<IndexType> &rows,
                          const Range<IndexType> &cols)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine().view(rows.firstIndex(), cols.firstIndex(),
                          rows.lastIndex(), cols.lastIndex(),
                          rows.stride(), cols.stride());
@@ -623,6 +706,9 @@ template <typename RHS>
 typename GeMatrix<FS>::View
 GeMatrix<FS>::operator()(const GeMatrix<RHS> &A)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine().view(A.firstRow(), A.firstCol(),
                          A.lastRow(), A.lastCol());
 }
@@ -643,6 +729,9 @@ typename GeMatrix<FS>::View
 GeMatrix<FS>::operator()(const Underscore<IndexType> &,
                          const Range<IndexType> &cols)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine().view(firstRow(), cols.firstIndex(),
                          lastRow(), cols.lastIndex(),
                          IndexType(1), cols.stride());
@@ -664,6 +753,9 @@ typename GeMatrix<FS>::View
 GeMatrix<FS>::operator()(const Range<IndexType> &rows,
                          const Underscore<IndexType> &)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine().view(rows.firstIndex(), firstCol(),
                          rows.lastIndex(), lastCol(),
                          rows.stride(), IndexType(1));
@@ -681,6 +773,9 @@ template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine().viewRow(row);
 }
 
@@ -699,6 +794,9 @@ template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     const IndexType firstIndex = cols.firstIndex();
     const IndexType lastIndex  = cols.lastIndex();
     const IndexType stride     = cols.stride();
@@ -718,6 +816,9 @@ template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::operator()(const Underscore<IndexType> &, IndexType col)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine().viewCol(col);
 }
 
@@ -736,6 +837,9 @@ template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     const IndexType firstIndex = rows.firstIndex();
     const IndexType lastIndex  = rows.lastIndex();
     const IndexType stride     = rows.stride();
@@ -756,6 +860,9 @@ template <typename FS>
 typename GeMatrix<FS>::Engine &
 GeMatrix<FS>::engine()
 {
+    static_assert(!Engine::onlyConstAccess,
+                  "Matrix must be in const context.");
+
     return engine_;
 }
 
