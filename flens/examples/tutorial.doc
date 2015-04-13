@@ -10,27 +10,24 @@ More tutorials are on the way ...
 ... so stay tuned.
 
 
-General Matrix with Full Storage
-================================
+Matrices, Vectors and Basic Linear Algebra Operations
+=====================================================
 
- *--[BOX]--------------------------------------------------------------------*
- |                                                                           |
- |                                                                           |
- |  __Page 1__    We show how to allocate and initialize a general matrix.   |
- |  __Page 2__    Shows how to change the default index base which is One.   |
- |  __Page 3__    We introduce the concept of matrix views.  Matrix views    |
- |                can be used to reference other matrix parts.  Furthermore  |
- |                it allows the creation of a FLENS matrix(view) from an     |
- |                existing C-array copying the C-array. The latter is very   |
- |                useful for interfacing with other libraries.               |
- |  __Page 4__    We introduce dense vectors.                                |
- |  __Page 5__    Working with complex vectors and matrices.                 |
- |  __Page 6__    Element-wise matrix/vector operations.                     |
- |  __Page 7__    How FLENS ensures const-correctness and MTL4 not.          |
- |  __Page 8__    Why matrix views are so important:  Implementation of a    |
- |                blocked and unblock $LU$ factorization.                    |
- |                                                                           |
- *---------------------------------------------------------------------------*
++-------------+-------------------------------------------------------------+
+| __Page 1__  | - What is a general matrix?                                 |
+|             | - Concept of dividing a matrix type into matrix interface   |
+|             |   and storage scheme.                                       |
+|             | - Simple example on how-to use a general matrix.            |
+|             | - What are matrix-views and how to use them.                |
+|             | - How are matrix types and matrix views realized in FLENS?  |
++-------------+-------------------------------------------------------------+
+| __Page 2__  | - What is a dense vector?                                   |
+|             | - Example for using dense vectors.                          |
+|             | - Working with vector views.                                |
+|             | - Vector views referencing matrix rows, columns or diagonals|
+|             |   of a matrix.                                              |
++-------------+-------------------------------------------------------------+
+
 
 :links: __Page (\d)__       -> doc:flens/examples/tut01-page0$1
 

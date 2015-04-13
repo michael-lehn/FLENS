@@ -1,28 +1,218 @@
-=======================
-Changing the Index Base                                                 [TOC]
-=======================
-FLENS provides different ways to change the index base of a matrix.  You can
-specify the index base when a matrix gets created.  Or you can define special
-matrix types with their own default base.
+===============================
+Array Storage and Dense Vectors                                           [TOC]
+===============================
+
+For dense vectors we follow the same concepts known from general matrices. We
+have three array storage schemes for realizing allocated, referenced and const
+referenced storage.  Each of these storage classes can be used as template
+parameter for a dense vector class for the sake of providing a unified interface
+without runtime overhead.
+
+Array Storage Schemes
+=====================
+FLENS defines three template classes for storing/referring an array:
+
+- *Template Class* __Array__
+
+  Constructors of __Array__ allocate memory and the destructor deallocates
+  it.  The element type gets specified by a template parameter.
+
+  It is guaranteed that elements are stored contiguously in memory, i.e. without
+  any gaps.
+
+  Example:
+
+  +---------------+--------------------------------------------+
+  |`Array<double>`|  Storage scheme that allocates memory      |
+  |               |  when instantiated.  Elements of type      |
+  |               |  `double` are stored contiguously.         |
+  +---------------+--------------------------------------------+
+
+  Creating an instance of type __Array__ involves dynamic memory allocation.  So
+  you do not want to create an instance inside a loop or a (frequently called)
+  function.
+
+- *Template Class* __ArrayView__
+
+  An instance of type __ArrayView__ is used to reference elements the are in
+  memory separated by a constant stride.  This can be a row/column of a general
+  matrix or part of another array/vector.
+
+  Neither gets memory allocated on construction nor released on destruction. It
+  is assumed that the referenced memory is managed by some other instance.  For
+  example by an instance of type `FullStorage` or `Array`.
+
+  An instance of type __ArrayView__ just contains a pointer to raw data
+  and some integers for length and element strides.  Therefore creation of
+  an instance is cheap.  It just initializes a pointer and a few integer values
+  of a struct/class.
+
+- *Template Class* __ConstArrayView__
+
+  Like `ArrayView` but it only provides the const methods of `ArrayView`.
+
+For the moment we will not discuss further template parameters of the storage
+classes that allow to change the default index type (which is `long), the
+default index base (which is 1) and the memory allocator.
+
+
+DenseVector: Dense Vector with Array Storage
+============================================
+The __DenseVector__ class has only one templated paramter that defines the
+underlying storage scheme.  So this again means that means a storage scheme
+gets a mathematical meaning by encapsulating it.
+
+Examples:
+
++----------------------------------------+----------------------------------------------------+
+|`DenseVector<Array<double> >`           | A dense vector where memory gets allocated         |
+|                                        | when instantiated and released at the end of       |
+|                                        | its scope.                                         |
++----------------------------------------+----------------------------------------------------+
+|`DenseVector<Array<double> >::View`     | A dense vector that references elements divided by |
+|                                        | a constant stride.  In practise these can be       |
+|                                        | elements from another vector but also from a row,  |
+|                                        | column, diagonal, etc. of a general matrix.        |
+|                                        |                                                    |
+|                                        | Creation/destruction is cheap.                     |
+|                                        |                                                    |
+|                                        | `View` is a publib typedef in `DenseVector` and    |
+|                                        | in this case defined as                            |
+|                                        | `DenseVector<ArrayView<double> >`                  |
++----------------------------------------+----------------------------------------------------+
+|`DenseVector<Array<double> >::ConstView`| Like `DenseVector<..>::View` just const.  Attempts |
+|                                        | of calling a non-const method will trigger an      |
+|                                        | static assertion failure.  So an instance must be  |
+|                                        | defined as const.                                  |
+|                                        |                                                    |
+|                                        | `ConstView` is a public typedef in   `DenseVector` |
+|                                        | and in this case defined as                        |
+|                                        | `DenseVector<ConstArrayView<double> >`             |
++----------------------------------------+----------------------------------------------------+
+
+
+Some Public Typedefs
+--------------------
+
++-----------------------------------+---------------------------------------------------+
+|                                   |                                                   |
+| `IndexType`                       | Like its name suggests the type used for indexing.|
+|                                   |                                                   |
++-----------------------------------+---------------------------------------------------+
+|                                   |                                                   |
+| `ElementType`                     | The element type.                                 |
+|                                   |                                                   |
++-----------------------------------+---------------------------------------------------+
+|                                   |                                                   |
+| `View`, `ConstView`               | Types for referencing elements separated by a     |
+|                                   | constant stride.                                  |
+|                                   |                                                   |
++-----------------------------------+---------------------------------------------------+
+|                                   |                                                   |
+| `NoView`                          | Vector type with memory allocation.  If you want  |
+|                                   | to copy vector parts instead of referencing use   |
+|                                   | this type.                                        |
+|                                   |                                                   |
++-----------------------------------+---------------------------------------------------+
+|                                   |                                                   |
+| `EngineView`, `EngineConstView`   | Storage schemes for referencing vectors.  For     |
+|                                   | `DenseVector` these are typedefs for              |
+|                                   | `ArrayView<..>` and `ConstArrayView<..>`.         |
+|                                   |                                                   |
++-----------------------------------+---------------------------------------------------+
+
+
+Some Methods and operations for Matrix Manipulation
+---------------------------------------------------
+
++---------------------------------------------------+--------------------------------------------+
+|                                                   |                                            |
+| `DenseVector(IndexType n)`                        | Constructor for a dense vector of          |
+|                                                   | length $n$.                                |
+|                                                   |                                            |
++---------------------------------------------------+--------------------------------------------+
+|                                                   |                                            |
+| `IndexType`                                       | Returns the vector length.                 |
+| `length() const`                                  |                                            |
+|                                                   |                                            |
++---------------------------------------------------+--------------------------------------------+
+|                                                   |                                            |
+| `const ElementType& operator()(i) const`          | Returns a reference to $i$-th element      |
+|                                                   | column $j$.                                |
++---------------------------------------------------+                                            |
+|                                                   |                                            |
+| `ElementType& operator()(i)`                      |                                            |
+|                                                   |                                            |
++---------------------------------------------------+--------------------------------------------+
+|                                                   |                                            |
+| `Initializer operator=(const ElementType &value)` | List initializer.                          |
+|                                                   |                                            |
+|                                                   | Allows to initialize the vector with a     |
+|                                                   | comma separated list of values.            |
+|                                                   |                                            |
+|                                                   | If the list contains only a single value   |
+|                                                   | it is used to fill the vector.             |
+|                                                   |                                            |
++---------------------------------------------------+--------------------------------------------+
+
+Like for matrices, by default indices start at 1, i.e. the index base is 1.  Again, we are dealing
+with math entities not STL container.  So usually that is what you want in numerical linear algebra.
+If you chance for some good reason the index base the following methods become useful:
+
++---------------------------------------------+------------------------------+
+|                                             |                              |
+| `IndexType firstIndex() const`              | Return the first valid index.|
+|                                             |                              |
++---------------------------------------------+------------------------------+
+|                                             |                              |
+| `IndexType lastIndex() const`               | Return the last valid index. |
+|                                             |                              |
++---------------------------------------------+------------------------------+
+
+
+Simple Example for using `DenseVector`
+======================================
+In a first example we show:
+
+ - How to allocate a dense vector with array storage
+ - How to explicitly initialize all elements with the list initializer.
+ - How to fill the vector with a single value.
+ - How to access/manipulate a particular matrix entry.
+ - How to retrieve vector length and index ranges.
 
 Example Code
-============
-:import: flens/examples/tut01-page02-example.cc [stripped, downloadable]
+------------
+:import: flens/examples/tut01-page02-example1.cc [stripped, downloadable]
 
 Comments on Example Code
-========================
-:import: flens/examples/tut01-page02-example.cc [brief]
+------------------------
+:import: flens/examples/tut01-page02-example1.cc [brief]
 
 Compile and Run
-===============
+---------------
 
    *--[SHELL]-----------------------------------------------------------------*
    |                                                                          |
    |  cd flens/examples                                                       |
-   |  g++ -Wall -std=c++11 -I../.. tut01-page02-example.cc                    |
+   |  g++ -Wall -std=c++11 -I../.. tut01-page02-example1.cc                   |
    |  ./a.out                                                                 |
    |                                                                          |
    *--------------------------------------------------------------------------*
+
+Simple Example for using `DenseVector` Views
+============================================
+In this example we show:
+
+ - How to create a vector view that references every second element of another
+   vector.
+ - How to create vector views referencing complete rows/cols of a matrix.
+ - How to create vector views referencing diagonals of a matrix.
+
+
+:links: DenseVector    -> doc:flens/vectortypes/impl/densevector
+        Array          -> doc:flens/storage/array/array
+        ArrayView      -> doc:flens/storage/array/arrayview
+        ConstArrayView -> doc:flens/storage/array/constarrayview
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/tut01-page01
