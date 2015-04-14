@@ -47,9 +47,11 @@ benefits that *make FLENS/C++ more favorable than using Fortran* are:
 
     We are dealing with matrices and vectors in the context of numerical linear
     algebra.  So we want to remind some C++ folks that these are not containers
-    like for instance `std::vector`.  So ease-of-use for containers and
-    ease-of-use for matrices/vectors are two different things.  For containers
-    iterators are great for matrices not.
+    like for instance `std::vector`.
+
+    So ease-of-use for containers and ease-of-use for matrices/vectors are two
+    different things.  For containers iterators are great.  For matrices they
+    are not.
 
   - *Ease-of-use and type safety for common tasks in numerical linear algebra.*
 

@@ -74,12 +74,11 @@ FLENS defines three template classes for full storage schemes:
   Instances of __ConstFullStorageView__ are used for const-referencing elements
   from an existing and living `FullStorage` instance.
 
-  Like for instances of type __FullStorageView__ the creation/destruction of
-  an __ConstFullStorageView__ instance is cheap.
+  The creation/destruction of an __ConstFullStorageView__ instance is cheap.
 
-For the moment we will not discuss further template parameters of the storage
-classes that allow to change the default index type (which is `long), the
-default index base (which is 1) and the memory allocator.
+Further template parameters of the storage classes allow to change the default
+index type (which is `long), the default index base (which is 1) and the memory
+allocator.
 
 
 GeMatrix: General Matrix with Full Storage
@@ -221,11 +220,11 @@ In a first example we show:
 
 Example Code
 ------------
-:import: flens/examples/tut01-page01-example.cc [stripped, downloadable]
+:import: flens/examples/tut01-page01-example1.cc [stripped, downloadable]
 
 Comments on Example Code
 ------------------------
-:import: flens/examples/tut01-page01-example.cc [brief]
+:import: flens/examples/tut01-page01-example1.cc [brief]
 
 Compile and Run
 ---------------
@@ -233,7 +232,7 @@ Compile and Run
    *--[SHELL]-----------------------------------------------------------------*
    |                                                                          |
    |  cd flens/examples                                                       |
-   |  g++ -Wall -std=c++11 -I../.. tut01-page01-example.cc                    |
+   |  g++ -Wall -std=c++11 -I../.. tut01-page01-example1.cc                   |
    |  ./a.out                                                                 |
    |                                                                          |
    *--------------------------------------------------------------------------*
@@ -241,15 +240,259 @@ Compile and Run
 
 Simple Example for using `GeMatrix` Views
 =========================================
+In a first example we show:
+
+ - How to create `GeMatrix` views that reference rectangular parts of another
+   `GeMatrix` instance.
+ - There are two view variants, i.e. const-views and (non-const-)views.
+
+
+Example Code
+------------
+:import: flens/examples/tut01-page01-example2.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/tut01-page01-example2.cc [brief]
+
+
+Compile and Run
+---------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. tut01-page01-example2.cc                   |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+Write in C!!!
+=============
+If you haven't done already you really have to checkout __Write in C__!!
+
+FLENS was developed in the spirit: _How would you do it in C or Fortan? And
+How can it be generalized or simplified without sacrifices in C++?_.  So a good
+way of understanding concepts is boiling them down to simple C.
+
+Looking at FLENS with C eyeglasses
+----------------------------------
+So here we port back some of the essential parts of the previous example to C.
+This pretty much explains what gets done:
+
+- What does the constructor/destructor of `GeMatrix`: *allocate/release memory*
+- What does the constructor/destructor of `GeMatrix` views: *Not much/Nothing*
+- What happen when you create a view: *Just setting a pointer to the right
+  place*
+- What happens when you access elements using the function operator: *Some
+  pointer arithmetic done correct and dereferencing*
+
+:import: flens/examples/tut01-page01-example3.cc
+
+Compile and Run
+---------------
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. tut01-page01-example3.cc                   |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+More on Selecting Rectangular Parts from `GeMatrix`
+===================================================
+From a `GeMatrix` instance you can select rectangular parts be specifying
+row and column ranges.  This can have the following forms:
+ - `all`
+ - `from:to`
+ - `from:step:to`
+In FLENS this is realized through the template classes `Underscore` and `Range`.
+The template parameter specifies the index type using in the `GeMatrix`
+instance, which is usually `long`:
+
+ - An object of type `Underscore` always means `all`.  And giving such an object
+   the name `_` gives a compact notation.
+
+   ---- CODE(type=cc) ----------------------------------------------------------
+   Underscore<long>  _;
+   -----------------------------------------------------------------------------
+
+ - Objects of type `Range` can be created by calling the function operator of
+   `Underscore`:
+
+   ---- CODE(type=cc) ----------------------------------------------------------
+   Range<long>  range1  _(1,5);     // 1:5
+   Range<long>  range2  _(1,2,5);   // 1:2:5
+   -----------------------------------------------------------------------------
+
+ - If for some reason you want a *view of a complete matrix* you don't have to
+   select ranges.  Simply construct the view from the original matrix:
+
+   ---- CODE(type=cc) ----------------------------------------------------------
+   typedef GeMatrix<FullStorage<double, ColMajor> >      DGeMatrix;
+   typedef DGeMatrix::View                               DGeMatrixView;
+   typedef DGeMatrix::ConstView                          DGeMatrixConstView;
+
+   DGeMatrix                  A(5, 8);
+   DGeMatrixView              X = A;      // X is a view of A
+   const DGeMatrixConstView   Y = A;      // Y is a const-view of A
+   -----------------------------------------------------------------------------
+
+Note that if you use `from:step:to` ranges the resulting `GeMatrix` view will
+be neither `ColMajor` nor `RowMajor`.  We call the storage order in this case
+`Grid`.  To our knowledge only `BLIS` and `ulmBLAS` efficiently support linear
+algebra operations for this kind of views.
+
+
+Matrix-View Gotchas
+===================
+Short and simple version:  Always declare a const-view as const.
+
+A bit longer: As the underlying storage scheme of a const-view only implements
+const-methods calling a non-const method of `GeMatrix` always causes a compile
+time error.  Using static asserts we try to make this error messages more
+readable.
+
+Technically it would be possible to disable in such a cause all non-const
+methods of `GeMatrix` using the `std::enable_if` trait.  However, declaring a
+const-view not as const is a flaw.  And we don't want to encourage flaws.
+
+
+Example Code
+------------
+:import: flens/examples/tut01-page01-example4.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/tut01-page01-example4.cc [brief]
+
+
+Compile and Run (Yes, this should fail!!)
+-----------------------------------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. tut01-page01-example4.cc                   |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
 
 Using `auto` when dealing with `GeMatrix` Views
 ===============================================
+The `auto` feature in C++11 is a great way to simplify C++ code.  But it is
+common sense that you actually understand this C++ feature.  Otherwise don't use
+it.  The C++ compiler knows the rules that determine the actual type represented
+by `auto`.  And so should you!  If you do, the code becomes more readable for
+you.  If you don't, the code become obscure.
+
+There is a nice talk by Scott Meyers __Type Deduction and Why You Care__.  Have
+a look at it before you blindly use `auto`.
+
+Fortunately deducing the type of `auto` becomes simple and transparent if you
+recall:
+
+  - If `A` is of type `GeMatrix<FullStorage<double, ColMajor> >` then
+    `A(_(1,3),_(2,5))` returns
+
+    - the type `GeMatrix<ConstFullStorageView<double, ColMajor> >` if `A` is in
+      *const context* and
+
+    - the type `GeMatrix<FullStorageView<double, ColMajor> >` *otherwise*.
+
+  - If `A` is of type `GeMatrix<FullStorageView<double, ColMajor> >` then
+    `A(_(1,3),_(2,5))` returns
+
+    - the type `GeMatrix<ConstFullStorageView<double, ColMajor> >` if `A` is in
+      *const context* and
+
+    - the type `GeMatrix<FullStorageView<double, ColMajor> >` *otherwise*.
+
+  - If `A` is of type `GeMatrix<ConstFullStorageView<double, ColMajor> >`
+    then `A` *must be in const context*  and always returns the type
+    `GeMatrix<ConstFullStorageView<double, ColMajor> >`.
+
+Example
+-------
+So consider the following example and deduce the type of auto in each case:
+
+:import: flens/examples/tut01-page01-example5.cc [stripped, downloadable]
 
 
-:links: __GeMatrix__        -> doc:flens/matrixtypes/general/impl/gematrix
-        __FullStorage__     -> doc:flens/storage/fullstorage/fullstorage
-        __FullStorageView__ -> doc:flens/storage/fullstorage/fullstorageview
-        __ConstFullStorageView__ -> doc:flens/storage/fullstorage/constfullstorageview
+Why you need 3 `GeMatrix` Types
+===============================
+We have essentially 3 types of `GeMatrix<FS>` as `FS` can be `FullStorage`,
+`FullStorageView` or `ConstFullStorageView`.  Technically we even have more,
+using different storage orders, element types, etc. lead to even more types.
+However, using generic programming all these types can be used in a unified
+ways.  So FLENS users can think of a single matrix type.  And a matrix view just
+acts like C++ references of buit-in types:
+
+   +----------------------+---------------------------------------------------------+
+   | *C++ Built-in Types* | *Analogous Role of FLENS Types*                         |
+   +----------------------+---------------------------------------------------------+
+   | int                  | `GeMatrix<FullStorage<double, ColMajor> >`              |
+   +----------------------+---------------------------------------------------------+
+   | int &                | `GeMatrix<FullStorage<double, ColMajor> >::View`        |
+   +----------------------+---------------------------------------------------------+
+   | const int &          | `GeMatrix<FullStorage<double, ColMajor> >::ConstView`   |
+   +----------------------+---------------------------------------------------------+
+
+Just as you technically have 3 types `int`, `int `&` and `const int & ` you have
+3 analogous types for `GeMatrix`.  Now recall how these are realized in C++:
+
+   +----------------------+---------------------------------------------------------+
+   | int i;               | Variable `i` is a integer value.  So actual the data you|
+   |                      | want to use.                                            |
+   +----------------------+---------------------------------------------------------+
+   | int &j = i;          | `j` is a reference/alias of `i`.  Its internally a      |
+   |                      | pointer to the address of `i`.  The reference just does |
+   |                      | the dereferencing of the pointer automatically.  Also,  |
+   |                      | the internal pointer will always point to the same      |
+   |                      | address.  So in C that's a `int * const`.               |
+   +----------------------+---------------------------------------------------------+
+   | const int &k = i;    | A const reference is like a `const int * const` in C    |
+   |                      | that automatically gets dereferenced.  You can not      |
+   |                      | change the content of `i` through `k`.  And `k`         |
+   |                      | internally always points to the address of `i`.         |
+   +----------------------+---------------------------------------------------------+
+
+Matrix Assignments are neither a Deep or Shallow copies!
+========================================================
+You have to distinguish between creating a new matrices, i.e.
+
+---- CODE(type=cc) -------------------------------------------------------------
+    DGeMatrix  A(5,4);
+    DGeMatrixConstView  B = A(_(2,3),_);
+--------------------------------------------------------------------------------
+
+and assignments, i.e.
+
+---- CODE(type=cc) -------------------------------------------------------------
+    B         = C;
+    A(_(4,5)) = B;
+--------------------------------------------------------------------------------
+
+In an assignment you have existing matrices on both sides of the equal sign.
+And you always copy the value of the right hand side to the left hand side.
+That's a simple rule as it is exactly what you expect.
+
+There is no way in FLENS that a matrix instance becomes an alias of another
+matrix.  If you want an alias you have to create one.  After creation it remains
+an alias throughout its lifetime.  Again, just like for references in C++.
+
+
+
+:links: GeMatrix        -> doc:flens/matrixtypes/general/impl/gematrix
+        FullStorage     -> doc:flens/storage/fullstorage/fullstorage
+        FullStorageView -> doc:flens/storage/fullstorage/fullstorageview
+        ConstFullStorageView -> doc:flens/storage/fullstorage/constfullstorageview
+        Write in C      -> https://www.youtube.com/watch?v=1S1fISh-pag
+        Type Deduction and Why You Care -> https://www.youtube.com/watch?v=wQxj20X-tIU
+
 
 
 :navigate: __up__    -> doc:flens/examples/tutorial

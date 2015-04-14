@@ -27,6 +27,14 @@ Matrices, Vectors and Basic Linear Algebra Operations
 |             | - Vector views referencing matrix rows, columns or diagonals|
 |             |   of a matrix.                                              |
 +-------------+-------------------------------------------------------------+
+| __Page 3__  | - Accessing raw data pointers.                              |
+|             | - Accessing data strides                                    |
+|             | - Memory management:                                        |
+|             |    - Creating matrix/vector views from local buffers        |
+|             |      (Stack buffer).                                        |
+|             |    - Creating matrix/vector views from global buffers.      |
+|             |      (Data segment buffer)                                  |
++-------------+-------------------------------------------------------------+
 
 :links: __Page (\d)__       -> doc:flens/examples/tut01-page0$1
 

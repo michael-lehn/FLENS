@@ -1,181 +1,62 @@
-============
-Matrix Views                                                            [TOC]
-============
+======================================
+Accessing Raw Data Pointers and Stride                                  [TOC]
+======================================
 
-Matrix Views Referencing Matrix Parts
-=====================================
-If you have setup a general matrix then you can use matrix views to reference
-matrix parts.  Matrix views act like references in C++.  Just like you can have
-_constant references_ and _non-constant references_ in C++ you can have
-_constant matrix views_ and _non-constant matrix views_.
+Assuming you know what you are doing FLENS gives you direct access to the raw
+data of its matrix/vector types.  One application is interfacing with other
+libraries.  For example BLAS, LAPACK, etc.
 
-Example Code
-------------
-:import: flens/examples/tut01-page03-example01.cc [stripped, downloadable]
+But also for the implementation of efficient numerical you often don't want to
+use dynamic memory allocation.  Using memory from the stack or data segment is
+free, i.e. has no runtime overhead.  While dynamic memory allocation can be
+expensive in some cases.  Hence common task in writing efficient numerical code
+involves:
 
-Comments on Example Code
-------------------------
-:import: flens/examples/tut01-page03-example01.cc [brief]
+  - Creating a matrix/vector inside a function that uses a small, local buffer
+    from the stack.
 
-Compile and Run
----------------
+  - Creating a matrix/vector that uses a global buffer from the data segment.
 
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  g++ -Wall -std=c++11 -I../.. tut01-page03-example01.cc                    |
- |  ./a.out                                                                   |
- |                                                                            |
- *----------------------------------------------------------------------------*
+Numerical applications will be shown in later sections.  In the following we
+just address the technical details on how to accomplish these tasks.
 
 
-Creating a Matrix View from a C-Array                                   [TOC]
-=======================================
-If you have a plain C-array you can create a matrix view that references this
-C-array.  That means you wrap the C-array into a FLENS matrix without copying
-any data.  This trick is essential for interfacing FLENS with other libraries.
-
-Example Code
-------------
-:import: flens/examples/tut01-page03-example02.cc [stripped, downloadable]
-
-Comments on Example Code
-------------------------
-:import: flens/examples/tut01-page03-example02.cc [brief]
-
-Compile and Run
----------------
-
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  g++ -Wall -std=c++11 -I../.. tut01-page03-example02.cc                    |
- |  ./a.out                                                                   |
- |                                                                            |
- *----------------------------------------------------------------------------*
+Accessing Raw Data form Vectors and Matrices
+============================================
 
 
-More on Matrix View Types
+How you NOT want to do it
 =========================
-You saw that there are different ways to define matrix view types
+Consider a small core routine of a numerical application that is used to operate
+on small matrix blocks.  The function itself does only a few computations but
+gets called many times.  For intermediate results a small buffer is needed. In
+this case dynamic memory allocation can have a considerable impact on runtime.
 
-- Get the matrix view types through typedefs in `GeMatrix`, e.g. by
-  `GeMatrix<MA>::View` or `GeMatrix<MA>::ConstView` were `MA` denotes
-  some full storage scheme.
+So you *DO NOT* want an implementation of this type:
 
-  *--[CODE]----------------------------------------------------------------*
-  |                                                                        |
-  |  typedef FullStorage<double, ColMajor>  MA;                            |
-  |  typedef GeMatrix<MA>             NoView;                              |
-  |                                                                        |
-  |  typedef GeMatrix<MA>::NoView     AlsoNoView;                          |
-  |  typedef GeMatrix<MA>::View       View;                                |
-  |  typedef GeMatrix<MA>::ConstView  ConstView;                           |
-  |                                                                        |
-  *------------------------------------------------------------------------*
-
-  *Note* that `NoView` and `AlsoNoView` are identical.
-
-- You can achieve the same by directly defining different storage types for
-  `GeMatrix`:
-
-  *--[CODE]----------------------------------------------------------------*
-  |                                                                        |
-  |  typedef FullStorage<double, ColMajor>           MA;                   |
-  |  typedef FullStorageView<double, ColMajor>       MAView;               |
-  |  typedef CosntFullStorageView<double, ColMajor>  MAConstView;          |
-  |                                                                        |
-  |  typedef GeMatrix<MA>           NoView;                                |
-  |  typedef GeMatrix<MAView>       View;                                  |
-  |  typedef GeMatrix<MAConstView>  ConstView;                             |
-  |                                                                        |
-  *------------------------------------------------------------------------*
-
-- As you can see: (Regular) matrices, matrix views and const matrix views are
-  just `GeMatrix` types with different stroage schemes:
-
-   - `FullStorage` is a storage scheme that actually allocates memory in its
-     constructor and releases it in its destructor.
-   - `FullStorageView` does not allocate or release memory but besides that acts
-     like `FullStorage` and
-   - `ConstFullStorage` acts like `FullStorageView` but only provides read-only
-     methods and operators.
-
-- In an assignment
-
-  *--[CODE]----------------------------------------------------------------*
-  |                                                                        |
-  | A = B;                                                                 |
-  |                                                                        |
-  *------------------------------------------------------------------------*
-
-  (were `A` and `B` are general matrices) data gets always copied (except `A`
-  and `B` are identical objects).  More precise, the memory referenced by `B`
-  gets copied to the memory referenced by `A`.  Again, this is analogously to
-  references in C++.
-
-- If you create a matrix view from an object `A` of type `GeMatrix<MA>` it will
-  either be of type `GeMatrix<MA>::View` or `GeMatrix<MA>::NoView`:
-
-   - If `A` is in const context any matrix view created from it will be of type
-     `GeMatrix<MA>::ConstView`.
-   - If `A` is in non-const context any matrix view created from it will be of
-     type `GeMatrix<MA>::View`.
-
-  *Attention*:  If a const matrix view is in non-const context and you create
-  a view from it it would be a non-const matrix view.  Obviously this would
-  not make sense and give you a compile time error.  We give an example for
-  this below and also show how to prevent such a problem.
-
-Using the `auto` keyword
-------------------------
-The `auto` keyword can make it easier to work with the matrix views.  This is
-because it can save typing.  However, you should always know what view type
-gets actually represented through an `auto` type.
-
-:import: flens/examples/tut01-page03-example03.cc [stripped, downloadable]
-
-Comments on the Code
---------------------
-:import: flens/examples/tut01-page03-example03.cc [brief]
-
-Compile and Run
----------------
-
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  g++ -Wall -std=c++11 -I../.. tut01-page03-example03.cc                    |
- |  ./a.out                                                                   |
- |                                                                            |
- *----------------------------------------------------------------------------*
+:import: flens/examples/tut01-page02-example2.cc [stripped, downloadable]
 
 
-More on `auto` and Const Context
-================================
-*In a shot*:  Always make sure that a const matrix view is in const context.
+Using a Stack Buffer for Matrix/Vector Views
+============================================
+If the buffer size is known at compile time (which is often the case for these
+kind of routines) you want to use a buffer on the stack.  Allocating the buffer
+is free in this case.
 
-Example Code
-------------
-:import: flens/examples/tut01-page03-example04.cc [stripped, downloadable]
+You than can use matrix/vector views as an interface for working on the buffer.
+In many cases you even want to use the buffer as matrix as well as a vector at
+the same time.
 
-Comments on the Code
---------------------
-:import: flens/examples/tut01-page03-example04.cc [brief]
+So this is *how to do it*:
 
-Compile and Analyze Compile Error
----------------------------------
+:import: flens/examples/tut01-page02-example3.cc [stripped, downloadable]
 
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  g++ -Wall -std=c++11 -I../.. tut01-page03-example04.cc                    |
- |                                                                            |
- *----------------------------------------------------------------------------*
 
-The error message basically says that a conversion from `ConstFullStorageView`
-to `FullStorageView` (aka `GeMatrix::View`) would be require.  As this is not
-possible we get a compile time error.
+
+Using a Global Buffer for Matrix/Vector Views
+=============================================
+
+
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/tut01-page02

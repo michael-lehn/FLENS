@@ -137,11 +137,11 @@ Some Methods and operations for Matrix Manipulation
 |                                                   |                                            |
 +---------------------------------------------------+--------------------------------------------+
 |                                                   |                                            |
-| `const ElementType& operator()(i) const`          | Returns a reference to $i$-th element      |
-|                                                   | column $j$.                                |
+| `const ElementType& operator()(IndexType i) const`| Returns a reference to $i$-th element.     |
+|                                                   |                                            |
 +---------------------------------------------------+                                            |
 |                                                   |                                            |
-| `ElementType& operator()(i)`                      |                                            |
+| `ElementType& operator()(IndexType i)`            |                                            |
 |                                                   |                                            |
 +---------------------------------------------------+--------------------------------------------+
 |                                                   |                                            |
@@ -207,6 +207,25 @@ In this example we show:
    vector.
  - How to create vector views referencing complete rows/cols of a matrix.
  - How to create vector views referencing diagonals of a matrix.
+
+Example Code
+------------
+:import: flens/examples/tut01-page02-example2.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/tut01-page02-example2.cc [brief]
+
+Compile and Run
+---------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. tut01-page02-example2.cc                   |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
 
 
 :links: DenseVector    -> doc:flens/vectortypes/impl/densevector
