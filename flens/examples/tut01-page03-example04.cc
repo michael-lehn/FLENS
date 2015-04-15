@@ -44,8 +44,8 @@ main()
 /// correctness*.
     auto D = C(_(1,3),_);
 
-    // D references a const matrix view.  So this must trigger a compile
-    // time error!
+    // D references a const matrix view.  So this must trigger a compile time
+    // error!
     D(1,1) = 666;
     cout << "D = " << D << endl;
 }

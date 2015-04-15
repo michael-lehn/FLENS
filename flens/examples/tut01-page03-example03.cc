@@ -4,10 +4,8 @@
 using namespace flens;
 using namespace std;
 
-
 typedef GeMatrix<FullStorage<double> >  DGeMatrix;
 typedef DenseVector<Array<double> >     DDenseVector;
-
 
 void
 foo()
