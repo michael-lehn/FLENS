@@ -1,5 +1,5 @@
-#ifndef CXXSTD_STRING_H
-#define CXXSTD_STRING_H 1
+#ifndef CXXSTD_TYPE_TRAITS_H
+#define CXXSTD_TYPE_TRAITS_H 1
 
 #include <type_traits>
 
