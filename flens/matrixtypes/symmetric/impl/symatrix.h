@@ -113,6 +113,10 @@ class SyMatrix
         template <typename RHS>
             SyMatrix(SyMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            SyMatrix(SyMatrix<RHS> &&rhs);
+
         template <typename RHS>
             SyMatrix(const Matrix<RHS> &rhs);
 

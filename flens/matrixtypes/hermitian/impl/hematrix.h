@@ -112,6 +112,10 @@ class HeMatrix
         template <typename RHS>
             HeMatrix(HeMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            HeMatrix(HeMatrix<RHS> &&rhs);
+
         template <typename RHS>
             HeMatrix(const Matrix<RHS> &rhs);
 

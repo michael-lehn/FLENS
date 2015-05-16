@@ -68,6 +68,13 @@ TinyVector<TA>::TinyVector(TinyVector<RHS> &rhs)
 }
 
 template <typename TA>
+template <typename RHS, class>
+TinyVector<TA>::TinyVector(TinyVector<RHS> &&rhs)
+    : array_(rhs.engine())
+{
+}
+
+template <typename TA>
 template <typename RHS>
 TinyVector<TA>::TinyVector(const Vector<RHS> &rhs)
 {

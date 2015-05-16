@@ -59,8 +59,7 @@ TbMatrix<FS>::TbMatrix(const Engine &engine, StorageUpLo upLo, Diag diag)
 
 template <typename FS>
 TbMatrix<FS>::TbMatrix(const TbMatrix &rhs)
-    : TriangularMatrix<TbMatrix<FS> >(),
-      engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
+    : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
 
@@ -74,6 +73,13 @@ TbMatrix<FS>::TbMatrix(const TbMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 TbMatrix<FS>::TbMatrix(TbMatrix<RHS> &rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+TbMatrix<FS>::TbMatrix(TbMatrix<RHS> &&rhs)
     : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
