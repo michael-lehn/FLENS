@@ -6,6 +6,7 @@
 *.doc
 cxxlapack/*/*.doc
 flens/examples/*
+!flens/examples/lu/
 !flens/examples/*.cc
 !flens/examples/*.doc
 !flens/examples/Makefile
