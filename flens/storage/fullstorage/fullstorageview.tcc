@@ -796,7 +796,7 @@ fillRandom(FullStorageView<T, NVOrder, I, Allocator> &A)
         }
         return true;
     }
-    if (A.order()==RowMajor) {
+    if (A.order()==ColMajor) {
         ElementType *p = A.data();
         for (IndexType j=0; j<A.numCols(); ++j, p+=A.leadingDimension()) {
             for (IndexType i=0;i<A.numRows();++i) {
@@ -806,14 +806,14 @@ fillRandom(FullStorageView<T, NVOrder, I, Allocator> &A)
         return true;
     }
     if (A.strideRow()<A.strideCol()) {
-        for (IndexType j=0; j<A.numCols(); ++j) {
-            for (IndexType i=0; i<A.numRows(); ++i) {
+        for (IndexType j=A.firstCol(); j<A.lastCol(); ++j) {
+            for (IndexType i=A.firstRow(); i<A.lastRow(); ++i) {
                 A(i, j) = randomValue<T>();
             }
         }
     } else {
-        for (IndexType i=0; i<A.numRows(); ++i) {
-            for (IndexType j=0; j<A.numCols(); ++j) {
+        for (IndexType i=A.firstRow(); i<A.lastRow(); ++i) {
+            for (IndexType j=A.firstCol(); j<A.lastCol(); ++j) {
                 A(i, j) = randomValue<T>();
             }
         }

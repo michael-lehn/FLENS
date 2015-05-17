@@ -213,6 +213,7 @@ copy(Transpose trans, const MA &A, MB &&B)
          }
     }
 
+
     if (trans==NoTrans) {
         if (A.upLo()==Upper) {
             if (A.diag()!=Unit) {

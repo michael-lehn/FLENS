@@ -256,6 +256,8 @@ Array<T, I, A>::raw_allocate_()
 
     if (length()>0) {
         data_ = allocator_.allocate(length_);
+        //data_ = reinterpret_cast<T *>(_mm_malloc(length_*sizeof(T), 16));
+
         ASSERT(data_);
     }
 }
@@ -280,6 +282,7 @@ Array<T, I, A>::release_()
             allocator_.destroy(data_+i);
         }
         allocator_.deallocate(data(), length_);
+        //_mm_free(reinterpret_cast<void *>(data()));
         data_ = 0;
     }
     ASSERT(data_==0);

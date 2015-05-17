@@ -124,9 +124,18 @@ laswp_impl(GeMatrix<MA> &A, const DenseVector<VP> &piv)
 //== public interface ==========================================================
 
 template <typename MA, typename VP>
-void
-laswp(GeMatrix<MA> &A, const DenseVector<VP> &piv)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsDenseVector<VP>::value,
+         void>::Type
+laswp(MA &&A, const VP &piv)
 {
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+#   endif
+
 //
 //  Test the input parameters
 //
@@ -141,8 +150,8 @@ laswp(GeMatrix<MA> &A, const DenseVector<VP> &piv)
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView       org_A   = A;
-    typename GeMatrix<MA>::NoView       A_      = A;
+    typename MatrixA::NoView       org_A   = A;
+    typename MatrixA::NoView       A_      = A;
 #   endif
 
 //
@@ -175,14 +184,25 @@ laswp(GeMatrix<MA> &A, const DenseVector<VP> &piv)
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP>
-void
-laswp(MA &&A, const VP &&piv)
+template <typename VA, typename VP>
+typename RestrictTo<IsDenseVector<VA>::value
+                 && IsDenseVector<VP>::value,
+         void>::Type
+laswp(VA &&a, const VP &piv)
 {
-    CHECKPOINT_ENTER;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VA>::Type   VectorA;
+
+    typedef typename VectorA::ElementType  ElementType;
+    typedef typename VectorA::IndexType    IndexType;
+
+    const IndexType    n     = a.length();
+
+    GeMatrix<FullStorageView<ElementType, ColMajor> >  A(n, 1, a);
+
     laswp(A, piv);
-    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

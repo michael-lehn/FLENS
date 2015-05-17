@@ -3,7 +3,7 @@
 #include <flens/examples/lu_unblk.h>
 
 #ifndef BS
-#define BS 32
+#define BS 128
 #endif
 
 

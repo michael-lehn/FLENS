@@ -2,8 +2,11 @@
 FLENS (Trinity)                                                         [TOC]
 ===============
 
-FLENS is a C++ library that defines matrix/vector types for numerical linear
-algebra and high performance computing.
+C++ is a programming language for writing libraries.  And FLENS is a C++ library
+for writing numerical linear algebra libraries.
+
+The combination C++/FLENS allows the implementation of high performance
+libraries in the field of numerical linear algebra.
 
 Purpose
 =======
@@ -11,7 +14,8 @@ One of the most successful and relevant libraries in the field of numerical
 linear algebra is LAPACK which is implemented in Fortran 77.  So a *necessary
 conditions* for FLENS being a useful numerical linear algebra are:
 
-  - *It has to be possible to re-implement LAPACK with FLENS.*
+  - *It has to be possible to re-implement LAPACK, PLASMA, MAGMA etc. with
+    FLENS.*
 
     Furthermore, the implementation has to be at least as easy-to-accomplish,
     expressive, readable and maintainable for experts in this field.
@@ -104,48 +108,17 @@ Examples and Tutorial
 =====================
 
 +------------------+-----------------------------------------------------------+
-| __Session 1__    | - First steps with general matrices and dense vectors.    |
-|                  | - Idea of dividing matrix/vectors into matrix/vector      |
-|                  |   types and storage schemes.                              |
-|                  | - Notation for element Access and retrieving matrix/vector|
-|                  |   dimensions.                                             |
-|                  | - Retriving strides and pointers to raw data.             |
-|                  | - What are matrix/vector views? How to create and use     |
-|                  |   them?                                                   |
-|                  | - Triangular/trapezoidal, symmetric and hermitian         |
-|                  |   matrices.                                               |
-|                  | - General, triangular/trapezoidal, symmetric and hermitian|
-|                  |   matrix-views.                                           |
+| __Session 1__    | - Full Storage Schemes and General Matrices.              |
+|                  | - Array Storage and Dense Vectors.                        |
+|                  | - Accessing Raw Data Pointers and Strides.                |
+|                  | - Triangular/Trapezoidal Matrices with Full Storage.      |
+|                  | - Symmetric and Hermitian Matrices with Full Storage.     |
+|                  | - Basic Linear Algebra Operations (BLAS).                 |
+|                  | - Using Operators for BLAS.                               |
+|                  | - Coding a Cache Optimized Parallel LU Factorization with |
+|                  |   FLENS/C++.                                              |
+|                  | - Numerical Linear Algebra (FLENS-LAPACK, LAPACK).        |
 +------------------+-----------------------------------------------------------+
-| __Session 2__    | - Basic linear agrbra operations, e.g. vector sums, matrix|
-|                  |   products, etc.                                          |
-|                  | - Using the low-level C++ BLAS interface (__CXXBLAS__).   |
-|                  | - Using the high-level BLAS interface (__FLENS-BLAS__).   |
-|                  | - Using overloaded operators.                             |
-|                  | - What overloaded operators *must not* allow in a library |
-|                  |   for high performance computing.                         |
-+------------------+-----------------------------------------------------------+
-| __Session 3__    | - Examples for using FLENS-LAPACK.                        |
-|                  | - Howto implement a high performance LU factorization.    |
-+------------------+-----------------------------------------------------------+
-| __CXXBLAS__      | Overview of the low-level C++ BLAS interface              |
-+------------------+-----------------------------------------------------------+
-| __FLENS-BLAS__   | Overview of the high-level FLENS-BLAS interface           |
-+------------------+-----------------------------------------------------------+
-| __FLENS-LAPACK__ | Overview of some LAPACK driver functions we re-implemented|
-|                  | with C++/FLENS.                                           |
-+------------------+-----------------------------------------------------------+
-
-
-
-# - __Session 2__: BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators.
-# - __Session 3__: More on matrices: Triangular and symmetric matrices,
-#   matrix views, ...
-# - __Session 4__: Using FLENS-LAPACK.
-# - __Session 5__: Using an external LAPACK implementation.
-# - __Session 6__: Sparse Matrices (_Experimental_).
-# - __Session 7__: User Defined Matrix Types.
-# - Overview of all driver functions currently implemented in __FLENS-LAPACK__
 
 
 Features

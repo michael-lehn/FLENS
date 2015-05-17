@@ -1,66 +1,596 @@
-=============
-Dense Vectors                                                           [TOC]
-=============
+=================================================
+Triangular/Trapezoidal Matrices with Full Storage                        [TOC]
+=================================================
 
-__Dense vectors__ have their elements stored linearly in memory separated from
-each other by a constant stride.  If you create a dense vector that allocates
-its own memory then its stride will equal one.  Strides different from one
-naturally arise when dealing with vector views.  Vector views can reference
-vector slices or rows/columns of matrices.
+Triangular, symmetric and hermitian matrices have in common that only data from
+a triangular matrix part is required to represent the matrix.  If saving memory
+is of primary concerns packed storage formats for these matrix types are
+provided.  These are matrix classes `TpMatrix`, `SpMatrix` and `HpMatrix`.
 
-:links: Dense vectors -> doc:flens/vectortypes/impl/densevector
+On this slide we will introduce matrix class `TrMatrix`.  On the next page the
+classes `SyMatrix` and `HeMatrix`.  All this classes use a *full storage scheme*
+for representing the matrix.  Either the upper or lower triangular part of the
+full storage scheme is used to represent a triangular, symmetric or hermitian
+matrix.
 
-First Steps
-===========
-We start with the typical task: setting up a vector, initializing it,
-manipulating it and printing it.
+You should not think of a `TrMatrix` being a triangular/trapezoidal matrix type.
+Consider instead: *`TrMatrix` = Full storage scheme assumed to represent a
+triangular/trapezoidal matrix type.*  Having a `TrMatrix` class just statically
+tags this information to the full storage scheme and therefore makes the
+assumption known at compile time.
+
+Information whether the represented matrix is upper or lower
+triangular/trapezoidal is stored dynamically.  This gives more flexibility
+because sometimes you want to change this flag.  But consequently accessing the
+_wrong_ triangular part trigger a run-time assertion instead of a compile time
+error.
+
+You can create a general matrix view from a triangular matrix to access all
+elements of the underlying full storage.  So accessing the _wrong_ triangular
+part is not forbidden per se.  We just don't want that it happens accidentally
+and therefore require an explicit cast.
+
+People unfamiliar in the field of numerical linear algebra might consider the
+design concept of these classes wrong.  If you think accessing the lower part of
+an upper triangular part should always return a zero you are one of those
+people.  *Let's make you familiar!*
+
+People familiar in the field know: *This is exactly what you want!*
 
 
-Example Code
-------------
-:import: flens/examples/tut01-page04-example01.cc [stripped, downloadable]
 
-Comments on Example Code
-------------------------
-:import: flens/examples/tut01-page04-example01.cc [brief]
+TrMatrix: Triangular/Trapezoidal Matrix with Full Storage
+=========================================================
+With a __TrMatrix__ class the underlying full storage scheme *should be assumed
+to represent a lower or upper triangular or trapezoidal matrix*.  A trapezoidal
+matrix is a non-square matrix where element above or below the diagonal are
+*assumed to be zero*.
+
+Examples
+--------
+
++-[CODE]----------------------------------------------+----------------------------------------------------+
+| TrMatrix<FullStorage<double, ColMajor> >            | A triangular/trapezoidal matrix where memory gets  |
+|                                                     | allocated when instanciated and released at the end|
+|                                                     | of its scope.                                      |
++-----------------------------------------------------+----------------------------------------------------+
+| TrMatrix<FullStorage<double, ColMajor> >::View      | A triangular/trapezoidal matrix that references an |
+|                                                     | existing full storage scheme.  Memory              |
+|                                                     | neither gets allocated nor released at any         |
+|                                                     | point.  Creation/destruction is cheap.             |
+|                                                     |                                                    |
+|                                                     | `View` is a publib typedef in `TrMatrix` and       |
+|                                                     | in this case defined as                            |
+|                                                     | `TrMatrix<FullStorageView<double, ColMajor> >`     |
++-----------------------------------------------------+----------------------------------------------------+
+| TrMatrix<FullStorage<double, ColMajor> >::ConstView | A triangular/trapezoidal matrix that references an |
+|                                                     | existing full storage scheme.  Memory              |
+|                                                     | neither gets allocated nor released at any         |
+|                                                     | point.  Creation/destruction is cheap              |
+|                                                     |                                                    |
+|                                                     | Calling any non-const methods will cause a compile |
+|                                                     | time error.  So this is a read-only matrix view.   |
+|                                                     |                                                    |
+|                                                     | `ConstView` is a public typedef in   `TrMatrix`    |
+|                                                     | and in this case defined as                        |
+|                                                     | `TrMatrix<ConstFullStorageView<double, ColMajor> >`|
++-----------------------------------------------------+----------------------------------------------------+
+
+:links: TrMatrix        -> doc:flens/matrixtypes/triangular/impl/trmatrix
+
+Some Public Typedefs
+--------------------
+Like all matrix/vector classes public typedefs should be used to refer to
+element, index and view types.
+
++-[CODE]--------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| IndexType                                         | Like its name suggests the type used for indexing.|
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| ElementType                                       | The element type.                                 |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| View, ConstView                                   | Types for referencing a rectangular part of the   |
+|                                                   | matrix.                                           |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| NoView                                            | Matrix type with memory allocation.  If you want  |
+|                                                   | to copy matrix parts instead of referencing use   |
+|                                                   | this type.                                        |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| EngineView, EngineConstView                       | Storage schemes for referencing parts from        |
+|                                                   | another storage scheme. For `TrMatrix` these are  |
+|                                                   | typedefs for `FullStorageView<..>` and            |
+|                                                   | `ConstFullStorageView<..>`.                       |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+
+
+Constructors, Methods and operations for Matrix Manipulation
+------------------------------------------------------------
+Methods and operators are provided analogously to class `GeMatrix`.  For the
+special (but important) case that a `TrMatrix` is triangular (i.e. of dimension
+$n \times n$) and not trapezoidal (i.e. of dimension $m \times n$) some
+additional methods are provided.
+
+Output operators are also defined.  The will print the logical view, that means
+elements from the not referenced triangular part will be printed as zero.  And
+ones for diagonal elements if the unit-diag flag is set.
+
+Convenience methods like list initializers are not provides for a `TrMatrix`.
+
++-[CODE]--------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| TrMatrix(IndexType dim, StorageUpLo upLo,         | Create a `dim x dim` triangular matrix.           |
+|          Diag diag = NonUnit);                    |  - `upLo` can be `Lower` or `Upper` and specifies |
+|                                                   |    whether the lower or upper part of the storage |
+|                                                   |    scheme represents the matrix.                  |
+|                                                   |  - `diag` can be `Unit` or `NonUnit` and specifies|
+|                                                   |    whether elements on the diagonal should be     |
+|                                                   |    assumed to be one or not.                      |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| TrMatrix(IndexType numRows, IndexType numCols,    | Create a `numRows x numCols` trapezoidal matrix.  |
+|          StorageUpLo upLo, Diag diag = NonUnit);  |  - `upLo` can be `Lower` or `Upper` and specifies |
+|                                                   |    whether the lower or upper part of the storage |
+|                                                   |    scheme represents the matrix.                  |
+|                                                   |  - `diag` can be `Unit` or `NonUnit` and specifies|
+|                                                   |    whether elements on the diagonal should be     |
+|                                                   |    assumed to be one or not.                      |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| IndexType                                         | Return the number of rows.                        |
+| numRows() const;                                  |                                                   |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| IndexType                                         |                                                   |
+| numCols() const;                                  | Return the number of columns.                     |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| IndexType                                         | For a triangular, i.e. square matrix returns the  |
+| dim() const;                                      | dimension. *If the matrix is not square this      |
+|                                                   | causes a runtime assertion.*                      |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| StorageUpLo                                       | Returns `Lower` if the matrix represents a lower  |
+| upLo() const;                                     | triangular/trapezoidal matrix.  Otherwise `Upper`.|
+|                                                   |                                                   |
++---------------------------------------------------+ In non-const context the method returns a         |
+|                                                   | reference of the attribute.  So you can change it.|
+| StorageUpLo &                                     |                                                   |
+| upLo();                                           |                                                   |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| Diag                                              | Returns `Unit` if elements on the diagonal must   |
+| diag() const;                                     | be assumed to have value one. Otherwise `NonUnit`.|
+|                                                   |                                                   |
++---------------------------------------------------+ In non-const context the method returns a         |
+|                                                   | reference of the attribute.  So you can change it.|
+| Diag &                                            |                                                   |
+| diag();                                           |                                                   |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| const ElementType&                                |                                                   |
+| operator()(i, j) const;                           | Return a reference to element in row $i$ and      |
+|                                                   | column $j$.                                       |
++---------------------------------------------------+                                                   |
+|                                                   | Only accessing elements from the triangular part  |
+| ElementType&                                      | specified by `upLo()` is allowed. *Otherwise      |
+| operator()(i, j);                                 | a runtime assertion gets triggered.*              |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+|                                                   |                                                   |
+| const ElementType *                               | Pointer to the first element of the matrix.       |
+| data() const;                                     | So this is the address of `A(1,1)`.               |
+|                                                   |                                                   |
++---------------------------------------------------+                                                   |
+|                                                   |                                                   |
+| ElementType *                                     |                                                   |
+| data();                                           |                                                   |
+|                                                   |                                                   |
+|                                                   |                                                   |
++---------------------------------------------------+---------------------------------------------------+
+| StorageOrder                                      | Returns `RowMajor`, `ColMajor` or `Grid`.         |
+| order() const;                                    |                                                   |
+|                                                   | An storage order `Grid` occurs if you have        |
+|                                                   | e.g. a matrix view that references every          |
+|                                                   | second row and every third column of a            |
+|                                                   | matrix.                                           |
++---------------------------------------------------+---------------------------------------------------+
+| IndexType                                         | Stride in memory between elements in the          |
+| strideRow() const;                                | same column.  So `A.data() + A.strideRow()`       |
+|                                                   | is the address of `A(2,1)`.                       |
+|                                                   |                                                   |
+|                                                   | If your matrix is `ColMajor` this is `1`.         |
++---------------------------------------------------+---------------------------------------------------+
+| IndexType                                         | Stride in memory between elements in the          |
+| strideCol() const;                                | same row.  So `A.data() + A.strideCol()`          |
+|                                                   | is the address of `A(2,1)`.                       |
+|                                                   |                                                   |
+|                                                   | If your matrix is `RowMajor` this is `1`.         |
++---------------------------------------------------+---------------------------------------------------+
+| IndexType                                         | - For `ColMajor` matrices returns                 |
+| leadingDimension() const;                         |   `strideCol()`.                                  |
+|                                                   | - For `RowMajor` matrices returns                 |
+|                                                   |   `strideRow()`.                                  |
+|                                                   | - For `Grid` matrices this method triggers        |
+|                                                   |   an runtime assertion.                           |
++---------------------------------------------------+---------------------------------------------------+
+
+
+Why is Accessing the _wrong_ Triangular Part Illegal and doesn't just return Zero?
+==================================================================================
+An efficient algorithm will exploit the fact that for a triangular matrix the
+elements from the opposite triangular part are zero.  In particular, an
+efficient algorithm will not use or reference them anyway.
+
+If you have an algorithm that depends on zero values on the opposite triangular
+part then it is not exploiting the triangular property of the matrix.  In that
+case you just as well can use a `GeMatrix` and set elements of the opposite
+triangular part explicitly to zero.
+
+
+Simple example
+--------------
+In the following toy example we define a function that initializes a given
+`TrMatrix`.  Such a function must at least distinguish 4 cases:
+
+ - Upper triangular with non-unit diagonal.
+ - Upper triangular with unit diagonal.
+ - Lower triangular with non-unit diagonal.
+ - Lower triangular with unit diagonal.
+
+Also note that we always initialize the matrix column wise.  If elements are
+stored row wise we also should differentiate in that respect.  We then end up
+with 8 cases.  At this point some people tell us that we should provide
+iterators:
+
+ - You are free to implement iterators on top of FLENS.  But it is important to
+   know that behind the iterators still these 8 cases are hidden.
+ - We have something like iterators.  But first learn to do things by hand
+   before using fancy abstractions.
+
+:import: flens/examples/trmatrix.cc [stripped]
 
 Compile and Run
 ---------------
 
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  g++ -Wall -std=c++11 -I../.. tut01-page04-example01.cc                    |
- |  ./a.out                                                                   |
- |                                                                            |
- *----------------------------------------------------------------------------*
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. trmatrix.cc                                |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
 
-Vectors Referencing Matrix Rows, Columns and Diagonals
+Creating `TrMatrix` Views from a `GeMatrix`
+===========================================
+In the next section we show an application for creating triangular views that
+reference the storage scheme of a general matrix.
+
+The `GeMatrix` class provides the following methods to create `TrMatrix` views
+referencing the underlying full storage scheme:
+
+  +-[CODE]----------------------+-------------------------------------------+
+  | const ConstTriangularView   |                                           |
+  | upper() const;              | Return a triangular or trapezoidal matrix |
+  +-----------------------------+ view represented by the upper triangular  |
+  | TriangularView              | part.                                     |
+  | upper();                    |                                           |
+  +-----------------------------+-------------------------------------------+
+  | const ConstTriangularView   |                                           |
+  | upperUnit() const;          | Return a triangular or trapezoidal matrix |
+  +-----------------------------+ view represented by the upper triangular  |
+  | TriangularView              | part.  Elements on the diagonal must be   |
+  | upperUnit();                | assumed to be one.                        |
+  +-----------------------------+-------------------------------------------+
+  | const ConstTriangularView   |                                           |
+  | lower() const;              | Return a triangular or trapezoidal matrix |
+  +-----------------------------+ view represented by the lower triangular  |
+  | TriangularView              | part.                                     |
+  | lower();                    |                                           |
+  +-----------------------------+-------------------------------------------+
+  | const ConstTriangularView   |                                           |
+  | lowerUnit() const;          | Return a triangular or trapezoidal matrix |
+  +-----------------------------+ view represented by the lower triangular  |
+  | TriangularView              | part.  Elements on the diagonal must be   |
+  | lowerUnit();                | assumed to be one.                        |
+  +-----------------------------+-------------------------------------------+
+
+The return types are public typedefs of `GeMatrix`:
+
+ - `ConstTriangularView` is defined as `TrMatrix<ConstFullStorageView<..> >`.
+ - `TriangularView` is defined as `TrMatrix<FullStorageView<..> >`.
+
+For convenience you can use the `auto` keyword:
+
+---- CODE(type=cc) -------------------------------------------------------------
+GeMatrix<FullStorage<double> > A(m, n);
+
+auto  L = A.lowerUnit();
+auto  U = A.lower();
+--------------------------------------------------------------------------------
+
+
+Why using Full Storage Schemes for Triangular Matrices
 ======================================================
-Referencing rows, columns or diagonals of a matrix is a common task in
-numerical algorithms.  So here we show how to do this for general matrices
-where the corresponding vector views are dense vectors.
+There are many applications where you start with a general matrix, do some
+operations. Then you go on with triangular/trapezoidal matrices which are
+referencing the upper or lower triangular/trapezoidal part.  So `TrMatrix` views
+created from a `GeMatrix` play a major role.
+
+Consider solving a system of linear equations $AX=b$ using a $LU$ factorization:
+
+ - First compute the factorization $A = P L U$.  If $A$ is a
+   $n \times n$ matrix then
+
+   - $P$ is a $n \times n$ permutation matrix that can be represented by a
+     permutation vector of length $n$.
+   - $L$ is a lower triangular matrix with ones on the diagonal.
+   - $U$ is a upper triangular matrix.
+
+   So in practise the strict lower triangular part of $A$ gets overwritten with
+   the strict lower triangular part of $L$.  The ones from the diagonal of $L$
+   will not be stored.  The upper triangular part of $A$ gets overwritten with
+   the upper triangular part of $U$.  So only additional memory for storing the
+   permutation vector $p$ is required.  The computational cost is
+   $\mathcal{O}(n^3)$
+
+ - $Ax = b \quad \Leftrightarrow \quad P L U x = b
+   \quad \Leftrightarrow \quad L U x = P^T b$
+
+   So in the next step we formally compute a new right hand side $\tilde{b} =
+   P^T b$.  In practise we overwrite $b$ with $P^T b$.  As this just means to
+   permute the vector elements and involves $n$ operations.
+
+ - $L U x = b \quad \Leftrightarrow \quad L y = b$ with $ y:=U x$.
+
+   Using a triangular solver you solve $Ly=b$ for $y$.  So the triangular solver
+   actually gets $A$ but only references the strict lower triangular part of
+   $A$.  Elements on the diagonal and assumed to be one but not touched by the
+   solver.  Also elements from the upper triangular part are just assumed to be
+   zero but never referenced.
+
+   The triangular solver will overwrite $b$ with the solution $y$.  The
+   complexity of the triangular solver is $\mathcal{O}(n^2)$.
+
+ - As $b$ now contains $y$ we solve $Ux=b$.  Again we use a triangular solver
+   that will overwrite $b$ with the solution $x$.
+
+The application of matrix view is obvious.  The very same full storage scheme
+
+ - First gets used to represent a general matrix when computing the $LU$
+   factorization.
+
+ - Then gets used to represent a lower triangular matrix.
+
+ - And finally as a upper triangular matrix.
+
+Note that this a algorithm also can be used if only $A$ is know *a priori* and
+the right hand side $b$ (or a sequence of right hand sides)  is known only
+*a posteriori*.  In that case you can;
+
+ - Compute the $LU$ factorization *a priori* (Complexity $\mathcal{O}(n^3)$).
+ - Solve $Ly=b$ and $Ux=b$ *a posterior* as soon a right hand side is $b$ given
+   (Complexity $\mathcal{O(n^2)}$).
 
 
+Example: Solving a System of Linear Equations
+---------------------------------------------
+:import: flens/examples/lu.cc [stripped, downloadable]
 
-Example Code
-------------
-:import: flens/examples/tut01-page04-example02.cc [stripped, downloadable]
 
-Comments on Example Code
-------------------------
-:import: flens/examples/tut01-page04-example02.cc [brief]
+Brief Explanation
+-----------------
+
+:import: flens/examples/lu.cc [brief]
 
 Compile and Run
 ---------------
 
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  g++ -Wall -std=c++11 -I../.. tut01-page04-example02.cc                    |
- |  ./a.out                                                                   |
- |                                                                            |
- *----------------------------------------------------------------------------*
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. lu.cc                                      |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+Why a `TrMatrix` is not Required to be Square?
+==============================================
+Reconsider solving a system of linear equations $Ax=b$.  If the right hand side
+$b$ is known a priori you can consider the extended matrix $\tilde(A) = (A,b)$.
+Applying the $LU$ factorization to $\tilde{A}$ you get the same permutation $P$
+and lower triangular matrix $L$ as for $A$.  But the upper triangular matrix
+has an additional column:
+
+---- LATEX ---------------------------------------------------------------------
+(A,b) = \tilde{A} = P L \tilde{U} = P L (U, L^{-1}b)
+--------------------------------------------------------------------------------
+
+So the forward solving of $Ly=b$ is already done and the last column got
+overwritten with $y = L^{-1}b$.
+
+If you have multiple right hand sides that are known a priori you can put them
+together column wise in a matrix $B$.  Extending $A$ for $B$ leads to
+$\tilde{A} = (A,B)$.  The $LU$ factorization of $\tilde{A} gives
+
+---- LATEX ---------------------------------------------------------------------
+(A,B) = \tilde{A} = P L \tilde{U} = P L (U, L^{-1}B)
+--------------------------------------------------------------------------------
+
+So afterwards solving the matrix equation $AX = B$ reduces to solving $UX=B$.
+
+Example: Solving a System of Linear Equations with a priori known $B$
+---------------------------------------------------------------------
+:import: flens/examples/lu2.cc [stripped, downloadable]
+
+
+Brief Explanation
+-----------------
+:import: flens/examples/lu2.cc [brief]
+
+Compile and Run
+---------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. lu2.cc                                     |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+Creating `GeMatrix` Views from a `TrMatrix`
+===========================================
+In the next paragraph we give reasons why it is sometime important to create
+a general matrix view from a triangular matrix.  The following methods of
+`TrMatrix` will be used:
+
+  +-[CODE]----------------------+-------------------------------------------+
+  | const ConstGeneralView      | Creates a `GeMatrix` view that references |
+  | general() const;            | the same underlying full storage scheme.  |
+  +-----------------------------+ So the return type is e.g.                |
+  | GeneralView                 | `GeMatrix<FullStorageView<..> >`.  The    |
+  | general();                  | exact type is defined through the public  |
+  |                             | typedef `ConstGeneralView` and            |
+  |                             | `GeneralView`.                            |
+  +-----------------------------+-------------------------------------------+
+
+Yes, it's legal: Changing the upper Part of a lower `TrMatrix`
+==============================================================
+Assume you have a `TrMatrix` that represents a lower triangular matrix.  Using
+the element access operator for the upper triangular part will cause a runtime
+assertion error.  That is because we assume something like that happens
+*accidentally*.
+
+Having said that, it is not illegal per se.  If the matrix is not const you
+have the right to change any element from the underlying full storage scheme.
+If you *explicitly* create a `GeMatrix` view from the `TrMatrix` then any
+element can be changed using the general view.
+
+Application
+-----------
+One reason to use a full storage scheme with $n \times n$ elements for a
+triangular matrix (instead of a packed storage scheme that only uses half the
+memory) is the possibility to use the opposite triangular part as workspace.
+
+Example
+-------
+We just give a brief example for illustrating the technical details.
+
+:import: flens/examples/trmatrix2.cc [stripped, downloadable]
+
+
+Brief Explanation
+-----------------
+:import: flens/examples/trmatrix2.cc [brief]
+
+Compile and Run
+---------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. trmatrix2.cc                               |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+Interface in Detail: Creating Views Referencing Matrix Parts
+============================================================
+As you can create a general matrix view from a `TrMatrix` technically any block
+can be used to create a matrix view:
+
+---- CODE(type=cc) -------------------------------------------------------------
+  TrMatrix<FullStorage<double> >   U(n, Upper);
+
+  auto A = U.general();
+
+  A12 = A(_(1,4),_(5,8));
+  // ...
+--------------------------------------------------------------------------------
+
+As creating rectangular parts or row/column views from a `TrMatrix` are
+frequently needed we also support direct methods.  It is not required that the
+selected area lies withing the proper triangular part.  E.g. you sometime want
+to select from a upper triangular matrix a block in the lower triangular part
+and use it as workspace.  Creating a view from a block selection always returns
+a `GeMatrix` view.  Even if the block is on the diagonal.  Selecting a
+row/column always results in a `DenseVector` view.
+
+
+- Methods for selecting rectangular matrix parts:
+
+  +-[CODE]----------------------------------------------+---------------------------------------------------------+
+  |  const ConstGeneralView                             |  Select a rectangualr area of the form                  |
+  |  operator()(const Range<IndexType> &rows,           |  `(fromRow:toRow, fromCol:toCol)` or                    |
+  |             const Range<IndexType> &cols) const;    |  `(fromRow:stepRow:toRow, fromCol:stepRow:toCol)`       |
+  +-----------------------------------------------------+                                                         |
+  |  GeneralView                                        |                                                         |
+  |  operator()(const Range<IndexType> &rows,           |                                                         |
+  |             const Range<IndexType> &cols);          |                                                         |
+  +-----------------------------------------------------+---------------------------------------------------------+
+  |  const ConstGeneralView                             |  All rows are selected.  So the range has the form      |
+  |  operator()(const Underscore<IndexType> &,          |  `(all, from:to)`.                                      |
+  |             const Range<IndexType> &cols) const;    |                                                         |
+  +-----------------------------------------------------+                                                         |
+  |  GeneralView                                        |                                                         |
+  |  operator()(const Underscore<IndexType> &,          |                                                         |
+  |             const Range<IndexType> &cols);          |                                                         |
+  +-----------------------------------------------------+---------------------------------------------------------+
+  |  const ConstGeneralView                             | All columns are selected. So the range has the form     |
+  |  operator()(const Range<IndexType> &rows,           | `(from:to, all)`.                                       |
+  |             const Underscore<IndexType> &) const;   |                                                         |
+  +-----------------------------------------------------+                                                         |
+  |  GeneralView                                        |                                                         |
+  |  operator()(const Range<IndexType> &rows,           |                                                         |
+  |             const Underscore<IndexType> &);         |                                                         |
+  +-----------------------------------------------------+---------------------------------------------------------+
+
+- Methods for selecting vector parts (the `DenseVector` class will be introduced
+  on the next page):
+
+  +-[CODE]------------------------------------------------------------+-------------------------------------------+
+  |  const ConstVectorView                                            |  Select `(row, all)`, i.e. the row with   |
+  |  operator()(IndexType row, const Underscore<IndexType> &) const;  |  index `row`.                             |
+  +-------------------------------------------------------------------+                                           |
+  |  VectorView                                                       |                                           |
+  |  operator()(IndexType row, const Underscore<IndexType> &);        |                                           |
+  +-------------------------------------------------------------------+-------------------------------------------+
+  |  const ConstVectorView                                            |  Select `(row, from:to)`, i.e. from the   |
+  |  operator()(IndexType row, const Range<IndexType> &cols) const;   |  row with index `row` the elements in the |
+  +-------------------------------------------------------------------+  column in range `from:to`.               |
+  |  VectorView                                                       |                                           |
+  |  operator()(IndexType row, const Range<IndexType> &cols);         |                                           |
+  +-------------------------------------------------------------------+-------------------------------------------+
+  |  const ConstVectorView                                            |  Select `(all, col)`, i.e. the column with|
+  |  operator()(const Underscore<IndexType> &, IndexType col) const;  |  index `col`.                             |
+  +-------------------------------------------------------------------+                                           |
+  |  VectorView                                                       |                                           |
+  |  operator()(const Underscore<IndexType> &, IndexType col);        |                                           |
+  +-------------------------------------------------------------------+-------------------------------------------+
+  |  const ConstVectorView                                            |  Select `(from:to, col)`, i.e. from the   |
+  |  operator()(const Range<IndexType> &rows, IndexType col) const;   |  column with index `col` the elements in  |
+  +-------------------------------------------------------------------+  the row range `from:to`.                 |
+  |  VectorView                                                       |                                           |
+  |  operator()(const Range<IndexType> &rows, IndexType col);         |                                           |
+  +-------------------------------------------------------------------+-------------------------------------------+
+
+
 
 
 :navigate: __up__    -> doc:flens/examples/tutorial

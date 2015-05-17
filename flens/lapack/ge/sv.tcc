@@ -230,8 +230,8 @@ sv(MA &&A, VPIV &&piv, VB &&b)
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<VB>::Type    VectorB;
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+    typedef typename RemoveRef<VB>::Type   VectorB;
 
     typedef typename VectorB::ElementType  ElementType;
     typedef typename VectorB::IndexType    IndexType;

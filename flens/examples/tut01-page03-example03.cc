@@ -21,17 +21,21 @@ foo()
     DDenseVector::View x = DDenseVector::EngineView(4*4, buffer_);
     DDenseVector::View y = DDenseVector::EngineView(2*4, buffer_, 2);
 
-    cout << "A = " << A << endl;
-    cout << "B = " << B << endl;
-    cout << "C = " << C << endl;
-    cout << "x = " << x << endl;
-    cout << "y = " << y << endl;
+    cout << "Matrix/vector views created from stack buffer:" << endl;
+    cout << "  ColMajor Matrix View" << endl;
+    cout << "  A = " << A << endl;
+    cout << "  RowMajor Matrix View" << endl;
+    cout << "  B = " << B << endl;
+    cout << "  RowMajor Matrix View referencing 2 rows" << endl;
+    cout << "  C = " << C << endl;
+    cout << "  Vector View" << endl;
+    cout << "  x = " << x << endl;
+    cout << "  Vector View referencing every second element" << endl;
+    cout << "  y = " << y << endl;
 }
 
 int
 main()
 {
-    for (int i=0; i<100; ++i) {
-        foo();
-    }
+    foo();
 }

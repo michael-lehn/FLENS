@@ -1,63 +1,253 @@
-================
-LU Factorization                                                        [TOC:2]
-================
+==================================================
+Coding a Cache Optimized Parallel LU Factorization                       [TOC:2]
+==================================================
 
-Matrix/Vector views are absolutely crucial for numerical linear algebra.  This
-becomes evident in the following example where we implement two variants of the
-$LU$ factorization:
+For a general $m \times n$ matrix $A$ the factorization computes $P$, $L$ and
+$U$ such that
 
-- `lu_unblk` is a so called _unblocked variant_ and
-- `lu_blk` its blocked variant.
+---- LATEX ---------------------------------------------------------------------
+  A = P L U
+--------------------------------------------------------------------------------
 
-The block variant utilizes (beside the unblocked variant) BLAS Level 3 routines
-and leads to an immense speedup.  For the sake of simplicity we do not consider
-pivoting in this example.
+where
+
+ - $P$ is a $m \times m$ permutation matrix.  Our implementation will represent
+   it a _permutation vector_ $p$.  This vector will only contain integers and
+   encodes the permutation as follows: interchange row $i$ with $p_i$ for
+   $1\leq i \leq m$.
+
+   The permutation matrix is determined by a pivoting strategy.  Such a strategy
+   is necessary to prevent divisions by zero or division by very small numbers.
+   So it enhances the numerical stability of the algorithm.  Pivoting strategies
+   differ in the amount of effort you want to invest for stability.  We will use
+   _partial pivoting_ in our factorization.
+
+ - $L$ is a lower triangular $m \times m$ matrix with ones on the diagonal.
+
+   The strict lower triangular part of $A$ gets overwritten with $L$.  So no
+   additional matrix is needed to store $L$.
+
+ - $U$ is an upper triangular $m \times n$ matrix.
+
+   The upper triangular part of $A$ gets overwritten with $U$.  So no
+   additional matrix is needed to store $U$.
+
+Every student who took an undergraduate class on numerical linear algebra knows
+how to implement this element wise using 3 loops We will derive two variants
+that use *matrix/vector operations instead of element wise operations.*  Hence,
+we can use BLAS for the heavy computations:
+
+ - *Unblocked Variant `lu_unblk`*
+
+   This variant uses only BLAS Level 1 and Level 2 functions.  So here we can
+   not expect high performance.  But we will take advantage of it.  Low
+   performance means that the CPU is waiting for work most of the time.  So we
+   can do some extra computations if it improves numerical stability.
+
+ - *Blocked Variant `lu_blk`*
+
+   This variant uses the unblocked variant `lu_unblk` only on a rather small
+   block.  Using BLAS Level 3 functions the remaining matrix gets updated with
+   the results.  We we achieve high performance.  Furthermore, it dominates the
+   overall performance and leads to an immense speedup.
+
+   Comparing the efficiency (measured in MFLOPS) you see that the blocked variant
+   is superior for all problem sizes.  For large systems of linear equations it
+   almost reaches 8 GFLOPS.  The unblock variant drops from 1 GFLOP to 500 MFLOPS
+   when the problem size exceeds the cache size.  So efficiency is increased by
+   a factor of 14.  Note that this is achieved without multi threading just by
+   using an algorithm that allows to exploit cache hierarchies:
+
+   ---- IMAGE ---------------------------------------------------------------------
+   http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/ulmBLAS/bench/lu-blocked.svg
+   --------------------------------------------------------------------------------
+
+   Of course in practise not efficiency but effectiveness matters.  Effectiveness
+   means how long does it take to compute the factorisation.  So less is better:
+
+   ---- IMAGE --------------------------------------------------------------------------
+   http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/ulmBLAS/bench/lu-blocked-time.svg
+   -------------------------------------------------------------------------------------
+
+   Note that both variants still have a complexity of $\mathcal{O}(N^3)$.  Only the
+   constant for the $N^3$ differs significantly.  This can be visualized by a
+   log-scaled plot:
+
+   ---- IMAGE ------------------------------------------------------------------------------
+   http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/ulmBLAS/bench/lu-blocked-time-log.svg
+   -----------------------------------------------------------------------------------------
+
+ - *Parallel Tile Variant `lu_tile`*
+
+   Once we can exploit a single CPU core we can consider parallelization.  The
+   matrix is converted to a block format.  For this blocked or tiled matrix
+   tasks for the LU factorization are done in parallel if possible.
+
+   The following benchmarks were done on a Quad-Core Intel Xeon Woodcrest with
+   2.66 GHz:
+
+   ---- IMAGE ------------------------
+   flens/examples/lu_bench/lu-time.svg
+   -----------------------------------
+
+   Using the timing measurements of `lu_blk` we can see that we have an
+   effective per-core speedup:
+
+   ---- IMAGE --------------------------------
+   flens/examples/lu_bench/lu-speedup-time.svg
+   -------------------------------------------
+
+#   ---- IMAGE ----------------------------
+#   flens/examples/lu_bench/lu-time-log.svg
+#   ---------------------------------------
 
 
-Unblocked Variant
-=================
-We partition $A \in \mathbb{R}^{m \times n}$ as follows:
+Unblocked Algorithm
+===================
+The idea to develop an algorithm in terms of matrix/vector operations is based
+on considering partitions of matrices.
+
+
+Partitioning $A$, $L$ and $U$
+-----------------------------
+We partition $A \in \mathbb{R}^{m \times n}$ along the first row and first
+column as follows:
+
   *--[LATEX]--------------------------------------------*
-  |                                                     |
+  |  \displaystyle                                      |
   |  A = \left( \begin{array}{c|c}                      |
-  |             a_{11}  & a_{12}^T \\ \hline            |
-  |             a_{21}  & A_{22}                        |
+  |             a_{11}         & \vec{a}_{12}^T \\      |
+  |             \hline                                  |
+  |             \vec{a}_{21}   & A_{22}                 |
   |             \end{array}\right)                      |
-  |                                                     |
+  |  \qquad                                             |
+  |  a_{11}         \in \mathbb{R},\;                   |
+  |  \vec{a}_{12}^T \in \mathbb{R}^{1 \times (n-1)},\;  |
+  |  \vec{a}_{21}   \in \mathbb{R}^{(m-1) \times 1},\;  |
+  |  A_{22}         \in \mathbb{R}^{(m-1) \times (m-1)}.|
   *-----------------------------------------------------*
-After the factorization we want to have a lower triangular matrix $L$ with
-unit diagonal
+
+So $a_{11}$ is a scalar, $\vec{a}_{21}$ a column vector, $\vec{a}_{12}^T$ a row
+vector and $A_{22}$ a matrix block.
+
+We first assume that the permutation matrix $P$ is just the identity matrix,
+i.e. that no pivoting is needed.  In this case the factorization reads $A = LU$.
+We now partition $L$ and $U$ accordingly.
+
+As $L \in \mathbb{R}^{m \times m}$ is lower triangular with unit diagonal
+the partition reads:
   *--[LATEX]--------------------------------------------*
   |                                                     |
   |  L = \left( \begin{array}{c|c}                      |
-  |             1       & \mathcal{0}   \\ \hline       |
-  |             l_{21}  & L_{22}                        |
+  |             1             & \vec{\mathcal{0}}^T \\  |
+  |             \hline                                  |
+  |             \vec{l}_{21}  & L_{22}                  |
   |             \end{array}\right)                      |
+  |  \qquad                                             |
+  |  \vec{l}_{21} \in \mathbb{R}^{(m-1) \times 1},\;    |
+  |  L_{22}       \in \mathbb{R}^{(m-1) \times (m-1)}.  |
   |                                                     |
   *-----------------------------------------------------*
-and an upper triangular matrix $U$
+
+Analogously we get for $U$:
   *--[LATEX]--------------------------------------------*
   |                                                     |
   |  U = \left( \begin{array}{c|c}                      |
-  |             u_{11}      & u_{12}^T \\ \hline        |
+  |             u_{11}      & \vec{u}_{12}^T \\         |
+  |             \hline                                  |
   |             \mathcal{0} & U_{22}                    |
   |             \end{array}\right)                      |
+  |  \qquad                                             |
+  |  u_{11}         \in \mathbb{R},\;                   |
+  |  \vec{u}_{12}^T \in \mathbb{R}^{1 \times (n-1)},\;  |
+  |  L_{22}         \in \mathbb{R}^{(m-1) \times (n-1)}.|
   |                                                     |
   *-----------------------------------------------------*
-such that $A = LU$.  This leads to the equations
-  *--[LATEX]--------------------------------------------*
-  |                                                     |
-  |  \begin{eqnarray*}                                  |
-  |  a_{11} &=& u_{11} \\                               |
-  |  a_{12} &=& u_{12} \\                               |
-  |  a_{21} &=& u_{11} l_{21} \\                        |
-  |  A_{22} &=& l_{21} u_{12}^T + L_{22}U_{22}          |
-  |  \end{eqnarray*}                                    |
-  |                                                     |
-  *-----------------------------------------------------*
-Furthermore, we want that $A$ get compactly overwritten with $(L\backslash U)$.
 
-This leads to the well-known Gauss algorithm:
+Recursive Algorithm for a Factorization $A = LU$
+------------------------------------------------
+In the matrix product equation $A=LU$ we now simply plug in the partitioned
+matrices and get
+
+---- LATEX ---------------------------------------------------------------------
+    \begin{eqnarray*}
+    A = LU
+    &\;\Leftrightarrow\;&
+    \left( \begin{array}{c|c}
+            a_{11}         & \vec{a}_{12}^T \\
+            \hline
+            \vec{a}_{21}   & A_{22}
+            \end{array}\right)
+    =
+    \left( \begin{array}{c|c}
+           1             & \vec{\mathcal{0}}^T \\
+           \hline
+           \vec{l}_{21}  & L_{22}
+           \end{array}\right)
+    \left( \begin{array}{c|c}
+           u_{11}      & \vec{u}_{12}^T \\
+           \hline
+           \mathcal{0} & U_{22}
+           \end{array}\right)
+    \\[1em]
+    &\;\Leftrightarrow\;&
+    \left( \begin{array}{c|c}
+            a_{11}         & \vec{a}_{12}^T \\
+            \hline
+            \vec{a}_{21}   & A_{22}
+            \end{array}\right)
+    =
+    \left( \begin{array}{c|c}
+           u_{11}              & \vec{u}_{12}^T
+           \\ \hline
+           \vec{l}_{21} u_{11} & \vec{l}_{21} \vec{u}_{12}^T + L_{22} U_{22}
+           \end{array}\right)
+    \end{eqnarray*}
+--------------------------------------------------------------------------------
+
+Comparing partition blocks leads to the equations
+
+---- LATEX ---------------------------------------------------------------------
+    \left\{
+    \begin{array}{lcl}
+    a_{11}       &=& u_{11} \\
+    \vec{a}_{12} &=& \vec{u}_{12} \\
+    \vec{a}_{21} &=& u_{11} \vec{l}_{21} \\
+    A_{22} &=& \vec{l}_{21} \vec{u}_{12}^T + L_{22}U_{22}
+    \end{array}
+    \right.
+    \quad \Leftrightarrow \quad
+    \left\{
+    \begin{array}{lcl}
+    u_{11}       &=& a_{11} \\
+    \vec{u}_{12} &=& \vec{a}_{12} \\
+    \vec{l}_{21} &=& \vec{a}_{21} / u_{11} \\
+    L_{22}U_{22} &=& A_{22} - \vec{l}_{21} \vec{u}_{12}^T
+    \end{array}
+    \right.
+--------------------------------------------------------------------------------
+
+So except for $L_{22}$ and $U_{22}$ all entries of the partitioned matrices $L$
+and $U$ can be computed directly.  The blocks $L_{22}$ and $U_{22}$ can be
+computed by computing the $LU$ factorization of the $(m-1) \times (n-1)$ matrix
+$A_{22} - \vec{l}_{21} \vec{u}_{12}^T$.
+
+Overwriting the partitions of $A$ with partitions of $L$ and $U$ reads:
+
+---- LATEX -------------------------------------------------------------------------------------
+    \begin{array}{lcll}
+    a_{11}       & \leftarrow & a_{11}                                & \text{(No Operation)} \\
+    \vec{a}_{12} & \leftarrow & \vec{a}_{12}                          & \text{(No Operation)} \\
+    \vec{a}_{21} & \leftarrow & \vec{a}_{21} / a_{11}                 & \text{(Scale)} \\
+    A_{22}       & \leftarrow & A_{22} - \vec{a}_{21} \vec{a}_{12}^T  & \text{(Rank 1 Update)}
+    \end{array}
+------------------------------------------------------------------------------------------------
+
+So obviously this requires that $a_{11} \neq 0$   If $a_{11} = 0$ we have to
+use a pivot strategy that interchanges two rows of $A$ first.  We will add this
+next.  For the moment we derived the well-known Gauss algorithm (without
+row interchanges):
+
   *--[BOX]--------------------------------------------------*
   |                                                         |
   |  - Partition $A$ as outlined above.                     |
@@ -67,37 +257,205 @@ This leads to the well-known Gauss algorithm:
   |                                                         |
   *---------------------------------------------------------*
 
-Implementation of `lu_unblk`
+Recursive Algorithm with Pivoting: $A = PLU$
+--------------------------------------------
+In the above algorithm we have to avoid a division by zero.  For numerical
+stability it is favorable that in a floating point division `x/y` the absolute
+value of `y` is larger than the absolute value of `x`.
+
+So the idea to achieve both is simple and known as _partial pivoting_.  Before
+each step we first determine the component in $\vec{a}_{21}$ with maximal
+absolute value.  We interchange then complete rows of the original matrix $A$
+such that $a_{11}$ always contains the maximal absolute value.  Note that is
+important the rows of the original matrix get interchanged.
+
+In order to remember what rows of the original matrix where interchanged we
+use a pivot vector $\vec{p}$ that initially contains values $1, \dots, m$.  If
+row $i$ gets interchanged with row $j$ we set $p_i = j$.
+
+Iterative Algorithm with Pivoting: $A = PLU$
+--------------------------------------------
+Of course we prefer an iterative algorithm for an implementation.  This is
+simply achieved by considering the partitioning within the original matrix:
+
+---- LATEX ---------------------------------------------------------------------
+  \require{color}
+  \left(      \begin{array}{c|c}
+              A_{00}       & A_{01} \\
+              \hline
+              A_{10}       & {\color{red}\tilde{A}_{11}} \\
+              \end{array} \right)
+  \qquad\text{with}\quad
+{\color{red}\tilde{A}} =
+  \left(     \begin{array}{c|c}
+             a_{11}         & \vec{a}_{12}^T \\
+             \hline
+             \vec{a}_{21}   & A_{22}
+             \end{array} \right)
+--------------------------------------------------------------------------------
+
+So in the $i$-th step we are working on the sub-matrix $\tilde{A}$.  In Matlab
+notation this sub-matrix is related to $A$ by $\tilde{A} = A(i:m, i:n)$. Parts
+of $\tilde{A}$ are therefore:
+
+---- LATEX ---------------------------------------------------------------------
+    \begin{array}{lclclcl}
+    \text{first column of}\;\tilde{A} & = & A(&i:m   &,& i     &) \\
+    a_{11}                            & = & A(&i     &,& i     &) \\
+    \vec{a}_{21}                      & = & A(&i+1:m &,& i     &) \\
+    \vec{a}_{12}^T                    & = & A(&i     &,& i+1:n &) \\
+    \vec{a}_{12}^T                    & = & A(&i+1:m &,& i+1:n &) \\
+    \end{array}
+--------------------------------------------------------------------------------
+
+This gives the iterative algorithm for computing the $LU$ factorization with
+partial pivoting:
+
+
+---- BOX -----------------------------------------------------------------------------------------
+- For $i=1,\dots,\min\{m,n\}$
+    - Find $l \in {i,\dots,m}$ such that $|\,A_{l,i}| = \max\limits_{k=i,\dots,m}|\,A_{k,i}|$
+    - Set $p_i = l$
+    - If $p_i \neq i$ then
+        - interchange rows $i$ and $l$ of $A$.
+    - If $|\,A_{i,i}|$ is exactly Zero
+        - return $i$
+    - $A_{i+1:m, i} \leftarrow \frac{1}{A_{i,i}} \cdot A_{i+1:m, i} $ (Scale)
+    - $A_{i+1:m,i+1:n} \leftarrow A_{i+1:m,i+1:n} - A_{i+1:m,i} \cdot A_{i,i+1:n}$ (Rank 1 Update)
+--------------------------------------------------------------------------------------------------
+
+The algorithm aborts if in the $i$-th step no non-zero element can be found. So
+yes, we continue even if $A_{i,i}$ is almost zero.  Numerical stability can be
+optimized if scaling is done by division if $A_{i,i}$ is almost zero.
+
+
+Improving Numerical Stability
+-----------------------------
+*Floating point divisions are more expensive (i.e. need more CPU cycles) than
+floating point multiplications*.  That makes it favorable to compute first the
+reciprocal $\alpha = \frac{1}{A_{i,i}}$ and then the scaling
+$A_{i+1:m, i} \leftarrow \alpha A_{i+1:m, i}$.
+
+If the absolute value of $A_{i,i}$ is small the division $1/A_{i,i}$ can cause
+an overflow.  Even without an overflow scaling by multiplying with the
+reciprocal can cause a considerable loss of precision.  Because of the partial
+pivoting the element wise divisions $A_{j,i}/A_{i,i}$ with $i < j \leq m$ still
+give results within machine accuracy.  Using the FPU for the division makes the
+division considerably more expensive than multiplications using SSE or AVX.
+However, using the FPU the division gets internally done with 80 bits floating
+point numbers instead of 64 or 32 bits.
+
+Note that the *dominant operations* in the above algorithm are *Vector Scaling*
+(BLAS Level 1) and *Rank 1 Update* (BLAS Level 2).  We don't have any BLAS
+Level 3 function.  So this algorithm *can not exploit caches*.  This means the
+CPU will wait most of the time for data from the memory.  So once the CPU
+finally gets something to do we can do some extra computations if it improves
+roundoff errors.  So in each step we will check whether the absolute value of
+$A_{i,i}$ is smaller than a threshold.  Based on that we decide to scale by
+$1/A_{i,i}$ (possibly using internally SSE or AVX) or doing element wise
+divisions using the FPU.
+
+---- BOX -----------------------------------------------------------------------------------------
+- For $i=1,\dots,\min\{m,n\}$
+    - Find $l \in {i,\dots,m}$ such that $|\,A_{l,i}| = \max\limits_{k=i,\dots,m}|\,A_{k,i}|$
+    - Set $p_i = l$
+    - If $p_i \neq i$ then
+        - interchange rows $i$ and $l$ of $A$.
+    - If $|\,A_{i,i}|$ is exactly Zero
+        - return $i$
+    - If $|\,A_{i,i}| < \text{thresh}$
+        - For $j=i+1, \dots, m$
+            - $A_{j, i} \leftarrow A_{j,m}/A_{i,i} $ (FPU Division)
+    - else
+        - $A_{i+1:m, i} \leftarrow \frac{1}{A_{i,i}} \cdot A_{i+1:m, i} $ (Scale)
+    - $A_{i+1:m,i+1:n} \leftarrow A_{i+1:m,i+1:n} - A_{i+1:m,i} \cdot A_{i,i+1:n}$ (Rank 1 Update)
+--------------------------------------------------------------------------------------------------
+
+Numerical stability can be further improved by using full pivoting for the
+$LU$ factorization.  If this is not sufficient more stable (and more expensive)
+factorizations like $QR$ factorization or a singular value decomposition can
+be considered.
+
+
+Implementation of `lu_unblk` using Operators
+--------------------------------------------
+:import: flens/examples/lu/lu_unblk_with_operators.h [stripped, downloadable]
+
+Implementation of `lu_unblk` using `flens::blas` functions
+----------------------------------------------------------
+In case you find explicit function calls more expressive you can do so.  For
+example, it makes it more obvious that only BLAS Level 1 and BLAS Level 2
+functions get used.  Actually we usually start an implementation with explicit
+function calls and only replace them with operator notations if it make code
+more expressive.
+
+The previous previous code is equivalent to:
+
+:import: flens/examples/lu/lu_unblk_with_flensblas.h [stripped, downloadable]
+
+Auxiliary Function for Applying the Permutation
+-----------------------------------------------
+Applying the permutation $P$ to a matrix $X$ means computing $PX$.  The
+permutation matrix $P$ is represented by a pivot vector $p$ that stores row
+interchanges that happened during the $LU$ factorization.  In this case applying
+$P$ means reversing the interchanges such that $PLU$ gives the original matrix
+$A$.  This is done by the auxiliary function `apply_perm`:
+
+:import: flens/examples/lu/apply_perm.h [stripped, downloadable]
+
+Auxiliary Wall Time Function
 ----------------------------
-:import: flens/examples/lu_unblk.h [stripped, downloadable]
+For measuring the elapsed time for doing a certain task we use a simple
+wall-time clock.  The term 'wall-time' means that for a task we want to  measure
+the _real time_ that elapses from start to end, i.e. including time used for
+system calls etc.  It can be used following the pattern:
+
+    ---- CODE(type=cc) ---------------------
+    double t0 = ATL_walltime();
+    // do something
+    t0 = ATL_walltime() - t0;
+    
+    cout << "elapsed time = " << t0 << endl;
+    ----------------------------------------
+
+The code for `ATL_walltime` was taken from __ATLAS__:
+
+:import: flens/examples/lu/timer.h [stripped, downloadable]
 
 
 Code for Testing
 ----------------
-:import: flens/examples/lu_unblk-test.cc [stripped, downloadable]
+:import: flens/examples/lu_unblk_test.cc [stripped, downloadable]
 
-The structure of this test is simple:
+Note:
+~~~~~
+:import: flens/examples/lu_unblk_test.cc [brief]
 
-:import: flens/examples/lu_unblk-test.cc [brief]
 
 Compile and Run
 ---------------
-Note that we compile with ATLAS here.  With a BLAS reference implementation
-the runtime starts to hurt.
 
-  *--[SHELL]------------------------------------------------------------*
-  |                                                                     |
-  |  cd flens/examples                                                  |
-  |  g++ -Wall -std=c++11 -I../.. -o lu_unblk-test lu_unblk-test.cc  +++|
-  |             -DWITH_ATLAS -framework vecLib                          |
-  |  time ./lu_unblk-test                                               |
-  |                                                                     |
-  *---------------------------------------------------------------------*
+ *--[SHELL]------------------------------------------------------------------------------------*
+ |                                                                                             |
+ |  cd flens/examples                                                                          |
+ |  g++ -Wall -std=c++11 -DWITH_OPERATORS -I../.. -o lu_unblk_operators_test lu_unblk_test.cc  |
+ |  g++ -Wall -std=c++11 -I../.. -o lu_unblk_flensblas_test lu_unblk_test.cc                   |
+ |  ./lu_unblk_operators_test                                                                  |
+ |  ./lu_unblk_flensblas_test                                                                  |
+ |                                                                                             |
+ *---------------------------------------------------------------------------------------------*
 
 
-Blocked Variant
-===============
-We now partition $A \in \mathbb{R}^{m \times n}$ block-wise
+Blocked Algorithm
+=================
+We now derive an algorithm that takes advantage of BLAS Level 3 functions and
+applies the unblocked $LU$ factorization only on a block that fits into the
+L2 cache.
+
+Block-Partitioning A, L and U
+-----------------------------
+We now consider a block-wise partition of $A \in \mathbb{R}^{m \times n}$
+
   *--[LATEX]--------------------------------------------*
   |                                                     |
   |  A = \left( \begin{array}{c|c}                      |
@@ -106,10 +464,16 @@ We now partition $A \in \mathbb{R}^{m \times n}$ block-wise
   |             \end{array}\right)                      |
   |                                                     |
   *-----------------------------------------------------*
-where block $A_{11}$ is square, i.e. $A_{11} \in \mathbb{R}^{bs \times bs}$.
 
+where block $A_{11}$ is square, i.e.
+$A_{11} \in \mathbb{R}^{\text{BS} \,\times\, \text{BS}}$,
+$A_{21} \in \mathbb{R}^{(m-\text{BS}) \,\times\, \text{BS}}$,
+$A_{12} \in \mathbb{R}^{\text{BS} \,\times\, (n-\text{BS})}$ and
+$A_{22} \in \mathbb{R}^{(m-\text{BS}) \,\times\, (n-\text{BS})}$ for some block
+size $\text{BS} \in \mathbb{N}$.
 
-Analogously we partition $L$
+Analogously we consider for $L$ the block-partition
+
   *--[LATEX]--------------------------------------------*
   |                                                     |
   |  L = \left( \begin{array}{c|c}                      |
@@ -118,7 +482,10 @@ Analogously we partition $L$
   |             \end{array}\right)                      |
   |                                                     |
   *-----------------------------------------------------*
-and $U$
+
+where $L_{11}$ adn $L_{22}$ are lower triangular matrix with unit diagonal.  For
+$U$ the block-partition
+
   *--[LATEX]--------------------------------------------*
   |                                                     |
   |  U = \left( \begin{array}{c|c}                      |
@@ -127,55 +494,498 @@ and $U$
   |             \end{array}\right).                     |
   |                                                     |
   *-----------------------------------------------------*
-This time we get from $A = LU$ the equations
-  *--[LATEX]--------------------------------------------*
-  |                                                     |
-  |  \begin{eqnarray*}                                  |
-  |  A_{11} &=& L_{11} U_{11} \\                        |
-  |  A_{12} &=& L_{11} U_{12} \\                        |
-  |  A_{21} &=& L_{21} U_{11}  \\                       |
-  |  A_{22} &=& L_{21} U_{12} + L_{22}U_{22}            |
-  |  \end{eqnarray*}                                    |
-  |                                                     |
-  *-----------------------------------------------------*
 
-We compute the $LU$ factorization of $A_{11}$ with the unblocked variant and
-get the following algorithm:
-  *--[BOX]--------------------------------------------------*
-  |                                                         |
-  |  - Partition $A$ as outlined above.                     |
-  |  - Overwrite $A_{11}$ with its $LU$ factorization.      |
-  |  - Overwrite $A_{21}$ with $A_{21} U_{11}^{-1}$.        |
-  |  - Overwrite $A_{12}$ with $L_{11}^{–1} U_{12}$         |
-  |  - Overwrite $A_{22}$ with $A_{22} - A_{21}A_{12}$      |
-  |  - Repeat with $A_{22}$ instead of $A$.                 |
-  |                                                         |
-  *---------------------------------------------------------*
+blocks $U_{11}$ and $U_{22}$ are obviously upper triangular matrices.
 
-Implementation of `lu_blk`
---------------------------
-:import: flens/examples/lu_blk.h [stripped, downloadable]
+So in case no pivoting gets applied the $LU$ factorization is determined by
+
+---- LATEX ---------------------------------------------------------------------
+    \begin{eqnarray*}
+    A = LU
+    &\;\Leftrightarrow\;&
+    \left( \begin{array}{c|c}
+            A_{11}   & A_{12} \\
+            \hline
+            A_{21}   & A_{22}
+            \end{array}\right)
+    =
+    \left( \begin{array}{c|c}
+           L_{11}  & \mathcal{0} \\
+           \hline
+           L_{21}  & L_{22}
+           \end{array}\right)
+    \left( \begin{array}{c|c}
+           U_{11}      & U_{12} \\
+           \hline
+           \mathcal{0} & U_{22}
+           \end{array}\right)
+    \\[1em]
+    &\;\Leftrightarrow\;&
+    \left( \begin{array}{c|c}
+            A_{11}   & A_{12} \\
+            \hline
+            A_{21}   & A_{22}
+            \end{array}\right)
+    =
+    \left( \begin{array}{c|c}
+           L_{11} U_{11} & L_{11} U_{12}
+           \\ \hline
+           L_{21} U_{11} & L_{21} U_{12} + L_{22} U_{22}
+           \end{array}\right)
+    \end{eqnarray*}
+--------------------------------------------------------------------------------
+
+Comparing partition blocks leads to the equations
+
+---- LATEX ---------------------------------------------------------------------
+    \left\{
+    \begin{array}{lcl}
+    A_{11} &=& L_{11} U_{11} \\
+    A_{12} &=& L_{11} U_{12} \\
+    A_{21} &=& L_{21} U_{11} \\
+    A_{22} &=& L_{21} U{12} + L_{22} U_{22}
+    \end{array}
+    \right.
+    \quad \Leftrightarrow \quad
+    \left\{
+    \begin{array}{lcl}
+    L_{11} U_{11} &=& A_{11} \\
+    U_{12}        &=& L_{11}^{-1} A_{12} \\
+    L_{21}        &=& A_{21} U_{11}^{-1} \\
+    L_{22}U_{22} &=& A_{22} - L_{21} U_{12}
+    \end{array}
+    \right.
+    \quad \Leftrightarrow \quad
+    \left\{
+    \begin{array}{lcl}
+    L_{11} U_{11} &=& A_{11} \\
+    U_{12}        &=& L_{11}^{-1} A_{12} \\
+    L_{21}^T      &=& U_{11}^{-T} A_{21}^T \\
+    L_{22}U_{22} &=& A_{22} - L_{21} U_{12}
+    \end{array}
+    \right.
+--------------------------------------------------------------------------------
+
+Note that because $L_{11}$ and $U_{11}^T$ are both lower triangular computing
+$L_{11}^{-1} A_{12}$ and $U_{11}^{-T} A_{21}^T$ can be done using a triangular
+solver (forward substitution).
+
+Recursive Block Algorithm for a Factorization $A = LU$
+------------------------------------------------------
+So as we again want to overwrite $A$ with $L$ and $U$ we end up with the
+algorithm
+
+---- BOX -----------------------------------------------------------------------
+  - Partition $A$ as outlined above.
+  - Use the unblocked $LU$ factorization to overwrite $A_{11}$ with $L_{11}$
+    and $U_{11}.
+  - Use a triangular solver to overwrite $A_{21}$ with $A_{21} U_{11}^{-1}$.
+  - Use a triangular solver to overwrite $A_{12}$ with $L_{11}^{–1} U_{12}$
+  - Overwrite $A_{22}$ with $A_{22} - A_{21}A_{12}$ (Matrix-Matrix-Product)
+  - Repeat with $A_{22}$ instead of $A$.
+--------------------------------------------------------------------------------
+
+The triangular solvers (__'blas::sm'__) as well as the matrix-matrix product
+(__'blas::mm'__) are BLAS Level 3 functions.
+
+Iterative Block Algorithm with Pivoting: $A = PLU$
+--------------------------------------------------
+In order to derive an iterative algorithm we again consider the partitioning
+within the original matrix:
+
+---- LATEX ---------------------------------------------------------------------
+  \require{color}
+  \left(      \begin{array}{c|c|c}
+              A_{00}       & A_{01}              & A_{02} \\
+              \hline
+              A_{10}       & {\color{red}A_{11}} & {\color{red}A_{12}}\\
+              \hline
+              A_{20}       & {\color{red}A_{21}} & {\color{red}A_{22}}\\
+              \end{array} \right)
+  \qquad\text{with}\quad
+{\color{red}\tilde{A}} =
+  \left(     \begin{array}{c|c}
+             {\color{red}A_{11}} & {\color{red}A_{12}}\\
+             \hline
+             {\color{red}A_{21}} & {\color{red}A_{22}}
+             \end{array} \right)
+--------------------------------------------------------------------------------
+
+In the $i$-th iteration the dimension of $\tilde{A}$ is $\bigl(m -
+(i-1)\cdot\text{BS}\bigr) \times \bigl(n - (i-1)\cdot\text{BS}\bigr)$.
+Therefore blocks of $\tilde{A}$ have dimensions
+
+---- LATEX ----------------------------------------------------------------------------
+  \begin{array}{lll}
+  A_{11} & \in \mathbb{R}^{\text{bs} \times \text{bs}} &
+  \quad\text{with}\;
+  \text{bs} = \min\{\text{BS},\, m - i\cdot\text{BS},\, n - i\cdot\text{BS}\}\\
+  A_{21} & \in \mathbb{R}^{(m - i\cdot\text{BS}) \,\times\, \text{bs}} & \\
+  A_{12} & \in \mathbb{R}^{\text{bs} \,\times\, (n - i\cdot\text{BS})} & \\
+  A_{22} & \in \mathbb{R}^{(m - i\cdot\text{BS}) \,\times\, (n - i\cdot\text{BS})} & \\
+  \end{array}
+---------------------------------------------------------------------------------------
+
+This gives the iterative algorithm for computing block wise the $A=PLU$
+factorization with partial pivoting:
+
+
+---- BOX -----------------------------------------------------------------------------------------
+- Set $i = 1$
+- While $i=1 \leq \min\{m,n\}$
+    - Partition $A$ for the $i$-th iteration as illustrated above with
+      $\text{bs} = \min\{\text{BS},\, m - (i-1)\cdot\text{BS},\, n - (i-1)\cdot\text{BS}\}$
+    - Use the unblocked $LU$ factorization to compute $A_{11} = \tilde{P} L_{11} U_{11}$
+    - Apply $\tilde{P}^{-1}$ to $A_{10}$, i.e. compute $A_{10} = \tilde{P}^{-1} A_{10}$.
+    - Apply $\tilde{P}^{-1}$ to $A_{12}$, i.e. compute $A_{12} = \tilde{P}^{-1} A_{12}$.
+    - Update the permutation matrix $P$ with $\tilde{P}$.
+    - Use a triangular solver for $A_{21}^T = U_{11}^{-T} A_{21}^T$.
+    - Use a triangular solver for $A_{12} = L_{11}^{-1} A_{12}$.
+    - Compute the matrix-product $A_{22} = A_{22} - A_{21} A_{12}$.
+    - $i = i + \text{BS}$
+--------------------------------------------------------------------------------------------------
+
+Note
+~~~~
+What does updating $P$ with $\tilde{P}$ mean?  The permutation matrix $P$ is
+represented by a pivot vector $p = (p_1, \dots, p_m)$ and $\tilde{P}$ by a
+pivot vector $\tilde{p} = (\tilde{p}_1, \dots, \tilde{p}_{\text{bs}})$.  So an
+update means to set $p_{i+k-1} = i - 1 + \tilde{p}_{k}$ for $1 \leq k \leq
+\text{bs}$.
+
+Auxiliary Function for Applying the Inverse Permutation
+-------------------------------------------------------
+Applying the inverse permutation $P^{-1}=P^T$ to a matrix $X$ means computing
+$P^T X$.  Recall, the permutation matrix $P$ is represented by a pivot vector
+$p$ that stores row interchanges that happened during the $LU$ factorization.
+So applying $P$ means reversing the interchanges such that $PLU$ gives the
+original matrix $A$.  Hence, applying $P^{-1}$ to $X$ means to apply the same
+row interchanges that were done during the $LU$ factorization. This is done by
+the auxiliary function `apply_perm_inv`:
+
+:import: flens/examples/lu/apply_perm_inv.h [stripped, downloadable]
+
+Implementation of `lu_blk`  using `flens::blas` functions
+---------------------------------------------------------
+:import: flens/examples/lu/lu_blk_with_flensblas.h [stripped, downloadable]
+
+Implementation of `lu_blk`  using Operators
+-------------------------------------------
+For applying triangular solvers we do not provide overloaded operators.  So
+you might be disappointed if you a big fan of it.  In that case we leave it as a
+simple exercise to the dear user to support for a triangular matrix `L`
+something like `X = inverse(L)*B` that gets evaluated as `blas::sm(Left,
+NoTrans, 1.0, L, X)` if `X` and `B` are identical and as `X = B; blas::sm(Left,
+NoTrans, 1.0, L, X)` otherwise.
+
+:import: flens/examples/lu/lu_blk_with_operators.h [stripped, downloadable]
 
 
 Code for Testing
 ----------------
-:import: flens/examples/lu_blk-test.cc [stripped, downloadable]
+:import: flens/examples/lu_blk_test.cc [stripped, downloadable]
 
 Compile and Run
 ---------------
-We again compile and run the test with ATLAS here.
 
-  *--[SHELL]------------------------------------------------------------*
-  |                                                                     |
-  |  cd flens/examples                                                  |
-  |  g++ -Wall -std=c++11 -I../.. -o lu_blk-test lu_blk-test.cc      +++|
-  |             -DWITH_ATLAS -framework vecLib                          |
-  |  time ./lu_blk-test                                                 |
-  |                                                                     |
-  *---------------------------------------------------------------------*
+ *--[SHELL]------------------------------------------------------------------------------------*
+ |                                                                                             |
+ |  cd flens/examples                                                                          |
+ |  g++ -Wall -std=c++11 -DWITH_OPERATORS -I../.. -o lu_blk_operators_test lu_blk_test.cc      |
+ |  g++ -Wall -std=c++11 -I../.. -o lu_blk_flensblas_test lu_blk_test.cc                       |
+ |  ./lu_blk_operators_test                                                                    |
+ |  ./lu_blk_flensblas_test                                                                    |
+ |                                                                                             |
+ *---------------------------------------------------------------------------------------------*
+
+Having an algorithm that is capable to exploit caches and BLAS it now makes also sense to compile
+without debug code and optimizations:
+
+ *--[SHELL]------------------------------------------------------------------------------------*
+ |                                                                                             |
+ |  cd flens/examples                                                                          |
+ |  g++ -Wall -DNDEBUG -O3 -std=c++11 -DWITH_OPERATORS -I../.. -o lu_blk_operators_test     +++|
+ |      lu_blk_test.cc                                                                         |
+ |  g++ -Wall -DNDEBUG -O3 -std=c++11 -I../.. -o lu_blk_flensblas_test lu_blk_test.cc          |
+ |  ./lu_blk_operators_test                                                                    |
+ |  ./lu_blk_flensblas_test                                                                    |
+ |                                                                                             |
+ *---------------------------------------------------------------------------------------------*
+
+
+Block Algorithm with Parallel BLAS
+==================================
+The easiest way to parallelize the $LU$ factorization is using a multi-threaded
+BLAS implementation for the blocked $LU$ factorization.  In this case 'easy'
+means that you don't have to change function `lu_blk` you just link against
+a parallel BLAS library.  So the multi-threading part is hidden in BLAS.
+
+*In the near future we will extend the ulmBLAS tutorial for parallelization...*
+
+
+Parallel Tile Algorithm
+=======================
+Having a parallel computer architecture we hope that using 2 CPU cores for the
+$LU$ factorization cuts the wall-time in half, i.e. gives a speedup factor of 2.
+And of course, with 3 cores we hope for a speedup factor of 3, with 4 cores a
+speedup factor or 4 etc.  This means we hope for a perfect scalability of the
+problem.  However, this usually requires that for $k$ CPU cores we can work on
+$k$ disjoint sub-problems with perfect load balancing. The later means each
+sub-problem has the same complexity and the same memory bandwidth can be used
+for solving each of these sub-problems.
+
+For BLAS Level 3 functions this can be achieved in certain cases.  For example,
+in the matrix product $C = A\cdot B$ each thread computes a different block of
+$C$.  However, a good speedup factor requires that the computation done by a
+thread compensates the induced overhead, e.g. scheduling threads or copying
+buffered results.
+
+The PLASMA library tries to achieve a much higher granularity of sub-problems by
+considering parallelization already in the algorithms.  These algorithms
+basically push forward ideas from _blocked algorithms_ and are known as _tiled
+algorithms_.
+
+
+Example: Tasks for Factorizing a 2x2 Tile/Block Matrix
+------------------------------------------------------
+We again consider the $LU$ factorization of a $2 \times 2$ blocked matrix:
+
+---- LATEX ---------------------------------------------------------------------
+A = \begin{pmatrix}
+    A_{11} & A_{12} \\
+    A_{21} & A_{22} \\
+    \end{pmatrix}
+--------------------------------------------------------------------------------
+
+In the blocked algorithm we identified a sequence of necessary tasks that were
+done in the certain fixed order.  In this case _the total sequence_ of tasks
+done were:
+
+---- BOX -----------------------------------------------------------------------
+ - Compute $A_11 = P_1 L_{11} U_{11}$
+ - Compute $A_{12} \leftarrow P_1^T A_{12}$
+ - Update the permutation: $P \big|_1 \leftarrow P_1$
+ - Compute $A_{12} \leftarrow A_{12} U_{11}^{-1}$
+ - Compute $A_{21} \leftarrow L_{11}^{-1} A_{21}$
+ - Compute $A_{22} \leftarrow A_{22} - A_{21} A_{12}$
+ - Compute $A_{22} = P_2 L_{22} U_{22}$
+ - Compute $A_{21} \leftarrow P_2^T A_{21}$
+ - Update the permutation: $P \big|_2 \leftarrow P_2 + \text{bs}$
+--------------------------------------------------------------------------------
+
+Obviously these tasks can not be done in an arbitrary order.  And therefore some
+tasks can not be done in parallel.  However, analyzing the dependencies will
+show what tasks _could_ be done in parallel.
+
+Task Dependencies
+~~~~~~~~~~~~~~~~~
+We illustrated the dependencies through a directed graph.  Hereby
+$T_1 \rightarrow T_2$ denotes that task $T_1$ must be completed before task
+$T_2$ can be started.
+
+   ---- IMAGE -----------------
+   flens/examples/graph_2x2.svg
+   ----------------------------
+
+So once task $A_11 = P_1 L_{11} U_{11}$ is done we could
+
+ - Compute $A_{12} \leftarrow P_1^T A_{12}$ by one thread and
+ - $A_{12} \leftarrow A_{12} U_{11}^{-1}$ by another thread.
+
+Considering more tiles shows that more and more independent task can be
+identified.
+
+
+Example: Tasks for Factorizing a 3x3 Tile/Block Matrix
+------------------------------------------------------
+Listing all operations needed for a $3 \times 3$ tile matrix is already lengthy.
+
+---- LATEX ---------------------------------------------------------------------
+A = \begin{pmatrix}
+    A_{11} & A_{12} & A_{13} \\
+    A_{21} & A_{22} & A_{23} \\
+    A_{31} & A_{32} & A_{33} \\
+    \end{pmatrix}
+--------------------------------------------------------------------------------
+
+Gladly we will develop in this section a tool that automatically generates the
+task dependencies:
+
+   ---- IMAGE -----------------
+   flens/examples/graph_3x3.svg
+   ----------------------------
+
+
+Example: Tasks for Factorizing a 10x10 Tile/Block Matrix
+--------------------------------------------------------
+Just for fun (and because we have the tool) we also have a graph generated for
+a __10x10 tile matrix__.
+
+
+Converting Matrices to Tile Matrices
+------------------------------------
+:import: flens/examples/lu/tile.h [stripped]
+
+
+Implementation of `lu_tiled`
+----------------------------
+For the implementation of the tile algorithm we need a scheduler.  This
+scheduler can be fed with tasks (i.e. functions) that have dependency
+constraints, e.g. task `A` must be completed before task `B` can be started.
+Tasks can be done in parallel if constraints permit and if enough threads are
+available.
+
+A task is just a function pointer.  Using C++11 lambdas makes is a convenient
+way of creating such functions.  Furthermore it is required to define unique
+keys for each task.
+
+We will first look at the implementation of the tile algorithm and discuss the
+design of the scheduler and key functions later:
+
+:import: flens/examples/lu/lu_tiled_mt.h [stripped]
+
+
+Task Scheduler and Thread Pool
+------------------------------
+Class `Scheduler` provides an abstract interface a thread pool and scheduler:
+
+:import: flens/examples/lu/scheduler.h [stripped]
+
+:import: flens/examples/lu/scheduler.h [brief]
+
+The implementation uses typical C++11 features for dealing with threads, locks
+and condition variables.  The directed graph is realized using containers from
+the C++ standard library:
+
+:import: flens/examples/lu/scheduler.cc [stripped]
+
+
+Auxiliary Functions for Task Keys
+---------------------------------
+For creating task identifiers we simply create strings that contain some Latex
+code describing what the task is supposed to do.  For convenience we define
+a function such that we can use the beloved format strings from C:
+
+:import: flens/examples/lu/format.h [stripped]
+
+Now we simply can define a bunch of functions for generating different keys:
+
+:import: flens/examples/lu/lu_tiled_keys.h [stripped]
+
+
+Code for Testing
+----------------
+The test code first initializes the scheduler.  Copies and converts the matrix
+into tile format and calls the implementation of the tile algorithm.  Once the
+factorization is completed the tiled matrix is copied and converted back.
+
+:import: flens/examples/lu_tiled_test.cc [stripped]
+
+Compile and Run
+---------------
+
+ *--[SHELL]---------------------------------------------------------*
+ |                                                                  |
+ |  cd flens/examples                                               |
+ |  g++ -O3 -Wall -std=c++11 -I../.. -c lu/scheduler.cc             |
+ |  g++ -O3 -Wall -std=c++11 -I../.. scheduler.o lu_tiled_test.cc   |
+ |  ./a.out                                                         |
+ |                                                                  |
+ *------------------------------------------------------------------*
+
+
+# FLENS/C++ Design Pattern for Numerical Linear Algebra Functions
+# ===============================================================
+# We saw that FLENS allows an expressive way to implement algorithms in numerical
+# linear algebra.  Compared to a pure C/Fortran implementation there is no runtime
+# overhead.  FLENS can realize this because in C++ one has a very clear idea and
+# control how the equivalent C code looks like.  So with respect to efficiency
+# there is no price for abstraction if you are careful.  *However it is not
+# totally free, in some cases the price is that you have to deal with the
+# complexity of the C++ programming language.*
+# 
+# As an example assume a user wants to compute the $LU$ factorization of only a
+# matrix part.  This obviously can be done with our function `lu_blk` from above.
+# But now you have to decide how user-friendly this be:
+# 
+#   - *You can stop reading if you think this is good enough:*
+# 
+#     --- CODE(type=cc) ----------------------------------------------------------
+#     auto A_ = A(_(1,m/2), _);      // matrix view of upper part
+#     auto p_ = p(_(1,m/2), _);
+#     lu_blk(A_, p_);                // factorize only upper part
+#     ----------------------------------------------------------------------------
+# 
+# 
+#   - *However, you have to deal with `rvalues` and `traits` if you you want to
+#     allow this:*
+# 
+#     ---- CODE(type=cc) ---------------------------------------------------------
+#     lu_blk(A(_(1,m/2), _), p(_(1,m/2), _));
+#     ----------------------------------------------------------------------------
+# 
+# Short: The Problem
+# ------------------
+# 
+# Short: How to do it
+# -------------------
+# 
+# 
+# About `lvalue`, `rvalue` and `rvalue` References
+# ------------------------------------------------
+# The terms `lvalue` and `rvalue` are historically motivated by:
+# 
+#  - A `lvalue` is a value that can appear on the _left-hand side_ of an
+#    assignment, e.g. in `x=10` the variable `x`.
+# 
+#  - A `rvalue` is a value that could only appear on the _right-hand side_ of an
+#    assignment, e.g. constants or *temporaries returned by a function*.  That a
+#    constant like `5` must not appear on the left-hand side is obvious.  The fact
+#    that values returned by a function are not assignable has to do with the
+#    lifetime of the returned value.  In case the value is a integer like `int` or
+#    `long` the return value might be stored in a CPU register.  If it is a
+#    `struct` or `class` instance it lies on the stack.  In both cases it is not
+#    generally clear whether an assignment `f() = x` would make sense.  Either the
+#    left-hand side does not have a memory location at all or the memory location
+#    might get overwritten with the next function call.  But at least we know that
+#    if there is memory location it stays untouched until the next function call.
+# 
+#    In the above `lu_blk` example the latter is not so clear.  We will see that
+#    here the temporary returned by a function gets used as argument for the next
+#    function call.
+# 
+# 
+# Why consider something like `f() = x`?
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Usually it does not make sense to change a value returned by a function.  You
+# modify something that gets destroyed by any next function call.  But is not
+# always the case.  Changing the content of a matrix view changes the content of
+# the original matrix.
+# 
+# If you write `A(_(1,m/2),_)` it is basically a function call of `operator()`
+# defined in `class GeMatrix`.  The returned instance will reside on the stack.
+# As each function call modifies the stack one has to be concerned how long it
+# can be guaranteed to live there without getting overwritten:
+# 
+# The assignment `A(_(1,m/2), _) = B` is equivalent to
+# `A.operator()(_(1,m/2), _).operator=(B)`.  That means `operator=` gets called
+# after `operator()`.  So here the situation is even more clear.
+# 
+# Why consider `f(g())` were `f` modifies `g()`??
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# 
+# 
+#  - In `lu_blk(A(_(1,m/2), _), p(_(1,m/2), _))` the function `lu_blk` gets called
+#    after two calls of `operator()`.  As `lu_blk` gets its input from the values
+#    returned by `operator()` we are assured by C/C++ that they are still healthy
+#    on the stack.
 
 
 
+:links: blas::sm  -> doc:flens/blas/level3/sm
+        blas::mm  -> doc:flens/blas/level3/mm
+        ATLAS     -> http://math-atlas.sourceforge.net
+        10x10 tile matrix -> http://apfel.mathematik.uni-ulm.de/~lehn/graph_10x10.svg
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/tut01-page07

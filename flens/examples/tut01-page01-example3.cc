@@ -47,7 +47,7 @@ DGeMatrix_view(const DGeMatrix *A, DGeMatrixView *B,
 
 // Change entry in DGeMatrix
 void
-DGeMatrix_set(const DGeMatrix *A, long row, long col, double value)
+DGeMatrix_set(DGeMatrix *A, long row, long col, double value)
 {
     A->data[row+col*A->numRows] = value;
 }
@@ -61,7 +61,7 @@ DGeMatrix_get(const DGeMatrix *A, long row, long col)
 
 // Change entry in DGeMatrixView
 void
-DGeMatrixView_set(const DGeMatrixView *A, long row, long col, double value)
+DGeMatrixView_set(DGeMatrixView *A, long row, long col, double value)
 {
     A->data[row+col*A->leadingDimension] = value;
 }

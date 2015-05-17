@@ -22,8 +22,8 @@ FLENS defines three template classes for storing/referring an array:
 
   Example:
 
-  +---------------+--------------------------------------------+
-  |`Array<double>`|  Storage scheme that allocates memory      |
+  +-[CODE]--------+--------------------------------------------+
+  | Array<double> |  Storage scheme that allocates memory      |
   |               |  when instantiated.  Elements of type      |
   |               |  `double` are stored contiguously.         |
   +---------------+--------------------------------------------+
@@ -64,12 +64,12 @@ gets a mathematical meaning by encapsulating it.
 
 Examples:
 
-+----------------------------------------+----------------------------------------------------+
-|`DenseVector<Array<double> >`           | A dense vector where memory gets allocated         |
++-[CODE]---------------------------------+----------------------------------------------------+
+| DenseVector<Array<double> >            | A dense vector where memory gets allocated         |
 |                                        | when instantiated and released at the end of       |
 |                                        | its scope.                                         |
 +----------------------------------------+----------------------------------------------------+
-|`DenseVector<Array<double> >::View`     | A dense vector that references elements divided by |
+| DenseVector<Array<double> >::View      | A dense vector that references elements divided by |
 |                                        | a constant stride.  In practise these can be       |
 |                                        | elements from another vector but also from a row,  |
 |                                        | column, diagonal, etc. of a general matrix.        |
@@ -80,7 +80,7 @@ Examples:
 |                                        | in this case defined as                            |
 |                                        | `DenseVector<ArrayView<double> >`                  |
 +----------------------------------------+----------------------------------------------------+
-|`DenseVector<Array<double> >::ConstView`| Like `DenseVector<..>::View` just const.  Attempts |
+| DenseVector<Array<double> >::ConstView | Like `DenseVector<..>::View` just const.  Attempts |
 |                                        | of calling a non-const method will trigger an      |
 |                                        | static assertion failure.  So an instance must be  |
 |                                        | defined as const.                                  |
@@ -94,28 +94,28 @@ Examples:
 Some Public Typedefs
 --------------------
 
-+-----------------------------------+---------------------------------------------------+
++-[CODE]----------------------------+---------------------------------------------------+
 |                                   |                                                   |
-| `IndexType`                       | Like its name suggests the type used for indexing.|
-|                                   |                                                   |
-+-----------------------------------+---------------------------------------------------+
-|                                   |                                                   |
-| `ElementType`                     | The element type.                                 |
+| IndexType                         | Like its name suggests the type used for indexing.|
 |                                   |                                                   |
 +-----------------------------------+---------------------------------------------------+
 |                                   |                                                   |
-| `View`, `ConstView`               | Types for referencing elements separated by a     |
+| ElementType                       | The element type.                                 |
+|                                   |                                                   |
++-----------------------------------+---------------------------------------------------+
+|                                   |                                                   |
+| View, ConstView                   | Types for referencing elements separated by a     |
 |                                   | constant stride.                                  |
 |                                   |                                                   |
 +-----------------------------------+---------------------------------------------------+
 |                                   |                                                   |
-| `NoView`                          | Vector type with memory allocation.  If you want  |
+| NoView                            | Vector type with memory allocation.  If you want  |
 |                                   | to copy vector parts instead of referencing use   |
 |                                   | this type.                                        |
 |                                   |                                                   |
 +-----------------------------------+---------------------------------------------------+
 |                                   |                                                   |
-| `EngineView`, `EngineConstView`   | Storage schemes for referencing vectors.  For     |
+| EngineView, EngineConstView       | Storage schemes for referencing vectors.  For     |
 |                                   | `DenseVector` these are typedefs for              |
 |                                   | `ArrayView<..>` and `ConstArrayView<..>`.         |
 |                                   |                                                   |
@@ -125,28 +125,30 @@ Some Public Typedefs
 Some Methods and operations for Matrix Manipulation
 ---------------------------------------------------
 
-+---------------------------------------------------+--------------------------------------------+
++-[CODE]--------------------------------------------+--------------------------------------------+
 |                                                   |                                            |
-| `DenseVector(IndexType n)`                        | Constructor for a dense vector of          |
+| DenseVector(IndexType n)                          | Constructor for a dense vector of          |
 |                                                   | length $n$.                                |
 |                                                   |                                            |
 +---------------------------------------------------+--------------------------------------------+
 |                                                   |                                            |
-| `IndexType`                                       | Returns the vector length.                 |
-| `length() const`                                  |                                            |
+| IndexType                                         | Returns the vector length.                 |
+| length() const                                    |                                            |
 |                                                   |                                            |
 +---------------------------------------------------+--------------------------------------------+
 |                                                   |                                            |
-| `const ElementType& operator()(IndexType i) const`| Returns a reference to $i$-th element.     |
+| const ElementType &                               | Returns a reference to $i$-th element.     |
+| operator()(IndexType i) const                     |                                            |
 |                                                   |                                            |
 +---------------------------------------------------+                                            |
 |                                                   |                                            |
-| `ElementType& operator()(IndexType i)`            |                                            |
+| ElementType &                                     |                                            |
+| operator()(IndexType i)                           |                                            |
 |                                                   |                                            |
 +---------------------------------------------------+--------------------------------------------+
 |                                                   |                                            |
-| `Initializer operator=(const ElementType &value)` | List initializer.                          |
-|                                                   |                                            |
+| Initializer                                       | List initializer.                          |
+| operator=(const ElementType &value)               |                                            |
 |                                                   | Allows to initialize the vector with a     |
 |                                                   | comma separated list of values.            |
 |                                                   |                                            |
@@ -159,13 +161,15 @@ Like for matrices, by default indices start at 1, i.e. the index base is 1.  Aga
 with math entities not STL container.  So usually that is what you want in numerical linear algebra.
 If you chance for some good reason the index base the following methods become useful:
 
++-[CODE]--------------------------------------+------------------------------+
+|                                             |                              |
+| IndexType                                   | Return the first valid index.|
+| firstIndex() const                          |                              |
+|                                             |                              |
 +---------------------------------------------+------------------------------+
 |                                             |                              |
-| `IndexType firstIndex() const`              | Return the first valid index.|
-|                                             |                              |
-+---------------------------------------------+------------------------------+
-|                                             |                              |
-| `IndexType lastIndex() const`               | Return the last valid index. |
+| IndexType                                   | Return the last valid index. |
+| lastIndex() const                           |                              |
 |                                             |                              |
 +---------------------------------------------+------------------------------+
 

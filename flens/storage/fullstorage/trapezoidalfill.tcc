@@ -45,7 +45,7 @@ trapezoidalFill(IndexType m, IndexType n, const T &value,
                 T *data, IndexType incRow, IndexType incCol)
 {
     if (upLo==Upper) {
-        trapezoidalFillRandom(n, m, Lower, data, incCol, incRow);
+        trapezoidalFill(n, m, value, Lower, data, incCol, incRow);
         return;
     }
 

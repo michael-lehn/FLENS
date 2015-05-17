@@ -1,32 +1,119 @@
-======================================
-Accessing Raw Data Pointers and Stride                                  [TOC]
-======================================
+=======================================
+Accessing Raw Data Pointers and Strides                                  [TOC]
+=======================================
+
+In some object-oriented circles the idea of providing access to raw data is
+considered as a bad idea in general.  If you belong to these people and still
+want high performance you have to use libraries coded by people who are dealing
+with raw pointers.  If you want to implement highly efficient numerical code
+you have to know what you do and deal in some places with raw data.
 
 Assuming you know what you are doing FLENS gives you direct access to the raw
 data of its matrix/vector types.  One application is interfacing with other
 libraries.  For example BLAS, LAPACK, etc.
 
-But also for the implementation of efficient numerical you often don't want to
-use dynamic memory allocation.  Using memory from the stack or data segment is
-free, i.e. has no runtime overhead.  While dynamic memory allocation can be
-expensive in some cases.  Hence common task in writing efficient numerical code
-involves:
+But also consider cases where an efficient numerical code requires local
+buffers.  In this case you often do not want to allocate them on the heap.
+That's because allocation data on the heap can cause a considerable runtime
+overhead in some cases.  So if you depend on dynamic memory allocation you are
+interested that it happens as rarely as possible.  Like only once when your
+application gets started.
 
-  - Creating a matrix/vector inside a function that uses a small, local buffer
-    from the stack.
+In some cases you can do even better.  Using memory from the stack or data
+segment is free, i.e. has no runtime overhead.  In some case you can take
+advantage of this.  Common examples are:
 
-  - Creating a matrix/vector that uses a global buffer from the data segment.
+ - If you only need a small buffer inside a function just use a local buffer
+   on the stack.
+ - If you know the total amount of needed workspace at compile time use a
+   global buffer on the data segment.  And yes, we assume you know how to deal
+   with it in a multi-threaded environment.
 
-Numerical applications will be shown in later sections.  In the following we
-just address the technical details on how to accomplish these tasks.
+*Always have an example in mind were you implement a function that gets called
+by a function that gets called by a function, etc. And each function call
+happens within a loop.*
 
 
 Accessing Raw Data form Vectors and Matrices
 ============================================
+- For matrices of type `GeMatrix` the following methods provides the relevant
+  information:
+
+  +-[CODE]-------------------------------+--------------------------------------------+
+  |                                      |                                            |
+  | const ElementType *                  | Pointer to the first element of the matrix.|
+  | data() const;                        | So this is the address of `A(1,1)` (or more|
+  |                                      | general `A(A.firstRow(),A.firstCol())`).   |
+  +--------------------------------------+                                            |
+  |                                      |                                            |
+  | ElementType *                        |                                            |
+  | data();                              |                                            |
+  |                                      |                                            |
+  |                                      |                                            |
+  +--------------------------------------+--------------------------------------------+
+  | StorageOrder                         | Returns `RowMajor`, `ColMajor` or `Grid`.  |
+  | order() const;                       |                                            |
+  |                                      | An storage order `Grid` occurs if you have |
+  |                                      | e.g. a matrix view that references every   |
+  |                                      | second row and every third column of a     |
+  |                                      | matrix.                                    |
+  +--------------------------------------+--------------------------------------------+
+  | IndexType                            | Stride in memory between elements in the   |
+  | strideRow() const;                   | same column.  So `A.data() + A.strideRow()`|
+  |                                      | is the address of `A(2,1)`.                |
+  |                                      |                                            |
+  |                                      | If your matrix is `ColMajor` this is `1`.  |
+  +--------------------------------------+--------------------------------------------+
+  | IndexType                            | Stride in memory between elements in the   |
+  | strideCol() const;                   | same row.  So `A.data() + A.strideCol()`   |
+  |                                      | is the address of `A(2,1)`.                |
+  |                                      |                                            |
+  |                                      | If your matrix is `RowMajor` this is `1`.  |
+  +--------------------------------------+--------------------------------------------+
+  | IndexType                            | - For `ColMajor` matrices returns          |
+  | leadingDimension() const;            |   `strideCol()`.                           |
+  |                                      | - For `RowMajor` matrices returns          |
+  |                                      |   `strideRow()`.                           |
+  |                                      | - For `Grid` matrices this method triggers |
+  |                                      |   an runtime assertion.                    |
+  +--------------------------------------+--------------------------------------------+
+
+- For vectors of type `DenseVector` we provide
+
+  +-[CODE]-------------------------------+--------------------------------------------+
+  |                                      |                                            |
+  | const ElementType *                  | Pointer to the first element of the vector.|
+  | data() const;                        | So this is the address of `x(1)` (or more  |
+  |                                      | general `x(x.firstIndex())`).              |
+  +--------------------------------------+                                            |
+  |                                      |                                            |
+  | ElementType *                        |                                            |
+  | data();                              |                                            |
+  |                                      |                                            |
+  +--------------------------------------+--------------------------------------------+
+  | IndexType                            | Stride in memory between elements.  So     |
+  | stride();                            | `x.data()+x.stride()` is the address of    |
+  |                                      | `x(2)`.                                    |
+  +--------------------------------------+--------------------------------------------+
+
+Example Code
+------------
+:import: flens/examples/tut01-page03-example01.cc [stripped, downloadable]
+
+Compile and Rn
+--------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. tut01-page03-example01.cc                  |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
 
 
-How you NOT want to do it
-=========================
+Naive creation of matrices/vectors in Functions
+===============================================
 Consider a small core routine of a numerical application that is used to operate
 on small matrix blocks.  The function itself does only a few computations but
 gets called many times.  For intermediate results a small buffer is needed. In
@@ -34,28 +121,177 @@ this case dynamic memory allocation can have a considerable impact on runtime.
 
 So you *DO NOT* want an implementation of this type:
 
-:import: flens/examples/tut01-page02-example2.cc [stripped, downloadable]
+:import: flens/examples/tut01-page03-example02.cc [stripped, downloadable]
+
+
+Creating Matrices/Vector from Raw Data
+======================================
+You can not directly create matrices/vectors from raw data.  But you can create
+storage schemes from raw data and construct from these matrices/vectors.
+
+Recall that for `GeMatrix<..>` the typedefs `GeMatrix<..>::EngineView` and
+`GeMatrix<..>::EngineConstView` give you the types `FullStorageView<..>` and
+`ConstFullStorageView` with the correct template parameters.
+
+
+Creating a matrix view that uses externally managed raw data follows this
+pattern:
+
+---- CODE(type=cc)--------------------------------------------------------------
+typedef GeMatrix<FullStorage<double> >  DGeMatrix;
+
+double buffer_[BUFFERSIZE];
+
+// You are responsible that BUFFERSIZE >= NUMROWS*NUMCOLS*STRIDEROW*STRIDECOL
+DGeMatrix::View  A = DGeMatrix::EngineView(NUMROWS, NUMCOLS,
+                                           buffer_,
+                                           STRIDEROW, STRIDECOL);
+
+const DGeMatrix::ConstView B = DGeMatrix::EngineConstView(NUMROWS, NUMCOLS,
+                                                          buffer_,
+                                                          STRIDEROW, STRIDECOL);
+
+// Ok, you can create a const-view from a EngineView (if buffer_ is not const)
+const DGeMatrix::ConstView B = DGeMatrix::EngineView(NUMROWS, NUMCOLS,
+                                                     buffer_,
+                                                     STRIDEROW, STRIDECOL);
+--------------------------------------------------------------------------------
+
+Analogously you can create a vector view from raw data:
+
+---- CODE(type=cc)--------------------------------------------------------------
+typedef DenseVector<Array<double> >     DDenseVector;
+
+double buffer_[BUFFERSIZE];
+
+// Parameter STRIDE defaults to 1
+DDenseVector::View x = DDenseVector::EngineView(LENGTH, buffer_);
+DDenseVector::View y = DDenseVector::EngineView(LENGTH, buffer_, STRIDE);
+
+const DDenseVector::ConstView v = DDenseVector::EngineConstView(LENGTH, buffer_);
+const DDenseVector::ConstView w = DDenseVector::EngineConstView(LENGTH, buffer_, STRIDE);
+--------------------------------------------------------------------------------
 
 
 Using a Stack Buffer for Matrix/Vector Views
 ============================================
-If the buffer size is known at compile time (which is often the case for these
-kind of routines) you want to use a buffer on the stack.  Allocating the buffer
-is free in this case.
+If the buffer size is known at compile time and small enough you want to use a
+buffer on the stack.  Because allocating the buffer is free in this case.
 
 You than can use matrix/vector views as an interface for working on the buffer.
-In many cases you even want to use the buffer as matrix as well as a vector at
-the same time.
+In many cases you even want to use the same buffer as both, a matrix and a
+vector.  This is no problem, just use the same buffer for a matrix view and a
+vector view.  Then each view is just used as a different interface for the same
+data:
 
-So this is *how to do it*:
+:import: flens/examples/tut01-page03-example03.cc [stripped, downloadable]
 
-:import: flens/examples/tut01-page02-example3.cc [stripped, downloadable]
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. tut01-page03-example03.cc                  |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
 
+
+If Buffers are to big for the Stack
+===================================
+In many cases the required workspace depends on the dimension of matrix or
+vector arguments.  In this case you obviously can not use a stack buffer.  In
+this case it should be possible that the buffer can be created before the
+function gets called.
+
+Consider a function for computing the eigenvalues of a matrix.  An efficient
+implementation requires a workspace.  For the size of the workspace we have
+two cases:
+
+  - *Minimal workspace* that is required to do the computation.
+  - *Optimal workspace* for best performance.  So you can decide how much
+    memory you can invest for performance.
+
+So a common practise is to implement two functions:
+
+  - `eigenvalues_wsq(A)` does a *workspace query* to determine the minimal and
+    optimal workspace for computing the eigenvalues of `A`.  The function just
+    returns a pair of integers.
+
+  - `eigenvalues(A, v, workspace)` does the *actual computation*.  It for
+    example receives `workspace` as dense vector.  An assertion should check
+    that the length of `workspace` is at least the required minimum.  As you
+    saw above you can also create a matrix view from the underlying memory of
+    the workspace vector if this is more appropriate internally.
+
+    Often you want to do the same numerical operation on different matrices of
+    the same size.  So in this case the workspace can have each time the same
+    size.  For convenience you can consider the following:  If `workspace` has
+    length zero the function internally calls the workspace query and resizes
+    `workspace` for optimal size.  In this case the workspace does get allocated
+    on the heap.  But if you call the function for the next problem (of same or
+    smaller size) the workspace gets reused without allocating it again.
+
+If you don't care (or if you know that it does not matter) in some cases you can
+provide a third function:
+
+  - `eigenvalues(A, v)` which just calls `eigenvalue(A, v, workspace)` for an
+    empty `workspace` vector.  So in this case each function call will trigger
+    dynamic memory allocation and a release.
+
+
+:import: flens/examples/tut01-page03-example04.cc [stripped, downloadable]
 
 
 Using a Global Buffer for Matrix/Vector Views
 =============================================
+In Fortran 77 you don't have the possibility to allocate memory dynamically,
+i.e. at runtime.  And some hardcore circles in scientific computing claim it
+is a waste of CPU time.  The following example shows you how to do things right
+in this circles:
 
+ - You first make a *dry run for a workspace query*. You merely compute the
+   minimal and optimal workspace required for your problem.  So the program just
+   outputs two numbers:
+    - *Minimal workspace* required,
+    - *Optimal workspace*.
+ - If your hardware has enough memory to satisfy the minimal workspace needed
+   you compile again.  This time your application uses some workspace on the
+   data segment, i.e. some global workspace buffer.  The size of the workspace
+   is some number between the minimal and optimal size.  *This new compiled
+   program then does the actual compuation*.
+
+You can realize this using the preprocessor.  The macro `N` defines the problem
+size and `WORKSPACE` the size of the workspace.  If `WORKSPACE` equals zero
+a workspace query is done.
+
+Example Code
+------------
+:import: flens/examples/tut01-page03-example05.cc [stripped, downloadable]
+
+Compile and Run
+---------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  # compile and run for a worksize query                                  |
+   |  g++ -Wall -DDIM=100 -DWORKSPACE=0 -std=c++11 -I../..                 +++|
+   |            tut01-page03-example05.cc                                     |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   |  # We store the output of a.out  in a bash array                         |
+   |  WS=(`./a.out`)                                                          |
+   |                                                                          |
+   |  # Compile with minimal workspace and run                                |
+   |  g++ -Wall -DDIM=100 -DWORKSPACE=${WS[0]} -std=c++11 -I../..          +++|
+   |            tut01-page03-example05.cc                                     |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   |  # Compile with optimal workspace and run                                |
+   |  g++ -Wall -DDIM=100 -DWORKSPACE=${WS[1]} -std=c++11 -I../..          +++|
+   |            tut01-page03-example05.cc                                     |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
 
 
 :navigate: __up__    -> doc:flens/examples/tutorial

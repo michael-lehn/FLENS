@@ -10,8 +10,8 @@ main()
 {
     typedef GeMatrix<FullStorage<double> >   RealGeMatrix;
 
-    const int m = 2000;
-    const int n = 2000;
+    const int m = 4000;
+    const int n = 4000;
     const int mn = std::min(m, n);
 
     RealGeMatrix  A(m, n), A_check;

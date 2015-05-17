@@ -49,13 +49,16 @@ namespace flens { namespace lapack {
 
 //== laswp =====================================================================
 template <typename MA, typename VP>
-    void
-    laswp(GeMatrix<MA> &A, const DenseVector<VP> &piv);
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsDenseVector<VP>::value,
+             void>::Type
+    laswp(MA &&A, const VP &piv);
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP>
-    void
-    laswp(MA &&A, const VP &&piv);
+template <typename VA, typename VP>
+    typename RestrictTo<IsDenseVector<VA>::value
+                     && IsDenseVector<VP>::value,
+             void>::Type
+    laswp(VA &&A, const VP &piv);
 
 } } // namespace lapack, flens
 

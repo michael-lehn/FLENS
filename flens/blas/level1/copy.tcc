@@ -193,8 +193,18 @@ copy(Transpose transposeA, const MA &A, MB &&B)
     const bool lowerA    = (A.upLo()==Lower);
     const bool unitDiagA = (A.diag()==Unit);
 
+#   ifndef NDEBUG
     ASSERT(A.diag()==B.diag());
-    ASSERT((!transA && A.upLo()==B.upLo()) || (transA && A.upLo()!=B.upLo()));
+    if (!transA) {
+        ASSERT(A.upLo()==B.upLo());
+        ASSERT(A.numRows()==B.numRows());
+        ASSERT(A.numCols()==B.numCols());
+    } else {
+        ASSERT(A.upLo()!=B.upLo());
+        ASSERT(A.numRows()==B.numCols());
+        ASSERT(A.numCols()==B.numRows());
+    }
+#endif
 
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MCOPY(transposeA, A, B);

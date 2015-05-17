@@ -1,166 +1,115 @@
 ========
-Tutorial                                                                [TOC]
+Tutorial
 ========
 
-FLENS has many great features.  Looking through all the examples given in
-this tutorial should give you a first impression and a quick start.
+Going through the tutorials should answer many questions for users new to FLENS:
 
-More tutorials are on the way ...
+ - How to compile a small C++ code that uses FLENS?
+ - What matrix/vector types are defined and how to use them?
+ - What are matrix/views?
+ - How can I compute matrix-vector operations?
+ - How to solve a system of linear equations, compute eigenvalues, etc.?
 
-... so stay tuned.
-
+We also try to give insight of concepts used in the design of FLENS.
 
 Matrices, Vectors and Basic Linear Algebra Operations
 =====================================================
 
-+-------------+-------------------------------------------------------------+
-| __Page 1__  | - What is a general matrix?                                 |
-|             | - Concept of dividing a matrix type into matrix interface   |
-|             |   and storage scheme.                                       |
-|             | - Simple example on how-to use a general matrix.            |
-|             | - What are matrix-views and how to use them.                |
-|             | - How are matrix types and matrix views realized in FLENS?  |
-+-------------+-------------------------------------------------------------+
-| __Page 2__  | - What is a dense vector?                                   |
-|             | - Example for using dense vectors.                          |
-|             | - Working with vector views.                                |
-|             | - Vector views referencing matrix rows, columns or diagonals|
-|             |   of a matrix.                                              |
-+-------------+-------------------------------------------------------------+
-| __Page 3__  | - Accessing raw data pointers.                              |
-|             | - Accessing data strides                                    |
-|             | - Memory management:                                        |
-|             |    - Creating matrix/vector views from local buffers        |
-|             |      (Stack buffer).                                        |
-|             |    - Creating matrix/vector views from global buffers.      |
-|             |      (Data segment buffer)                                  |
-+-------------+-------------------------------------------------------------+
++-------------+-----------------------------------------------------------------+
+| __Page 1__  | *Full Storage Schemes and General Matrices*                     |
+|             |                                                                 |
+|             | - What is a general matrix?                                     |
+|             | - Concept of dividing a matrix type into matrix interface       |
+|             |   and storage scheme.                                           |
+|             | - Simple example on how-to use a general matrix.                |
+|             | - What are matrix-views and how to use them.                    |
+|             | - How are matrix types and matrix views realized in FLENS?      |
++-------------+-----------------------------------------------------------------+
+| __Page 2__  | *Array Storage and Dense Vectors*                               |
+|             |                                                                 |
+|             | - What is a dense vector?                                       |
+|             | - Example for using dense vectors.                              |
+|             | - Working with vector views.                                    |
+|             | - Vector views referencing matrix rows, columns or diagonals    |
+|             |   of a matrix.                                                  |
++-------------+-----------------------------------------------------------------+
+| __Page 3__  | *Accessing Raw Data Pointers and Strides*                       |
+|             |                                                                 |
+|             | - Accessing raw data pointers and strides.                      |
+|             | - Concepts for implementing numerical algorithms that           |
+|             |   require workspace buffers:                                    |
+|             |    - Design patterns.                                           |
+|             |    - Creating matrix/vector views from local buffers            |
+|             |      (Stack buffer).                                            |
+|             |    - Creating matrix/vector views from global buffers           |
+|             |      (Data segment buffer).                                     |
++-------------+-----------------------------------------------------------------+
+| __Page 4__  | *Triangular/Trapezoidal Matrices with Full Storage*             |
+|             |                                                                 |
+|             | - Why using a full storage for triangular matrices?             |
+|             | - `TrMatrix` is not a triangular matrix. And it is a good       |
+|             |   thing.                                                        |
+|             |     - Zeros are not explicitly stored.  Accidently accessing the|
+|             |       elements from the wrong triangular part causes an         |
+|             |       assertion error.                                          |
+|             |     - Sometimes you have to modify the upper triangualr part    |
+|             |       of a lower `TrMatrix` (and vice versa).  We just help you |
+|             |       don't do it by  accident.                                 |
+|             | - How (and why) `GeMatrix` and `TrMatrix` can share the same    |
+|             |   data:                                                         |
+|             |     - `TrMatrix` views from `GeMatrix`                          |
+|             |     - `GeMatrix` views from `TrMatrix`                          |
++-------------+-----------------------------------------------------------------+
+| __Page 5__  | *Symmetric and Hermitian Matrices with Full Storage*            |
+|             |                                                                 |
+|             | - How (and why) `GeMatrix` and `TrMatrix` can share the same    |
+|             |   data:                                                         |
+|             |     - `TrMatrix` views from `SyMatrix` and `HeMatrix`.          |
+|             |     - `SyMatrix` and `HeMatrix` views from `TrMatrix`.          |
++-------------+-----------------------------------------------------------------+
+| __Page 6__  | *Basic Linear Algebra Operations (BLAS)*                        |
+|             |                                                                 |
+|             | - Who gives you *High Performance?* It's BLAS, not the Compiler!|
+|             | - Benchmarks comparing FLENS/ulmBLAS with others.               |
+|             | - Vector operations.                                            |
+|             | - Matrix-vector operations.                                     |
+|             | - Matrix-matrix operations.                                     |
+|             | - High level and low level interfaces for linear algebra        |
+|             |   operations.                                                   |
+|             | - Using overloaded operators and why you still have full        |
+|             |   control.                                                      |
++-------------+-----------------------------------------------------------------+
+| __Page 7__  | *Using Operators for BLAS*                                      |
+|             |                                                                 |
+|             | - Why usage of operators has a bad reputation in high           |
+|             |   performance computing.                                        |
+|             | - What users coming form Matlab should be aware of.             |
+|             | - How FLENS provides a transparent and efficient solution.      |
+|             | - How other C++ libraries deal with issues in the respect.      |
++-------------+-----------------------------------------------------------------+
+| __Page 8__  | *Coding a High Performance LU Factorization with FLENS*         |
+|             |                                                                 |
+|             | - That's what Matlab does when you solve a system of linear     |
+|             |   equations.                                                    |
+|             | - It's the algorithm!                                           |
+|             |    - Deriving algorithms that are based on matrix/vector        |
+|             |      operations.                                                |
+|             |    - Unblocked algorithm for the LU factorization.              |
+|             |    - Blocked algorithm for the LU factorization.                |
+|             | - Implementation of the unblocked and blocked algorithm         |
+|             |    - Matrix/vector views are a big help!                        |
+|             |    - Benchmarks                                                 |
++-------------+-----------------------------------------------------------------+
+| __Page 9__  | *Numerical Linear Algebra (FLENS-LAPACK, LAPACK)*               |
+|             |                                                                 |
+|             | - Using FLENS-LAPACK.                                           |
+|             | - Examples on:                                                  |
+|             |    - Solving a system of linear equations.                      |
+|             |    - Computing $LU$ and $QR$ factorizations.                    |
+|             |    - Computing eigenvalues and eigenvectors.                    |
++-------------+-----------------------------------------------------------------+
 
 :links: __Page (\d)__       -> doc:flens/examples/tut01-page0$1
 
 
-BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators
-==================================================
-
- *--[BOX]--------------------------------------------------------------------*
- |                                                                           |
- |  __Page 1__    Using __CXXBLAS__ directly.  CXXBLAS provides a generic    |
- |                BLAS implementation but also can serve as a interface to   |
- |                high performance BLAS implementations.                     |
- |  __Page 2__    Using __FLENS-BLAS__ which is a high-level interface to    |
- |                CXXBLAS.                                                   |
- |  __Page 3__    Using overloaded operators for BLAS operations.  This is   |
- |                an even higher-level BLAS interface.  FLENS has some nice  |
- |                feature that allows logging how BLAS actually gets used    |
- |                for the evaluation of complicated linear algebra           |
- |                operations.                                                |
- |  __Page 4__    How FLENS helps you avoiding the creation of temporaries   |
- |                when evaluation linear algebra expressions.                |
- |  __Page 5__    Equivalence of __FLENS-BLAS__ and overloaded operation     |
- |                notation.                                                  |
- |                                                                           |
- *---------------------------------------------------------------------------*
-
-:links: __Page (\d)__   -> doc:flens/examples/tut02-page0$1
-        __CXXBLAS__     -> dir:ulmblas/cxxblas/
-        __FLENS-BLAS__  -> doc:flens/blas/blas
-
-
-Symmetric and Triangular Matrices with Full Storage
-===================================================
-
- *--[BOX]--------------------------------------------------------------------*
- |                                                                           |
- |  __Page 1__    We show how to create triangular and symmetric views from  |
- |                a general matrix.                                          |
- |                                                                           |
- *---------------------------------------------------------------------------*
-
-:links: __Page (\d)__     -> doc:flens/examples/tut03-page0$1
-
-
-__FLENS-LAPACK__
-================
-
- *--[BOX]--------------------------------------------------------------------*
- |                                                                           |
- |  __Page 1__    Computing a LU factorization.  We also show how you can    |
- |                boost performance by using optimized BLAS implementations  |
- |                like __ATLAS__.                                            |
- |  __Page 2__    Computing a QR factorization.                              |
- |  __Page 3__    Solving systems of linear equations.                       |
- |  __Page 4__    Computing eigenvalues and eigenvectors.                    |
- |                                                                           |
- *---------------------------------------------------------------------------*
-
-:links: __FLENS-LAPACK__  -> doc:flens/lapack/lapack
-        __ATLAS__         -> http://math-atlas.sourceforge.net
-        __Page (\d)__     -> doc:flens/examples/tut04-page0$1
-
-Using an external LAPACK implementation
-=======================================
-
- *--[BOX]--------------------------------------------------------------------*
- |                                                                           |
- |  __Page 1__    Using CXXLAPACK (Low-Level LAPACK interface) directly.     |
- |  __Page 2__    Creating a high-level interface for CXXLAPACK.             |
- |  __Page 3__    Using FLENS-LAPACK as MKL, ACML or LAPACK Font-End.        |
- |                                                                           |
- *---------------------------------------------------------------------------*
-
-:links: __Page (\d)__     -> doc:flens/examples/tut05-page0$1
-
-
-Sparse Matrices (Experimental)
-==============================
-
- *--[BOX]--------------------------------------------------------------------*
- |                                                                           |
- |  __Page 1__    Setup a matrix in coordinate storage and convert it to     |
- |                *compressed column storage*.                               |
- |  __Page 2__    Setup a matrix in coordinate storage, convert it to        |
- |                *compressed column storage* and finally use __SuperLU__ to |
- |                solve a sparse system of linear equations.                 |
- |  __Page 3__    Setup a matrix in coordinate storage and convert it to     |
- |                *compressed row storage*.                                  |
- |  __Page 4__    Setup a matrix in coordinate stoage, convert it to         |
- |                *compressed row storage* and finally use __SuperLU__ to    |
- |                solve a sparse system of linear equations.                 |
- |  __Page 5__    Iterative Solver: Conjugated Gradient Method.              |
- |                                                                           |
- *---------------------------------------------------------------------------*
-
-:links: Page 1  -> doc:flens/examples/geccs-setup
-        Page 2  -> doc:flens/examples/geccs-superlu
-        Page 3  -> doc:flens/examples/gecrs-setup
-        Page 4  -> doc:flens/examples/gecrs-superlu
-        Page 5  -> doc:flens/examples/sycrs-cg
-        SuperLU -> http://crd-legacy.lbl.gov/~xiaoye/SuperLU/
-
-
-Define your own Matrix/Vector Types
-===================================
-
- *--[BOX]--------------------------------------------------------------------*
- |                                                                           |
- |  __Page 1__    Define your own symmetric matrix type *MySyMatrix* and     |
- |                apply the conjugated gradient method on it.                |
- |  __Page 2__    We define a permutation matrix type.                       |
- |                                                                           |
- *---------------------------------------------------------------------------*
-
-:links: Page 1  -> doc:flens/examples/my-symatrix
-        Page 2  -> doc:flens/examples/my-permutation
-
-#
-# Session: Kick-Ass Interface for FLENS-LAPACK
-# ============================================
-#
-#  *--[BOX]--------------------------------------------------------------------*
-#  |                                                                           |
-#  |  - __Page 1__: LU Factorization `tupel(P,L,U) = lu(A)`                    |
-#  |                                                                           |
-#  *---------------------------------------------------------------------------*
-# 
-# :links: __Page (\d)__     -> doc:flens/examples/tut07-page0$1
 

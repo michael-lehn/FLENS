@@ -1,65 +1,378 @@
-============================
-Complex Vectors and Matrices                                            [TOC]
-============================
+==================================================
+Symmetric and Hermitian Matrices with Full Storage                      [TOC]
+==================================================
 
-When you are working with complex vectors and matrices dealing with real and
-imaginary parts is a common task.  The following is supported in FLENS:
+Concepts of `TrMatrix` shown on the __previous page__ can be transfered to
+symmetric and hermitian matrices.  Classes `SyMatrix` and `HeMatrix` represent
+symmertric and hermitian matrix classes with full storage respectively.  Either
+the lower or upper triangular part of the full storage schemes is used to
+represent the symmetric or hermitian matrix.
 
-- For complex valued dense vectors you can create real valued dense vectors
-  that reference the real or imaginary vector parts.  This is possible as
-  as a dense vector reference can reference elements that are separated by
-  a constant stride.
-- For complex valued matrices of type `GeMatrix` we support copying the real
-  and imaginary parts to a real valued matrix and vice versa.  Note that
-  it is not possible that a `GeMatrix` view can be used to reference the real
-  or imaginary part of a complex valued `GeMatrix`:
-    - If a `GeMatrix` stores elements in row major order then row elements
-      must be contiguously in memory.  However, complete rows can be separated
-      by a constant stride.
-    - If a `GeMatrix` stores elements in col major order then column elements
-      must be contiguously in memory.  However, complete columns can be
-      separated by a constant stride.
-  If you have complex elements and want to reference only the real or imaginary
-  part there always will be gaps.  So a new matrix type is defined for this
-  case.  However, BLAS functionality for this type is limited to `copy`.
+Using views the same full storage scheme can be used for a `GeMatrix`,
+`TrMatrix`, `SyMatrix` or `HeMatrix` type:
 
+  - `GeMatrix` views can be created form `TrMatrix`, `SyMatrix` or `HeMatrix`
+    types using the `general()` method.
+  - `TrMatrix` views can be created from
+      - `GeMatrix` using the `upper()`, `upperUnit()`, `lower()`
+        or `lowerUnit()` methods.
+      - `SyMatrix` or `HeMatrix` using the `triangular()` method.
+  - `SyMatrix` views can be created from a `TrMatrix` using the `symmetric()`
+    method.
+  - `HeMatrix` views can be created from a `TrMatrix` using the `hermitian()`
+    method.
 
-Complex Vectors
-===============
-:import: flens/examples/complex-densevector-views.cc [stripped, downloadable]
-
-So some notes about what is going on
-:import: flens/examples/complex-densevector-views.cc [brief]
-
-So let's compile and run the example:
-
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  g++ -Wall -std=c++11 -I../.. complex-densevector-views.cc                 |
- |  ./a.out                                                                   |
- |                                                                            |
- *----------------------------------------------------------------------------*
+Chaining methods allows any combination of view creation.
 
 
-Complex Matrices
-================
-:import: flens/examples/complex-gematrix-views.cc [stripped, downloadable]
+Matrix Types `SyMatrix` and `HeMatrix`
+======================================
+Symmetric and hermitian matrices are always square.  The types `SyMatrix` and
+`HeMatrix` use a full storage scheme for their data:
 
-So some notes about what is going on
-:import: flens/examples/complex-gematrix-views.cc [brief]
+- Matrices of type `SyMatrix` specify that the underlying full storage scheme
+  should be *assumed to represent a symmetric matrix*.
 
-So let's compile and run the example:
+- Matrices of type `HeMatrix` specify that the underlying full storage scheme
+  should be *assumed to represent a hermitian matrix*.
 
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  g++ -Wall -std=c++11 -I../.. complex-gematrix-views.cc                    |
- |  ./a.out                                                                   |
- |                                                                            |
- *----------------------------------------------------------------------------*
+In most cases you first allocate a `GeMatrix` and then create a symmetric
+or hermitian view from some triangular part.  But you also can go the way
+around, i.e. allocate a symmetric/hermitian matrix and create triangular or
+general matrix views referencing the underlying full storage scheme.
 
 
+Common Interface of `SyMatrix` and `HeMatrix`
+=============================================
+
++-[CODE]----------------------------------------------+----------------------------------------------------+
+| SyMatrix(IndexType dim, StorageUpLo upLo);          | Allocates a memory for `dim x dim` elements.  The  |
++-----------------------------------------------------+ triangular part specified by `upLo` (`Lower` or    |
+| HeMatrix(IndexType dim, StorageUpLo upLo);          | `Upper`) is used to represent a symmetric or       |
+|                                                     | hermitian matrix.                                  |
++-----------------------------------------------------+----------------------------------------------------+
+| IndexType                                           | Returns the matrix dimension.                      |
+| dim() const;                                        |                                                    |
++-----------------------------------------------------+----------------------------------------------------+
+| StorageUpLo                                         | Returns `Lower` if the matrix is represented by    |
+| upLo() const;                                       | lower triangular part. Otherwise `Upper`.          |
++-----------------------------------------------------+                                                    |
+| StorageUpLo &                                       | In non-const context the method returns a reference|
+| upLo();                                             | of the attribute. So you can change it.            |
++-----------------------------------------------------+----------------------------------------------------+
+| const ElementType &                                 | Return a reference to element in row $i$ and column|
+| operator()(IndexType i, IndexType j) const;         | $j$. Only accessing elements from the triangular   |
++-----------------------------------------------------+ part specified by `upLo()` is allowed. Otherwise   |
+| ElementType &                                       | a runtime assertion gets triggered.                |
+| operator()(IndexType i, IndexType j);               |                                                    |
+|                                                     | *Note:*  The operator returns a reference to value |
+|                                                     | actually stored in memory.  If you have a hermitian|
+|                                                     | matrix and you access a diagonal element it is     |
+|                                                     | your responsibility to ignore the imaginary part   |
+|                                                     | and assume it to be zero.                          |
++-----------------------------------------------------+----------------------------------------------------+
+|                                                     |                                                    |
+| const ElementType *                                 | Pointer to the first element of the matrix.        |
+| data() const;                                       | So this is the address of `A(1,1)`                 |
+|                                                     |                                                    |
++-----------------------------------------------------+                                                    |
+|                                                     |                                                    |
+| ElementType *                                       |                                                    |
+| data();                                             |                                                    |
+|                                                     |                                                    |
+|                                                     |                                                    |
++-----------------------------------------------------+----------------------------------------------------+
+| StorageOrder                                        | Returns `RowMajor`, `ColMajor` or `Grid`.          |
+| order() const;                                      |                                                    |
+|                                                     | An storage order `Grid` occurs if you have         |
+|                                                     | e.g. a matrix view that references every           |
+|                                                     | second row and every third column of a             |
+|                                                     | matrix.                                            |
++-----------------------------------------------------+----------------------------------------------------+
+| IndexType                                           | Stride in memory between elements in the           |
+| strideRow() const;                                  | same column.  So `A.data() + A.strideRow()`        |
+|                                                     | is the address of `A(2,1)`.                        |
+|                                                     |                                                    |
+|                                                     | If your matrix is `ColMajor` this is `1`.          |
++-----------------------------------------------------+----------------------------------------------------+
+| IndexType                                           | Stride in memory between elements in the           |
+| strideCol() const;                                  | same row.  So `A.data() + A.strideCol()`           |
+|                                                     | is the address of `A(2,1)`.                        |
+|                                                     |                                                    |
+|                                                     | If your matrix is `RowMajor` this is `1`.          |
++-----------------------------------------------------+----------------------------------------------------+
+| IndexType                                           | - For `ColMajor` matrices returns                  |
+| leadingDimension() const;                           |   `strideCol()`.                                   |
+|                                                     | - For `RowMajor` matrices returns                  |
+|                                                     |   `strideRow()`.                                   |
+|                                                     | - For `Grid` matrices this method triggers         |
+|                                                     |   an runtime assertion.                            |
++-----------------------------------------------------+----------------------------------------------------+
+
+
+Creating Matrix Views from `GeMatrix`
+=====================================
+From a `GeMatrix` you only can create `TrMatrix` views directly.  Other matrix
+views like symmetric or hermitian views can be created by chaining view
+creation.
+
+The following list of `GeMatrix` methods was already listed on the __previous
+page__:
+
+  +-[CODE]----------------------+-------------------------------------------+
+  | const ConstTriangularView   |                                           |
+  | upper() const;              | Return a triangular or trapezoidal matrix |
+  +-----------------------------+ view represented by the upper triangular  |
+  | TriangularView              | part.                                     |
+  | upper();                    |                                           |
+  +-----------------------------+-------------------------------------------+
+  | const ConstTriangularView   |                                           |
+  | upperUnit() const;          | Return a triangular or trapezoidal matrix |
+  +-----------------------------+ view represented by the upper triangular  |
+  | TriangularView              | part.  Elements on the diagonal must be   |
+  | upperUnit();                | assumed to be one.                        |
+  +-----------------------------+-------------------------------------------+
+  | const ConstTriangularView   |                                           |
+  | lower() const;              | Return a triangular or trapezoidal matrix |
+  +-----------------------------+ view represented by the lower triangular  |
+  | TriangularView              | part.                                     |
+  | lower();                    |                                           |
+  +-----------------------------+-------------------------------------------+
+  | const ConstTriangularView   |                                           |
+  | lowerUnit() const;          | Return a triangular or trapezoidal matrix |
+  +-----------------------------+ view represented by the lower triangular  |
+  | TriangularView              | part.  Elements on the diagonal must be   |
+  | lowerUnit();                | assumed to be one.                        |
+  +-----------------------------+-------------------------------------------+
+
+Example
+-------
+:import: flens/examples/matrixviews_from_gematrix.cc
+
+Compile and Run
+---------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. matrixviews_from_gematrix.cc               |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+Creating Matrix Views from `TrMatrix`
+=====================================
+From a `TrMatrix` you can create `GeMatrix`, `SyMatrix` and `HeMatrix` views
+directly:
+
+  +-----------------------------+-------------------------------------------+
+  | const ConstGeneralView      | Return a general matrix view referencing  |
+  | general() const;            | the complete underlying full storage      |
+  +-----------------------------+ scheme.  Through this view any element    |
+  | GeneralView                 | can be accessed.                          |
+  | general();                  |                                           |
+  +-----------------------------+-------------------------------------------+
+  | const ConstHermitianView    | If the `TrMatrix` is *triangular* (and not|
+  | hermitian() const;          | trapezoidal returns a hermitian matrix    |
+  +-----------------------------+ view.  The hermitian matrix is represented|
+  | HermitianView               | by the given triangular part.             |
+  | hermitian();                |                                           |
+  |                             | If the `TrMatrix` is *trapezoidal* this   |
+  |                             | causes an assertion failure at runtime.   |
+  +-----------------------------+-------------------------------------------+
+  | const ConstSymmetricView    | If the `TrMatrix` is *triangular* (and not|
+  | symmetric() const;          | trapezoidal returns a symmetric matrix    |
+  +-----------------------------+ view.  The symmetric matrix is represented|
+  | SymmetricView               | by the given triangular part.             |
+  | symmetric();                |                                           |
+  |                             | If the `TrMatrix` is *trapezoidal* this   |
+  |                             | causes an assertion failure at runtime.   |
+  +-----------------------------+-------------------------------------------+
+
+Example
+-------
+:import: flens/examples/matrixviews_from_trmatrix.cc
+
+Compile and Run
+---------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. matrixviews_from_trmatrix.cc               |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+Creating Matrix Views from `SyMatrix`
+=====================================
+
+  +-----------------------------+-------------------------------------------+
+  | const ConstGeneralView      | Return a general matrix view referencing  |
+  | general() const;            | the complete underlying full storage      |
+  +-----------------------------+ scheme.  Through this view any element    |
+  | GeneralView                 | can be accessed.                          |
+  | general();                  |                                           |
+  +-----------------------------+-------------------------------------------+
+  | const ConstHermitianView    | Returns a hermitian matrix view.  The     |
+  | hermitian() const;          | hermitian matrix is represented by the    |
+  +-----------------------------+ same triangular part that represents the  |
+  | HermitianView               | `SyMatrix`.                               |
+  | hermitian();                |                                           |
+  |                             |                                           |
+  |                             |                                           |
+  +-----------------------------+-------------------------------------------+
+  | const ConstTriangularView   | Returns a triangular matrix view. The     |
+  | triangular() const;         | triangular matrix is represented by the   |
+  +-----------------------------+ same triangular part that represents the  |
+  | TriangularView              | `SyMatrix`.                               |
+  | triangular();               |                                           |
+  |                             |                                           |
+  |                             |                                           |
+  +-----------------------------+-------------------------------------------+
+
+Example
+-------
+:import: flens/examples/matrixviews_from_symatrix.cc
+
+Compile and Run
+---------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. matrixviews_from_symatrix.cc               |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+
+Creating Matrix Views from `HeMatrix`
+=====================================
+
+  +-----------------------------+-------------------------------------------+
+  | const ConstGeneralView      | Return a general matrix view referencing  |
+  | general() const;            | the complete underlying full storage      |
+  +-----------------------------+ scheme.  Through this view any element    |
+  | GeneralView                 | can be accessed.                          |
+  | general();                  |                                           |
+  +-----------------------------+-------------------------------------------+
+  | const ConstSymmetricView    | Returns a symmetric matrix view.  The     |
+  | symmetric() const;          | symmetric matrix is represented by the    |
+  +-----------------------------+ same triangular part that represents the  |
+  | SymmetricView               | `HeMatrix`.                               |
+  | symmetric();                |                                           |
+  |                             |                                           |
+  |                             |                                           |
+  +-----------------------------+-------------------------------------------+
+  | const ConstTriangularView   | Returns a triangular matrix view. The     |
+  | triangular() const;         | triangular matrix is represented by the   |
+  +-----------------------------+ same triangular part that represents the  |
+  | TriangularView              | `HeMatrix`.                               |
+  | triangular();               |                                           |
+  |                             |                                           |
+  |                             |                                           |
+  +-----------------------------+-------------------------------------------+
+
+Example
+-------
+:import: flens/examples/matrixviews_from_hematrix.cc
+
+Compile and Run
+---------------
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. matrixviews_from_hematrix.cc               |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+Matrix Views from Rectangular Parts
+===================================
+The same concepts introduced for `TrMatrix` apply to `SyMatrix` and `HeMatrix`:
+You can create a general matrix view from a `SyMatrix` or `HeMatrix`.  From
+there you can select any block and create a `GeMatrix` view:
+
+---- CODE(type=cc) -------------------------------------------------------------
+  SyMatrix<FullStorage<double> >   S(n, Upper);
+
+  auto A = S.general();
+
+  A12 = A(_(1,4),_(5,8));
+  // ...
+--------------------------------------------------------------------------------
+
+As this is a frequently needed task we offer a more direct support.  The return
+type of the following methods is always a `GeMatrix` view (even if you select a
+block on the diagonal that logically would be symmetric or hermitian):
+
+  +-[CODE]----------------------------------------------+---------------------------------------------------------+
+  |  const ConstGeneralView                             |  Select a rectangualr area of the form                  |
+  |  operator()(const Range<IndexType> &rows,           |  `(fromRow:toRow, fromCol:toCol)` or                    |
+  |             const Range<IndexType> &cols) const;    |  `(fromRow:stepRow:toRow, fromCol:stepRow:toCol)`       |
+  +-----------------------------------------------------+                                                         |
+  |  GeneralView                                        |                                                         |
+  |  operator()(const Range<IndexType> &rows,           |                                                         |
+  |             const Range<IndexType> &cols);          |                                                         |
+  +-----------------------------------------------------+---------------------------------------------------------+
+  |  const ConstGeneralView                             |  All rows are selected.  So the range has the form      |
+  |  operator()(const Underscore<IndexType> &,          |  `(all, from:to)`.                                      |
+  |             const Range<IndexType> &cols) const;    |                                                         |
+  +-----------------------------------------------------+                                                         |
+  |  GeneralView                                        |                                                         |
+  |  operator()(const Underscore<IndexType> &,          |                                                         |
+  |             const Range<IndexType> &cols);          |                                                         |
+  +-----------------------------------------------------+---------------------------------------------------------+
+  |  const ConstGeneralView                             | All columns are selected. So the range has the form     |
+  |  operator()(const Range<IndexType> &rows,           | `(from:to, all)`.                                       |
+  |             const Underscore<IndexType> &) const;   |                                                         |
+  +-----------------------------------------------------+                                                         |
+  |  GeneralView                                        |                                                         |
+  |  operator()(const Range<IndexType> &rows,           |                                                         |
+  |             const Underscore<IndexType> &);         |                                                         |
+  +-----------------------------------------------------+---------------------------------------------------------+
+
+
+Vector Views
+============
+The return type is always a `DenseVector` view:
+
+  +-[CODE]------------------------------------------------------------+-------------------------------------------+
+  |  const ConstVectorView                                            |  Select `(row, all)`, i.e. the row with   |
+  |  operator()(IndexType row, const Underscore<IndexType> &) const;  |  index `row`.                             |
+  +-------------------------------------------------------------------+                                           |
+  |  VectorView                                                       |                                           |
+  |  operator()(IndexType row, const Underscore<IndexType> &);        |                                           |
+  +-------------------------------------------------------------------+-------------------------------------------+
+  |  const ConstVectorView                                            |  Select `(row, from:to)`, i.e. from the   |
+  |  operator()(IndexType row, const Range<IndexType> &cols) const;   |  row with index `row` the elements in the |
+  +-------------------------------------------------------------------+  column in range `from:to`.               |
+  |  VectorView                                                       |                                           |
+  |  operator()(IndexType row, const Range<IndexType> &cols);         |                                           |
+  +-------------------------------------------------------------------+-------------------------------------------+
+  |  const ConstVectorView                                            |  Select `(all, col)`, i.e. the column with|
+  |  operator()(const Underscore<IndexType> &, IndexType col) const;  |  index `col`.                             |
+  +-------------------------------------------------------------------+                                           |
+  |  VectorView                                                       |                                           |
+  |  operator()(const Underscore<IndexType> &, IndexType col);        |                                           |
+  +-------------------------------------------------------------------+-------------------------------------------+
+  |  const ConstVectorView                                            |  Select `(from:to, col)`, i.e. from the   |
+  |  operator()(const Range<IndexType> &rows, IndexType col) const;   |  column with index `col` the elements in  |
+  +-------------------------------------------------------------------+  the row range `from:to`.                 |
+  |  VectorView                                                       |                                           |
+  |  operator()(const Range<IndexType> &rows, IndexType col);         |                                           |
+  +-------------------------------------------------------------------+-------------------------------------------+
+
+
+
+
+:links: previous page -> doc:flens/examples/tut01-page04
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/tut01-page04

@@ -1,90 +1,191 @@
-=================
-Const-Correctness                                                       [TOC]
-=================
+========================
+Using Operators for BLAS                                                [TOC]
+========================
 
-In FLENS _matrix/vector views_ act and behave like references in C++ just for
-matrix/vector parts instead of scalar values:
+Using overloaded operators for basic linear algebra operations often attracts
+users from Matlab to C++ libraries.  It seems trivial to port Matlab code and
+promises speedup for free because _C++ is said to be faster_.  At the same time
+Using overloaded operators has a bad reputation in high performance community.
 
-   +--------------------+---------------------------------------------+
-   | Pure C++ Types     | Analogous Role of FLENS Types               |
-   +--------------------+---------------------------------------------+
-   | int                | DenseVector<Array<double> >                 |
-   +--------------------+---------------------------------------------+
-   | int &              | DenseVector<ArrayView<double> >             |
-   +--------------------+---------------------------------------------+
-   | const int &        | const DenseVector<ConstArrayView<double> >  |
-   +--------------------+---------------------------------------------+
+So how comes that people in numerical linear algebra are worried about using
+overloaded operators?  They are worried about *numerically correct results.
+Recall that for floating point operations you do not have the associative
+property.  That means ''(a*b)*c'' *is not the same as* ''a*(b*c)''.  And
+dealing with roundoff error is crucial  matter in numerical applications.  So
+''mult(mult(a,b), c)'' or ''mult(a, mult(b, c))'' can be more expressive in this
+respect.  In particular if you can not trust the operator precedence.  So a
+*nice feature like overloaded operators for BLAS must preserve operator
+precedence and must not apply the associative property implicitly.*
 
-Views in FLENS
-==============
-The beauty of this FLENS approach is that you can write functions that take
-any kind of `DenseVector`:
+Once correctness is assured *performance matters*.  It is important to know what
+functions are doing the computations.  Furthermore one has to be sure that no
+temporary vectors/matrices are created silently.
 
-  *--[CODE]-----------------------------------------------------------*
-  |                                                                   |
-  |  template <typename VX>                                           |
-  |     void                                                          |
-  |     dummy(const DenseVector<VX> &x);                              |
-  |                                                                   |
-  *-------------------------------------------------------------------*
-or
-  *--[CODE]-----------------------------------------------------------*
-  |                                                                   |
-  |  template <typename VX>                                           |
-  |     void                                                          |
-  |     dummy(DenseVector<VX> &x);                                    |
-  |                                                                   |
-  *-------------------------------------------------------------------*
+*Here are some pitfalls users that come from Matlab (or other high level
+applications/libraries) often do not consider at first:*
 
-Using traits you also can implement functions that accept non-const rvalues
-  *--[CODE]-----------------------------------------------------------*
-  |                                                                   |
-  |  template <typename VX>                                           |
-  |     typename RestrictTo<IsDenseVector<VX>::Type,                  |
-  |              void>::Type                                          |
-  |     dummy(VX &&x);   a                                            |
-  |                                                                   |
-  *-------------------------------------------------------------------*
-the latter is necessary in an expression like
-  *--[CODE]-----------------------------------------------------------*
-  |                                                                   |
-  |  dummy(x(_(3,7));                                                 |
-  |                                                                   |
-  *-------------------------------------------------------------------*
-where the view is a temporary object.
+ - ''x = A*x'' would require a temporary unless `A` is triangular.^[1]
+ - ''M = A*B*C'' would require a temporary unless you have a dedicated function
+   that can compute the matrix-matrix product of three matrices.
+ - ''alpha = 2*x*y'' is the same as ''alpha = (2*x)*y''. But not the same as
+   ''alpha = 2*(x*y)''.
+ - ''y = A*(x1-x2)'' is not the same as ''y = A*x1 - A*x2''.
+ - ''M = A*B*C'' is the same as ''M = (A*B)*C''.  But not the same as ''M =
+   A*(B*C)''.
+
+So some expression can not be evaluated without extending the set of BLAS
+functions (which is possible) or using temporaries (which would drop performance
+and is only possible in some special debug mode).  Some other expressions
+require temporaries because we don't have the associative property.
+
+In FLENS you are not forced to use overloaded operators in stead of function
+calls or vice versa.  In some cases an explicit function call can be more
+expressive than a notation with operators.  In any cases an expression with
+overloaded operators will be equivalent to a sequence of explicit function calls
+and will never involve the creation of temporaries.
+
+The primary goal of FLENS is that an FLENS/C++ implementation is at least as
+efficient as a Fortran or C implementation.  It should just be simpler, safer
+and more convenient.  So FLENS is strict about *nice features must be
+transparent and must not come with performance penalties*.
 
 
-Design Flaw in MTL4
-===================
-If you want to provide views you really need different types for const and
-non-const views.  Till the moment of this writing (2012/09/01) the __MTL4__
-guys think there was a 'simpler way'.  As a consequence the _const_ attribute
-is only decoration.  In a large application this can lead to bugs that are
-hard to find.  But even worse, even the compiler can not trace that you are
-violating const correctness.  So for optimizations the compiler might rely on
-the _const_ attribute.  That means bugs will depend on your level of
-optimization (i.e. in debug mode you application works find but crashes in
-non-debug mode).
+How other C++ Libraries Deal with Expressions
+=============================================
+*Short:*  Inefficient code looks nice.  Efficient code not so nice.
+
+*Brief:*  They make it simple to port code from Matlab to C++.  And you C++ code
+looks nice, initially.  Dealing with performance and ensuring that no
+temporaries get created needs more effort and makes the code less attractive.
+
+Eigen
+-----
+# http://eigen.tuxfamily.org/dox/TopicLazyEvaluation.html
+
+By default an expression like ''C = A*B'' will first create a temporary matrix
+''tmp = A*B'' for the matrix product and then assigns ''C = tmp''.  That's for
+supporting special cases like ''A = A*A''.  So in a loop like
+
+---- CODE(type=cc) -------------------------------------------------------------
+  // Eigen silently creates a temporary
+  for (int i=0; i<100000; ++i) {
+      C = A*B;
+  }
+--------------------------------------------------------------------------------
+
+you have 100000 calls of ''malloc'' and ''free''.  If a user is sure that $C$
+is not identical with $A$ or $B$ this can be coded as
+
+---- CODE(type=cc) -------------------------------------------------------------
+  // Enforce Eigen not to create a temporary
+  for (int i=0; i<100000; ++i) {
+      C.noalias() = A*B;
+  }
+--------------------------------------------------------------------------------
+
+In this case you achieve the default behaviour of FLENS for ''C = A*B'', i.e.
+no temporaries get created.  In FLENS you have to treat special cases like
+''A=A*A'' special, i.e. code it explicitly as ''tmp = A*A'' followed by
+''A=tmp''.
+
+Cases like ''C = A*(B1+B2)'' are treated correctly.  First a temporary
+''tmp = B1+B2'' gets created then ''C=A*tmp'' computed.  In this case it
+obviously can not be avoided that each loop iteration triggers a ''malloc'' and
+''free'':
+
+---- CODE(type=cc) -------------------------------------------------------------
+  // Eigen silently creates a temporary
+  for (int i=0; i<100000; ++i) {
+      C = A*(B1+B2);           // alloc tmp
+                               // compute tmp = B1+B2,
+                               //         C   = A*tmp
+                               // release tmp
+  }
+--------------------------------------------------------------------------------
+
+Unless you use a special debug mode FLENS will force you to explicitly create
+a temporary:
+
+---- CODE(type=cc) -------------------------------------------------------------
+  // FLENS enforces transparency
+  for (int i=0; i<100000; ++i) {
+      tmp = B1 + B2;
+      C = A*tmp;
+  }
+--------------------------------------------------------------------------------
+
+If ''tmp'' has length zero in the first iteration it gets resized.  This
+involves dynamic memory allocations.  However, in the next iterations the memory
+gets reused.  So you have at most one memory allocation and one memory release.
+If ''tmp'' was previously allocated with the correct size no memory allocations
+get triggered at all inside the loop.
 
 
+ublas
+-----
+Like in Eigen computing a matrix product creates a temporary for the result
+unless you explicitly do something about it:
 
-MTL4 Example
-------------
-:import: flens/examples/design-flaws-mtl4.cc  [stripped, downloadable]
+---- CODE(type=cc) -------------------------------------------------------------
+  C          = prod(A, B);   // alloc tmp
+                             // compute tmp = A*B
+                             // copy    C   = tmp
+                             // release tmp
+  noalias(C) = prod(A, B);   // like C = A*B in FLENS
+--------------------------------------------------------------------------------
 
-Compile and Run
----------------
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  clang++ -I$HOME/work/MTL4/usr/include                                  +++|
- |          -o design-flaws-mtl4                                           +++|
- |          design-flaws-mtl4.cc                                              |
- |  ./design-flaws-mtl4                                                       |
- |                                                                            |
- *----------------------------------------------------------------------------*
 
-:links:  MTL4  ->   http://www.simunova.com/de/node/65
+MTL 4
+-----
+MTL 4 is doing it right.  No temporaries are created for ''C=A*B''.  If a
+temporary would be needed like in ''A=A*A'' this throws an exception in debug
+mode and would give wrong results in untested release mode.
+
+However, matrix products like ''A = B*C*D'' will create a temporary
+''tmp = B*C'' and then computes ''A=tmp*D''.
+
+
+Expression Gotchas
+==================
+
+ - ''x = A*x'' would require a temporary unless `A` is triangular.^[1]
+
+   In FLENS an expression like ''y = A*x'' will trigger an assertion failure if
+   `x` and `y` are *identical* vectors.  That is consistent with the BLAS
+   philosophy _you have to know what you are doing_.  If you would use `dgemv`
+   for the computation you would just get the wrong result.  So in FLENS you
+   at least get an assertion failure unless you compile with `-DNDEBUG` for
+   production code.
+
+ - ''M = A*B*C'' would require a temporary unless you have a dedicated function
+   that can compute the matrix-matrix product of three matrices.
+
+   If you have such a function FLENS will use it.  Otherwise you get an
+   assertion failure.
+
+ - ''alpha = 2*x*y'' is the same as ''alpha = (2*x)*y''. But not the same as
+   ''alpha = 2*(x*y)''
+
+ - ''y = A*(x1-x2)'' is not the same as ''y = A*x1 - A*x2''.
+
+   As it is not the same the expression ''y = A*(x1-x2)'' would require a
+   temporary.  You first have to compute ''tmp = x1 - x2'' and then ''y =
+   A*tmp''.
+
+ - ''M = A*B*C'' is the same as ''M = (A*B)*C''.  But not the same as ''M =
+   A*(B*C)''.
+
+   Assume you implemented a function `mat3prod(A,B,C)` for computing `(A*B)*C`
+   then by default it will not be used for ''A*(B*C)''.  If you want to use this
+   function in both cases you explicitly have to state this.
+
+Footnotes
+=========
+:footnotes: [1] The matrix-vector $y = Ax$ product is defined by
+                $y_i = \sum\limits_{j=1}^n a_{i,j} x_j$.  If $x$ and $y$ are
+                identical by updating $y$ you also modify $x$ during the
+                computation.
+
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/tut01-page06

@@ -8,30 +8,24 @@ using namespace std;
 typedef GeMatrix<FullStorage<double> >  DGeMatrix;
 typedef DenseVector<Array<double> >     DDenseVector;
 
-
-void
-foo()
-{
-    double buffer_[4*4] = { 1,  2,  3,  4,
-                            5,  6,  7,  8,
-                            9, 10, 11, 12,
-                           13, 14, 15, 16};
-
-    DGeMatrix::View    A = DGeMatrix::EngineView(4, 4, buffer_, 1, 4);
-    DGeMatrix::View    B = DGeMatrix::EngineView(4, 4, buffer_, 4, 1);
-    DGeMatrix::View    C = DGeMatrix::EngineView(2, 4, buffer_, 4, 1);
-    DDenseVector::View x = DDenseVector::EngineView(4*4, buffer_);
-
-    cout << "A = " << A << endl;
-    cout << "B = " << B << endl;
-    cout << "C = " << C << endl;
-    cout << "x = " << x << endl;
-}
-
 int
 main()
 {
-    for (int i=0; i<100; ++i) {
-        foo();
-    }
+    DGeMatrix     A(3,3);
+
+    fillRandom(A);
+
+    cout << "A = " << A << endl;
+
+    cout << "A.strideRow()          = " << A.strideRow() << endl;
+    cout << "A.strideCol()          = " << A.strideCol() << endl << endl;
+
+    cout << "A.data()               = " << A.data() << endl;
+    cout << "&A(1,1)                = " << &A(1,1) << endl << endl;
+
+    cout << "A.data()+A.strideRow() = " << A.data()+A.strideRow() << endl;
+    cout << "&A(2,1)                = " << &A(2,1) << endl << endl;
+
+    cout << "A.data()+A.strideCol() = " << A.data()+A.strideCol() << endl;
+    cout << "&A(1,2)                = " << &A(1,2) << endl << endl;
 }

@@ -1,47 +1,610 @@
-=====================================
-Element-wise Matrix/Vector Operations                                   [TOC]
-=====================================
+======================================
+Basic Linear Algebra Operations (BLAS)                                  [TOC]
+======================================
 
-For-Loops provides the easiest, most readable and most efficient way to do
-element-wise operations.  However, in the case of matrices this requires
-you to order loops depending on row and column major storage.  In FLENS you
-can use special _index variables_ to iterate over a general or triangular
-matrix the best order.
+BLAS is a de facto standard that defines a certain set of linear algebra
+operations.  These operations mainly are matrix/vector operations, e.g. dot
+products, matrix-vector products, matrix-matrix products, etc.  Hardware vendors
+provide highly tuned BLAS implementations for their architecture, e.g. __Intel
+MKL__, __AMD CML__, __Sun Performance Library__, etc.  Implementations like
+__NVIDIA cuBLAS__ exploit GPUs for the computation.  In addition open source
+implementations like __BLIS__, __ATLAS__, __OpenBLAS__, __ulmBLAS__, etc. exist
+that are on par with vendor tuned BLAS implementations.
 
-Example for GeMatrix
-====================
-:import: flens/examples/gematrix-indexvariable.cc [stripped, downloadable]
+How much performance can be achieved in theory depends on various factor.  For
+instance exploiting caches, vectorization and parallelism.  The potential for
+performance depends on the type of operation.  In this respect BLAS divides the
+operation types into three Levels:
 
-Some notes
- :import: flens/examples/gematrix-indexvariable.cc [brief]
+ - *BLAS Level 1* contains all linear algebra operations that require
+   $\mathcal{O}(N)$ data and $\mathcal{O}(N)$ floating point operations.
+   These are vector-vector operations like vector sums or dot products.
 
-So check out the results
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  g++ -Wall -std=c++11 -I../.. gematrix-indexvariable.cc                    |
- |  ./a.out                                                                   |
- |                                                                            |
- *----------------------------------------------------------------------------*
+ - *BLAS Level 2* contains all linear algebra operations that require
+   $\mathcal{O}(N^2)$ data and $\mathcal{O}(N^2)$ floating point operations.
+   These are operations like matrix-vector products.
+
+ - *BLAS Level 3* contains all linear algebra operations that require
+   $\mathcal{O}(N^2)$ data and $\mathcal{O}(N^3)$ floating point operations.
+   These are operations like matrix-matrix products.  *Only Level 3 operations
+   can efficiently exploit caches.*  That's because you have a considerable gap
+   between the amount of data and amount of floating point operations.  Once a
+   cache is filled with $\mathcal{O}(N^2)$ data it gets uesed for
+   $\mathcal{O}(N^3)$ floating point operations.
+
+   With Level 1 or 2 functions you can not exploit caches.  An optimized
+   implementation will achieve about 5-15% percent of the theoretical peak
+   performance.  That means 85-95% of the time the CPU is waiting for data.
+
+*So achieving high performance in numerical linear algebra is two fold:*
+
+ - *The Numerical Math Part*
+
+   First you need to organize an algorithm such that it is dominated by BLAS
+   Level 3 operations.  This can be achieved by considering algorithms that
+   work on matrix blocks rather than matrix elements.  That is exactly what
+   libraries like __LAPACK__ are doing.
+
+ - *The Computer Science Part*
+
+   Second you need an optimized BLAS implementation that actually can achieve
+   near peak performance for BLAS Level 3 functions.
+
+Note that this separation allows mathematician and computer scientist to
+cooperate independent from each other.  The mathematician just needs to know
+that BLAS Level 3 gives great performance.  The computer scientist just needs
+to know that it is important that BLAS Level 3 functions actually achieve great
+performance.  But of course it is aways favorable to look beyond one's own nose!
+
+We first give an overview of BLAS and how to make use of it with FLENS.  Only
+a few BLAS operations will be shown.  For a complete overview have a look at the
+__FLENS-BLAS__ page.  By default FLENS will use __ulmBLAS__ as computational
+backend.  Optionally an external BLAS implementation can be used.  On later
+pages we will show how algorithms can be developed such that they exploit BLAS
+Level 3 functions.
 
 
-Example for TrMatrix, SyMatrix, HeMatrix
+Performance: It's BLAS, not the Compiler
 ========================================
-:import: flens/examples/trmatrix-indexvariable.cc [stripped, downloadable]
+*As a rule of thumb you can say: In numerical linear algebra you never get the
+performance from the compiler.  You only get it from using BLAS.*
 
-Some notes
- :import: flens/examples/trmatrix-indexvariable.cc [brief]
+For an undergraduate class on high performance computing we developed step by
+step an optimized implementation of the matrix-matrix product.  The steps are
+documented on __GEMM: From Pure C to SSE Optimized Micro Kernels__ 
 
-So check out the results
- *--[SHELL]-------------------------------------------------------------------*
- |                                                                            |
- |  cd flens/examples                                                         |
- |  g++ -Wall -std=c++11 -I../.. trmatrix-indexvariable.cc                    |
- |  ./a.out                                                                   |
- |                                                                            |
- *----------------------------------------------------------------------------*
+Performance benchmarks will certainly vary between different architectures.  But
+as they are mainly influence on how fast data can be move from memory to the
+caches and from caches to the CPU the relative comparisons stay comparable:
+
+ - With a *naive C implementation* you achieve about 10%.  Even if you try to
+   reduce cache misses by traversing the matrix elements in the right order.
+   The Netlib reference BLAS implementation (__Netlib RefBLAS__) is such a naive
+   but not stupid implementation.  For column major matrices it traverses
+   matrices always column wise.
+
+ - With a *pure but clever C implementation* and really, really good C compiler
+   you can achieve about 30% of the theoretical peak performance.  The compiler
+   can not do better unless you build in some expert knowledge in numerical
+   linear algebra.  In the class project the best possible result through
+   compiler optimizations was denoted *demo-naive-sse-with-intrinsics*:
+
+   ---- IMAGE -----------------------------------------------------------------
+   http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/ulmBLAS/bench/bench3.svg
+   ----------------------------------------------------------------------------
+
+   Actually we bet that you won't find any compiler that can achieve this
+   performance.  In the class project we simulated what a compiler could achieve
+   with optimal assumptions about alignment, restricted access to memory,
+   optimal use of registers etc.
+
+ - An *optimized BLAS* achieves more than 90% of the theoretical peak
+   performance.  In the class project __ulmBLAS__ 10 lines of C code where
+   replaced with about 500 lines of assembler code.  The assembler code contains
+   expert knowledge in numerical linear algebra that you can not expect from
+   a general purpose compiler.  This resulted in:
+
+   ---- IMAGE -------------------------------------------------------------------------
+   http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/ulmBLAS/bench/compare-bench5.svg
+   ------------------------------------------------------------------------------------
+
+   As __ulmBLAS__ is derived from __BLIS__ it is no coincident that we achieve
+   the same performance.
+
+   All the benchmarks are for single threaded implementations.  Multi threading
+   for BLAS Level 3 scales nearly perfect.  That's because each thread can
+   compute separate blocks for the result matrix and race conditions are not an
+   issue.
 
 
+:links:  Intel MKL               -> https://software.intel.com/en-us/intel-mkl
+         AMD CML                 -> http://developer.amd.com/tools-and-sdks/cpu-development/amd-core-math-library-acml/
+         Sun Performance Library -> https://code.google.com/p/blis/
+         NVIDIA cuBLAS           -> https://developer.nvidia.com/cuBLAS
+         BLIS                    -> http://math-atlas.sourceforge.net
+         OpenBLAS                -> http://www.openblas.net
+         ATLAS                   -> http://math-atlas.sourceforge.net
+         ulmBLAS                 -> http://apfel.mathematik.uni-ulm.de/~lehn/ulmBLAS/
+         LAPACK                  -> http://www.netlib.org/lapack/
+         GEMM: From Pure C to SSE Optimized Micro Kernels -> http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/index.html
+         Netlib RefBLAS          -> http://www.netlib.org/blas/
+         FLENS-BLAS              -> doc:flens/blas/blas
+
+
+About FLENS-BLAS
+================
+BLAS functions are provided in FLENS through three layers:
+
+ - __CXXBLAS__ *functions in namespace `cxxblas`*
+
+   These provide a low-level C++ BLAS interface.  These functions work on raw
+   data pointers and by default call corresponding __ulmBLAS__ functions.
+   Optionally you can compile and link your code such that an external and
+   possible vendor tuned BLAS function gets called.
+
+   The __CXXBLAS__ interface is similar to the CBLAS interface.  It uses only
+   very few C++ features, e.g. templates are used for merely for the element
+   type.  It does not use structs, classes or even enum types.  So compared to
+   CBLAS there is except for using template no abstraction.
+
+ - __FLENS-BLAS__ *functions in namespace `flens::blas`*
+
+   These functions provide a high-level BLAS interface for the FLENS
+   `DenseVector` types.  These functions internally call __CXXBLAS__ functions.
+
+ - *Overloaded operators*
+
+   These have the advantage of allowing a more expressive notation.  In FLENS
+   we are very pedantic that this kind of syntactic sugar does not lead to any
+   hidden performance penalty.  Using overloaded operators for BLAS should not
+   be misunderstood.  They certainly are not provided such that a user does
+   need to know about BLAS.  If you want to do high performance computing you
+   always have to think in BLAS.  We will discuss overloaded operators in more
+   detail on the next page.
+
+In all cases runtime overhead (if at all) is negligible compared to calling a
+BLAS implementation directly.  Runtime assertions merely check consistency of
+the arguments.
+
+Compiling with `-DNDEBUG` removes any of these checks.  It is common practise
+that during the test phase runtime assertions are used and production code gets
+generated with `-DNDEBUG`.
+
+:links: FLENS-BLAS -> doc:flens/blas/blas
+        CXXBLAS    -> dir:ulmblas/cxxblas/
+        ulmBLAS    -> http://apfel.mathematik.uni-ulm.de/~lehn/ulmBLAS/
+
+
+BLAS Level 1 Functions
+======================
+This BLAS level originally deals with vector-vector operations only.  For
+convenience we added in __FLENS-BLAS__ some cases matrix-matrix variants that
+for instance allow copying or adding matrices.
+
+ +----------------+-----------------------------------------------+---------------+
+ | __FLENS-BLAS__ | DESCRIPTION                                   | __CXXBLAS__   |
+ +================+===============================================+===============+
+ | __copy__       | $y \leftarrow x$                              | __copy[1]__   |
+ |                |                                               |               |
+ |                | Copies a vector $\vec{x}$ to a vector         |               |
+ |                | $\vec{y}$ or a matrix $A$ to a matrix $B$.    |               |
+ +----------------+-----------------------------------------------+---------------+
+ | __axpy__       | $\vec{y} \leftarrow \alpha \vec{x} + \vec{y}$ | __axpy[1]__   |
+ |                |                                               |               |
+ |                | `axpy` is short for *alpha x pluy y*          |               |
+ |                |                                               |               |
+ |                | FLENS also provides a variant for `GeMatrix`  |               |
+ |                | that computes $Y \leftarrow \alpha X + Y$.    |               |
+ +----------------+-----------------------------------------------+---------------+
+ | __scal__       | $\vec{x} \leftarrow \alpha \vec{x}$           | __scal[1]__   |
+ |                |                                               |               |
+ |                | Scales a vector by a constant.                |               |
+ |                |                                               |               |
+ |                | FLENS also provides a variant for `GeMatrix`  |               |
+ |                | that computes $X \leftarrow \alpha X$.        |               |
+ +----------------+-----------------------------------------------+---------------+
+ | __swap__       | Interchanges two vectors, i.e.                | __swap[1]__   |
+ |                | $\vec{x} \leftrightarrow \vec{y}$.            |               |
+ +----------------+-----------------------------------------------+---------------+
+ | __asum__       | Takes the sum of the absolute values, i.e.    | __asum[1]__   |
+ |                | computes $\sum\limits_{i} |x_i|$.             |               |
+ +----------------+-----------------------------------------------+---------------+
+ | __dot__,       | $\alpha \leftarrow \vec{x}^T \vec{y}$ or      | __dot[1]__,   |
+ | dotu           | $\alpha \leftarrow \vec{\bar{x}}^T \vec{y}$   | udot          |
+ |                |                                               |               |
+ |                | Forms the dot product of two vectors, i.e.    |               |
+ |                | computes $\sum\limits_{i} \bar{x}_i y_i$      |               |
+ |                | or $\sum\limits_{i} x_i y_i$.                 |               |
+ +----------------+-----------------------------------------------+---------------+
+ | __nrm2__       | Computes the euclidean norm of a vector, i.e. | __nrm2[1]__   |
+ |                | $\sqrt{\sum\limits_{i} |x_i|^2}$.             |               |
+ +----------------+-----------------------------------------------+---------------+
+ | __rot__        | Applies a plane rotation.                     | __rot[1]__    |
+ +----------------+-----------------------------------------------+---------------+
+
+
+BLAS Level 1 Example: Adding Vectors with Operators
+---------------------------------------------------
+In the following examples we compute following vector sums:
+
+ - $\vec{v} \leftarrow \vec{x} + \vec{y} + \vec{z}$ and
+ - $\vec{v} = 2\vec{x} + 3\vec{y} + 4\vec{z}$
+
+Using overloaded operators this can be coded in an expressive way.  *People from
+high performance computing will get nervous if they see the code.*  They are
+more concern about how computations are carried out and whether temporary
+objects get created.  Ease-of-use comes second in this field. We will show in
+the next example that no temporaries are carried out and what BLAS routines are
+used for the evaluation.
+
+:import: flens/examples/vecsum_operators.cc
+
+This leads to:
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. vecsum_operators.cc                        |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+
+BLAS Level 1 Example: Adding Vectors with FLENS-BLAS
+----------------------------------------------------
+In the next example we show how internally the expression `v = x + y + z` and
+`v = 2*x + 3*y + 4*z` are computed by calling __FLENS-BLAS__ functions:
+
+ - $\vec{v} \leftarrow \vec{x} + \vec{y} + \vec{z}$
+
+   This gets computed using __blas::copy__ and __blas::axpy__:
+
+     - $\vec{v} \leftarrow \vec{x}$ (__blas::copy__)
+     - $\vec{v} \leftarrow \vec{v} + \vec{y}$ (__blas::axpy__)
+     - $\vec{v} \leftarrow \vec{v} + \vec{z}$ (__blas::axpy__)
+
+ - $\vec{v} = 2\vec{x} + 3\vec{y} + 4\vec{z}$
+
+   This gets computed by zero-fill and __blas::axpy__:
+
+     - $\vec{v} \leftarrow 0$ (zero-fill)
+     - $\vec{v} \leftarrow \vec{v} + 2\vec{x}$ (__blas::axpy__)
+     - $\vec{v} \leftarrow \vec{v} + 3\vec{y}$ (__blas::axpy__)
+     - $\vec{v} \leftarrow \vec{v} + 4\vec{z}$ (__blas::axpy__)
+
+   Note that zero-fill is not a BLAS functionality.  It is implemented as
+   as simply loop or uses `std::fill` if possible.  This variant is slightly
+   more efficient than
+
+     - $\vec{v} \leftarrow x$ (__blas::copy__)
+     - $\vec{v} \leftarrow 2 \vec{v}$ (__blas::scal__)
+     - $\vec{v} \leftarrow \vec{v} + 3\vec{y}$ (__blas::axpy__)
+     - $\vec{v} \leftarrow \vec{v} + 4\vec{z}$ (__blas::axpy__)
+
+:import: flens/examples/vecsum_flensblas.cc
+
+We compile as usual and get:
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. vecsum_flensblas.cc                        |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+BLAS Level 1 Example: Adding Vectors with CXXBLAS
+-------------------------------------------------
+Next we show how the __FLENS-BLAS__ functions call internally __CXXBLAS__
+functionsa__cxxblas::copy__ and  __cxxblas::axpy__:
+
+:import: flens/examples/vecsum_cxxblas.cc
+
+We compile as usual and get:
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. vecsum_cxxblas.cc                          |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+:links: FLENS-BLAS    -> doc:flens/blas/blas
+        CXXBLAS       -> dir:ulmblas/cxxblas/
+        blas::axpy    -> doc:flens/blas/level1/axpy
+        blas::copy    -> doc:flens/blas/level1/copy
+        blas::scal    -> doc:flens/blas/level1/scal
+        cxxblas::axpy -> file:ulmblas/cxxblas/level1/axpy.h
+        cxxblas::copy -> file:ulmblas/cxxblas/level1/copy.h
+        (.*)\[1\]     -> doc:ulmblas/cxxblas/level1/$1
+        (.*)          -> doc:flens/blas/level1/$1
+
+
+
+BLAS Level 2 Functions
+======================
+
+ +----------------+---------------------------------------------------+------------+
+ | __FLENS-BLAS__ | DESCRIPTION                                       | __CXXBLAS__|
+ +================+===================================================+============+
+ | __mv__         | Computes a matrix-vector product. The form of     |            |
+ |                | the product depends on the matrix type:           |            |
+ |                |  - For *general* matrices it is                   |            |
+ |                |    $y \leftarrow \beta y + \alpha \text{op}(A) x$.| __gemv__   |
+ |                |  - For *symmetric* matrices it is                 |            |
+ |                |    $y \leftarrow \beta y + \alpha A x$.           | __symv__   |
+ |                |  - For *hermitian* matrices it is                 |            |
+ |                |    $y \leftarrow \beta y + \alpha A x$.           | __hemv__   |
+ |                |  - For *triangular* matrices it is                |            |
+ |                |    $x \leftarrow \text{op}(A) x$.                 | __trmv__   |
+ |                | Hereby $\text{op}(A)$ denotes $A$, $A^T$ or       |            |
+ |                | $A^H$.                                            |            |
+ +----------------+---------------------------------------------------+------------+
+ | __r__          | Computes a rank `1` operation.  The type of       |            |
+ |                | operation depends on type of the matrix that      |            |
+ |                | gets updated:                                     |            |
+ |                |  - For *general* matrices it is                   | __geru__   |
+ |                |    $A \leftarrow A + \alpha x y^T$.               | __gerc__   |
+ |                |  - For *symmetric* matrices it is                 | __syr__    |
+ |                |    $A \leftarrow A + \alpha x x^T$.               | __her__    |
+ +----------------+---------------------------------------------------+------------+
+ | __r2__         | Computes a symmetrix rank `2` operation.  The     |            |
+ |                | type of operation depends on type of the matrix   |            |
+ |                | that gets updated:                                |            |
+ |                |  - For *symmetric* matrices it is                 |            |
+ |                |    $A \leftarrow A + \alpha x y^T + \alpha y x^T$.| __syr2__   |
+ |                |  - For *hermitian* matrices it is                 |            |
+ |                |    $A \leftarrow A + \alpha x y^H                 |            |
+ |                |    + \overline{\alpha} y x^H$.                    | __her2__   |
+ +----------------+---------------------------------------------------+------------+
+ | __sv__         | Solves one of the systems of equations            |            |
+ |                | $Ax = b$ or $A^T x = b$ where $A$ is an unit      | __trsv__   |
+ |                | or non-unit or upper or lower triangular matrix.  |            |
+ +----------------+---------------------------------------------------+------------+
+
+
+BLAS Level 2 Example: Matrix-Vector Product with Operators
+----------------------------------------------------------
+In the following examples we compute following matrix vector products:
+
+ - $\vec{y} \leftarrow A \vec{x}$
+ - $\vec{y} \leftarrow A^T \vec{x}$
+ - $\vec{y} \leftarrow \beta y + A^T \vec{x}$
+
+If you are familiar with BLAS you know that each of these operations can be
+computed by a single BLAS routine unless $A$ is a trinagular matrix.  We will
+show later that this is exactly how the compuation get carried out internally.
+
+:import: flens/examples/matvecprod_operators.cc
+
+This leads to:
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. matvecprod_operators.cc                    |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+
+BLAS Level 2 Example: Matrix-Vector Product with FLENS-BLAS
+-----------------------------------------------------------
+Having a look at the documentation of __blas::mv__ you see that all of these
+operations can handeled by a single (FLENS-)BLAS function.  So here it is more
+transparent that no temporary objects get created:
+
+:import: flens/examples/matvecprod_flensblas.cc
+
+This leads to:
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. matvecprod_flensblas.cc                    |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+
+BLAS Level 2 Example: Matrix-Vector Product with CXXBLAS
+--------------------------------------------------------
+The function called by __blas::mv__ is in this case __cxxblas::gemv__:
+
+:import: flens/examples/matvecprod_cxxblas.cc
+
+This leads to:
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. matvecprod_cxxblas.cc                      |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+:links: blas::mv      -> doc:flens/blas/level2/mv
+        cxxblas::gemv -> file:ulmblas/cxxblas/level2/gemv.h
+        FLENS-BLAS    -> doc:flens/blas/blas
+        CXXBLAS       -> dir:ulmblas/cxxblas/
+        __mv__        -> doc:flens/blas/level2/mv
+        __r__         -> doc:flens/blas/level2/r
+        __r2__        -> doc:flens/blas/level2/r2
+        __sv__        -> doc:flens/blas/level2/sv
+        __(.*)__      -> doc:ulmblas/cxxblas/level2/$1
+
+
+
+BLAS Level 3 Functions
+======================
+
+ +----------------+---------------------------------------------------+------------+
+ | __FLENS-BLAS__ | DESCRIPTION                                       | __CXXBLAS__|
+ +================+===================================================+============+
+ | __mm__         | Computes a matrix-matrix product.  The form of    |            |
+ |                | the product depends on the matrix types.  If one  |            |
+ |                | matrix is a *general* matrix and the other matrix |            |
+ |                | is                                                |            |
+ |                |  - *general* then it is                           | __gemm__   |
+ |                |    $C \leftarrow \beta C                          |            |
+ |                |    + \alpha \, \text{op}(A) \, \text{op}(B)$      |            |
+ |                |  - *symmetric* then it is                         | __symm__   |
+ |                |    $C \leftarrow \beta C                          |            |
+ |                |    + \alpha \, A \, \text{op}(B)$                 |            |
+ |                |  - *hermitian* then it is                         | __hemm__   |
+ |                |    $C \leftarrow \beta C                          |            |
+ |                |    + \alpha \, A \, \text{op}(B)$                 |            |
+ |                |  - *triangular* then it is                        | __trmm__   |
+ |                |    $B \leftarrow \alpha \, \text{op}(A) \, B$     |            |
+ +----------------+---------------------------------------------------+------------+
+ | __r2k__        | Compute a symmetric rank-`2k` update, i.e.        | __syr2k__  |
+ |                | $C \leftarrow \beta C                             |            |
+ |                | + \alpha\,A\, B^T + \alpha\,B\,A^T$ or            |            |
+ |                | $C \leftarrow \beta C                             |            |
+ |                | + \alpha\,A^T \, B + \alpha\,B^T\,A$.             |            |
+ +----------------+---------------------------------------------------+------------+
+ | __rk__         | Compute a symmetric rank-`k` update, i.e.         | __syrk__   |
+ |                | $C \leftarrow \beta C + \alpha A \, A^T$          |            |
+ |                | or                                                |            |
+ |                | $C \leftarrow \beta C + \alpha A^T \, A$          |            |
+ +----------------+---------------------------------------------------+------------+
+ | __sm__         | Solves one of the matrix equations                | __trsm__   |
+ |                | $\text{op}(A)\,X = B$ or $X\,\text{op}(A) = B$    |            |
+ |                | for $X$ where $A$ is an unit or non-unit or upper |            |
+ |                | or lower triangular matrix and $\text{op}(A)$     |            |
+ |                | denotes $A$, $A^T$ or $A^H$.                      |            |
+ +----------------+---------------------------------------------------+------------+
+
+BLAS Level 3 Example: Matrix-Matrix Product with Operators
+----------------------------------------------------------
+In the following examples we compute following matrix matrix products:
+
+ - $C = A*B$
+ - $C = A^T*B$
+ - $C = S * B$
+ - $B = U * B$
+
+where $A$, $B$, $C$ are general matrices, $S$ is a symmetric matrix and $U$ a
+triangular matrix.
+
+Again, if you are familiar with BLAS you know that each of these operations can
+be computed by a single BLAS routine.
+
+:import: flens/examples/matmatprod_operators.cc
+
+This leads to:
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. matmatprod_operators.cc                    |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+
+BLAS Level 3 Example: Matrix-Matrix Product with FLENS-BLAS
+-----------------------------------------------------------
+Again, having a look at the documentation of __blas::mm__ you see that all of
+these operations can handeled by a single (FLENS-)BLAS function:
+
+:import: flens/examples/matmatprod_flensblas.cc
+
+This leads to:
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. matmatprod_flensblas.cc                    |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+
+
+BLAS Level 3 Example: Matrix-Matrix Product with CXXBLAS
+--------------------------------------------------------
+The functions called by __blas::mm__ are in this case __cxxblas::gemm__,
+__cxxblas::symm__ and __cxxblas::trmm__:
+
+:import: flens/examples/matmatprod_cxxblas.cc
+
+This leads to:
+
+   *--[SHELL]-----------------------------------------------------------------*
+   |                                                                          |
+   |  cd flens/examples                                                       |
+   |  g++ -Wall -std=c++11 -I../.. matmatprod_cxxblas.cc                      |
+   |  ./a.out                                                                 |
+   |                                                                          |
+   *--------------------------------------------------------------------------*
+
+:links: mm            -> doc:flens/blas/level3/mm
+        blas::mm      -> doc:flens/blas/level3/mm
+        r2k           -> doc:flens/blas/level3/r2k
+        rk            -> doc:flens/blas/level3/rk
+        sm            -> doc:flens/blas/level3/sm
+        FLENS-BLAS    -> doc:flens/blas/blas
+        CXXBLAS       -> dir:ulmblas/cxxblas/
+        cxxblas::gemm -> file:ulmblas/cxxblas/level3/gemm.h
+        cxxblas::symm -> file:ulmblas/cxxblas/level3/symm.h
+        cxxblas::trmm -> file:ulmblas/cxxblas/level3/trmm.h
+        (.*)          -> doc:ulmblas/cxxblas/level3/$1
+
+
+Rational of FLENS-BLAS Function Names
+=====================================
+Function names in FLENS-BLAS are derived from BLAS/CBLAS.  As matrix/vector
+types encapsulate element types and mathematical properties this simplifies the
+BLAS/CBLAS function name scheme.
+
+- *Simplified naming convention*
+
+  Consider BLAS functions like `dgemv`, `sgemv`, `ssbmv`, `dgbmv`, etc. all
+  of them implement some kind of matrix-vector product. That's what the `mv`
+  stands for.  However, the names also encapsulate further information about
+  the involved matrix/vector types:
+
+    - The first leter indicates the element type
+       - `s` for single precision,
+       - `d` for double precision,
+       - `c` for complex single precision,
+       - `z` for complex double precision.
+    - The next two letter indicate the involved matrix type
+       - `ge` for a general matrix with full storage
+       - `gb` for a general matrix with band storage
+       - `sy` for a symmetric matrix with full storage
+       - `sb` for a symmetric matrix with banded storage
+       - ...
+
+  Because FLENS provides actual matrix/vector types this information can
+  be retrieved from the argument types.  Hence, FLENS merely provides one
+  function `blas::mv` and overloads it for different matrix/vector types.
+
+  Analogously in FLENS function `blas::mm` is overloaded for various
+  matrix/vector types such that it unifies `gemm`, `symm`, `trmm`, etc.
+
+- *Simplified function arguments*
+
+  Compared to calling BLAS functions directly or through the CBLAS interface
+  the number of arguments required by FLENS-BLAS functions is significantly
+  smaller.  In BLAS/CBLAS you always have to pass
+    - matrix/vector dimensions
+    - leading dimensions/strides and
+    - a data pointer
+  for each matrix/vector argument.  In FLENS-BLAS you simply pass a single
+  matrix/vector object to the corresponding function.
+
+  As an example: `dgemv` from CBLAS requires `12` arguments while its FLENS-BLAS
+  counterpart `blas::mv` only requires `6` arguments.  Besides convenient usage
+  this also provides increased safety and improves correctness.
 
 
 :navigate: __up__    -> doc:flens/examples/tutorial

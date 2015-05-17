@@ -1,51 +1,108 @@
-#include <cxxstd/iostream.h>
+#include <cassert>
+#include <iostream>
+#include <utility>
 #include <flens/flens.cxx>
 
 using namespace flens;
 using namespace std;
 
-///
-/// In the `main` function we again start with a typedef for a `GeMatrix` with
-/// elements of type `double` that are stored column-wise in memory.  Also,
-/// we define a suitable range operator.
-///
+template <typename MA>
+std::pair<long, long>
+eigenvalues_wsq(const GeMatrix<MA> &A)
+{
+    // Compute and return minimal and optimal workspace sizes
+    return std::pair<long,long>(A.numRows()*4, A.numRows()*256);
+}
+
+template <typename MA, typename VV, typename VWS>
+void
+eigenvalues(const GeMatrix<MA> &A, DenseVector<VV> &v, DenseVector<VWS> &ws)
+{
+    auto wsq = eigenvalues_wsq(A);
+    if (ws.length()==0) {
+        ws.resize(wsq.second);
+    }
+    assert(ws.length()>=wsq.first);
+
+    //
+    // ... compute eigenvalues v of A ... here the actual work happens!!!
+    //
+}
+
+template <typename MA, typename VV>
+void
+eigenvalues(const GeMatrix<MA> &A, DenseVector<VV> &v)
+{
+    DenseVector<VV> ws;
+
+    eigenvalues(A, v, ws);
+}
+
 int
 main()
 {
-    typedef FullStorage<double, ColMajor>  FS;
-    typedef GeMatrix<FS>                   GeMatrix;
-    const Underscore<GeMatrix::IndexType>  _;
+    typedef GeMatrix<FullStorage<double> >  DGeMatrix;
+    typedef DenseVector<Array<double> >     DDenseVector;
 
-///
-/// Then we setup some matrix.
-///
-    GeMatrix  A(3,4);
-    A = 1,  2,  3,  4,
-        5,  6,  7,  8,
-        9, 10, 11, 12;
+    // Use case 1: Use optimal workspace (performance for memory).  We have
+    //             a typical case where the same problem size is involved.  So
+    //             the workspace can be reused.
+    {
+        DGeMatrix     A(100, 100);
+        DDenseVector  v(100);
 
-    cout << "A = " << A << endl;
+        auto workspace = eigenvalues_wsq(A);
+        DDenseVector  ws(workspace.second);
 
-///
-/// Matrix `B` is of type `const GeMatrix::View`.  So in particular this matrix
-/// is in const context.
-///
-    const auto B = A(_(1,3),_);
+        for (int i=0; i<666; ++i) {
+            fillRandom(A);
+            eigenvalues(A, v, ws);
+        }
+    }
 
-///
-/// Matrix `C` is of type `GeMatrix::ConstView` but it is *not* in const
-/// context.
-///
-    auto C = B(_(1,3),_);
+    // Use case 2: Use minimal workspace (memory for performance)
+    {
+        DGeMatrix     A(100, 100);
+        DDenseVector  v(100);
 
-///
-/// Matrix `D` would be of type `GeMatrix::View` and would reference a part
-/// of a matrix of type `GeMatrix::ConstView`.  This would violate *const
-/// correctness*.
-    auto D = C(_(1,3),_);
+        auto workspace = eigenvalues_wsq(A);
+        DDenseVector  ws(workspace.first);
 
-    // D references a const matrix view.  So this must trigger a compile time
-    // error!
-    D(1,1) = 666;
-    cout << "D = " << D << endl;
+        for (int i=0; i<666; ++i) {
+            fillRandom(A);
+            eigenvalues(A, v, ws);
+        }
+    }
+
+    // Use case 3: Allocate (optimal) workspace on first call.
+    {
+        DGeMatrix     A(100, 100);
+        DDenseVector  v(100);
+        DDenseVector  ws;
+
+        for (int i=0; i<666; ++i) {
+            fillRandom(A);
+            eigenvalues(A, v, ws);
+        }
+    }
+
+    // NO-Use case 4: Workspace gets allocated for each call!!!
+    {
+        DGeMatrix     A(100, 100);
+        DDenseVector  v(100);
+
+        for (int i=0; i<666; ++i) {
+            fillRandom(A);
+            eigenvalues(A, v);
+        }
+    }
+
+    // Use case 5: Ok, workspace is needed only once.
+    {
+        DGeMatrix     A(100, 100);
+        DDenseVector  v(100);
+
+        fillRandom(A);
+        eigenvalues(A, v);
+    }
 }

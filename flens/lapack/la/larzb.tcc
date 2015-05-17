@@ -183,7 +183,11 @@ RestrictTo<IsComplexGeMatrix<GeMatrix<MV> >::value,
            void>::Type
 larzb_impl(Side                     side,
            Transpose                trans,
+#ifndef NDEBUG
            Direction                direction,
+#else
+           Direction,
+#endif
            StoreVectors             storeVectors,
            GeMatrix<MV>             &V,
            TrMatrix<MT>             &T,
