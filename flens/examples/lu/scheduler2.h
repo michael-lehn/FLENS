@@ -87,8 +87,6 @@ class Scheduler
         int                                         errorCode;
         bool                                        stop;
 
-        long                                        maxReady;
-
         std::list<Key>                              ready;
         std::unordered_map<Key, Task>               scheduled;
         std::unordered_map<Key, long>               predecessorCount;

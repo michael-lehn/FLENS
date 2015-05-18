@@ -83,6 +83,10 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        auto U_ii = A_ii.upper();
                        blas::sm(Right, NoTrans, One, U_ii, A_ki);
                    };
+            if (i>1) {
+                scheduler.addArc(keyUpdateA(mn,m,n,k,i,i-1),
+                                 keyApplyU(mn,m,n,k,i));
+            }
             scheduler.add(keyApplyU(mn,m,n,k,i), task, { keyLU(i) });
         }
 
@@ -94,6 +98,10 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        auto L_ii = A_ii.lowerUnit();
                        blas::sm(Left, NoTrans, One, L_ii, A_il);
                    };
+            if (i>1) {
+                scheduler.addArc(keyUpdateA(mn,m,n,i,l,i-1),
+                                 keyApplyL(mn,m,n,i,l));
+            }
             scheduler.add(keyApplyL(mn,m,n,i,l), task, { keyPtA(mn,m,i,l) });
         }
 

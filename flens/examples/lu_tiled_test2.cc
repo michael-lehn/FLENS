@@ -3,8 +3,8 @@
 
 #include <flens/examples/lu/apply_perm.h>
 #include <flens/examples/lu/check_lu.h>
-#include <flens/examples/lu/lu_tiled_mt.h>
-#include <flens/examples/lu/scheduler.h>
+#include <flens/examples/lu/lu_tiled_mt2.h>
+#include <flens/examples/lu/scheduler2.h>
 #include <flens/examples/lu/timer.h>
 
 using namespace flens;
@@ -21,8 +21,8 @@ main()
     Scheduler scheduler(2);
 
     const int bs = 256;
-    const int m  = 10*bs;
-    const int n  = 10*bs;
+    const int m  = 4000;
+    const int n  = 4000;
 
     DGeMatrix           A(m,n), A_org;
     IDenseVector        p(m);

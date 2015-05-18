@@ -22,6 +22,7 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
     typedef typename TiledCopy<MA>::ElementType  T;
     typedef typename TiledCopy<MA>::IndexType    IndexType;
     typedef Scheduler::Task                      Task;
+    typedef Scheduler::Key                       Key;
 
     const IndexType  m  = A.numTileRows();
     const IndexType  n  = A.numTileCols();
@@ -35,6 +36,8 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
 
     scheduler.pause();
 
+    std::vector<std::string> gather;
+
     for (IndexType i=1; i<=mn; ++i) {
         auto A_ii = A(i,i);
         auto p_   = p(_(bs*(i-1)+1,bs*(i-1)+A_ii.numRows()));
@@ -47,10 +50,8 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        scheduler.abort(info+bs*(i-1));
                    }
                };
-        if (i>1) {
-            scheduler.addArc(keyUpdateA(i,i,i-1), keyLU(i));
-        }
-        scheduler.add(keyLU(i), task);
+        scheduler.add(keyLU(i), task, gather);
+        gather.clear();
 
         //  Apply permutation to i-th tile row
         for (IndexType j=1; j<=n; ++j) {
@@ -61,6 +62,7 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                            apply_perm_inv(p_, A_ij);
                        };
                 scheduler.add(keyPtA(i,j), task, { keyLU(i) });
+                gather.push_back(keyPtA(i,j));
 
                 // dependency for task: "Update Permutation Vector p"
                 scheduler.addArc(keyPtA(i,j), keyUpdateP(i, bs));
@@ -72,10 +74,8 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                {
                    p_ += bs*(i-1);
                };
-        if (i>1) {
-            scheduler.addArc(keyUpdateP(i-1, bs), keyUpdateP(i, bs));
-        }
         scheduler.add(keyUpdateP(i, bs), task);
+        gather.push_back(keyUpdateP(i, bs));
 
         //  Apply U_ii^{-1} to i-th tile column
         for (IndexType k=i+1; k<=m; ++k) {
@@ -86,6 +86,7 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        blas::sm(Right, NoTrans, One, U_ii, A_ki);
                    };
             scheduler.add(keyApplyU(k,i), task, { keyLU(i) });
+            gather.push_back(keyApplyU(k,i));
         }
 
         //  Apply L_ii^{-1} to i-th tile row
@@ -97,6 +98,7 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        blas::sm(Left, NoTrans, One, L_ii, A_il);
                    };
             scheduler.add(keyApplyL(i,l), task, { keyPtA(i,l) });
+            gather.push_back(keyApplyL(i,l));
         }
 
         //  Update remaining blocks
@@ -112,6 +114,7 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        };
                 scheduler.add(keyUpdateA(k,l,i), task, { keyApplyU(k,i),
                                                          keyApplyL(i,l) });
+                gather.push_back(keyUpdateA(k,l,i));
             }
         }
     }

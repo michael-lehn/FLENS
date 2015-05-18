@@ -26,8 +26,8 @@ main()
     const int m0    = 256;
     const int n0    = 256;
 
-    const int mInc  = 128;
-    const int nInc  = 128;
+    const int mInc  = 256;
+    const int nInc  = 256;
 
     const int m1    = 6000;
     const int n1    = 6000;
@@ -36,7 +36,7 @@ main()
     const int numIt = 10;
 
     Scheduler scheduler(NUM_THREADS);
-    int bs = 256;
+    const int bs = 256;
 
     DGeMatrix           A_buffer(m1,n1), A_org_buffer(m1,n1);
     IDenseVector        p_buffer(mn1);
@@ -48,16 +48,6 @@ main()
         auto A     = A_buffer(_(1,m),_(1,n));
         auto A_org = A_org_buffer(_(1,m),_(1,n));
         auto p     = p_buffer(_(1,std::min(m,n)));
-
-        if (std::min(m,n) < 256) {
-            bs = 64;
-        } else if (std::min(m,n) < 512) {
-            bs = 128;
-        } else if (std::min(m,n) < 3*1024) {
-            bs = 256;
-        } else {
-            bs = 512;
-        }
 
         double t_elapsed = 0.0;
         double err_nrm   = 0.0;
@@ -78,7 +68,7 @@ main()
             if (info!=0) {
                 --it;
             } else {
-                //err_nrm   += check_LU(A_org, A, p);
+                err_nrm   += check_LU(A_org, A, p);
                 t_elapsed += t0;
             }
         }

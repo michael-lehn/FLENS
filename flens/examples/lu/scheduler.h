@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <mutex>
 #include <thread>
+#include <vector>
 
 #include <flens/examples/lu/format.h>
 
@@ -49,8 +50,7 @@ class Scheduler
         ///  started.
         ///
         void
-        add(std::string keyStr, Task task,
-            std::initializer_list<std::string> pre= {});
+        add(std::string keyStr, Task task, std::vector<std::string> pre= {});
 
         ///
         ///  In some cases it is convenient to add only some dependencies, i.e.

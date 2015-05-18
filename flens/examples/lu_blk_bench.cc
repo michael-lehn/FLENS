@@ -20,14 +20,14 @@ using namespace std;
 int
 main()
 {
-    const int m0    = 100;
-    const int n0    = 100;
+    const int m0    = 256;
+    const int n0    = 256;
 
-    const int mInc  = 100;
-    const int nInc  = 100;
+    const int mInc  = 128;
+    const int nInc  = 128;
 
-    const int m1    = 4000;
-    const int n1    = 4000;
+    const int m1    = 6000;
+    const int n1    = 6000;
     const int mn1   = std::min(m1, n1);
 
     const int numIt = 10;

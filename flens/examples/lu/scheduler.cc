@@ -40,8 +40,7 @@ Scheduler::resume()
 }
 
 void
-Scheduler::add(std::string keyStr, Task task,
-               std::initializer_list<std::string> pre)
+Scheduler::add(std::string keyStr, Task task, std::vector<std::string> pre)
 {
     bool jobReady = false;
     {
@@ -74,7 +73,11 @@ Scheduler::add(std::string keyStr, Task task,
         }
 
         if (predecessorCount[key]==0) {
-            ready.push_back(key);
+            if (successor[key].size()>0) {
+                ready.push_front(key);
+            } else {
+                ready.push_back(key);
+            }
         }
         jobReady = (ready.size()>0);
     }
@@ -132,7 +135,7 @@ Scheduler::dumpGraph(const char *filename)
 
     std::ofstream out(filename);
 
-    out << "digraph G {\nnode [shape=\"box\"];" << std::endl;
+    out << "digraph G {\nnode [shape=\"none\"];" << std::endl;
     for (auto t : tag) {
         out << t.first << "[label=\"" << t.second << "\"]"
             << std::endl;
@@ -232,7 +235,11 @@ Scheduler::taskDone(Key key)
                 if (scheduled.count(succ)>0) {
                     if (predecessorCount[succ]==0) {
                         predecessorCount.erase(succ);
-                        ready.push_back(succ);
+                        if (successor[succ].size()>0) {
+                            ready.push_front(succ);
+                        } else {
+                            ready.push_back(succ);
+                        }
                     }
                 }
             }

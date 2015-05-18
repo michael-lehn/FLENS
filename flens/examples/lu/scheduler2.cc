@@ -7,8 +7,7 @@
 namespace flens {
 
 Scheduler::Scheduler(int numThreads_)
-    : numThreads(numThreads_), numThreadsBusy(0), errorCode(0), stop(false),
-      maxReady(0)
+    : numThreads(numThreads_), numThreadsBusy(0), errorCode(0), stop(false)
 {
     std::unique_lock<std::mutex>  lock(mtx);
 
@@ -48,13 +47,9 @@ Scheduler::add(Key key, Task task, std::initializer_list<Key> pre)
     {
         std::unique_lock<std::mutex>  lock(mtx);
 
-        while (ready.size()>numThreads*5) {
-            cv_scheduler.wait(lock);
-        }
-
         #ifndef NDEBUG
         if (scheduled.count(key)!=0) {
-            std::cerr << "Already scheduled: " << keyStr << std::endl;
+            std::cerr << "Already scheduled: " << key << std::endl;
             assert(0);
         }
         #endif
@@ -71,8 +66,11 @@ Scheduler::add(Key key, Task task, std::initializer_list<Key> pre)
         }
 
         if (predecessorCount[key]==0) {
-            ready.push_back(key);
-            maxReady = std::max(maxReady, long(ready.size()));
+            //if (successor[key].size()>3) {
+            //    ready.push_front(key);
+            //} else {
+                ready.push_back(key);
+            //}
         }
         jobReady = (ready.size()>0);
     }
@@ -96,8 +94,8 @@ Scheduler::addArc(Key pre, Key succ)
     #ifndef NDEBUG
     if (scheduled.count(succ)!=0) {
         std::cerr << "Already scheduled and possibly running: "
-                  << succStr << std::endl;
-        std::cerr << preStr << " -> " << succStr << std::endl;
+                  << succ << std::endl;
+        std::cerr << pre << " -> " << succ << std::endl;
         assert(0);
     }
     #endif
@@ -144,9 +142,6 @@ Scheduler::join()
     // restore error code and return old value
     int errorCode_ = errorCode;
     errorCode = 0;
-
-    std::cout << "max ready: " << maxReady << std::endl;
-    maxReady = 0;
 
     return errorCode_;
 }
@@ -206,8 +201,11 @@ Scheduler::taskDone(Key key)
                 if (scheduled.count(succ)>0) {
                     if (predecessorCount[succ]==0) {
                         predecessorCount.erase(succ);
-                        ready.push_back(succ);
-                        maxReady = std::max(maxReady, long(ready.size()));
+                        //if (successor[succ].size()>3) {
+                        //    ready.push_front(succ);
+                        //} else {
+                            ready.push_back(succ);
+                        //}
                     }
                 }
             }
@@ -217,9 +215,6 @@ Scheduler::taskDone(Key key)
         --numThreadsBusy;
 
         if (scheduled.size()==0 && numThreadsBusy==0) {
-            allDone = true;
-        }
-        if (ready.size()==numThreads*5) {
             allDone = true;
         }
     }
