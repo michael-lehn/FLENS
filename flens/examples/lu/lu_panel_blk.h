@@ -1,8 +1,8 @@
-#ifndef LU_LU_BLK_H
-#define LU_LU_BLK_H 1
+#ifndef LU_LU_PANEL_BLK_H
+#define LU_LU_PANEL_BLK_H 1
 
 #ifndef LU_BS
-#define LU_BS 128
+#define LU_BS 256
 #endif
 
 #include <cxxstd/algorithm.h>
@@ -10,13 +10,14 @@
 #include <flens/flens.h>
 
 #include <flens/examples/lu/apply_perm_inv.h>
-#include <flens/examples/lu/lu_unblk_with_operators.h>
+#include <flens/examples/lu/lu_panel.h>
+#include <flens/examples/lu/timer.h>
 
 namespace flens {
 
 template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
-lu_blk(GeMatrix<MA> &A, DenseVector<VP> &p)
+lu_panel_blk(GeMatrix<MA> &A, DenseVector<VP> &p)
 {
     typedef typename GeMatrix<MA>::ElementType  T;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
@@ -30,6 +31,9 @@ lu_blk(GeMatrix<MA> &A, DenseVector<VP> &p)
     const Underscore<IndexType>  _;
 
     IndexType info = 0;
+
+    //double T1 = 0;
+    //double T2 = 0;
 
     for (IndexType i=1; i<=mn; i+=LU_BS) {
         const IndexType bs = std::min(std::min(LU_BS, m-i+1), n-i+1);
@@ -47,8 +51,11 @@ lu_blk(GeMatrix<MA> &A, DenseVector<VP> &p)
         // Part of the pivot vector for rows of A11
         auto p_  = p(_(i,m));
 
+        //double t0 = ATL_walltime();
+
         // Compute LU factorization of A11
-        info = lu_unblk(A_1, p_);
+        info = lu_panel(A_1, p_);
+
 
         if (info) {
             // All values in column info of A11 are *exactly* zero.
@@ -58,6 +65,7 @@ lu_blk(GeMatrix<MA> &A, DenseVector<VP> &p)
         // Apply permutation to A10 and A12
         apply_perm_inv(p(_(i,i+bs-1)), A_0);
         apply_perm_inv(p(_(i,i+bs-1)), A_2);
+        //double t1 = ATL_walltime();
 
         // Update p
         p_ += i-1;
@@ -67,10 +75,16 @@ lu_blk(GeMatrix<MA> &A, DenseVector<VP> &p)
 
         // Update A22 with matrix-product A22 = A22 - A21*A12
         blas::mm(NoTrans, NoTrans, -One, A21, A12, One, A22);
+
+        //double t2 = ATL_walltime();
+
+        //T1 += t1 - t0;
+        //T2 += t2 - t1;
     }
+    //std::cout << "T1 = " << T1 << ", T2 = " << T2 << std::endl;
     return 0;
 }
 
 } // namespace flens
 
-#endif // LU_LU_BLK_H
+#endif // LU_LU_PANEL_BLK_H

@@ -12,7 +12,7 @@ namespace flens {
 //
 template <typename MA, typename MLU, typename VP>
 double
-check_LU(GeMatrix<MA> &A, GeMatrix<MLU> &LU, DenseVector<VP> &p)
+check_LU(GeMatrix<MA> &A, const GeMatrix<MLU> &LU, const DenseVector<VP> &p)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
@@ -48,6 +48,7 @@ check_LU(GeMatrix<MA> &A, GeMatrix<MLU> &LU, DenseVector<VP> &p)
         apply_perm(p, LU_);
         A -= LU_;
     }
+
 
     return blas::asum(A);
 }

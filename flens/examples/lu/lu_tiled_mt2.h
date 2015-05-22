@@ -9,8 +9,8 @@
 
 #include <flens/examples/lu/apply_perm_inv.h>
 #include <flens/examples/lu/lu_blk_with_operators.h>
-#include <flens/examples/lu/lu_tiled_keys2.h>
-#include <flens/examples/lu/scheduler2.h>
+#include <flens/examples/lu/lu_tiled_keys.h>
+#include <flens/examples/lu/scheduler.h>
 #include <flens/examples/lu/tile.h>
 
 namespace flens {
@@ -22,6 +22,7 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
     typedef typename TiledCopy<MA>::ElementType  T;
     typedef typename TiledCopy<MA>::IndexType    IndexType;
     typedef Scheduler::Task                      Task;
+    typedef Scheduler::Key                       Key;
 
     const IndexType  m  = A.numTileRows();
     const IndexType  n  = A.numTileCols();
@@ -32,6 +33,10 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
     const Underscore<IndexType>  _;
 
     Task task;
+
+    scheduler.pause();
+
+    std::vector<std::string> gather;
 
     for (IndexType i=1; i<=mn; ++i) {
         auto A_ii = A(i,i);
@@ -45,10 +50,8 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        scheduler.abort(info+bs*(i-1));
                    }
                };
-        if (i>1) {
-            scheduler.addArc(keyUpdateA(mn,m,n,i,i,i-1), keyLU(i));
-        }
-        scheduler.add(keyLU(i), task);
+        scheduler.add(keyLU(i), task, gather);
+        gather.clear();
 
         //  Apply permutation to i-th tile row
         for (IndexType j=1; j<=n; ++j) {
@@ -58,10 +61,11 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        {
                            apply_perm_inv(p_, A_ij);
                        };
-                scheduler.add(keyPtA(mn,m,i,j), task, { keyLU(i) });
+                scheduler.add(keyPtA(i,j), task, { keyLU(i) });
+                gather.push_back(keyPtA(i,j));
 
                 // dependency for task: "Update Permutation Vector p"
-                scheduler.addArc(keyPtA(mn, m, i, j), keyUpdateP(mn,m,n,i));
+                scheduler.addArc(keyPtA(i,j), keyUpdateP(i, bs));
             }
         }
 
@@ -70,10 +74,8 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                {
                    p_ += bs*(i-1);
                };
-        if (i>1) {
-            scheduler.addArc(keyUpdateP(mn,m,n,i-1), keyUpdateP(mn,m,n,i));
-        }
-        scheduler.add(keyUpdateP(mn,m,n,i), task);
+        scheduler.add(keyUpdateP(i, bs), task);
+        gather.push_back(keyUpdateP(i, bs));
 
         //  Apply U_ii^{-1} to i-th tile column
         for (IndexType k=i+1; k<=m; ++k) {
@@ -83,11 +85,8 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        auto U_ii = A_ii.upper();
                        blas::sm(Right, NoTrans, One, U_ii, A_ki);
                    };
-            if (i>1) {
-                scheduler.addArc(keyUpdateA(mn,m,n,k,i,i-1),
-                                 keyApplyU(mn,m,n,k,i));
-            }
-            scheduler.add(keyApplyU(mn,m,n,k,i), task, { keyLU(i) });
+            scheduler.add(keyApplyU(k,i), task, { keyLU(i) });
+            gather.push_back(keyApplyU(k,i));
         }
 
         //  Apply L_ii^{-1} to i-th tile row
@@ -98,11 +97,8 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        auto L_ii = A_ii.lowerUnit();
                        blas::sm(Left, NoTrans, One, L_ii, A_il);
                    };
-            if (i>1) {
-                scheduler.addArc(keyUpdateA(mn,m,n,i,l,i-1),
-                                 keyApplyL(mn,m,n,i,l));
-            }
-            scheduler.add(keyApplyL(mn,m,n,i,l), task, { keyPtA(mn,m,i,l) });
+            scheduler.add(keyApplyL(i,l), task, { keyPtA(i,l) });
+            gather.push_back(keyApplyL(i,l));
         }
 
         //  Update remaining blocks
@@ -116,11 +112,14 @@ lu_tiled(Scheduler &scheduler, TiledCopy<MA> &A, DenseVector<VP> &p)
                        {
                            A_kl -= A_ki * A_il;
                        };
-                scheduler.add(keyUpdateA(mn,m,n,k,l,i), task,
-                              { keyApplyU(mn,m,n,k,i), keyApplyL(mn,m,n,i,l) });
+                scheduler.add(keyUpdateA(k,l,i), task, { keyApplyU(k,i),
+                                                         keyApplyL(i,l) });
+                gather.push_back(keyUpdateA(k,l,i));
             }
         }
     }
+    scheduler.dumpGraph("graph.dot");
+    scheduler.resume();
     return scheduler.join();
 }
 

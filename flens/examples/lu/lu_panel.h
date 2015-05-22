@@ -1,8 +1,8 @@
-#ifndef LU_LU_BLK_H
-#define LU_LU_BLK_H 1
+#ifndef LU_LU_PANEL_H
+#define LU_LU_PANEL_H 1
 
-#ifndef LU_BS
-#define LU_BS 128
+#ifndef LU_PANEL_BS
+#define LU_PANEL_BS 32
 #endif
 
 #include <cxxstd/algorithm.h>
@@ -16,7 +16,7 @@ namespace flens {
 
 template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
-lu_blk(GeMatrix<MA> &A, DenseVector<VP> &p)
+lu_panel(GeMatrix<MA> &A, DenseVector<VP> &p)
 {
     typedef typename GeMatrix<MA>::ElementType  T;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
@@ -31,8 +31,8 @@ lu_blk(GeMatrix<MA> &A, DenseVector<VP> &p)
 
     IndexType info = 0;
 
-    for (IndexType i=1; i<=mn; i+=LU_BS) {
-        const IndexType bs = std::min(std::min(LU_BS, m-i+1), n-i+1);
+    for (IndexType i=1; i<=mn; i+=LU_PANEL_BS) {
+        const IndexType bs = std::min(std::min(LU_PANEL_BS, m-i+1), n-i+1);
 
         // Partitions of A
         auto A_0 = A(_(   i,      m), _(   1,    i-1));
@@ -73,4 +73,4 @@ lu_blk(GeMatrix<MA> &A, DenseVector<VP> &p)
 
 } // namespace flens
 
-#endif // LU_LU_BLK_H
+#endif // LU_LU_PANEL_H

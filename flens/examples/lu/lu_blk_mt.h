@@ -43,20 +43,20 @@ lu_blk(int BlockSize, GeMatrix<MA> &A, DenseVector<VP> &p)
 
             // Partitions of A
             auto A10 = A(_(   i, i+bs-1), _(   1,    i-1));
+            auto A_1 = A(_(   i,      m), _(   i, i+bs-1));
             auto A11 = A(_(   i, i+bs-1), _(   i, i+bs-1));
             auto A12 = A(_(   i, i+bs-1), _(i+bs,      n));
-            auto A21 = A(_(i+bs,      m), _(   i, i+bs-1));
             auto A22 = A(_(i+bs,      m), _(i+bs,      n));
 
             // Part of the pivot vector for rows of A11
-            auto p_  = p(_(i,i+bs-1));
+            auto p_  = p(_(i,m));
 
-            // Compute LU factorization of A11
-            info = lu_unblk(A11, p_);
+            // Compute LU factorization of A_1
+            info = lu_unblk(A_1, p_);
 
             if (info) {
                 // All values in column info of A11 are *exactly* zero.
-                return info+i- 1;
+                return info+i-1;
             }
 
             // Apply permutation to A10 and A12
@@ -65,9 +65,6 @@ lu_blk(int BlockSize, GeMatrix<MA> &A, DenseVector<VP> &p)
 
             // Update p
             p_ += i-1;
-
-            // Use triangular solver for A21 = A11.upper()*A21
-            blas::sm(Right, NoTrans, One, A11.upper(), A21);
 
             // Use triangular solver for A12 = A11.lowerUnit()*A12
             blas::sm(Left, NoTrans, One, A11.lowerUnit(), A12);
