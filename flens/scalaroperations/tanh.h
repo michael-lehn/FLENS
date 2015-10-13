@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2014, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,29 +30,28 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_SCALAROPERATIONS_SCALAROPERATIONS_TCC
-#define FLENS_SCALAROPERATIONS_SCALAROPERATIONS_TCC 1
+#ifndef FLENS_SCALAROPERATIONS_TANH_H
+#define FLENS_SCALAROPERATIONS_TANH_H 1
 
-#include <flens/scalaroperations/abs.tcc>
-#include <flens/scalaroperations/acos.tcc>
-#include <flens/scalaroperations/asin.tcc>
-#include <flens/scalaroperations/atan.tcc>
-#include <flens/scalaroperations/atan2.tcc>
-#include <flens/scalaroperations/cos.tcc>
-#include <flens/scalaroperations/complex.tcc>
-#include <flens/scalaroperations/div.tcc>
-#include <flens/scalaroperations/double.tcc>
-#include <flens/scalaroperations/exp.tcc>
-#include <flens/scalaroperations/imag.tcc>
-#include <flens/scalaroperations/log.tcc>
-#include <flens/scalaroperations/minus.tcc>
-#include <flens/scalaroperations/mult.tcc>
-#include <flens/scalaroperations/plus.tcc>
-#include <flens/scalaroperations/pow.tcc>
-#include <flens/scalaroperations/real.tcc>
-#include <flens/scalaroperations/sin.tcc>
-#include <flens/scalaroperations/sqrt.tcc>
-#include <flens/scalaroperations/tan.tcc>
-#include <flens/scalaroperations/tanh.tcc>
+#include <cxxblas/auxiliary/complex.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/scalartypes/impl/scalarclosure.h>
 
-#endif // FLENS_SCALAROPERATIONS_SCALAROPERATIONS_TCC
+namespace flens {
+
+struct ScalarOpTanh {};
+
+template <typename S>
+    const typename ScalarClosure<ScalarOpTanh, S, S>::ElementType
+    evalScalarClosure(const ScalarClosure<ScalarOpTanh, S, S> &exp);
+
+//-- operator overloading
+template <typename S>
+    const ScalarClosure<ScalarOpTanh,
+                        typename S::Impl,
+                        typename S::Impl>
+    Tanh(const Scalar<S> &s);
+
+} // namespace flens
+
+#endif // FLENS_SCALAROPERATIONS_ATAN_H
