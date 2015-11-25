@@ -160,12 +160,19 @@ template <typename MA, typename VW, typename MVL, typename MVR>
 //
 template <typename MA, typename VW>
     typename RestrictTo<(IsComplexGeMatrix<MA>::value
-                      && IsComplexDenseVector<VW>::value)
-             ||         (IsRealGeMatrix<MA>::value
-                      && IsRealDenseVector<VW>::value),
+                      && IsComplexDenseVector<VW>::value),
              typename RemoveRef<MA>::Type::IndexType>::Type
     ev(MA       &&A,
        VW       &&w);
+
+template <typename MA, typename VWR, typename VWI>
+    typename RestrictTo<(IsRealGeMatrix<MA>::value
+                      && IsRealDenseVector<VWR>::value
+                      && IsRealDenseVector<VWI>::value),
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ev(MA       &&A,
+       VWR      &&wr,
+       VWI      &&wi);
 
 } } // namespace lapack, flens
 
