@@ -3,4 +3,4 @@
 
 #include <type_traits>
 
-#endif // CXXSTD_STRING_H
+#endif // CXXSTD_TYPE_TRAITS_H

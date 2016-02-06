@@ -46,4 +46,10 @@
 #       define CBLAS_INDEX      size_t
 #   endif // CBLAS_INDEX
 
+// BLAS extensions
+#ifndef HAVE_CBLAS_AXPBY
+#    define HAVE_CBLAS_AXPBY
+#    define BLAS_EXT(x)         cblas_##x
+#endif
+
 #endif // CXXBLAS_DRIVERS_OPENBLAS_H

@@ -455,7 +455,7 @@ ilaenv_LapackTest(int spec, const char *name_, const char *opts,
 {
     using std::complex;
 
-    char name[strlen(name_+2)];
+    char name[strlen(name_)+2];
     if (IsSame<T,float>::value) {
         *name = 'S';
     } else if (IsSame<T,double>::value) {
