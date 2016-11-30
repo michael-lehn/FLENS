@@ -53,5 +53,6 @@
 #include <flens/scalaroperations/sin.h>
 #include <flens/scalaroperations/sqrt.h>
 #include <flens/scalaroperations/tan.h>
+#include <flens/scalaroperations/tanh.h>
 
 #endif // FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
