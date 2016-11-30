@@ -82,5 +82,30 @@ rot(VX &&x, VY &&y, const TC &c, const TS &s)
 #   endif
 }
 
+//-- rot
+template <typename VX, typename VY, typename TC, typename TS>
+typename RestrictTo<IsTinyVector<VX>::value
+                 && IsTinyVector<VY>::value,
+         void>::Type
+rot(VX &&x, VY &&y, const TC &c, const TS &s)
+{
+    typedef typename std::remove_reference<VX>::type VectorX;
+    typedef typename VectorX::ElementType          TX;
+    typedef typename std::remove_reference<VY>::type VectorY;
+    typedef typename VectorY::ElementType          TY;
+
+    const int lengthX = VectorX::Engine::length;
+    const int strideX = VectorX::Engine::stride;
+    const int lengthY = VectorY::Engine::length;
+    const int strideY = VectorY::Engine::stride;
+
+    ASSERT(lengthX == lengthY);
+#   ifdef HAVE_CXXBLAS_ROT
+    cxxblas::rot(lengthX, x.data(), strideX, y.data(), strideY, c, s);
+#   else
+    ASSERT(0);
+#   endif
+}
+
 
 } } // namespace blas, flens

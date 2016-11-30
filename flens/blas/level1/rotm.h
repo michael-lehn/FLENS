@@ -50,6 +50,18 @@ template <typename VX, typename VY, typename VP>
              void>::Type
     rotm(VX &&x, VY &&y, const DenseVector<VP> &p);
 
+//-- rotmg
+template <typename T, typename VP>
+    void
+    rotmg(T &d1, T &d2, T &b1, T &b2, TinyVector<VP> &p);
+
+//-- rotm
+template <typename VX, typename VY, typename VP>
+    typename RestrictTo<IsTinyVector<VX>::value
+                     && IsTinyVector<VY>::value,
+             void>::Type
+    rotm(VX &&x, VY &&y, const TinyVector<VP> &p);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_ROT_H

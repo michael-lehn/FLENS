@@ -67,6 +67,29 @@ nrm2(const DenseVector<X> &x)
     return norm;
 }
 
+template <typename X, typename T>
+typename RestrictTo<IsNotComplex<T>::value, void>::Type
+nrm2(const TinyVector<X> &x, T &norm)
+{
+#   ifdef HAVE_CXXBLAS_NRM2
+    const int length = X::length;
+    const int stride = X::stride;
+
+    cxxblas::nrm2(length, x.data(), stride, norm);
+#   else
+    ASSERT(0);
+#   endif
+}
+
+template <typename X>
+typename ComplexTrait<typename X::ElementType>::PrimitiveType
+nrm2(const TinyVector<X> &x)
+{
+    typename ComplexTrait<typename X::ElementType>::PrimitiveType norm;
+    nrm2(x, norm);
+    return norm;
+}
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_NRM2_TCC
