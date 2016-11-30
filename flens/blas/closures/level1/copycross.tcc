@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2016, Thibaud Kloczko
  *
  *   All rights reserved.
  *
@@ -30,16 +30,41 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_CLOSURES_LEVEL1_LEVEL1_H
-#define FLENS_BLAS_CLOSURES_LEVEL1_LEVEL1_H 1
+#ifndef FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_TCC
+#define FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_TCC 1
 
-#include <flens/blas/closures/level1/axpy.h>
-#include <flens/blas/closures/level1/copy.h>
-#include <flens/blas/closures/level1/copyconj.h>
-#include <flens/blas/closures/level1/copycross.h>
-#include <flens/blas/closures/level1/copyrscal.h>
-#include <flens/blas/closures/level1/copyscal.h>
-#include <flens/blas/closures/level1/copysum.h>
-#include <flens/blas/closures/level1/dot.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/closures.h>
+#include <flens/blas/level1/level1.h>
+#include <flens/blas/level2/level2.h>
+#include <flens/blas/level3/level3.h>
+#include <flens/typedefs.h>
 
-#endif // FLENS_BLAS_CLOSURES_LEVEL1_LEVEL1_H
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
+
+namespace flens { namespace blas {
+
+//------------------------------------------------------------------------------
+//
+//  y = x1 % x2
+//
+template <typename VX1, typename VX2, typename VY>
+void
+copyCross(const VX1 &x1, VX2 &x2, VY &y)
+{
+    // Temporary are maybe created but it is not so bad ;-)
+    const typename Result<VX1>::Type& lhs = x1;
+    const typename Result<VX2>::Type& rhs = x2;
+
+    y(1) = lhs(2) * rhs(3) - lhs(3) * rhs(2);
+    y(2) = lhs(3) * rhs(1) - lhs(1) * rhs(3);
+    y(3) = lhs(1) * rhs(2) - lhs(2) * rhs(1);
+}
+
+} } // namespace blas, flens
+
+#endif // FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_TCC

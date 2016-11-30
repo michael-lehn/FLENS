@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2016, Thibaud Kloczko
  *
  *   All rights reserved.
  *
@@ -30,16 +30,36 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_CLOSURES_LEVEL1_LEVEL1_H
-#define FLENS_BLAS_CLOSURES_LEVEL1_LEVEL1_H 1
+#ifndef FLENS_BLAS_OPERATORS_OPCROSS_H
+#define FLENS_BLAS_OPERATORS_OPCROSS_H 1
 
-#include <flens/blas/closures/level1/axpy.h>
-#include <flens/blas/closures/level1/copy.h>
-#include <flens/blas/closures/level1/copyconj.h>
-#include <flens/blas/closures/level1/copycross.h>
-#include <flens/blas/closures/level1/copyrscal.h>
-#include <flens/blas/closures/level1/copyscal.h>
-#include <flens/blas/closures/level1/copysum.h>
-#include <flens/blas/closures/level1/dot.h>
+#include <flens/vectortypes/vectortypes.h>
 
-#endif // FLENS_BLAS_CLOSURES_LEVEL1_LEVEL1_H
+namespace flens {
+
+struct OpCross {};
+
+//-- cross product -------------------------------------------------------------
+// (x % y)
+template <typename VX, typename VY>
+    const VectorClosure<OpCross, typename VX::Impl, typename VY::Impl>
+    operator%(const Vector<VX> &x, const Vector<VY> &y);
+
+//-- triple vector products ----------------------------------------------------
+// x * (y % z)
+template <typename VX, typename VY, typename VZ>
+    typename Promotion<typename VX::Impl::ElementType,
+                       typename Promotion<typename VY::Impl::ElementType,
+                                          typename VZ::Impl::ElementType>::Type>::Type
+    operator*(const VX &x, const VectorClosure<OpCross, VY, VZ> &yz);
+
+// (x % y) * z
+template <typename VX, typename VY, typename VZ>
+    typename Promotion<typename Promotion<typename VX::Impl::ElementType,
+                                          typename VY::Impl::ElementType>::Type,
+                       typename VZ::Impl::ElementType>::Type
+    operator*(const VectorClosure<OpCross, VX, VY> &xy, const VZ &z);
+
+} // namespace flens
+
+#endif // FLENS_BLAS_OPERATORS_OPCROSS_H

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2016, Thibaud Kloczko
  *
  *   All rights reserved.
  *
@@ -30,16 +30,26 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_CLOSURES_LEVEL1_LEVEL1_H
-#define FLENS_BLAS_CLOSURES_LEVEL1_LEVEL1_H 1
+#ifndef FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_H
+#define FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_H 1
 
-#include <flens/blas/closures/level1/axpy.h>
-#include <flens/blas/closures/level1/copy.h>
-#include <flens/blas/closures/level1/copyconj.h>
-#include <flens/blas/closures/level1/copycross.h>
-#include <flens/blas/closures/level1/copyrscal.h>
-#include <flens/blas/closures/level1/copyscal.h>
-#include <flens/blas/closures/level1/copysum.h>
-#include <flens/blas/closures/level1/dot.h>
+#include <cxxblas/cxxblas.h>
+#include <flens/blas/closures/tweaks/defaulteval.h>
+#include <flens/blas/operators/operators.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
+#include <flens/vectortypes/vectortypes.h>
 
-#endif // FLENS_BLAS_CLOSURES_LEVEL1_LEVEL1_H
+namespace flens { namespace blas {
+
+//------------------------------------------------------------------------------
+//
+//  y = x1 % x2
+//
+template <typename VX1, typename VX2, typename VY>
+    void
+    copyCross(const VX1 &x1, VX2 &x2, VY &y);
+
+} } // namespace blas, flens
+
+#endif // FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_H
