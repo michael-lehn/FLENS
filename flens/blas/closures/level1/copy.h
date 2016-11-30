@@ -83,6 +83,15 @@ template <typename VX, typename VY>
              void>::Type
     copy(const VectorClosureOpConj<VX> &x, Vector<VY> &y);
 
+// y = x1 % x2
+template <typename VL, typename VR, typename VY>
+    typename RestrictTo<VCDefaultEval<OpCross, VL, VR>::value
+                     && IsVector<VL>::value
+                     && IsVector<VR>::value,
+             void>::Type
+    copy(const VectorClosure<OpCross, VL, VR> &x, Vector<VY> &y);
+
+
 // y = A*x
 template <typename ML, typename VR, typename VY>
     typename RestrictTo<VCDefaultEval<OpMult, ML, VR>::value
@@ -98,6 +107,7 @@ template <typename VL, typename MR, typename VY>
                      && IsMatrix<MR>::value,
              void>::Type
     copy(const VectorClosure<OpMult, VL, MR> &xA, Vector<VY> &y);
+
 
 
 //

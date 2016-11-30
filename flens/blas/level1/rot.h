@@ -57,6 +57,12 @@ template <typename VX, typename VY, typename TC, typename TS>
              void>::Type
     rot(VX &&x, VY &&y, const TC &c, const TS &s);
 
+template <typename VX, typename VY, typename TC, typename TS>
+    typename RestrictTo<IsTinyVector<VX>::value
+                     && IsTinyVector<VY>::value,
+             void>::Type
+    rot(VX &&x, VY &&y, const TC &c, const TS &s);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_ROT_H

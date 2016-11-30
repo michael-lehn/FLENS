@@ -53,10 +53,13 @@ struct Result
 template <typename Op, typename L, typename R>
 struct Result<VectorClosure<Op, L, R> >
 {
-    typedef typename VectorClosure<Op, L, R>::ElementType T;
+    typedef typename Result<L>::Type  LT; // result type of lhs
+    typedef typename Result<R>::Type  RT; // result type of rhs
 
-    typedef DenseVector<Array<T> >  Type;
-    typedef typename Type::NoView   NoView;
+    typedef typename std::remove_reference<LT>::type  LTT; // remove if necesary reference from lhs result type
+
+    typedef typename std::conditional<!IsVectorClosure<LTT>::value && IsVector<LTT>::value, LT, RT>::type  Type;   // the vector type involved in the closure
+    typedef typename NoView<Type>::Type                                                                    NoView;
 };
 
 //-- MatrixClosures ------------------------------------------------------------

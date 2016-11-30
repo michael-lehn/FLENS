@@ -147,6 +147,23 @@ copy(const VectorClosureOpConj<VX> &x, Vector<VY> &y)
 
 //------------------------------------------------------------------------------
 //
+//  y = x1 % x2
+//
+
+template <typename VL, typename VR, typename VY>
+typename RestrictTo<VCDefaultEval<OpCross, VL, VR>::value
+                 && IsVector<VL>::value
+                 && IsVector<VR>::value,
+         void>::Type
+copy(const VectorClosure<OpCross, VL, VR> &x, Vector<VY> &y)
+{
+    FLENS_BLASLOG_BEGIN_COPY(x1x2, y);
+    copyCross(x.left(), x.right(), y.impl());
+    FLENS_BLASLOG_END;
+}
+
+//------------------------------------------------------------------------------
+//
 //  y = A*x
 //
 template <typename ML, typename VR, typename VY>

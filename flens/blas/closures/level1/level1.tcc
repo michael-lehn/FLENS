@@ -36,6 +36,7 @@
 #include <flens/blas/closures/level1/axpy.tcc>
 #include <flens/blas/closures/level1/copy.tcc>
 #include <flens/blas/closures/level1/copyconj.tcc>
+#include <flens/blas/closures/level1/copycross.tcc>
 #include <flens/blas/closures/level1/copyrscal.tcc>
 #include <flens/blas/closures/level1/copyscal.tcc>
 #include <flens/blas/closures/level1/copysum.tcc>

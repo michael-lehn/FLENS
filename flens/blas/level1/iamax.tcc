@@ -61,6 +61,24 @@ iamax(const DenseVector<X> &x)
     return i + x.indexBase();
 }
 
+template <typename X>
+typename TinyVector<X>::IndexType
+iamax(const TinyVector<X> &x)
+{
+    typename TinyVector<X>::IndexType i;
+
+#   ifdef HAVE_CXXBLAS_IAMAX
+    const int length = X::length;
+    const int stride = X::stride;
+
+    cxxblas::iamax(length, x.data(), stride, i);
+#   else
+    ASSERT(0);
+#   endif
+    const int idbase = X::firstIndex;
+    return i + idbase;
+}
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_IAMAX_TCC

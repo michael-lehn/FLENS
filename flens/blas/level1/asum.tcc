@@ -65,6 +65,30 @@ asum(const DenseVector<X> &x)
     return absoluteSum;
 }
 
+template <typename X, typename T>
+typename RestrictTo<IsNotComplex<T>::value, void>::Type
+asum(const TinyVector<X> &x, T &absoluteSum)
+{
+#   ifdef HAVE_CXXBLAS_ASUM
+    const int length = X::length;
+    const int stride = X::stride;
+
+    cxxblas::asum(length, x.data(), stride, absoluteSum);
+#   else
+    ASSERT(0);
+#   endif
+}
+
+template <typename X>
+const typename ComplexTrait<typename X::ElementType>::PrimitiveType
+asum(const TinyVector<X> &x)
+{
+    typename ComplexTrait<typename X::ElementType>::PrimitiveType  absoluteSum;
+
+    asum(x, absoluteSum);
+    return absoluteSum;
+}
+
 //-- BLAS Level 1 extensions ---------------------------------------------------
 
 //== GeneralMatrix

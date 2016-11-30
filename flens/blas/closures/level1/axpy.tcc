@@ -431,6 +431,32 @@ axpy(const ALPHA &alpha,
 
 //------------------------------------------------------------------------------
 //
+// y += x1 % x2
+//
+template <typename ALPHA, typename VL, typename VR, typename VY>
+typename RestrictTo<VCDefaultEval<OpCross, VL, VR>::value
+                 && IsVector<VL>::value
+                 && IsVector<VR>::value,
+         void>::Type
+axpy(const ALPHA &alpha, const VectorClosure<OpCross, VL, VR> &x, Vector<VY> &y)
+{
+    FLENS_BLASLOG_BEGIN_AXPY(alpha, x, y);
+//
+// Computes the result of the cross closure x first and stores it in vx.
+//
+    typedef VectorClosure<OpCross, VL, VR> VC;
+    const typename Result<VC>::Type vx = x;
+
+//
+//  Update y with vx, i.e. compute y = y + alpha*vx
+//
+    axpy(alpha, vx.impl(), y.impl());
+
+    FLENS_BLASLOG_END;
+}
+
+//------------------------------------------------------------------------------
+//
 // y += x*A
 //
 template <typename ALPHA, typename VL, typename MR, typename VY>

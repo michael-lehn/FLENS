@@ -90,6 +90,15 @@ template <typename ALPHA, typename VX, typename SV, typename VY>
     axpy(const ALPHA &alpha,
          const VectorClosure<OpDiv, VX, SV> &x, Vector<VY> &y);
 
+// y += x1 % x2
+template <typename ALPHA, typename VL, typename VR, typename VY>
+    typename RestrictTo<VCDefaultEval<OpCross, VL, VR>::value
+                     && IsVector<VL>::value
+                     && IsVector<VR>::value,
+             void>::Type
+    axpy(const ALPHA &alpha,
+         const VectorClosure<OpCross, VL, VR> &x, Vector<VY> &y);
+
 // y += A*x
 template <typename ALPHA, typename ML, typename VR, typename VY>
     typename RestrictTo<VCDefaultEval<OpMult, ML, VR>::value

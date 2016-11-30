@@ -97,6 +97,66 @@ rotm(VX &&x, VY &&y, const DenseVector<VP> &p)
 #   endif
 }
 
+//-- rotmg
+template <typename T, typename VP>
+void
+rotmg(T &d1, T &d2, T &b1, T &b2, TinyVector<VP> &p)
+{
+#   ifdef HAVE_CXXBLAS_ROTMG
+
+#   ifndef NDEBUG
+    typedef typename TinyVector<VP>::IndexType  IndexType;
+#   endif
+
+    const int length = VP::length;
+    ASSERT(length == IndexType(5));
+
+    cxxblas::rotmg(d1, d2, b1, b2, p.data());
+#   else
+    ASSERT(0);
+    (void)(d1);
+    (void)(d2);
+    (void)(b1);
+    (void)(b2);
+    (void)(p);
+#   endif
+}
+
+//-- rotm
+template <typename VX, typename VY, typename VP>
+typename RestrictTo<IsTinyVector<VX>::value
+                 && IsTinyVector<VY>::value,
+         void>::Type
+rotm(VX &&x, VY &&y, const TinyVector<VP> &p)
+{
+#   ifdef HAVE_CXXBLAS_ROTM
+    typedef typename std::remove_reference<VX>::type VectorX;
+    typedef typename VectorX::ElementType          TX;
+    typedef typename std::remove_reference<VY>::type VectorY;
+    typedef typename VectorY::ElementType          TY;
+
+    const int lengthX = VectorX::Engine::length;
+    const int strideX = VectorX::Engine::stride;
+    const int lengthY = VectorY::Engine::length;
+    const int strideY = VectorY::Engine::stride;
+
+    const int length = VP::length;
+
+    typedef typename VP::IndexType IndexType;
+
+    ASSERT(length == IndexType(5));
+    ASSERT(lengthX == lengthY);
+
+    cxxblas::rotm(lengthX, x.data(), strideX, y.data(), strideY, p.data());
+
+#   else
+    ASSERT(0);
+    (void)(x);
+    (void)(y);
+    (void)(p);
+#   endif
+}
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_ROT_TCC
