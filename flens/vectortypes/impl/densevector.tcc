@@ -160,7 +160,7 @@ DenseVector<A>::operator-=(const Vector<E> &rhs)
 
 template <typename A>
 template <typename T>
-typename RestrictTo<IsConvertible<T,typename A::ElementType>::value,
+typename RestrictTo<IsConvertible<T,typename DenseVector<A>::Engine::ElementType>::value,
                     DenseVector<A> >::Type &
 DenseVector<A>::operator+=(const T &alpha)
 {
@@ -172,7 +172,7 @@ DenseVector<A>::operator+=(const T &alpha)
 
 template <typename A>
 template <typename T>
-typename RestrictTo<IsConvertible<T,typename A::ElementType>::value,
+typename RestrictTo<IsConvertible<T,typename DenseVector<A>::Engine::ElementType>::value,
                     DenseVector<A> >::Type &
 DenseVector<A>::operator-=(const T &alpha)
 {
@@ -184,7 +184,7 @@ DenseVector<A>::operator-=(const T &alpha)
 
 template <typename A>
 template <typename T>
-typename RestrictTo<IsConvertible<T,typename A::ElementType>::value,
+typename RestrictTo<IsConvertible<T,typename DenseVector<A>::Engine::ElementType>::value,
                     DenseVector<A> >::Type &
 DenseVector<A>::operator*=(const T &alpha)
 {
@@ -194,7 +194,7 @@ DenseVector<A>::operator*=(const T &alpha)
 
 template <typename A>
 template <typename T>
-typename RestrictTo<IsConvertible<T,typename A::ElementType>::value,
+typename RestrictTo<IsConvertible<T,typename DenseVector<A>::Engine::ElementType>::value,
                     DenseVector<A> >::Type &
 DenseVector<A>::operator/=(const T &alpha)
 {
