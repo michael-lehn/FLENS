@@ -187,6 +187,7 @@ laqp2_impl(typename GeMatrix<MA>::IndexType  offset,
     const IndexType mn = min(m-offset, n);
 
     const PrimitiveType  Zero(0), One(1);
+    const ElementType    CZero(0), COne(1);
     const PrimitiveType  tol3z = sqrt(lamch<PrimitiveType>(Eps));
 //
 //  Compute factorization.

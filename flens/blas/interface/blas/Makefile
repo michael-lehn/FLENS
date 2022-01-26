@@ -1,4 +1,4 @@
-CXX = clang++
+CXX = g++-4.8
 FC  = gfortran
 
 CXX_SOURCE_FILES = $(wildcard *.cc) \
