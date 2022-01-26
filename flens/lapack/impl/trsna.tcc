@@ -327,7 +327,7 @@ trsna_impl(TRSNA::Job                    job,
                         auto b = Work(_(1,n-1),n+1);
                         auto x = Work(_,_(n+4,n+5)).vectorView(1,2*(n-1));
                         auto w = Work(_(1,n-1),n+6);
-                        ElementType dummyMu;
+                        ElementType dummyMu{};
                         if (kase==1) {
                             if (n2==1) {
 //

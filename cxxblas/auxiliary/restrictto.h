@@ -33,9 +33,7 @@
 #ifndef CXXBLAS_AUXILIARY_RESTRICTTO_H
 #define CXXBLAS_AUXILIARY_RESTRICTTO_H 1
 
-#ifdef INCLUDE_TYPE_TRAITS
-#   include <cxxstd/type_traits.h>
-#endif
+#include <type_traits>
 
 namespace cxxblas {
 
