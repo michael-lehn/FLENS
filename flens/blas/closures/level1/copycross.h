@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2016, Thibaud Kloczko
  *
  *   All rights reserved.
  *
@@ -30,38 +30,26 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL1_ROTM_H
-#define FLENS_BLAS_LEVEL1_ROTM_H 1
+#ifndef FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_H
+#define FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_H 1
 
-#include <cxxblas/typedefs.h>
+#include <cxxblas/cxxblas.h>
+#include <flens/blas/closures/tweaks/defaulteval.h>
+#include <flens/blas/operators/operators.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {
 
-//-- rotmg
-template <typename T, typename VP>
+//------------------------------------------------------------------------------
+//
+//  y = x1 % x2
+//
+template <typename VX1, typename VX2, typename VY>
     void
-    rotmg(T &d1, T &d2, T &b1, T &b2, DenseVector<VP> &p);
-
-//-- rotm
-template <typename VX, typename VY, typename VP>
-    typename RestrictTo<IsDenseVector<VX>::value
-                     && IsDenseVector<VY>::value,
-             void>::Type
-    rotm(VX &&x, VY &&y, const DenseVector<VP> &p);
-
-//-- rotmg
-template <typename T, typename VP>
-    void
-    rotmg(T &d1, T &d2, T &b1, T &b2, TinyVector<VP> &p);
-
-//-- rotm
-template <typename VX, typename VY, typename VP>
-    typename RestrictTo<IsTinyVector<VX>::value
-                     && IsTinyVector<VY>::value,
-             void>::Type
-    rotm(VX &&x, VY &&y, const TinyVector<VP> &p);
+    copyCross(const VX1 &x1, VX2 &x2, VY &y);
 
 } } // namespace blas, flens
 
-#endif // FLENS_BLAS_LEVEL1_ROT_H
+#endif // FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_H

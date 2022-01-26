@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2016, Thibaud Kloczko
  *
  *   All rights reserved.
  *
@@ -30,10 +30,14 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <cxxblas/cxxblas.h>
+#ifndef FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_TCC
+#define FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_TCC 1
+
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
+#include <flens/blas/level2/level2.h>
+#include <flens/blas/level3/level3.h>
 #include <flens/typedefs.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
@@ -41,71 +45,26 @@
 #else
 #   include <flens/blas/blaslogoff.h>
 #endif
+
 namespace flens { namespace blas {
 
-//-- rotg
-template <typename T>
+//------------------------------------------------------------------------------
+//
+//  y = x1 % x2
+//
+template <typename VX1, typename VX2, typename VY>
 void
-rotg(T &a, T &b, T &c, T &s)
+copyCross(const VX1 &x1, VX2 &x2, VY &y)
 {
-#   ifdef HAVE_CXXBLAS_ROTG
-    cxxblas::rotg(a, b, c, s);
-#   else
-    ASSERT(0);
-#   endif
+    // Temporary are maybe created but it is not so bad ;-)
+    const typename Result<VX1>::Type& lhs = x1;
+    const typename Result<VX2>::Type& rhs = x2;
+
+    y(1) = lhs(2) * rhs(3) - lhs(3) * rhs(2);
+    y(2) = lhs(3) * rhs(1) - lhs(1) * rhs(3);
+    y(3) = lhs(1) * rhs(2) - lhs(2) * rhs(1);
 }
-
-//-- rotg (complex)
-template <typename T>
-void
-rotg(std::complex<T> &a, std::complex<T> &b, T &c, std::complex<T> &s)
-{
-#   ifdef HAVE_CXXBLAS_ROTG
-    cxxblas::rotg(a, b, c, s);
-#   else
-    ASSERT(0);
-#   endif
-}
-
-//-- rot
-template <typename VX, typename VY, typename TC, typename TS>
-typename RestrictTo<IsDenseVector<VX>::value
-                 && IsDenseVector<VY>::value,
-         void>::Type
-rot(VX &&x, VY &&y, const TC &c, const TS &s)
-{
-    ASSERT(x.length()==y.length());
-#   ifdef HAVE_CXXBLAS_ROT
-    cxxblas::rot(x.length(), x.data(), x.stride(), y.data(), y.stride(), c, s);
-#   else
-    ASSERT(0);
-#   endif
-}
-
-//-- rot
-template <typename VX, typename VY, typename TC, typename TS>
-typename RestrictTo<IsTinyVector<VX>::value
-                 && IsTinyVector<VY>::value,
-         void>::Type
-rot(VX &&x, VY &&y, const TC &c, const TS &s)
-{
-    typedef typename std::remove_reference<VX>::type VectorX;
-    typedef typename VectorX::ElementType          TX;
-    typedef typename std::remove_reference<VY>::type VectorY;
-    typedef typename VectorY::ElementType          TY;
-
-    const int lengthX = VectorX::Engine::length;
-    const int strideX = VectorX::Engine::stride;
-    const int lengthY = VectorY::Engine::length;
-    const int strideY = VectorY::Engine::stride;
-
-    ASSERT(lengthX == lengthY);
-#   ifdef HAVE_CXXBLAS_ROT
-    cxxblas::rot(lengthX, x.data(), strideX, y.data(), strideY, c, s);
-#   else
-    ASSERT(0);
-#   endif
-}
-
 
 } } // namespace blas, flens
+
+#endif // FLENS_BLAS_CLOSURES_LEVEL1_COPYCROSS_TCC

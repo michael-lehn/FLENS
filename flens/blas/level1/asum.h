@@ -48,6 +48,14 @@ template <typename X>
     const typename ComplexTrait<typename X::ElementType>::PrimitiveType
     asum(const DenseVector<X> &x);
 
+template <typename X, typename T>
+    typename RestrictTo<IsNotComplex<T>::value, void>::Type
+    asum(const TinyVector<X> &x, T &absoluteSum);
+
+template <typename X>
+    const typename ComplexTrait<typename X::ElementType>::PrimitiveType
+    asum(const TinyVector<X> &x);
+
 //-- BLAS Level 1 extensions ---------------------------------------------------
 
 //== GeneralMatrix

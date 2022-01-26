@@ -80,6 +80,37 @@ raxpy(const ALPHA &alpha, const VX &x, VY &&y)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- tinyvector raxpy
+//
+template <typename ALPHA, typename VX, typename VY>
+typename RestrictTo<IsTinyVector<VX>::value
+                 && IsTinyVector<VY>::value,
+         void>::Type
+raxpy(const ALPHA &alpha, const VX &x, VY &&y)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_RAXPY(alpha, x, y);
+
+    typedef typename VX::ElementType      TX;
+    typedef typename RemoveRef<VY>::Type  VectorY;
+    typedef typename VectorY::ElementType TY;
+
+    const int lengthX = VX::Engine::length;
+    const int strideX = VX::Engine::stride;
+    const int lengthY = VectorY::Engine::length;
+    const int strideY = VectorY::Engine::stride;
+
+    ASSERT(lengthY == lengthX && lengthY != 0);
+
+#   ifdef HAVE_CXXBLAS_RAXPY
+    cxxblas::raxpy(lengthX, alpha, x.data(), strideX, y.data(), strideY);
+#   else
+    ASSERT(0);
+#   endif
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
 //-- geraxpy
 //
 //  B += A/alpha

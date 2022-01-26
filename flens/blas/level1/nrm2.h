@@ -46,6 +46,14 @@ template <typename X>
     typename ComplexTrait<typename X::ElementType>::PrimitiveType
     nrm2(const DenseVector<X> &x);
 
+template <typename X, typename T>
+    typename RestrictTo<IsNotComplex<T>::value, void>::Type
+    nrm2(const TinyVector<X> &x, T &norm);
+
+template <typename X>
+    typename ComplexTrait<typename X::ElementType>::PrimitiveType
+    nrm2(const TinyVector<X> &x);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_NRM2_H
