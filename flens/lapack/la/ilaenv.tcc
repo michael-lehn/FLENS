@@ -376,7 +376,7 @@ ilaenv_impl(int spec, const char *name, const char *opts,
                     }
                 }
             }
-            result = nx/1.5;
+            result = static_cast<int>(static_cast<double>(nx)/1.5);
             break;
 //
 //      DEPRECATED: number of shifts used in the nonsymmetric eigenvalue

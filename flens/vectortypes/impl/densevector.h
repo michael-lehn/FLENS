@@ -69,6 +69,8 @@ class DenseVector
         typedef DenseVector<EngineView>                     View;
         typedef DenseVector<EngineNoView>                   NoView;
 
+        static const IndexType defaultIndexBase = Engine::defaultIndexBase;
+
     private:
         typedef DenseVector                                 DV;
 
@@ -229,7 +231,7 @@ class DenseVector
 
         bool
         resize(IndexType length,
-               IndexType firstIndex = Engine::defaultIndexBase,
+               IndexType firstIndex = defaultIndexBase,
                const ElementType &value = ElementType());
 
         bool
