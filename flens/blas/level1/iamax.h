@@ -42,6 +42,10 @@ template <typename X>
     typename DenseVector<X>::IndexType
     iamax(const DenseVector<X> &x);
 
+template <typename X>
+    typename TinyVector<X>::IndexType
+    iamax(const TinyVector<X> &x);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_IAMAX_H

@@ -47,6 +47,12 @@ template <typename ALPHA, typename VX, typename VY>
              void>::Type
     raxpy(const ALPHA &alpha, const VX &x, VY &&y);
 
+template <typename ALPHA, typename VX, typename VY>
+    typename RestrictTo<IsTinyVector<VX>::value
+                     && IsTinyVector<VY>::value,
+             void>::Type
+    raxpy(const ALPHA &alpha, const VX &x, VY &&y);
+
 template <typename ALPHA, typename MA, typename MB>
     typename RestrictTo<IsGeMatrix<MA>::value
                      && IsGeMatrix<MB>::value,

@@ -64,6 +64,35 @@ template <typename X, typename Y>
                             typename Y::ElementType>::Type
     dotu(const DenseVector<X> &x, const DenseVector<Y> &y);
 
+// TinyVector version
+
+template <typename X, typename Y, typename T>
+    void
+    dot(const TinyVector<X> &x, const TinyVector<Y> &y, T &result);
+
+template <typename X, typename Y, typename T>
+    void
+    dotc(const TinyVector<X> &x, const TinyVector<Y> &y, T &result);
+
+template <typename X, typename Y, typename T>
+    void
+    dotu(const TinyVector<X> &x, const TinyVector<Y> &y, T &result);
+
+template <typename X, typename Y>
+    typename CompatibleType<typename X::ElementType,
+                            typename Y::ElementType>::Type
+    dot(const TinyVector<X> &x, const TinyVector<Y> &y);
+
+template <typename X, typename Y>
+    typename CompatibleType<typename X::ElementType,
+                            typename Y::ElementType>::Type
+    dotc(const TinyVector<X> &x, const TinyVector<Y> &y);
+
+template <typename X, typename Y>
+    typename CompatibleType<typename X::ElementType,
+                            typename Y::ElementType>::Type
+    dotu(const TinyVector<X> &x, const TinyVector<Y> &y);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_DOT_H

@@ -36,6 +36,7 @@
 #include <flens/blas/closures/level1/axpy.h>
 #include <flens/blas/closures/level1/copy.h>
 #include <flens/blas/closures/level1/copyconj.h>
+#include <flens/blas/closures/level1/copycross.h>
 #include <flens/blas/closures/level1/copyrscal.h>
 #include <flens/blas/closures/level1/copyscal.h>
 #include <flens/blas/closures/level1/copysum.h>

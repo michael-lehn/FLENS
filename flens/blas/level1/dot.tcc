@@ -127,6 +127,103 @@ dotu(const DenseVector<X> &x, const DenseVector<Y> &y)
     return val;
 }
 
+// -- TinyVector version
+
+template <typename X, typename Y, typename T>
+void
+dot(const TinyVector<X> &x, const TinyVector<Y> &y, T &result)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_DOT(x, y);
+
+    typedef typename X::ElementType TX;
+    typedef typename Y::ElementType TY;
+
+    const int lengthX = X::length;
+    const int strideX = X::stride;
+    const int lengthY = Y::length;
+    const int strideY = Y::stride;
+
+    ASSERT(lengthX == lengthY);
+
+#   ifdef HAVE_CXXBLAS_DOT
+    cxxblas::dot(lengthX,
+                 x.data(), strideX,
+                 y.data(), strideY, result);
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+template <typename X, typename Y, typename T>
+void
+dotc(const TinyVector<X> &x, const TinyVector<Y> &y, T &result)
+{
+    dotc(x, y, result);
+}
+
+template <typename X, typename Y, typename T>
+void
+dotu(const TinyVector<X> &x, const TinyVector<Y> &y, T &result)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_DOTU(x, y);
+
+    typedef typename X::ElementType TX;
+    typedef typename Y::ElementType TY;
+
+    const int lengthX = X::length;
+    const int strideX = X::stride;
+    const int lengthY = Y::length;
+    const int strideY = Y::stride;
+
+    ASSERT(lengthX == lengthY);
+
+#   ifdef HAVE_CXXBLAS_DOTU
+    cxxblas::dotu(lengthX,
+                  x.data(), strideX,
+                  y.data(), strideY, result);
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+template <typename X, typename Y>
+typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type
+dot(const TinyVector<X> &x, const TinyVector<Y> &y)
+{
+    typedef typename X::ElementType  TX;
+    typedef typename Y::ElementType  TY;
+
+    typename CompatibleType<TX, TY>::Type val;
+    dot(x, y, val);
+    return val;
+}
+
+template <typename X, typename Y>
+typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type
+dotc(const TinyVector<X> &x, const TinyVector<Y> &y)
+{
+    return dot(x, y);
+}
+
+template <typename X, typename Y>
+typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type
+dotu(const TinyVector<X> &x, const TinyVector<Y> &y)
+{
+    typedef typename X::ElementType  TX;
+    typedef typename Y::ElementType  TY;
+
+    typename CompatibleType<TX, TY>::Type val;
+    dotu(x, y, val);
+    return val;
+}
 
 } } // namespace blas, flens
 
