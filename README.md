@@ -9,7 +9,7 @@ Compiles with
     g++ (>= 4.7)
     icc (>= 12.1.2)
 
-Read more on
+[Documentation, Tutorial and more](http://www.mathematik.uni-ulm.de/~lehn/FLENS/):
 
     http://www.mathematik.uni-ulm.de/~lehn/FLENS/
 
