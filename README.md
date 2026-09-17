@@ -1,4 +1,4 @@
-##FLENS: Flexible Library for Efficient Numerical Solutions
+## FLENS: Flexible Library for Efficient Numerical Solutions
 
 
 FLENS is a C++ library for the efficient implementation of numerical algorithms.
