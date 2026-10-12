@@ -13,6 +13,7 @@ Compiles with
 
     http://www.mathematik.uni-ulm.de/~lehn/FLENS/
 
+and more here [Everything You Always Wanted to Know About FLENS, But Were Afraid to Ask](https://www.mathematik.uni-ulm.de/~lehn/flensdoc.pdf)
 
 If you want to test FLENS-LAPACK with Netlib's LAPACK test suites
 simply run
