@@ -31,9 +31,15 @@ $(FLENSBLAS) : $(OBJECT_FILES)
 %.o : %.f
 	$(FC) $(FCFLAGS) -c -o $@ $<
 
+#
+# Check that the library exports exactly the routines listed in exports.txt
+#
+check-exports : $(FLENSBLAS)
+	$(FLENS_ROOT)/check-exports.sh $(FLENSBLAS) exports.txt
+
 clean:
 	$(RM) $(OBJECT_FILES) $(OBJECT_FILES:.o=.d) $(FLENSBLAS)
 
-.PHONY : all clean
+.PHONY : all check-exports clean
 
 -include $(OBJECT_FILES:.o=.d)

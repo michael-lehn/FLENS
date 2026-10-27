@@ -29,6 +29,11 @@ See `toolchain.mk` for all options and the top-level `Makefile` for further
 targets (`check-regression`, `check-blas`, `check-lapack`,
 `check-lapack-extended`, `dev-check`).
 
+The Fortran-callable libraries `blas_FLENS.a` and `lapack_FLENS.a` export
+only the routines listed in `flens/blas/interface/blas/exports.txt` and
+`flens/lapack/interface/exports.txt`; programs linked with them need a
+complete BLAS/LAPACK for all other routines.
+
 ## Project Status
 
 FLENS is no longer actively developed.

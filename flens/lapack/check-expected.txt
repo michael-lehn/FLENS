@@ -26,3 +26,4 @@ zcsd.out|INCOMPLETE|FLENS limitation: workspace query in zungqr_ not implemented
 # DGESDD and DGEJSV, which are tested in dsvd) are resolved from the
 # reference LAPACK that the test programs link after lapack_FLENS.a.  Tests
 # of these routines therefore test the reference implementation.
+# The routines provided by lapack_FLENS.a are listed in interface/exports.txt.

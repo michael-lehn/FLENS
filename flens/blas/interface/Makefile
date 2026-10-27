@@ -3,7 +3,8 @@
 #  test suite.
 #
 #    make          build blas/blas_FLENS.a
-#    make check    build it and run the Netlib BLAS tests (requires FC)
+#    make check    build it, check its exported routines against
+#                  blas/exports.txt and run the Netlib BLAS tests (requires FC)
 #
 #  See toolchain.mk in the FLENS root directory for configuration.
 #
@@ -27,6 +28,7 @@ test/ :
 #  relinked on every run so that they always use the current library.
 #
 check : lib test/
+	$(MAKE) -C blas check-exports
 	$(MAKE) -C test clean
 	$(MAKE) -C test all FC="$(FC) $(FC_COMPAT)" \
 	        LDFLAGS="../blas/$(FLENSBLAS) $(CXXLIBS)"

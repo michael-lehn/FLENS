@@ -10,7 +10,9 @@
 #                         results with the reference implementation
 #
 #  The results are evaluated by check-results.sh; known deviations are
-#  listed in check-expected.txt.  See toolchain.mk in the FLENS root
+#  listed in check-expected.txt.  Before the tests, check-exports.sh checks
+#  that the library exports exactly the routines listed in
+#  interface/exports.txt.  See toolchain.mk in the FLENS root
 #  directory for configuration.
 #
 
@@ -65,12 +67,15 @@ define run-tests
 endef
 
 check : lib netlib test/
+	$(MAKE) -C interface check-exports
 	$(call run-tests,,$(CHECK_TESTS))
 
 check-extended : lib netlib test/
+	$(MAKE) -C interface check-exports
 	$(call run-tests,,$(EXTENDED_TESTS))
 
 dev-check : dev netlib test/
+	$(MAKE) -C interface check-exports-dev
 	$(call run-tests,LAPACKLIB=interface/lapack_FLENS_dev.a,$(CHECK_TESTS))
 
 clean : test/

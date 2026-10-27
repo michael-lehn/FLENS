@@ -53,10 +53,19 @@ $(FLENSLAPACK_DEV) : $(OBJECT_FILES_DEV)
 	$(CXX) $(ALL_CXXFLAGS) $(DEV_CXXFLAGS) $(DEV_CHECK_CXXFLAGS) \
 	       -MF $*.dev_d -MT $@ -c -o $@ $<
 
+#
+# Check that the libraries export exactly the routines listed in exports.txt
+#
+check-exports : $(FLENSLAPACK)
+	$(FLENS_ROOT)/check-exports.sh $(FLENSLAPACK) exports.txt
+
+check-exports-dev : $(FLENSLAPACK_DEV)
+	$(FLENS_ROOT)/check-exports.sh $(FLENSLAPACK_DEV) exports.txt
+
 clean :
 	rm -f $(OBJECT_FILES) $(OBJECT_FILES_DEV) $(FLENSLAPACK) $(FLENSLAPACK_DEV)
 	rm -f $(OBJECT_FILES:.o=.d) $(OBJECT_FILES_DEV:.dev_o=.dev_d)
 
-.PHONY : all dev clean
+.PHONY : all dev check-exports check-exports-dev clean
 
 -include $(OBJECT_FILES:.o=.d) $(OBJECT_FILES_DEV:.dev_o=.dev_d)

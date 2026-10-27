@@ -1,0 +1,84 @@
+#
+#  Routines exported by lapack_FLENS.a (Fortran calling convention, double
+#  and double complex).  'make check-exports' checks that the library exports
+#  exactly these routines.  Routines marked with '!' are not implemented in
+#  FLENS-LAPACK and must not be exported.  See check-exports.sh in the FLENS
+#  root directory for the format.
+#
+#  Programs linked with lapack_FLENS.a need a complete LAPACK (e.g. the
+#  reference implementation) for all other routines.
+#
+#  Known limitations of exported routines:
+#    - The workspace query (LWORK=-1) is not implemented in dgelqf, zgelqf,
+#      dgeqrf, zgeqrf, dorglq, dorgqr, dormlq, dormqr, zunglq, zungqr,
+#      zunmlq and zunmqr.  These routines abort if called with LWORK=-1.
+#    - __dlamch is exported under this name so that the reference dlamch
+#      is used.
+#
+
+__dlamch
+dgecon
+dgeequ
+dgees
+dgeesx
+dgeev
+dgeevx
+dgelqf
+dgels
+dgelsy
+dgeqp3
+dgeqrf
+dgerfs
+dgesv
+dgesvj
+dgesvx
+dgetrf
+dgetri
+dgetrs
+dlaqge
+dlatrs
+dorglq
+dorgqr
+dormlq
+dormqr
+dpocon
+dposv
+dpotrf
+dpotri
+dpotrs
+dtrtri
+dtrtrs
+lsame
+lsamen
+zgecon
+zgees
+zgeesx
+zgeev
+zgeevx
+zgelqf
+zgels
+zgeqp3
+zgeqrf
+zgerfs
+zgesv
+zgetrf
+zgetri
+zgetrs
+zheev
+zlatrs
+zpocon
+zposv
+zpotrf
+zpotri
+zpotrs
+ztrtri
+ztrtrs
+zunglq
+zungqr
+zunmlq
+zunmqr
+
+#
+#  Not implemented
+#
+!dgejsv     lapack::jsv was a stub (ASSERT(0)) and the interface rejected every LWORK
