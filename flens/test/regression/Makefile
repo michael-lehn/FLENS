@@ -16,7 +16,7 @@ FLENS_DIR ?= ../../..
 BUILD     ?= build
 REFLAPACK ?=
 
-TESTS         = sterf tiny-copy tiny-gemv lantr
+TESTS         = sterf tiny-copy tiny-gemv lantr matrixmarket
 TESTS_LAPACK  = zheev-interface lqf-ilaenv
 
 ifneq ($(strip $(REFLAPACK)),)
@@ -31,9 +31,10 @@ all : $(PROGRAMS)
 
 check : $(PROGRAMS)
 	@failed=0; \
-	for t in $(PROGRAMS); do \
-	    if $$t > $$t.log 2>&1; then echo "PASS: $$t"; \
-	    else echo "FAIL: $$t (see $$t.log)"; failed=$$((failed+1)); fi; \
+	for t in $(TESTS); do \
+	    if (cd $(BUILD) && ./$$t > $$t.log 2>&1); then echo "PASS: $$t"; \
+	    else echo "FAIL: $$t (see $(BUILD)/$$t.log)"; \
+	         failed=$$((failed+1)); fi; \
 	done; \
 	if [ -z "$(strip $(REFLAPACK))" ]; then \
 	    echo "note: REFLAPACK not set, reference comparisons skipped"; \
