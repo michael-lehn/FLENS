@@ -380,7 +380,9 @@ svj_impl(SVJ::TypeA                typeA,
         const IndexType n4 = n / 4;
         const IndexType n2 = n / 2;
         const IndexType n34 = 3*n4;
-        const IndexType q = (applyV) ? 0 : 1;
+//      Views of V: all rows (applyV), diagonal blocks (rhsVec) or empty
+//      if V is not referenced.
+        const IndexType q = (rhsVec && !applyV) ? 1 : 0;
         const IndexType qm = (applyV) ? mv : 0;
 
         auto work_ = work(_(n+1,lWork));
