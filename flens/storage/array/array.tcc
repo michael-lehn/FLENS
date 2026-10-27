@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_ARRAY_ARRAY_TCC 1
 
 #include <cxxstd/cassert.h>
+#include <cxxstd/memory.h>
 #include <cxxblas/level1/copy.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/array/array.h>
@@ -266,7 +267,7 @@ Array<T, I, A>::allocate_(const ElementType &value)
 {
     raw_allocate_();
     for (IndexType i=0; i<length(); ++i) {
-        allocator_.construct(data_+i, value);
+        std::allocator_traits<Allocator>::construct(allocator_, data_+i, value);
     }
 }
 
@@ -277,7 +278,7 @@ Array<T, I, A>::release_()
     if (data_) {
         ASSERT(length()>0);
         for (IndexType i=0; i<length(); ++i) {
-            allocator_.destroy(data_+i);
+            std::allocator_traits<Allocator>::destroy(allocator_, data_+i);
         }
         allocator_.deallocate(data(), length_);
         data_ = 0;

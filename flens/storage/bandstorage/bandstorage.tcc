@@ -33,6 +33,7 @@
 #ifndef FLENS_STORAGE_BANDSTORAGE_BANDSTORAGE_TCC
 #define FLENS_STORAGE_BANDSTORAGE_BANDSTORAGE_TCC 1
 
+#include <cxxstd/memory.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/bandstorage/bandstorage.h>
 #include <flens/typedefs.h>
@@ -899,7 +900,7 @@ BandStorage<T, Order, I, A>::allocate_(const ElementType &value)
     }
 
     for (IndexType i=0; i<numArrayElements; ++i) {
-        allocator_.construct(p++, value);
+        std::allocator_traits<Allocator>::construct(allocator_, p++, value);
     }
 }
 
@@ -914,7 +915,7 @@ BandStorage<T, Order, I, A>::release_()
             numElements = (numSubDiags_+numSuperDiags_+1)*numRows_;
 
         for (IndexType i=0; i<numElements; ++i) {
-            allocator_.destroy(p++);
+            std::allocator_traits<Allocator>::destroy(allocator_, p++);
         }
          allocator_.deallocate(data(), numElements);
         data_ = 0;

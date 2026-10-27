@@ -209,9 +209,9 @@ loadMatrixMarket(std::string filename, SpMatrix<PS> &A)
 
 #   ifndef NDEBUG
     // transform line to lower case
+    const std::locale &loc = std::locale::classic();
     std::transform(line.begin(), line.end(), line.begin(),
-             std::bind2nd(std::ptr_fun(&std::tolower<char>),
-                          std::locale::classic()));
+                   [&loc](char c) { return std::tolower(c, loc); });
 
     std::stringstream ss (line);
     std::string buf;
@@ -285,9 +285,9 @@ loadMatrixMarket(std::string filename, SpMatrix<PS> &A)
 
 #   ifndef NDEBUG
     // transform line to lower case
+    const std::locale &loc = std::locale::classic();
     std::transform(line.begin(), line.end(), line.begin(),
-             std::bind2nd(std::ptr_fun(&std::tolower<char>),
-                          std::locale::classic()));
+                   [&loc](char c) { return std::tolower(c, loc); });
 
     std::stringstream ss (line);
     std::string buf;
@@ -359,9 +359,9 @@ loadMatrixMarket(std::string filename, HpMatrix<PS> &A)
 
 #   ifndef NDEBUG
     // transform line to lower case
+    const std::locale &loc = std::locale::classic();
     std::transform(line.begin(), line.end(), line.begin(),
-             std::bind2nd(std::ptr_fun(&std::tolower<char>),
-                          std::locale::classic()));
+                   [&loc](char c) { return std::tolower(c, loc); });
 
     std::stringstream ss (line);
     std::string buf;

@@ -33,6 +33,7 @@
 #ifndef FLENS_STORAGE_FULLSTORAGE_FULLSTORAGE_TCC
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGE_TCC 1
 
+#include <cxxstd/memory.h>
 #include <cxxblas/level1extensions/gecopy.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/fullstorage/fullstorage.h>
@@ -770,7 +771,7 @@ FullStorage<T, Order, I, A>::allocate_(const ElementType &value)
     raw_allocate_();
     T *p = data();
     for (IndexType i=0; i<numElements; ++i, ++p) {
-        allocator_.construct(p, value);
+        std::allocator_traits<Allocator>::construct(allocator_, p, value);
     }
 }
 
@@ -781,7 +782,7 @@ FullStorage<T, Order, I, A>::release_()
     if (data_) {
         T *p = data();
         for (IndexType i=0; i<numRows()*numCols(); ++i, ++p) {
-            allocator_.destroy(p);
+            std::allocator_traits<Allocator>::destroy(allocator_, p);
         }
         allocator_.deallocate(data(), numRows()*numCols());
         data_ = 0;
