@@ -9,3 +9,13 @@ flens/examples/*
 !flens/examples/*.cc
 !flens/examples/*.doc
 !flens/examples/Makefile
+# unpacked from the tarballs by the Makefiles
+/cxxblas/netlib/blas/
+/cxxblas/netlib/cblas/
+/cxxlapack/netlib/lapack/
+/flens/blas/interface/test/
+/flens/lapack/test/
+# dependency files and objects of the development build
+*.d
+*.dev_o
+*.dev_d
