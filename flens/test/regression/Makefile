@@ -16,7 +16,7 @@ FLENS_DIR ?= ../../..
 BUILD     ?= build
 REFLAPACK ?=
 
-TESTS         = sterf tiny-copy tiny-gemv lantr matrixmarket
+TESTS         = sterf tiny-copy tiny-gemv lantr matrixmarket lsame-interface
 TESTS_LAPACK  = zheev-interface lqf-ilaenv
 
 ifneq ($(strip $(REFLAPACK)),)
