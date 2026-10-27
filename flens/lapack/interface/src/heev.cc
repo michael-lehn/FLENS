@@ -55,7 +55,8 @@ LAPACK_DECL(zheev)(const char           *JOBZ,
     ZHeMatrixView       _A(ZFSView(*N, *N, zA, *LDA), lower ? Lower : Upper);
     DDenseVectorView    _W      = DArrayView(*N, W, 1);
     ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
-    DDenseVectorView    _RWORK  = DArrayView(3*(*N)-2, RWORK, 1);
+    DDenseVectorView    _RWORK  = DArrayView(max(INTEGER(1), 3*(*N)-2),
+                                             RWORK, 1);
 
 //
 //  Call FLENS implementation
