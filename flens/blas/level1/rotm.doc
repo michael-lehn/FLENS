@@ -7,6 +7,12 @@ BLAS Level 1: rotmg, rotm                                               [TOC]
 - *rotmg* computes parameters for a modified Givens rotation.
 - *rotm* applies the modified Givens rotation.
 
+*Note:* There is no generic implementation of *rotmg* and *rotm*.  They are
+only available if FLENS uses an external CBLAS (e.g. compiled with
+`-DWITH_REFBLAS` or `-DWITH_OPENBLAS`); otherwise they abort with an
+assertion.  This also applies to the one-sided Jacobi SVD of FLENS-LAPACK
+(`lapack::svj`), which uses *rotm*.
+
 rotmg
 =====
 *--[CODEREF]----------------------------------------------------------------*

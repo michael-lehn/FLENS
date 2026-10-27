@@ -38,6 +38,11 @@
 
 namespace flens { namespace blas {
 
+//
+//  rotmg and rotm are only implemented through CBLAS (HAVE_CXXBLAS_ROTMG,
+//  HAVE_CXXBLAS_ROTM).  Without CBLAS they abort.
+//
+
 //-- rotmg
 template <typename T, typename VP>
     void
