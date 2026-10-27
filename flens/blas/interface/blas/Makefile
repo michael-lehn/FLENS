@@ -1,5 +1,5 @@
-CXX = g++-4.8
-FC  = gfortran
+FLENS_ROOT ?= ../../../..
+include $(FLENS_ROOT)/toolchain.mk
 
 CXX_SOURCE_FILES = $(wildcard *.cc) \
                    $(wildcard asum/*.cc) \
@@ -14,17 +14,26 @@ F77_SOURCE_FILES = $(wildcard asum/*.f) \
 OBJECT_FILES     = $(patsubst %.cc,%.o,$(CXX_SOURCE_FILES)) \
                    $(patsubst %.f,%.o,$(F77_SOURCE_FILES))
 
-CXXFLAGS    += -I../../../.. -std=c++11 -Wall -Wextra -Werror
-LDFLAGS     +=
+ALL_CXXFLAGS = -std=$(CXXSTD) $(CXXFLAGS) -I$(FLENS_ROOT) -MMD -MP
 
 FLENSBLAS  = blas_FLENS.a
 
-all : $(OBJECT_FILES)
+all : $(FLENSBLAS)
+
+$(FLENSBLAS) : $(OBJECT_FILES)
+	$(RM) $(FLENSBLAS)
 	ar crs $(FLENSBLAS) $(OBJECT_FILES)
 	ranlib $(FLENSBLAS)
+
+%.o : %.cc
+	$(CXX) $(ALL_CXXFLAGS) -c -o $@ $<
 
 %.o : %.f
 	$(FC) $(FCFLAGS) -c -o $@ $<
 
 clean:
-	$(RM) $(OBJECT_FILES) $(FLENSBLAS)
+	$(RM) $(OBJECT_FILES) $(OBJECT_FILES:.o=.d) $(FLENSBLAS)
+
+.PHONY : all clean
+
+-include $(OBJECT_FILES:.o=.d)

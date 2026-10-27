@@ -1,10 +1,10 @@
-CXX  = g++-4.8
+FLENS_ROOT ?= ../../..
+include $(FLENS_ROOT)/toolchain.mk
 
-CXXFLAGS += -g -std=c++11 -Wall -Wextra -Werror
-CXXFLAGS += -I../../..
+ALL_CXXFLAGS = -std=$(CXXSTD) $(CXXFLAGS) -g -I$(FLENS_ROOT) -MMD -MP
 
-CXXFLAGS += -DWITH_REFBLAS
-#CXXFLAGS += -DTRACEBACK_ASSERT
+ALL_CXXFLAGS += -DWITH_REFBLAS
+#ALL_CXXFLAGS += -DTRACEBACK_ASSERT
 
 #
 # Call generic FLENS-LAPACK implementation and compare results with REFLAPACK
@@ -37,18 +37,26 @@ all : $(FLENSLAPACK)
 dev : $(FLENSLAPACK_DEV)
 
 $(FLENSLAPACK) : $(OBJECT_FILES)
+	$(RM) $(FLENSLAPACK)
 	ar crs $(FLENSLAPACK) $(OBJECT_FILES)
 	ranlib $(FLENSLAPACK)
 
 $(FLENSLAPACK_DEV) : $(OBJECT_FILES_DEV)
-	ar crs $(FLENSLAPACK) $(OBJECT_FILES)
-	ranlib $(FLENSLAPACK)
+	$(RM) $(FLENSLAPACK_DEV)
+	ar crs $(FLENSLAPACK_DEV) $(OBJECT_FILES_DEV)
+	ranlib $(FLENSLAPACK_DEV)
 
 %.o : %.cc
-	$(CXX) $(CXXFLAGS) $(CHECK_CXXFLAGS) -c -o $@ $<
+	$(CXX) $(ALL_CXXFLAGS) $(CHECK_CXXFLAGS) -c -o $@ $<
 
 %.dev_o : %.cc
-	$(CXX) $(CXXFLAGS) $(DEV_CHECK_CXXFLAGS) -c -o $@ $<
+	$(CXX) $(ALL_CXXFLAGS) $(DEV_CXXFLAGS) $(DEV_CHECK_CXXFLAGS) \
+	       -MF $*.dev_d -MT $@ -c -o $@ $<
 
 clean :
 	rm -f $(OBJECT_FILES) $(OBJECT_FILES_DEV) $(FLENSLAPACK) $(FLENSLAPACK_DEV)
+	rm -f $(OBJECT_FILES:.o=.d) $(OBJECT_FILES_DEV:.dev_o=.dev_d)
+
+.PHONY : all dev clean
+
+-include $(OBJECT_FILES:.o=.d) $(OBJECT_FILES_DEV:.dev_o=.dev_d)
