@@ -170,11 +170,9 @@ START:
 QL_Start:
 
         while (true) {
-            if (l!=lEnd) {
-                for (IndexType m=l; l<=lEnd-1; ++l) {
-                    if (abs(e(m))<=eps2*abs(d(m)*d(m+1))) {
-                        break;
-                    }
+            for (m=l; m<=lEnd-1; ++m) {
+                if (abs(e(m))<=eps2*abs(d(m)*d(m+1))) {
+                    break;
                 }
             }
 
