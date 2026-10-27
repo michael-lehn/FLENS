@@ -5,9 +5,8 @@
 #  must not be exported.  See check-exports.sh in the FLENS root directory
 #  for the format.
 #
-#  Note: crot and zrot are not part of the reference BLAS.  Unlike CROT and
-#  ZROT from LAPACK, which take a real C and a complex S, they take C and S
-#  as complex numbers.
+#  crot and zrot are not part of the reference BLAS but the LAPACK auxiliary
+#  routines CROT and ZROT (real C, complex S).
 #
 
 caxpy

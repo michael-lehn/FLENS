@@ -56,13 +56,19 @@ BLAS(drot)(const INTEGER   *N,
 
 }
 
+//
+//  crot and zrot are the LAPACK auxiliary routines CROT and ZROT: a plane
+//  rotation with real cosine C and complex sine S,
+//
+//      x <- C*x + S*y,    y <- C*y - conj(S)*x.
+//
 void
 BLAS(crot)(const INTEGER   *N,
            cfloat          *X,
            const INTEGER   *INCX,
            cfloat          *Y,
            const INTEGER   *INCY,
-           const cfloat    *C,
+           const float     *C,
            const cfloat    *S)
 {
     using std::abs;
@@ -79,7 +85,7 @@ BLAS(zrot)(const INTEGER   *N,
            const INTEGER   *INCX,
            cdouble         *Y,
            const INTEGER   *INCY,
-           const cdouble   *C,
+           const double    *C,
            const cdouble   *S)
 {
     using std::abs;

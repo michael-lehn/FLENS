@@ -17,7 +17,7 @@ BUILD     ?= build
 REFLAPACK ?=
 
 TESTS         = sterf tiny-copy tiny-gemv lantr matrixmarket lsame-interface
-TESTS_LAPACK  = zheev-interface lqf-ilaenv gesvj-interface
+TESTS_LAPACK  = zheev-interface lqf-ilaenv gesvj-interface rot-interface
 
 ifneq ($(strip $(REFLAPACK)),)
     TESTS    += $(TESTS_LAPACK)
