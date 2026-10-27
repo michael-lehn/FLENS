@@ -362,7 +362,7 @@ lan_impl(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
                     work(i) = Zero;
                 }
                 for (IndexType j=1; j<=n; ++j) {
-                    for (IndexType i=1; i<=min(m,j); ++j) {
+                    for (IndexType i=1; i<=min(m,j); ++i) {
                         work(i) += abs(A(i,j));
                     }
                 }
