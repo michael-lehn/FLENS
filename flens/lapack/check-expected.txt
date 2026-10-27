@@ -21,8 +21,8 @@ zsvd.out|1 ZBD: 1 out of 4300 tests failed to pass the threshold|also fails with
 # dorgqr_/zungqr_ do not implement the workspace query (LWORK=-1) and abort.
 dcsd.out|INCOMPLETE|FLENS limitation: workspace query in dorgqr_ not implemented
 zcsd.out|INCOMPLETE|FLENS limitation: workspace query in zungqr_ not implemented
-# dgejsv_ is not functional: the generic implementation of lapack::jsv is
-# disabled and the argument check of the interface rejects every LWORK.
-# (The test program ddrvbd checks IINFO instead of INFO after DGEJSV and
-# therefore does not count these calls as failures.)
-dsvd.out|1500 *** On entry to DGEJSV parameter number 17 had an illegal value ***|FLENS limitation: dgejsv_ not functional
+#
+# Routines that lapack_FLENS.a does not provide (for example DGESVD,
+# DGESDD and DGEJSV, which are tested in dsvd) are resolved from the
+# reference LAPACK that the test programs link after lapack_FLENS.a.  Tests
+# of these routines therefore test the reference implementation.

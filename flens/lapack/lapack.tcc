@@ -59,7 +59,6 @@
 #include <flens/lapack/ge/evx.tcc>
 #include <flens/lapack/ge/hd2.tcc>
 #include <flens/lapack/ge/hrd.tcc>
-#include <flens/lapack/ge/jsv.tcc>
 #include <flens/lapack/ge/lq2.tcc>
 #include <flens/lapack/ge/lqf.tcc>
 #include <flens/lapack/ge/ls.tcc>

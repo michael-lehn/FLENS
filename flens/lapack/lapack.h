@@ -85,7 +85,6 @@
 #include <flens/lapack/ge/evx.h>
 #include <flens/lapack/ge/hd2.h>
 #include <flens/lapack/ge/hrd.h>
-#include <flens/lapack/ge/jsv.h>
 #include <flens/lapack/ge/lq2.h>
 #include <flens/lapack/ge/lqf.h>
 #include <flens/lapack/ge/ls.h>
