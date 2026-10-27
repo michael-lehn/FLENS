@@ -16,7 +16,7 @@ FLENS_DIR ?= ../../..
 BUILD     ?= build
 REFLAPACK ?=
 
-TESTS         = sterf tiny-copy
+TESTS         = sterf tiny-copy tiny-gemv
 TESTS_LAPACK  =
 
 ifneq ($(strip $(REFLAPACK)),)

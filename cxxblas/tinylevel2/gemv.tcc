@@ -47,7 +47,11 @@ gemv_n(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
     CXXBLAS_DEBUG_OUT("gemv_n [tiny]");
 
     for (int i=0, iY=0; i<m; ++i, iY+=incY) {
-        y[iY] *= beta;
+        if (beta==VY(0)) {
+            y[iY] = VY(0);
+        } else {
+            y[iY] *= beta;
+        }
         for (int j=0, jX=0; j<n; ++j, jX+=incX) {
             y[iY] += alpha * A[i*ldA+j] * x[jX];
         }
@@ -64,7 +68,11 @@ gemv_c(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
     CXXBLAS_DEBUG_OUT("gemv_c [tiny]");
 
     for (int i=0, iY=0; i<m; ++i, iY+=incY) {
-        y[iY] *= beta;
+        if (beta==VY(0)) {
+            y[iY] = VY(0);
+        } else {
+            y[iY] *= beta;
+        }
         for (int j=0, jX=0; j<n; ++j, jX+=incX) {
             y[iY] += alpha * conjugate(A[i*ldA+j]) * x[jX];
         }
@@ -81,9 +89,13 @@ gemv_t(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
     CXXBLAS_DEBUG_OUT("gemv_t [tiny]");
 
     for (int j=0, jY=0; j<n; ++j, jY+=incY) {
-        y[jY] *= beta;
+        if (beta==VY(0)) {
+            y[jY] = VY(0);
+        } else {
+            y[jY] *= beta;
+        }
     }
-    for (int i=0, iX=0; i<m; ++i, iX+=incY) {
+    for (int i=0, iX=0; i<m; ++i, iX+=incX) {
         for (int j=0, jY=0; j<n; ++j, jY+=incY) {
             y[jY] += alpha * A[i*ldA+j] * x[iX];
         }
@@ -100,9 +112,13 @@ gemv_ct(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
     CXXBLAS_DEBUG_OUT("gemv_t [tiny]");
 
     for (int j=0, jY=0; j<n; ++j, jY+=incY) {
-        y[jY] *= beta;
+        if (beta==VY(0)) {
+            y[jY] = VY(0);
+        } else {
+            y[jY] *= beta;
+        }
     }
-    for (int i=0, iX=0; i<m; ++i, iX+=incY) {
+    for (int i=0, iX=0; i<m; ++i, iX+=incX) {
         for (int j=0, jY=0; j<n; ++j, jY+=incY) {
             y[jY] += alpha * conjugate(A[i*ldA+j]) * x[iX];
         }
