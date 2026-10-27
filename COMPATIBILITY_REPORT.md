@@ -4,7 +4,7 @@
 |---|---|
 | Repository | https://github.com/michael-lehn/FLENS (branch `public`) |
 | Baseline | commit `84043d90`, investigated 2026-10-26/27 (Part B) |
-| Fixes | commits `f90daf7b` … `56731834`, validated 2026-10-27 (Part A) |
+| Fixes | commits `f90daf7b` … `56731834`, validated 2026-10-27 (Part A); removal of unimplemented routines `3e895cbe` … `3ee1cd06` (A.6) |
 | Platform | macOS 26.6 (25G72), Apple M5, arm64. **No other platform was tested.** |
 | Archive | harness, patches, reproductions, logs and raw results: `/Users/lehn/git/FLENS-compat/` (outside the repository) |
 
@@ -23,14 +23,15 @@ The report has two parts:
 * Two Fortran-callable LAPACK routines crashed (`zheev_` with N=0, `zgelqf_` with small workspace).
 * The build tooling did not work out of the box: hardcoded `g++-4.8`, mandatory `-Werror`, missing `check` targets, no header dependency tracking, CMake 4 rejected, and gfortran ≥ 10 rejected the Netlib sources.
 
-**Current state (`56731834`, tested on macOS/arm64 only):**
+**Current state (`56731834`, plus A.6 at `3ee1cd06`; tested on macOS/arm64 only):**
 * **All five numerical bugs that were reachable** (sterf loop, sterf `SafeMin`, tiny `copy`/`ccopy`, tiny `gemv`, `lan`) **and both LAPACK crashes are fixed.** Each fix has a regression test that fails before the fix and passes after it, and is checked against reference LAPACK where one exists. The sixth reported bug (`jsv.tcc` `Eps`) turned out to be in commented-out code; see A.3.
 * Two further bugs found during the work are fixed: `lsame_` in `lapack_FLENS.a` compared case-sensitively, and the MatrixMarket loaders aborted under most locales with libstdc++.
+* **Unimplemented routines removed (A.6):** `lapack::jsv` / `dgejsv_` (a stub), and six Fortran BLAS routines of `blas_FLENS.a` that only aborted (`csrot`, `zdrot`, `srotm`, `drotm`, `srotmg`, `drotmg`). The exported routines of both libraries are now listed in `exports.txt` files and checked by `make check`. Removing `dgejsv_` exposed a crash in `dgesvj_` (`lapack::svj`), which is fixed (`3e895cbe`).
 * **C++11, 14, 17, 20, 23 and 26 now give identical results** on GCC 14/15/16, Clang 17/20/23 and Apple Clang 21: the same set of programs passes, and stdout is bit-identical across standards. C++11 still works.
 * **Netlib LAPACK 3.3.1, extended d/z set:** FLENS-LAPACK now gives **exactly the same results as pure reference LAPACK** in every test that FLENS supports (1,831,162 tests). The only exception is dcsd/zcsd (540 tests), which needs a workspace query that FLENS does not implement.
 * **`dev-check` passes bitwise:** 956,515 tests, each FLENS-LAPACK result compared bit for bit with reference LAPACK.
 * **`make check`, `check-blas`, `check-lapack`, `check-lapack-extended` and `dev-check` work** with configurable compilers, evaluate the results and fail on unexpected results. `-Werror` is opt-in, header changes trigger rebuilds, and CMake 4 is supported.
-* **Not fixed (out of scope or a design decision):** the C++-standard-independent compile failures of some examples, tutorials and playground programs (§6.2.10–6.2.17, §6.4), the `dgejsv_` interface, the `orgqr`/`ungqr` workspace query, and the biased-pointer UB pattern. Details in A.5.
+* **Not fixed (out of scope or a design decision):** the C++-standard-independent compile failures of some examples, tutorials and playground programs (§6.2.10–6.2.17, §6.4), the `orgqr`/`ungqr` workspace query, and the biased-pointer UB pattern. Details in A.5.
 
 ---
 
@@ -57,6 +58,11 @@ All commits are on `public` and pushed. Each fix has its own commit, and every f
 | `5a710c11` | `make check`, `check-regression`, `check-blas`, `check-lapack`, `check-lapack-extended`, `dev-check`; results evaluated (`check-results.sh`, `check-expected.txt`) | §6.3.2 | — |
 | `9529905e` | CMake: `cmake_minimum_required(VERSION 3.5...3.31)` before `project()` | §6.3.6 | CMake 4.4 configure + install |
 | `56731834` | `.gitignore`: unpacked tarballs, dependency files | — | — |
+| `3e895cbe` | `svj`: no out-of-range views of V for `JOBV='N'` (triangular input, n > 64) | new (A.6) | `gesvj-interface.cc` |
+| `033ad155` | remove `lapack::jsv` and `dgejsv_` (not implemented) | §6.2.5, A.3 | `check-exports` (A.6) |
+| `677cd311` | remove `csrot_`, `zdrot_`, `srotm_`, `drotm_`, `srotmg_`, `drotmg_` from `blas_FLENS.a` (not implemented) | new (A.6) | `check-exports` (A.6) |
+| `675f9a22` | `cxxlapack/netlib/interface`: no `ASSERT(0)` wrappers for `xLA_*RFSX_EXTENDED` | new (A.6) | — |
+| `3ee1cd06` | `exports.txt` lists and `check-exports.sh`, run by the check targets | A.6 | negative tests (A.6) |
 
 Regression tests: `make check-regression`, or `make -C flens/test/regression check`. `zheev-interface` and `lqf-ilaenv` need a LAPACK library (`REFLAPACK=...`); with it, the other tests are also compared with reference LAPACK. Each test was confirmed to **fail on the parent commit and pass with the fix**.
 
@@ -126,10 +132,10 @@ The stdout of every program was compared with the original baseline outputs (`co
 | all other d/z inputs | pass | pass | pass |
 
 * The 540-test difference from reference LAPACK is exactly dcsd + zcsd.
-* `check-results.sh` reports **32 passed, 8 expected deviations, 0 failed**. The 8 expected deviations are listed exactly in `flens/lapack/check-expected.txt`:
+* `check-results.sh` reports **33 passed, 7 expected deviations, 0 failed** at `3ee1cd06` (32 passed and 8 expected at `56731834`, where dsvd's DGEJSV message was the 8th). The expected deviations are listed exactly in `flens/lapack/check-expected.txt`:
   * 5 are threshold misses identical to reference LAPACK (dgd, zgd, dsep, zsep, zsvd).
   * 2 are dcsd/zcsd.
-  * 1 is dsvd's DGEJSV message (A.3).
+* Since `033ad155`, DGEJSV in dsvd is the reference implementation (FLENS no longer provides it, A.6); it calls `dgesvj_`, `dgeqp3_` and other routines of `lapack_FLENS.a`. dsvd passes all 73,000 tests, as with pure reference LAPACK.
 * The per-test summaries (test counts, threshold misses) after the numerical fixes (`98a72f89`), after the compatibility changes (`14878d34`, GCC 16 and Clang 23 at C++20) and at HEAD (GCC 16, C++11) are identical.
 
 ### A.2.5 Build system
@@ -156,7 +162,7 @@ All 7 compilers × C++11/14/17/20/23/26 (42 configurations), with `REFLAPACK` se
   * The generic `lapack::jsv` is a stub (`ASSERT(0)`).
   * The interface `dgejsv_` (`flens/lapack/interface/src/gejsv.cc:35–40`) has a broken LWORK check (`||` where `&&` is needed). It therefore always returns INFO = −17, so `dgejsv_` never computes anything.
   * The Netlib driver `ddrvbd` checks the stale `IINFO` instead of `INFO`, which is why dsvd still counts as passing. The message "On entry to DGEJSV parameter number 17 had an illegal value" is listed as an expected deviation.
-  * Making `jsv` work means porting `DGEJSV`, not fixing one line. That is a design decision, so it was left open.
+  * Making `jsv` work means porting `DGEJSV`, not fixing one line. `lapack::jsv` and `dgejsv_` have since been removed (A.6).
 * **§6.2.4 (`SafeMin`): the effect was understated.** The original report said the scaling is undone afterwards. In fact, blocks with a large norm are scaled down until their small entries become subnormal or zero, which gives wrong eigenvalues. For example, diag(1e200, 1, 1) with weak coupling gave {1, 1, 1e200} instead of {0, 2, 1e200}. This is now covered by the regression test.
 * **§5.3: zgbak was counted as passing, but `lsame_` was broken.** The zgbak output contains binary bytes, and `grep` treated it as a binary file, so the ZGEMM "illegal value" messages were missed. The evaluator now uses `grep -a`.
 * **§6.1.2 suggested `std::locale("")` in the lambda.** The committed version uses `std::locale::classic()` (A.4).
@@ -179,7 +185,10 @@ All 7 compilers × C++11/14/17/20/23/26 (42 configurations), with `REFLAPACK` se
 | Item | Classification | Status |
 |---|---|---|
 | dcsd/zcsd abort: `orgqr`/`ungqr` workspace query (`LWORK=-1`) not implemented (§6.2.9) | FLENS limitation | expected deviation in `check-lapack-extended` |
-| `dgejsv_` always returns INFO = −17; generic `jsv` is a stub (A.3) | FLENS limitation / design decision | expected deviation (dsvd) |
+| DGEJSV is not implemented in FLENS-LAPACK | FLENS limitation | `lapack::jsv`/`dgejsv_` removed (A.6); listed as not implemented in `exports.txt` |
+| `blas::rotm`/`blas::rotmg` exist only with CBLAS; `lapack::svj` therefore needs CBLAS (A.6) | FLENS limitation | documented; aborts without CBLAS |
+| Workspace query (`LWORK=-1`) aborts in `dgelqf_`, `zgelqf_`, `dgeqrf_`, `zgeqrf_`, `dorglq_`, `dorgqr_`, `dormlq_`, `dormqr_`, `zunglq_`, `zungqr_`, `zunmlq_`, `zunmqr_` (A.6) | FLENS limitation | documented in `exports.txt` |
+| `crot_`/`zrot_` in `blas_FLENS.a` take C as complex; LAPACK's CROT/ZROT take a real C (A.6) | interface defect | documented; not changed |
 | Threshold misses in dgd, zgd, dsep, zsep, zsvd | test suite / toolchain; identical with reference LAPACK | expected deviation |
 | `WERROR=1` fails: `-Wunused-local-typedefs`, `-Warray-bounds` (`lasrt`), `-Wmaybe-uninitialized`, Clang `-Wuninitialized-const-pointer` | pre-existing warnings | `-Werror` is opt-in; default builds are clean of errors |
 | `FLENS_DEBUG_CLOSURES` broken (`x1x2`, §6.2.10): 3 tutorials | FLENS bug, compile error, all standards | not fixed (outside the requested scope) |
@@ -199,6 +208,72 @@ All 7 compilers × C++11/14/17/20/23/26 (42 configurations), with `REFLAPACK` se
 * Standards: C++11 to C++26.
 
 **Not tested** (see also §10): Linux, x86_64, Windows/MSVC, Intel compilers, older GCC/Clang releases, other Fortran compilers, MKL, and running the MPI programs. No compatibility claim is made for these.
+
+## A.6 Removal of unimplemented routines
+
+**Audit.** Searched `flens`, `cxxblas` and `cxxlapack` for:
+* function bodies that are only `ASSERT(0)` or similar;
+* `#else ASSERT(0)` branches whose `#if` condition is not always true;
+* "not implemented"/TODO markers;
+* functions that are declared but never defined;
+* every routine exported by `blas_FLENS.a` and `lapack_FLENS.a`.
+
+Most `ASSERT(0)` occurrences are not stubs:
+* checks in the `CHECK_CXXLAPACK` development build;
+* rejections of invalid enum values;
+* catch-all overloads of FLENS-BLAS for unsupported closure types;
+* `#else` branches of `HAVE_CXXBLAS_*` macros that are always defined.
+
+**Removed** (they existed but performed none of the advertised computation):
+
+| Routine | Was | Commit |
+|---|---|---|
+| `lapack::jsv` (`flens/lapack/ge/jsv.{h,tcc}`) | generic implementation `ASSERT(0)`; the DGEJSV port was commented out | `033ad155` |
+| `dgejsv_` (`lapack_FLENS.a`) | always INFO = −17 (broken LWORK check), then the stub | `033ad155` |
+| `csrot_`, `zdrot_` (`blas_FLENS.a`) | printed "not implemented" and aborted | `677cd311` |
+| `srotm_`, `drotm_`, `srotmg_`, `drotmg_` (`blas_FLENS.a`) | call `blas::rotm`/`rotmg`, which have no generic implementation; `blas_FLENS.a` is built without CBLAS, so they aborted. Verified: `CALL DROTM` with flag −2 aborts. | `677cd311` |
+| 18 `xLA_*RFSX_EXTENDED` wrappers in `cxxlapack/netlib/interface/dummy.in.cc` and the generator rule in `filter.pm` | `ASSERT(0)` (routines exist only with XBLAS); the file is not compiled by any Makefile | `675f9a22` |
+
+**ABI.** These are removals of symbols from the static libraries:
+* `lapack_FLENS.a` no longer exports `dgejsv_`.
+* `blas_FLENS.a` no longer exports `csrot_`, `zdrot_`, `srotm_`, `drotm_`, `srotmg_` and `drotmg_`.
+
+Previously, callers got INFO = −17 (`dgejsv_`) or an abort. Now:
+* if another BLAS/LAPACK is linked after the FLENS library (as in the Netlib test programs), its implementation is used;
+* otherwise the program fails to link.
+
+No working functionality depended on these symbols. `cxxlapack::gejsv` (the binding to an external LAPACK) and `cxxblas` are unchanged.
+
+**Exposed bug, fixed.** With `dgejsv_` removed, dsvd runs the reference DGEJSV, which calls `DGESVJ('Upper','U','N', …)` on FLENS. This aborted:
+* For triangular input with n > 64, `lapack::svj` built views of V even when V is not referenced (`JOBV='N'`, V has no rows).
+* This was a latent bug in `dgesvj_`. The `dgejsv_` stub had hidden it from the test suite.
+* The fix is `3e895cbe`. Its regression test `gesvj-interface` fails before the fix and passes after it, comparing against DGESVD.
+
+**Retained** (implemented; they reject unsupported arguments or configurations):
+
+| Routine | Behaviour | Why retained |
+|---|---|---|
+| `blas::rotm`, `blas::rotmg` (FLENS-BLAS) | work with CBLAS (`HAVE_CBLAS`); abort without | used by `lapack::svj`/`svj0`/`svj1`, which work with CBLAS (as in `lapack_FLENS.a`). Removing them, or making them a compile error, would break compiling code that instantiates `svj`. Now documented in `rotm.h`/`rotm.doc`. |
+| `dgelqf_`, `zgelqf_`, `dgeqrf_`, `zgeqrf_`, `dorglq_`, `dorgqr_`, `dormlq_`, `dormqr_`, `zunglq_`, `zungqr_`, `zunmlq_`, `zunmqr_` | compute correctly; the workspace query (`LWORK=-1`) aborts | working routines used by the LAPACK tests; removing them would break working functionality. Documented in `exports.txt`; dcsd/zcsd remain expected deviations. |
+| `larft` (backward/row-wise storage), `lascl` (some types), tiny `gecopy` with `Conj` | unsupported branches of otherwise working routines | not stubs; callers in FLENS do not use these branches |
+| FLENS-BLAS closure catch-all overloads (`flens/blas/closures`) | abort for operand types without an implementation | error reporting for unsupported expressions, not routines |
+| `crot_`, `zrot_` (`blas_FLENS.a`) | implemented, but take C as complex, unlike LAPACK's CROT/ZROT (real C) | implemented; a signature defect, not a stub. Documented in `exports.txt`. Note that `blas_FLENS.a` linked before a LAPACK would shadow LAPACK's `crot_`/`zrot_` with an incompatible signature. |
+
+**Registration and tests.**
+* `flens/lapack/interface/exports.txt` lists the 61 exported routines; `dgejsv` is marked `!` (not implemented).
+* `flens/blas/interface/blas/exports.txt` lists 163 routines and marks the 6 removed ones with `!`.
+* `check-exports.sh` fails if a library exports an unlisted or `!` routine, or misses a listed one.
+  * It runs in `make check-blas`, `check-lapack`, `check-lapack-extended` and `dev-check`.
+  * Negative tests: a `blas_FLENS.a` built from the previous HEAD is rejected (`csrot_`, `zdrot_`), and a doctored list is rejected.
+* `flens/lapack/check-expected.txt` notes that routines not provided by `lapack_FLENS.a` (e.g. DGESVD, DGESDD, DGEJSV) are tested in their reference version.
+* `lapack.doc` does not list `jsv`, so it needed no change. README: added a note on the export lists.
+
+**Validation at `3ee1cd06`:**
+* `make check` with the default toolchain (Apple Clang, C++11), with GCC 16, and with Clang 23 at C++20: all pass. That covers 9 regression tests, BLAS 40/96/78, and LAPACK check 956,515 tests.
+* `dev-check` with GCC 16: 956,515 tests, bitwise.
+* `check-lapack-extended` with GCC 16 and with Clang 23 at C++20: 33 passed, 7 expected, 0 failed, 1,831,162 tests.
+* Regression tests: 9 of 9 in each of the 42 compiler × standard configurations.
+* Example matrix (GCC 16 C++11/C++20, Clang 23 C++11/C++20): unchanged counts, and stdout bit-identical to `56731834`.
 
 ---
 
@@ -732,7 +807,7 @@ As originally recommended for `84043d90`. The status column shows what has been 
 | 3 | `cxxblas/tinylevel1/copy.tcc:47`: `y[iX]` → `y[iY]` (§6.2.1) | **fixed** `3b9d5be7` (also `ccopy.tcc`) |
 | 4 | `cxxblas/tinylevel2/gemv.tcc`: do not read y for beta = 0; `incY` → `incX` (§6.2.2) | **fixed** `5dd06ec5` |
 | 5 | `flens/lapack/la/lan.tcc:365`: `++j` → `++i` (§6.2.8) | **fixed** `2da9dc2a` |
-| 6 | `flens/lapack/ge/jsv.tcc:907`: `Eps` → `eps` (§6.2.5) | **not changed**: dead code; `jsv`/`dgejsv_` not functional (A.3) |
+| 6 | `flens/lapack/ge/jsv.tcc:907`: `Eps` → `eps` (§6.2.5) | dead code; `jsv`/`dgejsv_` **removed** `033ad155` (A.6) |
 
 ### High: crashes in the Fortran-callable libraries; modern-standard blockers
 
@@ -771,7 +846,7 @@ All open (17–28 as listed for the baseline):
 27. Document that `addingvectors*` need `-DUSE_SIMPLE_ET`.
 28. Consider enabling `-Wshadow` and `-Wdeprecated-enum-float-conversion` in FLENS-LAPACK development builds; both pointed directly at real bugs.
 
-New items from A.4: MatrixMarket `SyMatrix`/`HeMatrix` loading, packed save/load, `gecopy` ConjTrans, `dgejsv_` LWORK check, the remaining `-Werror` warnings.
+New items from A.4: MatrixMarket `SyMatrix`/`HeMatrix` loading, packed save/load, `gecopy` ConjTrans, the remaining `-Werror` warnings.
 
 ---
 
