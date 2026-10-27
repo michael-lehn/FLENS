@@ -15,12 +15,19 @@ Compiles with
 
 and more here [Everything You Always Wanted to Know About FLENS, But Were Afraid to Ask](https://www.mathematik.uni-ulm.de/~lehn/flensdoc.pdf)
 
-If you want to test FLENS-LAPACK with Netlib's LAPACK test suites
-simply run
+If you want to test FLENS-BLAS and FLENS-LAPACK with Netlib's BLAS and
+LAPACK test suites simply run
 
     make check
 
-Note that this requires a Fortran compiler.
+Note that this requires a Fortran compiler.  Compilers, the C++ standard
+and flags can be selected on the command line, e.g.
+
+    make check CXX=clang++ CXXSTD=c++20 FC=gfortran
+
+See `toolchain.mk` for all options and the top-level `Makefile` for further
+targets (`check-regression`, `check-blas`, `check-lapack`,
+`check-lapack-extended`, `dev-check`).
 
 ## Project Status
 
