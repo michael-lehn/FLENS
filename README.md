@@ -27,7 +27,9 @@ and flags can be selected on the command line, e.g.
 
 See `toolchain.mk` for all options and the top-level `Makefile` for further
 targets (`check-regression`, `check-blas`, `check-lapack`,
-`check-lapack-extended`, `dev-check`).
+`check-lapack-extended`, `dev-check`).  The Netlib BLAS tests of
+`blas_FLENS.a` (`check-blas`) run first; if they fail, the regression and
+LAPACK tests are not run.
 
 The Fortran-callable libraries `blas_FLENS.a` and `lapack_FLENS.a` export
 only the routines listed in `flens/blas/interface/blas/exports.txt` and

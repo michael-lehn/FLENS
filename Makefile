@@ -12,6 +12,11 @@
 #                                routines comparing their results with the
 #                                reference implementation
 #
+#  check-blas (blas_FLENS.a) is checked first: the LAPACK targets require
+#  it, and with 'make check' the regression tests run only after it passed.
+#  A standalone 'make check-regression' does not need a Fortran compiler and
+#  therefore does not require check-blas.
+#
 #  Compilers and flags are configured in toolchain.mk, e.g.
 #
 #    make check CXX=clang++ CXXSTD=c++20 FC=gfortran
@@ -37,15 +42,15 @@ flens-blas:
 flens-lapack:
 	$(MAKE) -C flens/lapack
 
-check: check-regression check-blas check-lapack
+check: check-blas check-regression check-lapack
 
-check-regression:
+check-regression: | $(if $(filter check,$(MAKECMDGOALS)),check-blas)
 	$(MAKE) -C flens/test/regression check
 
 check-blas:
 	$(MAKE) -C flens/blas/interface check
 
-check-lapack:
+check-lapack: check-blas
 	$(MAKE) -C flens/lapack check
 
 #
@@ -55,7 +60,7 @@ check-lapack:
 #
 LAPACK_GOALS = $(filter check check-lapack,$(MAKECMDGOALS))
 
-check-lapack-extended: | $(LAPACK_GOALS)
+check-lapack-extended: check-blas | $(LAPACK_GOALS)
 	$(MAKE) -C flens/lapack check-extended
 
 dev-check: check-blas | $(LAPACK_GOALS) \
