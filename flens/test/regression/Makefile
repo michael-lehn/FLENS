@@ -17,7 +17,7 @@ BUILD     ?= build
 REFLAPACK ?=
 
 TESTS         = sterf tiny-copy tiny-gemv lantr
-TESTS_LAPACK  = zheev-interface
+TESTS_LAPACK  = zheev-interface lqf-ilaenv
 
 ifneq ($(strip $(REFLAPACK)),)
     TESTS    += $(TESTS_LAPACK)

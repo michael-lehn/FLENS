@@ -113,7 +113,7 @@ lqf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
                 nb = work.length() / ldWork;
                 nbMin = max(IndexType(2),
-                            IndexType(ilaenv<T>(2, "GELQF", 0, m, n)));
+                            IndexType(ilaenv<T>(2, "GELQF", "", m, n)));
             }
         }
     }
