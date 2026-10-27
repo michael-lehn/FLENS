@@ -153,6 +153,10 @@ if ($subroutine) {
     $name = $1;
     @vars = split(",", $2);
 
+    # The routines xLA_*RFSX_EXTENDED are only part of LAPACK if it is built
+    # with XBLAS.  No pass-through wrappers are generated for them.
+    exit 0 if $passThrough && lc($name) =~ /extended/;
+
     for my $var (@vars) {
         unless ($args{$var}) {
             print "// warning: $var has unknown type\n";
@@ -189,11 +193,6 @@ if ($subroutine) {
 
         print " " x 4 . "DEBUG_LAPACK_STUB(\"" . lc($name) . "\");\n";
 
-        if (lc($name) =~ /extended/) {
-            print " " x 4 . "ASSERT(0);\n";
-            print " " x 4 . "/*\n";
-        }
-
         my $defName = "LAPACK_IMPL(" . lc($name) . ")(";
 
         if ($returnType ne "void") {
@@ -203,10 +202,6 @@ if ($subroutine) {
         $defName = " " x 4 . $defName;
         $padding = " " x length($defName);
         print $defName . join(",\n$padding", @vars) . ");\n";
-
-        if (lc($name) =~ /extended/) {
-            print " " x 4 . "*/\n"
-        }
 
         print "}\n\n";
     } else {
