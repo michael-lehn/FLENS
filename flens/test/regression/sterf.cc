@@ -6,6 +6,11 @@
 //  small subdiagonal element in the QL branch declared a new loop variable
 //  and incremented the wrong one.
 //
+//  Also, the bound for scaling was computed as One/SafeMin (the enumerator
+//  of MachineParameter) instead of One/safeMin.  Blocks with large norm
+//  were therefore scaled down so much that the remaining entries became
+//  subnormal, see testWideRange().
+//
 //  Reference values:
 //    - Symmetric tridiagonal Toeplitz matrices have the eigenvalues
 //      a + 2*b*cos(k*pi/(n+1)), k=1..n.
@@ -103,6 +108,49 @@ testToeplitz(Index n, T a, T b)
 }
 
 //
+//  One huge diagonal entry D weakly coupled to the 2x2 block [1 1; 1 1].
+//  The coupling e(1) = sqrt(D)*1e-10 is large enough to prevent a split but
+//  only perturbs the eigenvalues by about e(1)^2/D = 1e-20.  Hence the
+//  eigenvalues are 0, 2 and D (up to rounding).
+//
+static void
+testWideRange(T D)
+{
+    const T eps = numeric_limits<T>::epsilon();
+
+    DVector d(3), e(2);
+    d = D, 1, 1;
+    e = std::sqrt(D)*1e-10, 1;
+
+#ifdef WITH_REFERENCE_LAPACK
+    DVector d0 = d, e0 = e;
+#endif
+
+    Index info = lapack::sterf(d, e);
+    check(info==0, "sterf info (wide range)", info, 0);
+    check(std::abs(d(1))<=16*eps, "sterf wide range: eigenvalue 0",
+          std::abs(d(1)), 16*eps);
+    check(std::abs(d(2)-2)<=16*eps, "sterf wide range: eigenvalue 2",
+          std::abs(d(2)-2), 16*eps);
+    check(std::abs(d(3)-D)<=16*eps*D, "sterf wide range: eigenvalue D",
+          std::abs(d(3)-D), 16*eps*D);
+
+#ifdef WITH_REFERENCE_LAPACK
+    int n_ = 3, info_;
+    dsterf_(&n_, d0.data(), e0.data(), &info_);
+    check(info_==0, "dsterf info (wide range)", info_, 0);
+    for (Index i=1; i<=2; ++i) {
+        check(std::abs(d(i)-d0(i))<=16*eps,
+              "sterf vs. reference dsterf (wide range)",
+              std::abs(d(i)-d0(i)), 16*eps);
+    }
+    check(std::abs(d(3)-d0(3))<=16*eps*D,
+          "sterf vs. reference dsterf (wide range, D)",
+          std::abs(d(3)-d0(3)), 16*eps*D);
+#endif
+}
+
+//
 //  Hermitian eigenvalue problem: eigenvalues-only vs. eigenvectors mode
 //
 static void
@@ -196,6 +244,9 @@ main()
         testToeplitz(n, -3, 0.5);
         testToeplitz(n, 0, 1e-3);
         testToeplitz(n, 1e8, 3e7);
+    }
+    for (T D=1e10; D<=1e300; D*=1e10) {
+        testWideRange(D);
     }
     for (Index n=1; n<=25; ++n) {
         for (int seed=1; seed<=4; ++seed) {

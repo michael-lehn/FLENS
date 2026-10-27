@@ -85,7 +85,7 @@ sterf_impl(DenseVector<VD> &d,
     const T eps      = lamch<T>(Precision);
     const T eps2     = pow(eps, 2);
     const T safeMin  = lamch<T>(SafeMin);
-    const T safeMax  = One / SafeMin;
+    const T safeMax  = One / safeMin;
     const T sSaveMax = sqrt(safeMax) / Three;
     const T sSaveMin = sqrt(safeMin) / eps2;
     //const T rMax     = lamch<T>(OverflowThreshold);
