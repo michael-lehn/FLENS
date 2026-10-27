@@ -6,15 +6,15 @@ extern "C" {
 
 //-- zunglq --------------------------------------------------------------------
 void
-LAPACK_DECL(zunglq)(const INTEGER    *M,
-                    const INTEGER    *N,
-                    const INTEGER    *K,
-                    DOUBLE           *A,
-                    const INTEGER    *LDA,
-                    const DOUBLE     *TAU,
-                    DOUBLE           *WORK,
-                    const INTEGER    *LWORK,
-                    INTEGER          *INFO)
+LAPACK_DECL(zunglq)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
 {
     using std::max;
     using std::min;
